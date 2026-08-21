@@ -1127,6 +1127,7 @@ export default function AlertsPage() {
         "ADMIN",
         "DEALER",
         "CUSTOMER",
+        "USER",
       ]}
     >
       <AlertsPageContent />

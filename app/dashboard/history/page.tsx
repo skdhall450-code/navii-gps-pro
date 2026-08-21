@@ -38,6 +38,7 @@ export default function HistoryPage() {
         "ADMIN",
         "DEALER",
         "CUSTOMER",
+        "USER",
       ]}
     >
       <HistoryPlayback />

@@ -77,6 +77,7 @@ const navigation: NavItem[] = [
       "ADMIN",
       "DEALER",
       "CUSTOMER",
+      "USER",
     ],
   },
   {
@@ -88,6 +89,7 @@ const navigation: NavItem[] = [
       "ADMIN",
       "DEALER",
       "CUSTOMER",
+      "USER",
     ],
   },
   {
@@ -109,6 +111,7 @@ const navigation: NavItem[] = [
       "ADMIN",
       "DEALER",
       "CUSTOMER",
+      "USER",
     ],
   },
   {
@@ -120,6 +123,7 @@ const navigation: NavItem[] = [
       "ADMIN",
       "DEALER",
       "CUSTOMER",
+      "USER",
     ],
   },
   {
@@ -131,6 +135,7 @@ const navigation: NavItem[] = [
       "ADMIN",
       "DEALER",
       "CUSTOMER",
+      "USER",
     ],
   },
   {
@@ -142,6 +147,7 @@ const navigation: NavItem[] = [
       "ADMIN",
       "DEALER",
       "CUSTOMER",
+      "USER",
     ],
   },
   {
@@ -153,6 +159,7 @@ const navigation: NavItem[] = [
       "ADMIN",
       "DEALER",
       "CUSTOMER",
+      "USER",
     ],
   },
 ];
@@ -176,6 +183,7 @@ const managementNavigation: NavItem[] = [
       "ADMIN",
       "DEALER",
       "CUSTOMER",
+      "USER",
     ],
   },
   {
@@ -187,6 +195,7 @@ const managementNavigation: NavItem[] = [
       "ADMIN",
       "DEALER",
       "CUSTOMER",
+      "USER",
     ],
   },
   {

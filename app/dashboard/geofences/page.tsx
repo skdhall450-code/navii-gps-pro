@@ -1832,6 +1832,7 @@ export default function GeofencesPage() {
         "ADMIN",
         "DEALER",
         "CUSTOMER",
+        "USER",
       ]}
     >
       <GeofencesPageContent />

@@ -915,6 +915,7 @@ export default function VehicleDetailsPage() {
         "ADMIN",
         "DEALER",
         "CUSTOMER",
+        "USER",
       ]}
     >
       <VehicleDetailsContent />

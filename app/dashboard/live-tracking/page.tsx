@@ -39,6 +39,7 @@ export default function LiveTrackingPage() {
         "ADMIN",
         "DEALER",
         "CUSTOMER",
+        "USER",
       ]}
     >
       <LiveTrackingMap />

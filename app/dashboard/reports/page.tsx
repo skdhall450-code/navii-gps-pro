@@ -1614,6 +1614,7 @@ export default function ReportsPage() {
         "ADMIN",
         "DEALER",
         "CUSTOMER",
+        "USER",
       ]}
     >
       <ReportsPageContent />

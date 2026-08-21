@@ -1229,6 +1229,7 @@ export default function SubscriptionsPage() {
         "ADMIN",
         "DEALER",
         "CUSTOMER",
+        "USER",
       ]}
     >
       <main className="min-h-screen bg-[#050b14] px-5 py-8 text-white md:px-8">

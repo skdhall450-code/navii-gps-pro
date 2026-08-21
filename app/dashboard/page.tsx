@@ -620,6 +620,7 @@ export default function DashboardPage() {
         "ADMIN",
         "DEALER",
         "CUSTOMER",
+        "USER",
       ]}
     >
       <DashboardContent />
