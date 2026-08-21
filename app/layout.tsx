@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 
 import ScrollProgress from "@/components/common/ScrollProgress";
 import BackToTop from "@/components/common/BackToTop";
@@ -103,11 +104,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-
         <ScrollProgress />
 
         {children}
@@ -115,9 +114,7 @@ export default function RootLayout({
         <BackToTop />
 
         <FloatingWhatsApp />
-
       </body>
-
     </html>
   );
 }

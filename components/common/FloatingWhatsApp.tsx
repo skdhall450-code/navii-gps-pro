@@ -22,7 +22,7 @@ export default function FloatingWhatsApp() {
       whileTap={{
         scale: 0.95,
       }}
-      className="fixed bottom-6 right-6 z-[9999]"
+      className="fixed bottom-44 right-6 z-[100]"
       aria-label="Chat on WhatsApp"
     >
       {/* Pulse Ring */}
