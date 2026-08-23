@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
 export default function ContactForm() {
   const [form, setForm] = useState({
@@ -12,6 +12,9 @@ export default function ContactForm() {
     vehicles: "",
     message: "",
   });
+
+  const [statusMessage, setStatusMessage] =
+    useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -27,18 +30,41 @@ export default function ContactForm() {
   ) => {
     e.preventDefault();
 
-    console.log(form);
+    const enquiryMessage = [
+      "Hello NAVII GPS team,",
+      "",
+      "I would like to request a free consultation.",
+      "",
+      `Name: ${form.name.trim()}`,
+      `Company: ${form.company.trim() || "Not provided"}`,
+      `Email: ${form.email.trim()}`,
+      `Mobile: ${form.phone.trim()}`,
+      `Number of vehicles: ${form.vehicles || "Not provided"}`,
+      `Requirement: ${form.message.trim() || "Not provided"}`,
+      "",
+      "Source: naviigps.com/contact",
+    ].join("\n");
 
-    alert("Thank you! Your enquiry has been received.");
+    const whatsappUrl =
+      `https://wa.me/917717394007?text=${encodeURIComponent(
+        enquiryMessage,
+      )}`;
 
-    setForm({
-      name: "",
-      company: "",
-      email: "",
-      phone: "",
-      vehicles: "",
-      message: "",
-    });
+    setStatusMessage(
+      "WhatsApp opened with your enquiry. Please review the message and press Send in WhatsApp.",
+    );
+
+    const openedWindow =
+      window.open(
+        whatsappUrl,
+        "_blank",
+        "noopener,noreferrer",
+      );
+
+    if (!openedWindow) {
+      window.location.href =
+        whatsappUrl;
+    }
   };
 
   return (
@@ -136,11 +162,32 @@ export default function ContactForm() {
             className="mt-8 flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 font-semibold text-white transition hover:scale-105"
           >
 
-            <Send size={18} />
+            <MessageCircle size={18} />
 
-            Submit Enquiry
+            Continue on WhatsApp
 
           </button>
+
+          {statusMessage && (
+            <p
+              role="status"
+              aria-live="polite"
+              className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-800"
+            >
+              {statusMessage}
+            </p>
+          )}
+
+          <p className="mt-4 text-sm text-slate-500">
+            Your enquiry is not sent until you press
+            Send in WhatsApp. Prefer email?{" "}
+            <a
+              href="mailto:info@naviigps.com"
+              className="font-semibold text-cyan-700 hover:underline"
+            >
+              Write to info@naviigps.com
+            </a>
+          </p>
 
         </form>
 
