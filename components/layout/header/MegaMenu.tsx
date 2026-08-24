@@ -2,104 +2,95 @@
 
 import Link from "next/link";
 
+const productLinkClass = "block transition hover:text-cyan-600";
+
 export default function MegaMenu() {
   return (
     <div className="absolute left-1/2 top-full z-50 hidden w-[820px] -translate-x-1/2 rounded-3xl border border-slate-200 bg-white p-8 shadow-2xl group-hover:block">
-
       <div className="grid grid-cols-3 gap-10">
-
-        {/* Vehicle GPS */}
-
         <div>
-
-          <h3 className="mb-5 text-lg font-bold text-cyan-700">
-            Vehicle GPS
-          </h3>
+          <h3 className="mb-5 text-lg font-bold text-cyan-700">Vehicle GPS</h3>
 
           <div className="space-y-3">
-
-            <Link href="/products/g17-gps-tracker" className="block hover:text-cyan-600">
+            <Link href="/products/g17-gps-tracker" className={productLinkClass}>
               G17 GPS Tracker
             </Link>
 
-            <Link href="/products/gs900-gps-tracker" className="block hover:text-cyan-600">
-              GS900 4G
+            <Link
+              href="/products/gs900-4g-gps-tracker"
+              className={productLinkClass}
+            >
+              GS900 4G GPS Tracker
             </Link>
 
-            <Link href="/products/gs149-gps-tracker" className="block hover:text-cyan-600">
-              GS149
+            <Link
+              href="/products/bt50-vehicle-gps-tracker"
+              className={productLinkClass}
+            >
+              BT50 Vehicle GPS
             </Link>
 
-            <Link href="/products/gs33-gps-tracker" className="block hover:text-cyan-600">
-              GS33
+            <Link
+              href="/products/ev02-gps-tracker"
+              className={productLinkClass}
+            >
+              EV02 GPS Tracker
             </Link>
-
           </div>
-
         </div>
 
-        {/* Asset & AI */}
-
         <div>
-
-          <h3 className="mb-5 text-lg font-bold text-cyan-700">
-            Asset & AI
-          </h3>
+          <h3 className="mb-5 text-lg font-bold text-cyan-700">Safety & IoT</h3>
 
           <div className="space-y-3">
-
-            <Link href="/products/bt50-magnetic-gps" className="block hover:text-cyan-600">
-              BT50 Magnetic GPS
-            </Link>
-
-            <Link href="/products/ai-dashcam" className="block hover:text-cyan-600">
+            <Link href="/products/ai-dash-camera" className={productLinkClass}>
               AI Dash Camera
             </Link>
 
-            <Link href="/products/fuel-sensor" className="block hover:text-cyan-600">
-              Fuel Sensor
+            <Link
+              href="/products/fuel-monitoring-sensor"
+              className={productLinkClass}
+            >
+              Fuel Monitoring Sensor
             </Link>
 
-            <Link href="/products/rfid" className="block hover:text-cyan-600">
-              RFID
+            <Link href="/products/smart-e-lock" className={productLinkClass}>
+              Smart E-Lock
             </Link>
 
+            <Link
+              href="/products"
+              className="block font-semibold text-cyan-700 transition hover:text-cyan-500"
+            >
+              View All Products
+            </Link>
           </div>
-
         </div>
 
-        {/* Platform */}
-
         <div>
-
           <h3 className="mb-5 text-lg font-bold text-cyan-700">
             Software Platform
           </h3>
 
           <div className="space-y-3">
-
-            <Link href="/software" className="block hover:text-cyan-600">
+            <Link href="/software" className={productLinkClass}>
               Fleet Management
             </Link>
 
-            <Link href="/software" className="block hover:text-cyan-600">
+            <Link href="/software" className={productLinkClass}>
               Live Tracking
             </Link>
 
-            <Link href="/software" className="block hover:text-cyan-600">
-              Reports
+            <Link href="/software" className={productLinkClass}>
+              Reports & Analytics
             </Link>
 
-            <Link href="/software" className="block hover:text-cyan-600">
-              Mobile Apps
+            <Link href="/software" className={productLinkClass}>
+              Mobile Access
             </Link>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }

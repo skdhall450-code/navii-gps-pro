@@ -113,41 +113,49 @@ export default function FooterV2() {
               </Link>
 
               <Link
-                href="/products"
+                href="/products/gs900-4g-gps-tracker"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
-                GS900 4G
+                GS900 4G GPS Tracker
               </Link>
 
               <Link
-                href="/products"
+                href="/products/bt50-vehicle-gps-tracker"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
-                BT50 Magnetic GPS
+                BT50 Vehicle GPS
               </Link>
 
               <Link
-                href="/products"
+                href="/products/ev02-gps-tracker"
+                className="block text-slate-300 transition hover:text-cyan-300"
+              >
+                EV02 GPS Tracker
+              </Link>
+
+              <Link
+                href="/products/ai-dash-camera"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
                 AI Dash Camera
               </Link>
 
               <Link
-                href="/products"
+                href="/products/fuel-monitoring-sensor"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
-                Fuel Sensor
+                Fuel Monitoring Sensor
               </Link>
 
               <Link
-                href="/products"
+                href="/products/smart-e-lock"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
-                Asset Tracker
+                Smart E-Lock
               </Link>
             </div>
-          </div>{" "}
+          </div>
+
           {/* Contact */}
           <div>
             <h3 className="mb-6 text-xl font-bold">Contact Us</h3>

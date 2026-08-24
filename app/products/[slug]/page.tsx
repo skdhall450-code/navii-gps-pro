@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import Header from "@/components/layout/Header";
@@ -19,14 +20,65 @@ interface PageProps {
   }>;
 }
 
-export default async function ProductDetailsPage({
+export function generateStaticParams() {
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
+}
+
+export async function generateMetadata({
   params,
-}: PageProps) {
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const product = products.find(
-    (item) => item.slug === slug
-  );
+  const product = products.find((item) => item.slug === slug);
+
+  if (!product) {
+    return {
+      title: "Product Not Found | NAVII GPS INDIA",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const productUrl = `https://www.naviigps.com/products/${product.slug}`;
+
+  const productImage = `https://www.naviigps.com${product.image}`;
+
+  return {
+    title: `${product.name} | NAVII GPS INDIA`,
+    description: product.shortDescription,
+    alternates: {
+      canonical: productUrl,
+    },
+    openGraph: {
+      title: `${product.name} | NAVII GPS INDIA`,
+      description: product.shortDescription,
+      url: productUrl,
+      siteName: "NAVII GPS INDIA",
+      type: "website",
+      images: [
+        {
+          url: productImage,
+          alt: product.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} | NAVII GPS INDIA`,
+      description: product.shortDescription,
+      images: [productImage],
+    },
+  };
+}
+
+export default async function ProductDetailsPage({ params }: PageProps) {
+  const { slug } = await params;
+
+  const product = products.find((item) => item.slug === slug);
 
   if (!product) {
     notFound();
@@ -37,7 +89,6 @@ export default async function ProductDetailsPage({
       <Header />
 
       <main>
-
         <ProductHero product={product} />
 
         <ProductGallery product={product} />
@@ -51,7 +102,6 @@ export default async function ProductDetailsPage({
         <RelatedProducts product={product} />
 
         <ProductCTA product={product} />
-
       </main>
 
       <Footer />

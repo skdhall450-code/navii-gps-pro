@@ -23,24 +23,32 @@ export const quickLinks = [
 
 export const products = [
   {
-    name: "AIS-140 GPS Tracker",
-    href: "/products",
+    name: "G17 GPS Tracker",
+    href: "/products/g17-gps-tracker",
   },
   {
-    name: "OBD GPS Tracker",
-    href: "/products",
+    name: "GS900 4G GPS Tracker",
+    href: "/products/gs900-4g-gps-tracker",
+  },
+  {
+    name: "BT50 Vehicle GPS",
+    href: "/products/bt50-vehicle-gps-tracker",
+  },
+  {
+    name: "EV02 GPS Tracker",
+    href: "/products/ev02-gps-tracker",
   },
   {
     name: "AI Dash Camera",
-    href: "/products",
+    href: "/products/ai-dash-camera",
   },
   {
-    name: "Fuel Monitoring",
-    href: "/products",
+    name: "Fuel Monitoring Sensor",
+    href: "/products/fuel-monitoring-sensor",
   },
   {
-    name: "Fleet Management",
-    href: "/products",
+    name: "Smart E-Lock",
+    href: "/products/smart-e-lock",
   },
 ];
 
