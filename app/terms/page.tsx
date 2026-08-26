@@ -5,12 +5,38 @@ import LegalPage, {
 } from "@/components/legal/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | NAVII GPS INDIA",
+  title: "Terms & Conditions",
   description:
     "Terms governing access to the NAVII GPS INDIA website, GPS devices, fleet management software, subscriptions and related services.",
   alternates: {
     canonical:
       "https://www.naviigps.com/terms",
+  },
+  openGraph: {
+    title:
+      "Terms & Conditions | NAVII GPS INDIA",
+    description:
+      "Terms governing NAVII GPS INDIA products, software, subscriptions and related services.",
+    url:
+      "https://www.naviigps.com/terms",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt:
+          "NAVII GPS INDIA Terms and Conditions",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Terms & Conditions | NAVII GPS INDIA",
+    description:
+      "Terms for NAVII GPS INDIA products, software and services.",
+    images: ["/og-image.jpg"],
   },
 };
 

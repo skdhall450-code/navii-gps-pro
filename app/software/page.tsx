@@ -1,3 +1,42 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title:
+    "Fleet Management & GPS Tracking Software",
+  description:
+    "NAVII GPS fleet management software provides live vehicle tracking, route history, alerts, reports, geofencing and operational analytics.",
+  alternates: {
+    canonical:
+      "https://www.naviigps.com/software",
+  },
+  openGraph: {
+    title:
+      "Fleet Management & GPS Tracking Software | NAVII GPS INDIA",
+    description:
+      "Monitor vehicles, trips, alerts and fleet operations through the NAVII GPS platform.",
+    url:
+      "https://www.naviigps.com/software",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt:
+          "NAVII GPS fleet management software",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Fleet Management & GPS Tracking Software | NAVII GPS INDIA",
+    description:
+      "Live tracking, reports, alerts, geofencing and fleet analytics.",
+    images: ["/og-image.jpg"],
+  },
+};
+
 import Header from "@/components/layout/HeaderV2";
 import Footer from "@/components/layout/FooterV2";
 

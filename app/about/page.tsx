@@ -1,3 +1,38 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about NAVII GPS INDIA, our mission and our GPS tracking, fleet management, vehicle security and IoT technology solutions.",
+  alternates: {
+    canonical:
+      "https://www.naviigps.com/about",
+  },
+  openGraph: {
+    title: "About NAVII GPS INDIA",
+    description:
+      "Discover NAVII GPS INDIA and our commitment to smart, secure and reliable connected fleet technology.",
+    url:
+      "https://www.naviigps.com/about",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "About NAVII GPS INDIA",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About NAVII GPS INDIA",
+    description:
+      "Smart GPS tracking, fleet management and connected vehicle technology.",
+    images: ["/og-image.jpg"],
+  },
+};
+
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 

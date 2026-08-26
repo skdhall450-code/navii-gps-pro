@@ -5,12 +5,38 @@ import LegalPage, {
 } from "@/components/legal/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | NAVII GPS INDIA",
+  title: "Privacy Policy",
   description:
     "Learn how NAVII GPS INDIA collects, uses, protects and manages personal data across its website, GPS software and connected services.",
   alternates: {
     canonical:
       "https://www.naviigps.com/privacy-policy",
+  },
+  openGraph: {
+    title:
+      "Privacy Policy | NAVII GPS INDIA",
+    description:
+      "Learn how NAVII GPS INDIA protects and manages personal data.",
+    url:
+      "https://www.naviigps.com/privacy-policy",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt:
+          "NAVII GPS INDIA Privacy Policy",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Privacy Policy | NAVII GPS INDIA",
+    description:
+      "How NAVII GPS INDIA protects and manages personal data.",
+    images: ["/og-image.jpg"],
   },
 };
 

@@ -25,18 +25,38 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "Industries We Serve | NAVII GPS INDIA",
+  title: "Industries We Serve",
   description:
     "GPS tracking, fleet management, vehicle safety and IoT solutions for logistics, schools, healthcare, manufacturing, transport, agriculture and corporate fleets.",
   alternates: {
-    canonical: "https://www.naviigps.com/industries",
+    canonical:
+      "https://www.naviigps.com/industries",
   },
   openGraph: {
-    title: "Industries We Serve | NAVII GPS INDIA",
+    title:
+      "Industries We Serve | NAVII GPS INDIA",
     description:
       "Smart GPS tracking and fleet management solutions for businesses and transport operations across India.",
-    url: "https://www.naviigps.com/industries",
+    url:
+      "https://www.naviigps.com/industries",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt:
+          "Industries served by NAVII GPS INDIA",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Industries We Serve | NAVII GPS INDIA",
+    description:
+      "GPS tracking and fleet management solutions for businesses across India.",
+    images: ["/og-image.jpg"],
   },
 };
 

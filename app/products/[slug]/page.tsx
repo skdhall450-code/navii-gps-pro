@@ -35,7 +35,7 @@ export async function generateMetadata({
 
   if (!product) {
     return {
-      title: "Product Not Found | NAVII GPS INDIA",
+      title: "Product Not Found",
       robots: {
         index: false,
         follow: false,
@@ -48,7 +48,7 @@ export async function generateMetadata({
   const productImage = `https://www.naviigps.com${product.image}`;
 
   return {
-    title: `${product.name} | NAVII GPS INDIA`,
+    title: product.name,
     description: product.shortDescription,
     alternates: {
       canonical: productUrl,

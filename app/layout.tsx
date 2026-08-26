@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
@@ -18,7 +18,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#06142E",
+  colorScheme: "light",
+};
+
 export const metadata: Metadata = {
+  applicationName: "NAVII GPS INDIA",
+  category: "technology",
+  referrer: "origin-when-cross-origin",
   metadataBase: new URL("https://www.naviigps.com"),
 
   title: {
@@ -57,10 +65,37 @@ export const metadata: Metadata = {
     follow: true,
   },
 
+  alternates: {
+    canonical: "https://www.naviigps.com",
+  },
+
+  manifest: "/manifest.webmanifest",
+
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      {
+        url: "/favicon.ico",
+        type: "image/x-icon",
+      },
+      {
+        url: "/icon-192.png",
+        type: "image/png",
+        sizes: "192x192",
+      },
+      {
+        url: "/icon-512.png",
+        type: "image/png",
+        sizes: "512x512",
+      },
+    ],
     shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        type: "image/png",
+        sizes: "180x180",
+      },
+    ],
   },
 
   openGraph: {
@@ -97,6 +132,85 @@ export const metadata: Metadata = {
   },
 };
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id":
+        "https://www.naviigps.com/#organization",
+      name:
+        "NAVII GPS INDIA (OPC) PVT LTD",
+      alternateName: "NAVII GPS INDIA",
+      url: "https://www.naviigps.com",
+      logo: {
+        "@type": "ImageObject",
+        url:
+          "https://www.naviigps.com/assets/logo/logo.png",
+        width: 1254,
+        height: 1254,
+      },
+      image:
+        "https://www.naviigps.com/og-image.jpg",
+      description:
+        "NAVII GPS INDIA provides GPS tracking devices, fleet management software, vehicle security, fuel monitoring and connected IoT solutions across India.",
+      telephone: "+91 88997 29705",
+      email: "helpline@naviigps.com",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress:
+          "SCO 46, 2nd Floor, GBP Business Square, Near GBP Rosewood Gate No. 1, Barwala Road",
+        addressLocality: "Dera Bassi",
+        addressRegion: "Punjab",
+        postalCode: "140507",
+        addressCountry: "IN",
+      },
+      areaServed: {
+        "@type": "Country",
+        name: "India",
+      },
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          telephone: "+91 88997 29705",
+          email: "info@naviigps.com",
+          availableLanguage: [
+            "English",
+            "Hindi",
+          ],
+          areaServed: "IN",
+        },
+        {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          telephone: "+91 77173 94007",
+          email: "helpline@naviigps.com",
+          availableLanguage: [
+            "English",
+            "Hindi",
+          ],
+          areaServed: "IN",
+        },
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id":
+        "https://www.naviigps.com/#website",
+      url: "https://www.naviigps.com",
+      name: "NAVII GPS INDIA",
+      description:
+        "GPS tracking, fleet management and connected IoT solutions.",
+      publisher: {
+        "@id":
+          "https://www.naviigps.com/#organization",
+      },
+      inLanguage: "en-IN",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -107,6 +221,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html:
+              JSON.stringify(structuredData),
+          }}
+        />
+
         <ScrollProgress />
 
         {children}
