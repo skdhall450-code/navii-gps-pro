@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
@@ -7,6 +8,7 @@ import "leaflet/dist/leaflet.css";
 import ScrollProgress from "@/components/common/ScrollProgress";
 import BackToTop from "@/components/common/BackToTop";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
+import GoogleAnalytics from "@/components/common/GoogleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -125,8 +127,7 @@ export const metadata: Metadata = {
 
     title: "NAVII GPS INDIA",
 
-    description:
-      "GPS Tracking, Fleet Management & IoT Solutions",
+    description: "GPS Tracking, Fleet Management & IoT Solutions",
 
     images: ["/og-image.jpg"],
   },
@@ -137,21 +138,17 @@ const structuredData = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id":
-        "https://www.naviigps.com/#organization",
-      name:
-        "NAVII GPS INDIA (OPC) PVT LTD",
+      "@id": "https://www.naviigps.com/#organization",
+      name: "NAVII GPS INDIA (OPC) PVT LTD",
       alternateName: "NAVII GPS INDIA",
       url: "https://www.naviigps.com",
       logo: {
         "@type": "ImageObject",
-        url:
-          "https://www.naviigps.com/assets/logo/logo.png",
+        url: "https://www.naviigps.com/assets/logo/logo.png",
         width: 1254,
         height: 1254,
       },
-      image:
-        "https://www.naviigps.com/og-image.jpg",
+      image: "https://www.naviigps.com/og-image.jpg",
       description:
         "NAVII GPS INDIA provides GPS tracking devices, fleet management software, vehicle security, fuel monitoring and connected IoT solutions across India.",
       telephone: "+91 88997 29705",
@@ -175,10 +172,7 @@ const structuredData = {
           contactType: "sales",
           telephone: "+91 88997 29705",
           email: "info@naviigps.com",
-          availableLanguage: [
-            "English",
-            "Hindi",
-          ],
+          availableLanguage: ["English", "Hindi"],
           areaServed: "IN",
         },
         {
@@ -186,25 +180,20 @@ const structuredData = {
           contactType: "customer support",
           telephone: "+91 77173 94007",
           email: "helpline@naviigps.com",
-          availableLanguage: [
-            "English",
-            "Hindi",
-          ],
+          availableLanguage: ["English", "Hindi"],
           areaServed: "IN",
         },
       ],
     },
     {
       "@type": "WebSite",
-      "@id":
-        "https://www.naviigps.com/#website",
+      "@id": "https://www.naviigps.com/#website",
       url: "https://www.naviigps.com",
       name: "NAVII GPS INDIA",
       description:
         "GPS tracking, fleet management and connected IoT solutions.",
       publisher: {
-        "@id":
-          "https://www.naviigps.com/#organization",
+        "@id": "https://www.naviigps.com/#organization",
       },
       inLanguage: "en-IN",
     },
@@ -221,11 +210,26 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script id="google-consent-default" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = window.gtag || function () {
+              window.dataLayer.push(arguments);
+            };
+
+            window.gtag('consent', 'default', {
+              analytics_storage: 'denied',
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied'
+            });
+          `}
+        </Script>
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html:
-              JSON.stringify(structuredData),
+            __html: JSON.stringify(structuredData),
           }}
         />
 
@@ -236,6 +240,8 @@ export default function RootLayout({
         <BackToTop />
 
         <FloatingWhatsApp />
+
+        <GoogleAnalytics />
       </body>
     </html>
   );

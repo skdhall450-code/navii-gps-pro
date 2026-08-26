@@ -1,41 +1,33 @@
 import type { Metadata } from "next";
 
-import LegalPage, {
-  type LegalSection,
-} from "@/components/legal/LegalPage";
+import LegalPage, { type LegalSection } from "@/components/legal/LegalPage";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "Learn how NAVII GPS INDIA collects, uses, protects and manages personal data across its website, GPS software and connected services.",
   alternates: {
-    canonical:
-      "https://www.naviigps.com/privacy-policy",
+    canonical: "https://www.naviigps.com/privacy-policy",
   },
   openGraph: {
-    title:
-      "Privacy Policy | NAVII GPS INDIA",
+    title: "Privacy Policy | NAVII GPS INDIA",
     description:
       "Learn how NAVII GPS INDIA protects and manages personal data.",
-    url:
-      "https://www.naviigps.com/privacy-policy",
+    url: "https://www.naviigps.com/privacy-policy",
     type: "website",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt:
-          "NAVII GPS INDIA Privacy Policy",
+        alt: "NAVII GPS INDIA Privacy Policy",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Privacy Policy | NAVII GPS INDIA",
-    description:
-      "How NAVII GPS INDIA protects and manages personal data.",
+    title: "Privacy Policy | NAVII GPS INDIA",
+    description: "How NAVII GPS INDIA protects and manages personal data.",
     images: ["/og-image.jpg"],
   },
 };
@@ -130,8 +122,9 @@ const sections: LegalSection[] = [
   {
     title: "11. Cookies and similar technology",
     paragraphs: [
-      "We may use essential cookies or local storage for authentication, security, preferences and core website or dashboard functionality. If non-essential analytics or advertising technologies are introduced, appropriate notice and choices will be provided where required.",
-      "Browser settings may allow you to block or delete cookies, but doing so can affect login sessions and service functionality.",
+      "We use essential local storage for authentication, security, preferences and core website or dashboard functionality. These technologies are necessary for the requested service and remain available regardless of your analytics choice.",
+      "Google Analytics 4 is optional and its Google tag loads only after you select Accept Analytics. After acceptance, Google Analytics may process online identifiers, device and browser information, approximate location, referring pages, page views and website interactions to help us understand and improve website performance. Advertising storage, advertising user data and ad personalisation remain disabled in this implementation.",
+      "You may select Necessary Only, accept analytics, or reopen Cookie settings to withdraw or change your choice. Withdrawing analytics consent removes accessible Google Analytics cookies and reloads the website without loading the analytics tag. Browser settings may also allow you to block or delete cookies, but doing so can affect login sessions and essential service functionality.",
     ],
   },
   {
@@ -151,7 +144,7 @@ export default function PrivacyPolicyPage() {
       title="Privacy Policy"
       description="How NAVII GPS INDIA handles personal, vehicle, device and location information across our website and connected GPS platform."
       effectiveDate="23 August 2026"
-      lastUpdated="23 August 2026"
+      lastUpdated="26 August 2026"
       variant="privacy"
       sections={sections}
     />
