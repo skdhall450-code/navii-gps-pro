@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { Cookie, Settings2 } from "lucide-react";
 
@@ -32,6 +33,18 @@ function updateGoogleConsent(choice: "granted" | "denied"): void {
     ad_storage: "denied",
     ad_user_data: "denied",
     ad_personalization: "denied",
+  });
+}
+
+function sendGoogleAnalyticsEvent(
+  eventName: string,
+  parameters: Record<string, string>,
+): void {
+  const analyticsWindow = window as GoogleTagWindow;
+
+  analyticsWindow.gtag?.("event", eventName, {
+    ...parameters,
+    transport_type: "beacon",
   });
 }
 
@@ -85,6 +98,10 @@ export default function GoogleAnalytics() {
 
   const [hydrated, setHydrated] = useState(false);
 
+  const pathname = usePathname();
+
+  const previousPathname = useRef(pathname);
+
   useEffect(() => {
     let storedChoice: string | null = null;
 
@@ -102,6 +119,102 @@ export default function GoogleAnalytics() {
 
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (previousPathname.current === pathname) {
+      return;
+    }
+
+    previousPathname.current = pathname;
+
+    if (consent !== "granted") {
+      return;
+    }
+
+    sendGoogleAnalyticsEvent("page_view", {
+      page_path: pathname,
+      page_location: window.location.href,
+      page_title: document.title,
+    });
+  }, [consent, pathname]);
+
+  useEffect(() => {
+    if (consent !== "granted") {
+      return;
+    }
+
+    const handleClick = (event: MouseEvent): void => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const action = event.target.closest("a, button");
+
+      if (!action) {
+        return;
+      }
+
+      const href =
+        action instanceof HTMLAnchorElement
+          ? (action.getAttribute("href") ?? "")
+          : "";
+
+      const label =
+        action.textContent?.replace(/\s+/g, " ").trim().toLowerCase() ?? "";
+
+      let eventName: string | null = null;
+      let channel = "";
+
+      if (href.includes("wa.me")) {
+        eventName = pathname.startsWith("/products")
+          ? "product_enquiry_click"
+          : "whatsapp_click";
+
+        channel = "whatsapp";
+      } else if (href.startsWith("tel:")) {
+        eventName = "phone_click";
+        channel = "phone";
+      } else if (href.startsWith("mailto:")) {
+        eventName = "email_click";
+        channel = "email";
+      } else if (
+        /request demo|book demo|discuss your requirement/i.test(label)
+      ) {
+        eventName = "demo_request_click";
+        channel = "website";
+      }
+
+      if (!eventName) {
+        return;
+      }
+
+      sendGoogleAnalyticsEvent(eventName, {
+        interaction_channel: channel,
+        page_path: pathname,
+      });
+    };
+
+    const handleSubmit = (): void => {
+      if (pathname !== "/contact") {
+        return;
+      }
+
+      sendGoogleAnalyticsEvent("contact_form_submit", {
+        interaction_channel: "contact_form",
+        page_path: pathname,
+      });
+    };
+
+    document.addEventListener("click", handleClick, true);
+
+    document.addEventListener("submit", handleSubmit, true);
+
+    return () => {
+      document.removeEventListener("click", handleClick, true);
+
+      document.removeEventListener("submit", handleSubmit, true);
+    };
+  }, [consent, pathname]);
 
   const acceptAnalytics = (): void => {
     updateGoogleConsent("granted");
