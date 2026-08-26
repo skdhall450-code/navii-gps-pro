@@ -313,7 +313,7 @@ const handleMouseLeave = () => {
   width={560}
   height={700}
   priority
-  className="relative z-10 drop-shadow-[0_0_60px_rgba(34,211,238,0.8)]"
+  className="relative z-10 h-auto w-auto drop-shadow-[0_0_60px_rgba(34,211,238,0.8)]"
 />
 
 </motion.div>

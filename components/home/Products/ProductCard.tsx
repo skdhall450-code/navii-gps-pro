@@ -58,7 +58,7 @@ export default function ProductCard({
             alt={product.title}
             width={240}
             height={240}
-            className="object-contain transition duration-500 group-hover:scale-110"
+            className="h-auto w-auto object-contain transition duration-500 group-hover:scale-110"
           />
 
         </div>
