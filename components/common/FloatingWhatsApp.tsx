@@ -22,7 +22,7 @@ export default function FloatingWhatsApp() {
       whileTap={{
         scale: 0.95,
       }}
-      className="fixed bottom-44 right-6 z-[100]"
+      className="fixed bottom-5 right-4 z-40 sm:bottom-6 sm:right-6 lg:bottom-44"
       aria-label="Chat on WhatsApp"
     >
       {/* Pulse Ring */}
@@ -31,8 +31,8 @@ export default function FloatingWhatsApp() {
 
       {/* Main Button */}
 
-      <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl shadow-green-500/50 transition-all duration-300 hover:shadow-green-400/70">
-        <FaWhatsapp size={34} />
+      <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl shadow-green-500/50 transition-all duration-300 hover:shadow-green-400/70 sm:h-14 sm:w-14 lg:h-16 lg:w-16">
+        <FaWhatsapp className="h-6 w-6 sm:h-7 sm:w-7 lg:h-[34px] lg:w-[34px]" />
       </div>
     </motion.a>
   );

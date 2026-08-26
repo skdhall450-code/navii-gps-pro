@@ -14,8 +14,7 @@ export default function BackToTop() {
 
     window.addEventListener("scroll", toggleVisibility);
 
-    return () =>
-      window.removeEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   const scrollToTop = () => {
@@ -54,7 +53,7 @@ export default function BackToTop() {
           transition={{
             duration: 0.25,
           }}
-          className="fixed bottom-28 right-6 z-[9998] flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-2xl shadow-cyan-500/40"
+          className="fixed bottom-20 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-2xl shadow-cyan-500/40 sm:bottom-24 sm:right-6 sm:h-14 sm:w-14 lg:bottom-28"
           aria-label="Back to top"
         >
           <FaArrowUp size={18} />

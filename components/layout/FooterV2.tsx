@@ -5,16 +5,9 @@ import Image from "next/image";
 
 import { Phone, Mail, MapPin, MessageCircle, ShieldCheck } from "lucide-react";
 
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaYoutube,
-} from "react-icons/fa";
-
 export default function FooterV2() {
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-br from-[#06142E] via-[#081C3D] to-[#0B254F] text-white">
+    <footer className="relative overflow-clip bg-gradient-to-br from-[#06142E] via-[#081C3D] to-[#0B254F] text-white">
       {/* Background Glow */}
 
       <div className="absolute -left-40 top-0 h-96 w-96 rounded-full bg-cyan-500/10 blur-[120px]" />
@@ -90,6 +83,13 @@ export default function FooterV2() {
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
                 Software
+              </Link>
+
+              <Link
+                href="/industries"
+                className="block text-slate-300 transition hover:text-cyan-300"
+              >
+                Industries
               </Link>
 
               <Link
@@ -194,46 +194,18 @@ export default function FooterV2() {
               </div>
             </div>
 
-            {/* Social Icons */}
+            {/* Verified contact channel */}
 
-            <div className="mt-8 flex gap-3">
-              {[
-                {
-                  icon: FaFacebookF,
-                  href: "#",
-                },
-                {
-                  icon: FaInstagram,
-                  href: "#",
-                },
-                {
-                  icon: FaLinkedinIn,
-                  href: "#",
-                },
-                {
-                  icon: FaYoutube,
-                  href: "#",
-                },
-                {
-                  icon: MessageCircle,
-                  href: "https://wa.me/917717394007",
-                },
-              ].map((item, index) => {
-                const Icon = item.icon;
-
-                return (
-                  <a
-                    key={index}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-400/20 bg-white/5 transition-all duration-300 hover:scale-110 hover:bg-cyan-500"
-                  >
-                    <Icon size={18} />
-                  </a>
-                );
-              })}
-            </div>
+            <a
+              href="https://wa.me/917717394007"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Contact NAVII GPS on WhatsApp"
+              className="mt-8 inline-flex items-center gap-3 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-5 py-3 font-semibold text-emerald-300 transition-all duration-300 hover:scale-105 hover:bg-emerald-500 hover:text-white"
+            >
+              <MessageCircle size={19} />
+              WhatsApp Support
+            </a>
           </div>
         </div>
 

@@ -16,6 +16,10 @@ export const quickLinks = [
     href: "/software",
   },
   {
+    name: "Industries",
+    href: "/industries",
+  },
+  {
     name: "Contact",
     href: "/contact",
   },
@@ -61,26 +65,3 @@ export const contactInfo = {
   email: "helpline@naviigps.com",
   website: "www.naviigps.com",
 };
-
-export const socialLinks = [
-  {
-    icon: "📘",
-    name: "Facebook",
-    href: "#",
-  },
-  {
-    icon: "📸",
-    name: "Instagram",
-    href: "#",
-  },
-  {
-    icon: "💼",
-    name: "LinkedIn",
-    href: "#",
-  },
-  {
-    icon: "▶️",
-    name: "YouTube",
-    href: "#",
-  },
-];
