@@ -6,14 +6,14 @@ export const metadata: Metadata = {
     "Learn about NAVII GPS INDIA, our mission and our GPS tracking, fleet management, vehicle security and IoT technology solutions.",
   alternates: {
     canonical:
-      "https://www.naviigps.com/about",
+      "https://naviigps.com/about",
   },
   openGraph: {
     title: "About NAVII GPS INDIA",
     description:
       "Discover NAVII GPS INDIA and our commitment to smart, secure and reliable connected fleet technology.",
     url:
-      "https://www.naviigps.com/about",
+      "https://naviigps.com/about",
     type: "website",
     images: [
       {

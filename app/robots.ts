@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
 
-    sitemap: "https://www.naviigps.com/sitemap.xml",
+    sitemap: "https://naviigps.com/sitemap.xml",
   };
 }

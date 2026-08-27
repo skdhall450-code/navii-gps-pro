@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 import { products } from "@/components/products/data/productsData";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.naviigps.com";
+  const baseUrl = "https://naviigps.com";
   const lastModified = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [

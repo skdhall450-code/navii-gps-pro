@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "GPS tracking, fleet management, vehicle safety and IoT solutions for logistics, schools, healthcare, manufacturing, transport, agriculture and corporate fleets.",
   alternates: {
     canonical:
-      "https://www.naviigps.com/industries",
+      "https://naviigps.com/industries",
   },
   openGraph: {
     title:
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     description:
       "Smart GPS tracking and fleet management solutions for businesses and transport operations across India.",
     url:
-      "https://www.naviigps.com/industries",
+      "https://naviigps.com/industries",
     type: "website",
     images: [
       {

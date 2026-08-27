@@ -9,7 +9,7 @@ export const director = {
 
   signature: "/signature.png",
 
-  website: "https://www.naviigps.com",
+  website: "https://naviigps.com",
 
   email: "helpline@naviigps.com",
 

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Terms governing access to the NAVII GPS INDIA website, GPS devices, fleet management software, subscriptions and related services.",
   alternates: {
     canonical:
-      "https://www.naviigps.com/terms",
+      "https://naviigps.com/terms",
   },
   openGraph: {
     title:
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     description:
       "Terms governing NAVII GPS INDIA products, software, subscriptions and related services.",
     url:
-      "https://www.naviigps.com/terms",
+      "https://naviigps.com/terms",
     type: "website",
     images: [
       {

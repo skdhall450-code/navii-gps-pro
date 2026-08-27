@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "NAVII GPS fleet management software provides live vehicle tracking, route history, alerts, reports, geofencing and operational analytics.",
   alternates: {
     canonical:
-      "https://www.naviigps.com/software",
+      "https://naviigps.com/software",
   },
   openGraph: {
     title:
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description:
       "Monitor vehicles, trips, alerts and fleet operations through the NAVII GPS platform.",
     url:
-      "https://www.naviigps.com/software",
+      "https://naviigps.com/software",
     type: "website",
     images: [
       {

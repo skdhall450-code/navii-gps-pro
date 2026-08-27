@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   applicationName: "NAVII GPS INDIA",
   category: "technology",
   referrer: "origin-when-cross-origin",
-  metadataBase: new URL("https://www.naviigps.com"),
+  metadataBase: new URL("https://naviigps.com"),
 
   title: {
     default: "NAVII GPS INDIA (OPC) PVT LTD",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
   },
 
   alternates: {
-    canonical: "https://www.naviigps.com",
+    canonical: "https://naviigps.com",
   },
 
   manifest: "/manifest.webmanifest",
@@ -105,7 +105,7 @@ export const metadata: Metadata = {
     description:
       "Professional GPS Tracking, Fleet Management and IoT Solutions.",
 
-    url: "https://www.naviigps.com",
+    url: "https://naviigps.com",
 
     siteName: "NAVII GPS",
 
@@ -138,17 +138,17 @@ const structuredData = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://www.naviigps.com/#organization",
+      "@id": "https://naviigps.com/#organization",
       name: "NAVII GPS INDIA (OPC) PVT LTD",
       alternateName: "NAVII GPS INDIA",
-      url: "https://www.naviigps.com",
+      url: "https://naviigps.com",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.naviigps.com/assets/logo/logo.png",
+        url: "https://naviigps.com/assets/logo/logo.png",
         width: 1254,
         height: 1254,
       },
-      image: "https://www.naviigps.com/og-image.jpg",
+      image: "https://naviigps.com/og-image.jpg",
       description:
         "NAVII GPS INDIA provides GPS tracking devices, fleet management software, vehicle security, fuel monitoring and connected IoT solutions across India.",
       telephone: "+91 88997 29705",
@@ -187,13 +187,13 @@ const structuredData = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://www.naviigps.com/#website",
-      url: "https://www.naviigps.com",
+      "@id": "https://naviigps.com/#website",
+      url: "https://naviigps.com",
       name: "NAVII GPS INDIA",
       description:
         "GPS tracking, fleet management and connected IoT solutions.",
       publisher: {
-        "@id": "https://www.naviigps.com/#organization",
+        "@id": "https://naviigps.com/#organization",
       },
       inLanguage: "en-IN",
     },

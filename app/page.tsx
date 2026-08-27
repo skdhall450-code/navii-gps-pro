@@ -5,13 +5,13 @@ export const metadata: Metadata = {
   description:
     "NAVII GPS INDIA provides real-time GPS tracking devices, fleet management software, AI dash cameras, fuel monitoring and connected IoT solutions across India.",
   alternates: {
-    canonical: "https://www.naviigps.com",
+    canonical: "https://naviigps.com",
   },
   openGraph: {
     title: "NAVII GPS INDIA | GPS Tracking & Fleet Management",
     description:
       "Real-time GPS tracking, fleet management, vehicle security and connected IoT solutions across India.",
-    url: "https://www.naviigps.com",
+    url: "https://naviigps.com",
     type: "website",
     images: [
       {

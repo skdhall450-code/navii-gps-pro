@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Learn how NAVII GPS INDIA collects, uses, protects and manages personal data across its website, GPS software and connected services.",
   alternates: {
-    canonical: "https://www.naviigps.com/privacy-policy",
+    canonical: "https://naviigps.com/privacy-policy",
   },
   openGraph: {
     title: "Privacy Policy | NAVII GPS INDIA",
     description:
       "Learn how NAVII GPS INDIA protects and manages personal data.",
-    url: "https://www.naviigps.com/privacy-policy",
+    url: "https://naviigps.com/privacy-policy",
     type: "website",
     images: [
       {

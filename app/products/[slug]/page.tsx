@@ -43,9 +43,9 @@ export async function generateMetadata({
     };
   }
 
-  const productUrl = `https://www.naviigps.com/products/${product.slug}`;
+  const productUrl = `https://naviigps.com/products/${product.slug}`;
 
-  const productImage = `https://www.naviigps.com${product.image}`;
+  const productImage = `https://naviigps.com${product.image}`;
 
   return {
     title: product.name,

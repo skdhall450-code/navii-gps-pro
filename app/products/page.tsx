@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Explore NAVII GPS vehicle trackers, asset trackers, AI dash cameras, fuel monitoring sensors, smart e-locks and connected fleet products.",
   alternates: {
     canonical:
-      "https://www.naviigps.com/products",
+      "https://naviigps.com/products",
   },
   openGraph: {
     title:
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description:
       "Explore professional GPS tracking devices, vehicle security and connected IoT products.",
     url:
-      "https://www.naviigps.com/products",
+      "https://naviigps.com/products",
     type: "website",
     images: [
       {

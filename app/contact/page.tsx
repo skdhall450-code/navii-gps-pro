@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     "Contact NAVII GPS INDIA for GPS tracking devices, fleet software, product enquiries, installation, sales and customer support.",
   alternates: {
     canonical:
-      "https://www.naviigps.com/contact",
+      "https://naviigps.com/contact",
   },
   openGraph: {
     title:
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description:
       "Speak with NAVII GPS INDIA about GPS tracking, fleet management and connected IoT solutions.",
     url:
-      "https://www.naviigps.com/contact",
+      "https://naviigps.com/contact",
     type: "website",
     images: [
       {
