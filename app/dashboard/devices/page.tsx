@@ -101,6 +101,7 @@ type Device = {
   vehicleId: string;
   createdAt: string;
   updatedAt: string;
+  lastSeenAt: string | null;
 
   vehicle: Vehicle;
 };
@@ -929,9 +930,9 @@ function DevicesContent() {
       const communicating =
         devices.filter(
           (device) =>
-            device.vehicle
-              .status !==
-            "OFFLINE",
+            isDeviceCommunicating(
+              device,
+            ),
         ).length;
 
       return {
@@ -1450,13 +1451,17 @@ function DevicesContent() {
                       </td>
 
                       <td className="p-4 text-xs text-slate-400">
-                        {device.vehicle
-                          .lastUpdate
+                        {device.lastSeenAt
                           ? new Date(
-                              device.vehicle
-                                .lastUpdate,
+                              device.lastSeenAt,
                             ).toLocaleString()
-                          : "—"}
+                          : device.vehicle
+                                .lastUpdate
+                            ? new Date(
+                                device.vehicle
+                                  .lastUpdate,
+                              ).toLocaleString()
+                            : "?"}
                       </td>
 
                       <td className="p-4">
@@ -1631,6 +1636,33 @@ function DevicesContent() {
         `}</style>
       </div>
     </div>
+  );
+}
+
+const DEVICE_COMMUNICATION_TIMEOUT_MS =
+  10 * 60 * 1000;
+
+function isDeviceCommunicating(
+  device: Device,
+): boolean {
+  const value =
+    device.lastSeenAt ??
+    device.vehicle.lastUpdate;
+
+  if (!value) {
+    return false;
+  }
+
+  const timestamp =
+    new Date(value).getTime();
+
+  if (Number.isNaN(timestamp)) {
+    return false;
+  }
+
+  return (
+    Date.now() - timestamp <=
+    DEVICE_COMMUNICATION_TIMEOUT_MS
   );
 }
 

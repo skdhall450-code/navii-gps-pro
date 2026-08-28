@@ -49,6 +49,7 @@ type Device = {
   id: string;
   imei: string;
   model: string | null;
+  lastSeenAt: string | null;
   simNumber: string | null;
   isActive: boolean;
 };
@@ -147,6 +148,15 @@ async function readJson<T>(
       `Server returned an invalid response (${response.status})`,
     );
   }
+}
+
+function getCommunicationTimestamp(
+  vehicle: Vehicle,
+): string | null {
+  return (
+    vehicle.device?.lastSeenAt ??
+    vehicle.lastUpdate
+  );
 }
 
 function getCommunicationState(
@@ -254,7 +264,7 @@ function createVehicleIcon(
 ) {
   const communication =
     getCommunicationState(
-      vehicle.lastUpdate,
+      getCommunicationTimestamp(vehicle),
     );
 
   let border =
@@ -878,7 +888,7 @@ export default function LiveTrackingMap() {
         vehicles.filter(
           (vehicle) =>
             getCommunicationState(
-              vehicle.lastUpdate,
+              getCommunicationTimestamp(vehicle),
             ) ===
             "OFFLINE",
         ).length,
@@ -898,7 +908,7 @@ export default function LiveTrackingMap() {
   const selectedCommunication =
     selectedVehicle
       ? getCommunicationState(
-          selectedVehicle.lastUpdate,
+          getCommunicationTimestamp(selectedVehicle),
         )
       : "OFFLINE";
 
@@ -1034,7 +1044,7 @@ export default function LiveTrackingMap() {
 
                     const communication =
                       getCommunicationState(
-                        vehicle.lastUpdate,
+                        getCommunicationTimestamp(vehicle),
                       );
 
                     return (
@@ -1109,7 +1119,7 @@ export default function LiveTrackingMap() {
 
                           <span>
                             {formatLastSeen(
-                              vehicle.lastUpdate,
+                              getCommunicationTimestamp(vehicle),
                             )}
                           </span>
                         </div>
@@ -1257,7 +1267,7 @@ export default function LiveTrackingMap() {
                 <InfoLine
                   label="Last Seen"
                   value={formatLastSeen(
-                    selectedVehicle.lastUpdate,
+                    getCommunicationTimestamp(selectedVehicle),
                   )}
                 />
 
@@ -1540,7 +1550,7 @@ export default function LiveTrackingMap() {
 
                             Last seen:{" "}
                             {formatLastSeen(
-                              vehicle.lastUpdate,
+                              getCommunicationTimestamp(vehicle),
                             )}
                           </div>
                         </Popup>
