@@ -22,13 +22,14 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/assets/logo/logo.png"
             alt="NAVII GPS"
-            width={55}
-            height={55}
-            className="object-contain"
+            width={84}
+            height={84}
+            className="-my-2 -ml-3 h-[76px] w-[76px] object-contain sm:h-[84px] sm:w-[84px]"
+            priority
           />
 
           <div>
