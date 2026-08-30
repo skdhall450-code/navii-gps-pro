@@ -70,7 +70,7 @@ export default function ContactForm() {
   return (
     <section
       id="contact-form"
-      className="bg-slate-50 py-24"
+      className="bg-slate-50 py-16 sm:py-24"
     >
       <div className="mx-auto max-w-4xl px-6">
 
@@ -93,7 +93,7 @@ export default function ContactForm() {
 
         <form
           onSubmit={handleSubmit}
-          className="rounded-[32px] bg-white p-10 shadow-2xl"
+          className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl sm:rounded-[32px] sm:p-10"
         >
 
           <div className="grid gap-6 md:grid-cols-2">
@@ -104,7 +104,7 @@ export default function ContactForm() {
               placeholder="Full Name"
               value={form.name}
               onChange={handleChange}
-              className="rounded-xl border border-slate-300 p-4 outline-none focus:border-cyan-500"
+              className="rounded-xl border border-slate-400 bg-white p-4 text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10"
               required
             />
 
@@ -114,7 +114,7 @@ export default function ContactForm() {
               placeholder="Company Name"
               value={form.company}
               onChange={handleChange}
-              className="rounded-xl border border-slate-300 p-4 outline-none focus:border-cyan-500"
+              className="rounded-xl border border-slate-400 bg-white p-4 text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10"
             />
 
             <input
@@ -123,7 +123,7 @@ export default function ContactForm() {
               placeholder="Email Address"
               value={form.email}
               onChange={handleChange}
-              className="rounded-xl border border-slate-300 p-4 outline-none focus:border-cyan-500"
+              className="rounded-xl border border-slate-400 bg-white p-4 text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10"
               required
             />
 
@@ -133,7 +133,7 @@ export default function ContactForm() {
               placeholder="Mobile Number"
               value={form.phone}
               onChange={handleChange}
-              className="rounded-xl border border-slate-300 p-4 outline-none focus:border-cyan-500"
+              className="rounded-xl border border-slate-400 bg-white p-4 text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10"
               required
             />
 
@@ -143,7 +143,7 @@ export default function ContactForm() {
               placeholder="Number of Vehicles"
               value={form.vehicles}
               onChange={handleChange}
-              className="rounded-xl border border-slate-300 p-4 outline-none focus:border-cyan-500 md:col-span-2"
+              className="rounded-xl border border-slate-400 bg-white p-4 text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10 md:col-span-2"
             />
 
             <textarea
@@ -152,14 +152,14 @@ export default function ContactForm() {
               placeholder="Tell us about your requirement..."
               value={form.message}
               onChange={handleChange}
-              className="rounded-xl border border-slate-300 p-4 outline-none focus:border-cyan-500 md:col-span-2"
+              className="rounded-xl border border-slate-400 bg-white p-4 text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10 md:col-span-2"
             />
 
           </div>
 
           <button
             type="submit"
-            className="mt-8 flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 font-semibold text-white transition hover:scale-105"
+            className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 font-semibold text-white transition hover:scale-[1.02] sm:w-auto"
           >
 
             <MessageCircle size={18} />
