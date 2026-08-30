@@ -108,6 +108,20 @@ export default function ProductDownloads({ product }: ProductDownloadsProps) {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-ga-event={
+                    item.title === "Product Brochure"
+                      ? item.isDownload
+                        ? "brochure_download_click"
+                        : "brochure_request_click"
+                      : undefined
+                  }
+                  data-ga-channel={
+                    item.title === "Product Brochure"
+                      ? item.isDownload
+                        ? "download"
+                        : "whatsapp"
+                      : undefined
+                  }
                   className={`mt-8 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold text-white transition ${
                     item.isDownload
                       ? "bg-cyan-600 hover:bg-cyan-700"
