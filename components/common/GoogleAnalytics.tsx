@@ -38,7 +38,7 @@ function updateGoogleConsent(choice: "granted" | "denied"): void {
 
 function sendGoogleAnalyticsEvent(
   eventName: string,
-  parameters: Record<string, string>,
+  parameters: Record<string, string | number | boolean>,
 ): void {
   const analyticsWindow = window as GoogleTagWindow;
 
@@ -166,9 +166,13 @@ export default function GoogleAnalytics() {
       let channel = "";
 
       if (href.includes("wa.me")) {
-        eventName = pathname.startsWith("/products")
-          ? "product_enquiry_click"
-          : "whatsapp_click";
+        if (/brochure|datasheet|manual|download/i.test(label)) {
+          eventName = "brochure_request_click";
+        } else {
+          eventName = pathname.startsWith("/products")
+            ? "product_enquiry_click"
+            : "whatsapp_click";
+        }
 
         channel = "whatsapp";
       } else if (href.startsWith("tel:")) {
@@ -182,6 +186,9 @@ export default function GoogleAnalytics() {
       ) {
         eventName = "demo_request_click";
         channel = "website";
+      } else if (/get quote|request (a )?quote/i.test(label)) {
+        eventName = "get_quote_click";
+        channel = "website";
       }
 
       if (!eventName) {
@@ -191,6 +198,10 @@ export default function GoogleAnalytics() {
       sendGoogleAnalyticsEvent(eventName, {
         interaction_channel: channel,
         page_path: pathname,
+        link_text: label.slice(0, 100),
+        product_slug: pathname.startsWith("/products/")
+          ? pathname.split("/")[2] ?? ""
+          : "",
       });
     };
 
@@ -202,6 +213,14 @@ export default function GoogleAnalytics() {
       sendGoogleAnalyticsEvent("contact_form_submit", {
         interaction_channel: "contact_form",
         page_path: pathname,
+        form_name: "free_consultation",
+      });
+
+      sendGoogleAnalyticsEvent("generate_lead", {
+        interaction_channel: "contact_form",
+        page_path: pathname,
+        form_name: "free_consultation",
+        lead_type: "sales_enquiry",
       });
     };
 
