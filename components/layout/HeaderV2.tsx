@@ -21,15 +21,15 @@ export default function HeaderV2() {
 
           <Link
             href="/"
-            className="flex items-center gap-3"
+            className="flex items-center gap-2"
           >
 
             <Image
               src="/assets/logo/logo.png"
               alt="NAVII GPS"
-              width={56}
-              height={56}
-              className="object-contain"
+              width={84}
+              height={84}
+              className="-my-2 -ml-3 h-[76px] w-[76px] object-contain sm:h-[84px] sm:w-[84px]"
               priority
             />
 
