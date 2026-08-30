@@ -9,6 +9,7 @@ export interface Product {
   image: string;
   gallery: string[];
   features: string[];
+  featureDescriptions: string[];
   specifications: {
     label: string;
     value: string;
@@ -44,6 +45,14 @@ export const products: Product[] = [
       "Route History and Playback",
       "Geofence and Overspeed Alerts",
       "Mobile and Web Platform",
+    ],
+    featureDescriptions: [
+      "View the vehicle's latest reported GNSS position through the NAVII GPS platform.",
+      "Designed to communicate with tracking platforms that support the GT06 protocol family.",
+      "Use configured ignition input data to distinguish vehicle-on and vehicle-off activity.",
+      "Review recorded journeys and route history for supported tracking deployments.",
+      "Configure location boundaries and speed-related alerts according to fleet requirements.",
+      "Monitor supported vehicles from the NAVII GPS web dashboard and mobile application.",
     ],
     specifications: [
       {
@@ -95,6 +104,14 @@ export const products: Product[] = [
       "Geofence and Fleet Alerts",
       "Mobile and Web Platform",
     ],
+    featureDescriptions: [
+      "Uses a supported 4G mobile network for connected tracking and data communication.",
+      "Display the vehicle's latest reported location for day-to-day fleet monitoring.",
+      "Track configured ignition-state changes to support trip and activity visibility.",
+      "Review previous journeys and movement history retained by the tracking platform.",
+      "Set operational geofences and vehicle alerts based on the deployed configuration.",
+      "Access supported fleet information from NAVII GPS web and mobile interfaces.",
+    ],
     specifications: [
       {
         label: "Network",
@@ -145,6 +162,14 @@ export const products: Product[] = [
       "Geofence and Fleet Alerts",
       "Web and Mobile Monitoring",
     ],
+    featureDescriptions: [
+      "Monitor the vehicle's latest reported position through a compatible tracking platform.",
+      "Supports the 9V-90V input range stated for the BT50 hardware configuration.",
+      "Designed for a fixed wired installation completed by a suitable vehicle technician.",
+      "Review journey history when the selected protocol and platform configuration support it.",
+      "Configure boundary and fleet alerts according to the validated device integration.",
+      "View supported tracking information through web and mobile monitoring tools.",
+    ],
     specifications: [
       {
         label: "Model",
@@ -188,6 +213,14 @@ export const products: Product[] = [
       "Geofence Alert Support",
       "Fleet Monitoring Dashboard",
       "Web and Mobile Access",
+    ],
+    featureDescriptions: [
+      "View the latest location reported by the installed EV02 tracking device.",
+      "Review available journey and route records for operational visibility.",
+      "Check supported vehicle-state information based on wiring and configuration.",
+      "Receive boundary-related alerts when geofences are enabled for the deployment.",
+      "Manage supported vehicles and tracking information from a central fleet dashboard.",
+      "Access configured tracking functions through NAVII GPS web and mobile applications.",
     ],
     specifications: [
       {
@@ -239,6 +272,14 @@ export const products: Product[] = [
       "Remote Monitoring Support",
       "Web Platform Integration",
     ],
+    featureDescriptions: [
+      "Record journey footage according to the selected camera, channel and storage setup.",
+      "Review available video associated with configured driving or vehicle events.",
+      "Connect supported footage and vehicle-location context within a fleet workflow.",
+      "Use configured camera functions to support driver coaching and safety reviews.",
+      "Access supported camera information remotely when network connectivity is available.",
+      "Integrate available video-telematics functions with the configured fleet platform.",
+    ],
     specifications: [
       {
         label: "Application",
@@ -282,6 +323,14 @@ export const products: Product[] = [
       "Usage and Consumption Reports",
       "Vehicle Tracking Integration",
       "Configurable Fleet Dashboard",
+    ],
+    featureDescriptions: [
+      "View calibrated fuel-level information for a compatible vehicle or tank installation.",
+      "Identify reported increases in fuel level that may correspond with refill activity.",
+      "Configure alerts for selected fuel-level changes and investigate unusual events.",
+      "Review fuel usage, refill and event data through available fleet reports.",
+      "Connect the calibrated sensor to a compatible GPS device and tracking platform.",
+      "Display available fuel information in dashboards configured for fleet operations.",
     ],
     specifications: [
       {
@@ -327,6 +376,14 @@ export const products: Product[] = [
       "Location Association",
       "Configurable Security Alerts",
       "Logistics Platform Integration",
+    ],
+    featureDescriptions: [
+      "Support authorized locking and unlocking processes for configured cargo workflows.",
+      "Monitor available lock and tamper-status data reported by the selected hardware.",
+      "Review supported access events retained by the connected security workflow.",
+      "Associate available lock activity with location data from the integrated platform.",
+      "Configure security notifications according to hardware capabilities and deployment needs.",
+      "Connect supported lock data with an approved cargo or logistics platform setup.",
     ],
     specifications: [
       {

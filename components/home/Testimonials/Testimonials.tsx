@@ -52,24 +52,20 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        {/* Auto Slider */}
+        {/* Testimonials */}
 
-        <div className="mt-20 overflow-hidden">
+        <div className="mt-20">
           <motion.div
-            animate={{
-              x: ["0%", "-50%"],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="flex gap-8"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+            className="grid gap-8 lg:grid-cols-3"
           >
-            {[...testimonials, ...testimonials].map((item, index) => (
+            {testimonials.map((item, index) => (
               <div
-                key={index}
-                className="min-w-[380px] max-w-[380px] flex-shrink-0"
+                key={item.id}
+                className="min-w-0"
               >
                 <TestimonialCard
                   testimonial={item}

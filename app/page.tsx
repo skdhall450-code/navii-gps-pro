@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 
+import { faqs } from "@/components/home/FAQ/faqData";
+
 export const metadata: Metadata = {
-  title: "GPS Tracking & Fleet Management Solutions | NAVII GPS INDIA",
+  title: {
+    absolute: "GPS Tracking & Fleet Management Solutions | NAVII GPS INDIA",
+  },
   description:
     "NAVII GPS INDIA provides real-time GPS tracking devices, fleet management software, AI dash cameras, fuel monitoring and connected IoT solutions across India.",
   alternates: {
@@ -44,12 +48,52 @@ import CTA from "@/components/home/CTA/CTA";
 import FAQ from "@/components/home/FAQ/FAQ";
 import Testimonials from "@/components/home/Testimonials/Testimonials";
 
+const homeStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://naviigps.com/#webpage",
+      url: "https://naviigps.com/",
+      name: "GPS Tracking & Fleet Management Solutions | NAVII GPS INDIA",
+      description:
+        "Real-time GPS tracking devices, fleet management software, AI dash cameras, fuel monitoring and connected IoT solutions across India.",
+      isPartOf: {
+        "@id": "https://naviigps.com/#website",
+      },
+      about: {
+        "@id": "https://naviigps.com/#organization",
+      },
+      inLanguage: "en-IN",
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://naviigps.com/#faq",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    },
+  ],
+};
+
 export default function HomePage() {
   return (
     <>
       <Header />
 
       <main>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(homeStructuredData).replace(/</g, "\\u003c"),
+          }}
+        />
+
         <HeroV2 />
 
         <Stats />

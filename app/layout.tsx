@@ -67,10 +67,6 @@ export const metadata: Metadata = {
     follow: true,
   },
 
-  alternates: {
-    canonical: "https://naviigps.com",
-  },
-
   manifest: "/manifest.webmanifest",
 
   icons: {
@@ -137,7 +133,7 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": ["Organization", "LocalBusiness"],
       "@id": "https://naviigps.com/#organization",
       name: "NAVII GPS INDIA (OPC) PVT LTD",
       alternateName: "NAVII GPS INDIA",
@@ -151,8 +147,9 @@ const structuredData = {
       image: "https://naviigps.com/og-image.jpg",
       description:
         "NAVII GPS INDIA provides GPS tracking devices, fleet management software, vehicle security, fuel monitoring and connected IoT solutions across India.",
-      telephone: "+91 88997 29705",
+      telephone: "+918899729705",
       email: "helpline@naviigps.com",
+      priceRange: "Contact for pricing",
       address: {
         "@type": "PostalAddress",
         streetAddress:
@@ -166,11 +163,26 @@ const structuredData = {
         "@type": "Country",
         name: "India",
       },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ],
+          opens: "09:30",
+          closes: "18:30",
+        },
+      ],
       contactPoint: [
         {
           "@type": "ContactPoint",
           contactType: "sales",
-          telephone: "+91 88997 29705",
+          telephone: "+918899729705",
           email: "info@naviigps.com",
           availableLanguage: ["English", "Hindi"],
           areaServed: "IN",
@@ -178,7 +190,7 @@ const structuredData = {
         {
           "@type": "ContactPoint",
           contactType: "customer support",
-          telephone: "+91 77173 94007",
+          telephone: "+917717394007",
           email: "helpline@naviigps.com",
           availableLanguage: ["English", "Hindi"],
           areaServed: "IN",

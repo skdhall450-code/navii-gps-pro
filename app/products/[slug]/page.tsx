@@ -84,11 +84,68 @@ export default async function ProductDetailsPage({ params }: PageProps) {
     notFound();
   }
 
+  const productUrl = `https://naviigps.com/products/${product.slug}`;
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Product",
+        "@id": `${productUrl}#product`,
+        name: product.name,
+        description: product.description,
+        image: product.gallery.map((image) => `https://naviigps.com${image}`),
+        category: product.category,
+        url: productUrl,
+        brand: {
+          "@type": "Brand",
+          name: "NAVII GPS INDIA",
+        },
+        additionalProperty: product.specifications.map((specification) => ({
+          "@type": "PropertyValue",
+          name: specification.label,
+          value: specification.value,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${productUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://naviigps.com/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Products",
+            item: "https://naviigps.com/products",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: product.name,
+            item: productUrl,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
       <Header />
 
       <main>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+          }}
+        />
+
         <ProductHero product={product} />
 
         <ProductGallery product={product} />

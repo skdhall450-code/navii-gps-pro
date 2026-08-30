@@ -91,8 +91,7 @@ export default function ProductFeatures({
                 </h3>
 
                 <p className="mt-3 text-sm leading-7 text-slate-600">
-                  Built for reliability, real-time monitoring,
-                  and enterprise fleet operations.
+                  {product.featureDescriptions[index]}
                 </p>
 
               </motion.div>
