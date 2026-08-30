@@ -86,50 +86,28 @@ export default async function ProductDetailsPage({ params }: PageProps) {
 
   const productUrl = `https://naviigps.com/products/${product.slug}`;
 
-  const structuredData = {
+  const breadcrumbStructuredData = {
     "@context": "https://schema.org",
-    "@graph": [
+    "@type": "BreadcrumbList",
+    "@id": `${productUrl}#breadcrumb`,
+    itemListElement: [
       {
-        "@type": "Product",
-        "@id": `${productUrl}#product`,
-        name: product.name,
-        description: product.description,
-        image: product.gallery.map((image) => `https://naviigps.com${image}`),
-        category: product.category,
-        url: productUrl,
-        brand: {
-          "@type": "Brand",
-          name: "NAVII GPS INDIA",
-        },
-        additionalProperty: product.specifications.map((specification) => ({
-          "@type": "PropertyValue",
-          name: specification.label,
-          value: specification.value,
-        })),
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://naviigps.com/",
       },
       {
-        "@type": "BreadcrumbList",
-        "@id": `${productUrl}#breadcrumb`,
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: "https://naviigps.com/",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Products",
-            item: "https://naviigps.com/products",
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: product.name,
-            item: productUrl,
-          },
-        ],
+        "@type": "ListItem",
+        position: 2,
+        name: "Products",
+        item: "https://naviigps.com/products",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.name,
+        item: productUrl,
       },
     ],
   };
@@ -142,7 +120,10 @@ export default async function ProductDetailsPage({ params }: PageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(breadcrumbStructuredData).replace(
+              /</g,
+              "\\u003c",
+            ),
           }}
         />
 
