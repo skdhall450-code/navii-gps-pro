@@ -159,13 +159,23 @@ export default function GoogleAnalytics() {
           ? (action.getAttribute("href") ?? "")
           : "";
 
-      const label =
-        action.textContent?.replace(/\s+/g, " ").trim().toLowerCase() ?? "";
+      const label = [
+        action.textContent,
+        action.getAttribute("aria-label"),
+        action.getAttribute("title"),
+      ]
+        .filter((value): value is string => Boolean(value))
+        .join(" ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase();
 
-      let eventName: string | null = null;
-      let channel = "";
+      let eventName = action.getAttribute("data-ga-event");
+      let channel = action.getAttribute("data-ga-channel") ?? "";
 
-      if (href.includes("wa.me")) {
+      if (eventName) {
+        // Explicit tracking attributes take priority for icon-only actions.
+      } else if (href.includes("wa.me")) {
         if (/brochure|datasheet|manual|download/i.test(label)) {
           eventName = "brochure_request_click";
         } else {
