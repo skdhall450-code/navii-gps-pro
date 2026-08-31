@@ -47,14 +47,20 @@ export async function generateMetadata({
 
   const productImage = `https://naviigps.com${product.image}`;
 
+  const isVehicleGps = product.category === "Vehicle GPS";
+
+  const seoTitle = isVehicleGps
+    ? `${product.name} - GPS Tracking Device`
+    : product.name;
+
   return {
-    title: product.name,
+    title: seoTitle,
     description: product.shortDescription,
     alternates: {
       canonical: productUrl,
     },
     openGraph: {
-      title: `${product.name} | NAVII GPS INDIA`,
+      title: `${seoTitle} | NAVII GPS INDIA`,
       description: product.shortDescription,
       url: productUrl,
       siteName: "NAVII GPS INDIA",
@@ -68,7 +74,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${product.name} | NAVII GPS INDIA`,
+      title: `${seoTitle} | NAVII GPS INDIA`,
       description: product.shortDescription,
       images: [productImage],
     },

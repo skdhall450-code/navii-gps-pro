@@ -51,18 +51,18 @@ export default function SoftwareHero() {
 
           <h1 className="mt-8 text-5xl font-extrabold leading-tight text-white lg:text-6xl">
 
-            Smart Fleet
+            GPS Tracking &
             <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
-              Management Software
+              Fleet Management Software
             </span>
 
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg leading-9 text-slate-300">
 
-            Manage vehicles, drivers, assets and operations
-            from one intelligent GPS tracking platform with
-            real-time monitoring, reports and analytics.
+            Manage vehicles, drivers, assets and operations from one GPS
+            tracking platform with real-time monitoring, route history,
+            alerts, reports and fleet analytics.
 
           </p>
 

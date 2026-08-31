@@ -5,11 +5,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - ".github/workflows/indexnow.yml"
-      - "scripts/submit-indexnow.mjs"
-      - "public/b33f20e6f8db4ada8e60721e2ddfbc4f.txt"
-      - "app/sitemap.ts"
 
 permissions:
   contents: read

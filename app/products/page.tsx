@@ -2,18 +2,18 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "GPS Tracking Devices & IoT Products",
+    "GPS Tracking Devices for Cars & Fleets",
   description:
-    "Explore NAVII GPS vehicle trackers, asset trackers, AI dash cameras, fuel monitoring sensors, smart e-locks and connected fleet products.",
+    "Explore GPS tracking devices and car GPS trackers for live vehicle monitoring, plus AI dash cameras, fuel sensors, smart e-locks and fleet IoT products.",
   alternates: {
     canonical:
       "https://naviigps.com/products",
   },
   openGraph: {
     title:
-      "GPS Tracking Devices & IoT Products | NAVII GPS INDIA",
+      "GPS Tracking Devices for Cars & Fleets | NAVII GPS INDIA",
     description:
-      "Explore professional GPS tracking devices, vehicle security and connected IoT products.",
+      "Explore GPS tracking devices, car GPS trackers, vehicle security and connected fleet IoT products.",
     url:
       "https://naviigps.com/products",
     type: "website",
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "GPS Tracking Devices & IoT Products | NAVII GPS INDIA",
+      "GPS Tracking Devices for Cars & Fleets | NAVII GPS INDIA",
     description:
-      "Professional GPS tracking, vehicle security and IoT products.",
+      "GPS tracking devices, car GPS trackers, vehicle security and fleet IoT products.",
     images: ["/og-image.jpg"],
   },
 };
