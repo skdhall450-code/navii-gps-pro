@@ -40,7 +40,10 @@ export const metadata: Metadata = {
     "NAVII GPS INDIA provides GPS Tracking Systems, Fleet Management Software, AIS 140 GPS Devices, AI Dashcams, Fuel Monitoring and IoT Solutions across India.",
 
   keywords: [
+    "GPS Tracker",
     "GPS Tracking",
+    "GPS Tracking Device",
+    "Car GPS Tracker",
     "Vehicle Tracking",
     "Fleet Management",
     "NAVII GPS",

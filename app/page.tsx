@@ -4,17 +4,17 @@ import { faqs } from "@/components/home/FAQ/faqData";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "GPS Tracking & Fleet Management Solutions | NAVII GPS INDIA",
+    absolute: "GPS Tracker & GPS Tracking Devices | NAVII GPS INDIA",
   },
   description:
-    "NAVII GPS INDIA provides real-time GPS tracking devices, fleet management software, AI dash cameras, fuel monitoring and connected IoT solutions across India.",
+    "Explore GPS trackers and GPS tracking devices for cars and commercial fleets, with live tracking, fleet software, AI dash cameras and IoT solutions across India.",
   alternates: {
     canonical: "https://naviigps.com",
   },
   openGraph: {
-    title: "NAVII GPS INDIA | GPS Tracking & Fleet Management",
+    title: "GPS Tracker & Tracking Devices | NAVII GPS INDIA",
     description:
-      "Real-time GPS tracking, fleet management, vehicle security and connected IoT solutions across India.",
+      "GPS trackers and real-time tracking devices for cars, commercial vehicles and fleet operations across India.",
     url: "https://naviigps.com",
     type: "website",
     images: [
@@ -28,9 +28,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NAVII GPS INDIA | GPS Tracking & Fleet Management",
+    title: "GPS Tracker & Tracking Devices | NAVII GPS INDIA",
     description:
-      "Real-time GPS tracking, fleet management and connected IoT solutions.",
+      "GPS trackers, real-time tracking devices and fleet management solutions across India.",
     images: ["/og-image.jpg"],
   },
 };
@@ -55,9 +55,9 @@ const homeStructuredData = {
       "@type": "WebPage",
       "@id": "https://naviigps.com/#webpage",
       url: "https://naviigps.com/",
-      name: "GPS Tracking & Fleet Management Solutions | NAVII GPS INDIA",
+      name: "GPS Tracker & GPS Tracking Devices | NAVII GPS INDIA",
       description:
-        "Real-time GPS tracking devices, fleet management software, AI dash cameras, fuel monitoring and connected IoT solutions across India.",
+        "GPS trackers and real-time GPS tracking devices for cars and commercial fleets, with fleet software and connected IoT solutions across India.",
       isPartOf: {
         "@id": "https://naviigps.com/#website",
       },

@@ -50,20 +50,19 @@ export default function ProductHero() {
 
           <h1 className="mt-8 text-5xl font-extrabold leading-tight text-white lg:text-6xl">
 
-            Smart GPS Tracking
+            GPS Tracking Devices
 
             <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
-              & IoT Solutions
+              for Cars & Fleets
             </span>
 
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg leading-9 text-slate-300">
 
-            Explore our premium range of GPS Trackers,
-            AI Dash Cameras, OBD Devices, Fuel Sensors
-            and IoT solutions designed for intelligent
-            fleet management.
+            Explore GPS trackers for cars and commercial vehicles,
+            plus AI dash cameras, fuel sensors, smart e-locks and
+            connected IoT solutions for intelligent fleet management.
 
           </p>
 

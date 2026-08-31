@@ -19,9 +19,9 @@ export default function HeroContent() {
       {/* Heading */}
 
       <h1 className="mt-8 text-5xl font-extrabold leading-tight lg:text-7xl">
-        Smart GPS
+        Smart GPS Tracker
         <br />
-        Tracking
+        & Tracking
         <span className="block text-cyan-300">
           Solutions
         </span>
@@ -30,9 +30,9 @@ export default function HeroContent() {
       {/* Description */}
 
       <p className="mt-8 max-w-xl text-lg leading-8 text-blue-100">
-        Live Vehicle Tracking, Fleet Management, AIS-140 GPS,
-        Dash Cameras, Fuel Monitoring and Complete IoT Solutions
-        for Businesses across India.
+        GPS tracking devices for cars and commercial fleets with live
+        vehicle tracking, fleet management, AIS-140 GPS, dash cameras,
+        fuel monitoring and connected IoT solutions across India.
       </p>
 
       {/* Buttons */}

@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title:
     "Fleet Management & GPS Tracking Software",
   description:
-    "NAVII GPS fleet management software provides live vehicle tracking, route history, alerts, reports, geofencing and operational analytics.",
+    "NAVII GPS tracking and fleet management software provides live vehicle locations, route history, alerts, reports, geofencing and operational analytics.",
   alternates: {
     canonical:
       "https://naviigps.com/software",

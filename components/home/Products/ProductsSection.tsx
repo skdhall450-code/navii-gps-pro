@@ -35,16 +35,16 @@ export default function ProductsSection() {
           </span>
 
           <h2 className="mt-6 text-4xl font-extrabold text-white md:text-5xl lg:text-6xl">
-            Smart GPS &
+            GPS Tracking Devices &
             <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
               IoT Solutions
             </span>
           </h2>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-300">
-            Explore NAVII GPS vehicle trackers, video telematics, fuel
-            monitoring and connected security solutions designed for businesses
-            and commercial fleets.
+            Explore GPS trackers for cars and commercial vehicles, video
+            telematics, fuel monitoring and connected security solutions
+            designed for modern fleet operations.
           </p>
         </motion.div>
 
