@@ -26,8 +26,8 @@ export const features = [
   {
     id: 5,
     icon: "🌍",
-    title: "DUNS Registered",
-    description: "Global business identity.",
+    title: "GST Registered",
+    description: "Registered under Indian GST.",
   },
   {
     id: 6,

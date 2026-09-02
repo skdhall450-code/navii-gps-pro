@@ -41,9 +41,9 @@ const certifications = [
   {
     id: 6,
     icon: "🌍",
-    title: "DUNS Registered",
+    title: "Company Registered",
     description:
-      "Globally recognized business identity that enhances trust and credibility with partners worldwide.",
+      "Incorporated in India as NAVII GPS INDIA (OPC) PRIVATE LIMITED.",
   },
 ];
 
