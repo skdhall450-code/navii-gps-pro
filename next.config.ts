@@ -11,6 +11,46 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
 
+  async redirects() {
+    return [
+      {
+        source: "/products/g17",
+        destination: "/products/g17-gps-tracker",
+        permanent: true,
+      },
+      {
+        source: "/products/gs900",
+        destination: "/products/gs900-4g-gps-tracker",
+        permanent: true,
+      },
+      {
+        source: "/products/ev02",
+        destination: "/products/ev02-gps-tracker",
+        permanent: true,
+      },
+      {
+        source: "/products/dashcam",
+        destination: "/products/ai-dash-camera",
+        permanent: true,
+      },
+      {
+        source: "/products/fuel-sensor",
+        destination: "/products/fuel-monitoring-sensor",
+        permanent: true,
+      },
+      {
+        source: "/products/smart-elock",
+        destination: "/products/smart-e-lock",
+        permanent: true,
+      },
+      {
+        source: "/lander",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
+
   async headers() {
     const noIndexHeaders = [
       {
