@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/truck-gps`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/logistics-fleet-gps`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/commercial-vehicle-tracking`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gps-tracker-for-car`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/contact`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/privacy-policy`, changeFrequency: "yearly", priority: 0.3 },
     { url: `${baseUrl}/terms`, changeFrequency: "yearly", priority: 0.3 },
