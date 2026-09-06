@@ -44,24 +44,43 @@ export async function generateMetadata({
   }
 
   const productUrl = `https://naviigps.com/products/${product.slug}`;
-
   const productImage = `https://naviigps.com${product.image}`;
-
+  const isG17 = product.slug === "g17-gps-tracker";
   const isVehicleGps = product.category === "Vehicle GPS";
 
-  const seoTitle = isVehicleGps
-    ? `${product.name} - GPS Tracking Device`
-    : product.name;
+  const seoTitle = isG17
+    ? "G17 GPS Tracker for Cars & Commercial Vehicles | NAVII GPS"
+    : isVehicleGps
+      ? `${product.name} - GPS Tracking Device | NAVII GPS`
+      : `${product.name} | NAVII GPS`;
+
+  const seoDescription = isG17
+    ? "G17 GPS Tracker for cars, trucks, buses and commercial fleets with real-time GPS tracking, ignition monitoring, route history, geofencing and fleet alerts."
+    : product.shortDescription;
 
   return {
     title: seoTitle,
-    description: product.shortDescription,
+    description: seoDescription,
+    keywords: isG17
+      ? [
+          "G17 GPS Tracker",
+          "G17 GPS tracker for car",
+          "G17 vehicle GPS tracker",
+          "GPS tracker for cars",
+          "GPS tracker for commercial vehicles",
+          "vehicle tracking device",
+          "real-time vehicle tracking",
+          "commercial vehicle GPS tracking",
+          "fleet GPS tracker",
+          "GPS tracking device India",
+        ]
+      : undefined,
     alternates: {
       canonical: productUrl,
     },
     openGraph: {
-      title: `${seoTitle} | NAVII GPS INDIA`,
-      description: product.shortDescription,
+      title: seoTitle,
+      description: seoDescription,
       url: productUrl,
       siteName: "NAVII GPS INDIA",
       type: "website",
@@ -74,8 +93,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${seoTitle} | NAVII GPS INDIA`,
-      description: product.shortDescription,
+      title: seoTitle,
+      description: seoDescription,
       images: [productImage],
     },
   };
@@ -91,6 +110,7 @@ export default async function ProductDetailsPage({ params }: PageProps) {
   }
 
   const productUrl = `https://naviigps.com/products/${product.slug}`;
+  const productImage = `https://naviigps.com${product.image}`;
 
   const breadcrumbStructuredData = {
     "@context": "https://schema.org",
@@ -118,6 +138,26 @@ export default async function ProductDetailsPage({ params }: PageProps) {
     ],
   };
 
+  const productStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${productUrl}#product`,
+    name: product.name,
+    description: product.description,
+    image: [productImage, ...product.gallery.map((image) => `https://naviigps.com${image}`)],
+    url: productUrl,
+    brand: {
+      "@type": "Brand",
+      name: "NAVII GPS",
+    },
+    category: product.category,
+    additionalProperty: product.specifications.map((specification) => ({
+      "@type": "PropertyValue",
+      name: specification.label,
+      value: specification.value,
+    })),
+  };
+
   return (
     <>
       <Header />
@@ -126,10 +166,10 @@ export default async function ProductDetailsPage({ params }: PageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(breadcrumbStructuredData).replace(
-              /</g,
-              "\\u003c",
-            ),
+            __html: JSON.stringify([
+              breadcrumbStructuredData,
+              productStructuredData,
+            ]).replace(/</g, "\\u003c"),
           }}
         />
 
