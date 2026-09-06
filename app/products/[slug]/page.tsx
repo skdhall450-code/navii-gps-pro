@@ -74,10 +74,18 @@ export default async function ProductDetailsPage({ params }: PageProps) {
   const product = products.find((item) => item.slug === slug);
   if (!product) notFound();
   const productUrl = `https://naviigps.com/products/${product.slug}`;
+  const isG17 = product.slug === "g17-gps-tracker";
   const breadcrumbStructuredData = { "@context": "https://schema.org", "@type": "BreadcrumbList", "@id": `${productUrl}#breadcrumb`, itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://naviigps.com/" },
     { "@type": "ListItem", position: 2, name: "Products", item: "https://naviigps.com/products" },
     { "@type": "ListItem", position: 3, name: product.name, item: productUrl },
   ] };
-  return (<><Header /><main><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData).replace(/</g, "\\u003c") }} /><ProductHero product={product} /><ProductGallery product={product} /><ProductFeatures product={product} /><ProductSpecifications product={product} /><ProductDownloads product={product} /><RelatedProducts product={product} /><ProductCTA product={product} /></main><Footer /></>);
+  const g17Faq = isG17 ? [
+    { "@type": "Question", name: "What is the G17 GPS Tracker?", acceptedAnswer: { "@type": "Answer", text: "The G17 is a wired vehicle GPS tracker for cars, trucks, buses and commercial fleets, with real-time location monitoring and configurable vehicle tracking functions." } },
+    { "@type": "Question", name: "Can the G17 track commercial vehicles?", acceptedAnswer: { "@type": "Answer", text: "Yes. The G17 is positioned for commercial vehicle and fleet deployments, including cars, trucks and buses, subject to the selected installation and platform configuration." } },
+    { "@type": "Question", name: "What tracking features does the G17 support?", acceptedAnswer: { "@type": "Answer", text: "Supported deployments can include real-time location, ignition status, route history, trip playback, geofencing and overspeed alerts through a compatible GPS tracking platform." } },
+    { "@type": "Question", name: "How can I monitor a G17 GPS Tracker?", acceptedAnswer: { "@type": "Answer", text: "Supported G17 deployments can be monitored through the NAVII GPS web and mobile tracking platform after the device is installed and configured." } },
+  ] : [];
+  const structuredData = [breadcrumbStructuredData, ...(isG17 ? [{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: g17Faq }] : [])];
+  return (<><Header /><main><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} /><ProductHero product={product} /><ProductGallery product={product} /><ProductFeatures product={product} /><ProductSpecifications product={product} /><ProductDownloads product={product} />{isG17 && <section className="bg-slate-50 py-14"><div className="mx-auto max-w-5xl px-6"><div className="text-center"><h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">G17 GPS Tracker for Cars, Trucks & Fleets</h2><p className="mx-auto mt-4 max-w-3xl text-lg leading-8 text-slate-600">The NAVII G17 GPS Tracker is designed for vehicle tracking and fleet visibility, helping businesses monitor connected cars, trucks, buses and commercial vehicles from a centralized GPS tracking platform.</p></div><div className="mt-10 grid gap-6 md:grid-cols-2">{g17Faq.map((faq) => <div key={faq.name} className="rounded-2xl border border-slate-200 bg-white p-6"><h3 className="font-bold text-slate-900">{faq.name}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{faq.acceptedAnswer.text}</p></div>)}</div></div></section>}<RelatedProducts product={product} /><ProductCTA product={product} /></main><Footer /></>);
 }
