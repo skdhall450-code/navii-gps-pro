@@ -74,12 +74,10 @@ export default async function ProductDetailsPage({ params }: PageProps) {
   const product = products.find((item) => item.slug === slug);
   if (!product) notFound();
   const productUrl = `https://naviigps.com/products/${product.slug}`;
-  const productImage = `https://naviigps.com${product.image}`;
   const breadcrumbStructuredData = { "@context": "https://schema.org", "@type": "BreadcrumbList", "@id": `${productUrl}#breadcrumb`, itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://naviigps.com/" },
     { "@type": "ListItem", position: 2, name: "Products", item: "https://naviigps.com/products" },
     { "@type": "ListItem", position: 3, name: product.name, item: productUrl },
   ] };
-  const productStructuredData = { "@context": "https://schema.org", "@type": "Product", "@id": `${productUrl}#product`, name: product.name, description: product.description, image: [productImage, ...product.gallery.map((image) => `https://naviigps.com${image}`)], url: productUrl, brand: { "@type": "Brand", name: "NAVII GPS" }, category: product.category, additionalProperty: product.specifications.map((specification) => ({ "@type": "PropertyValue", name: specification.label, value: specification.value })) };
-  return (<><Header /><main><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbStructuredData, productStructuredData]).replace(/</g, "\\u003c") }} /><ProductHero product={product} /><ProductGallery product={product} /><ProductFeatures product={product} /><ProductSpecifications product={product} /><ProductDownloads product={product} /><RelatedProducts product={product} /><ProductCTA product={product} /></main><Footer /></>);
+  return (<><Header /><main><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData).replace(/</g, "\\u003c") }} /><ProductHero product={product} /><ProductGallery product={product} /><ProductFeatures product={product} /><ProductSpecifications product={product} /><ProductDownloads product={product} /><RelatedProducts product={product} /><ProductCTA product={product} /></main><Footer /></>);
 }
