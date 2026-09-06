@@ -14,10 +14,12 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "School Bus GPS Tracking System in India | NAVII GPS",
+  title: "GPS Tracking System for School Bus in India | NAVII GPS",
   description:
-    "School bus GPS tracking system for live bus location, route monitoring, geofencing, trip history and alerts. Help schools and colleges improve transport visibility with NAVII GPS.",
+    "GPS tracking system for school buses with live bus location, route monitoring, geofencing, trip history, alerts and fleet visibility. NAVII GPS supports school and student transport operations across India.",
   keywords: [
+    "GPS tracking system for school bus",
+    "GPS tracking for school bus",
     "school bus GPS tracking system",
     "school bus tracking system India",
     "GPS tracker for school bus",
@@ -35,9 +37,9 @@ export const metadata: Metadata = {
     canonical: "https://naviigps.com/school-bus-gps",
   },
   openGraph: {
-    title: "School Bus GPS Tracking System in India | NAVII GPS",
+    title: "GPS Tracking System for School Bus in India | NAVII GPS",
     description:
-      "Live school bus tracking, route monitoring, geofencing, trip history and fleet alerts for school transport operations.",
+      "Track school buses with live location, route monitoring, geofencing, trip history and fleet alerts through NAVII GPS.",
     url: "https://naviigps.com/school-bus-gps",
     type: "website",
     images: [
@@ -45,15 +47,15 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "NAVII GPS school bus GPS tracking system",
+        alt: "NAVII GPS tracking system for school buses",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "School Bus GPS Tracking System | NAVII GPS INDIA",
+    title: "GPS Tracking System for School Bus | NAVII GPS INDIA",
     description:
-      "Track school buses with live location, route history, geofencing and configurable fleet alerts.",
+      "Live school bus tracking, route history, geofencing and configurable transport alerts.",
     images: ["/og-image.jpg"],
   },
 };
@@ -102,7 +104,7 @@ export default function SchoolBusGPSPage() {
         "@type": "WebPage",
         "@id": "https://naviigps.com/school-bus-gps#webpage",
         url: "https://naviigps.com/school-bus-gps",
-        name: "School Bus GPS Tracking System in India | NAVII GPS",
+        name: "GPS Tracking System for School Bus in India | NAVII GPS",
         description: metadata.description,
         isPartOf: { "@id": "https://naviigps.com/#website" },
         inLanguage: "en-IN",
@@ -110,7 +112,7 @@ export default function SchoolBusGPSPage() {
       {
         "@type": "Service",
         "@id": "https://naviigps.com/school-bus-gps#service",
-        name: "School Bus GPS Tracking System",
+        name: "GPS Tracking System for School Bus",
         serviceType: "School Bus GPS Tracking and Fleet Monitoring",
         provider: { "@type": "Organization", name: "NAVII GPS INDIA" },
         areaServed: { "@type": "Country", name: "India" },
@@ -146,7 +148,7 @@ export default function SchoolBusGPSPage() {
                 SCHOOL TRANSPORT GPS
               </span>
               <h1 className="mt-7 text-5xl font-extrabold leading-tight md:text-6xl lg:text-7xl">
-                School Bus GPS Tracking System
+                GPS Tracking System for School Bus
                 <span className="block bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">
                   for Safer, More Visible Transport
                 </span>
@@ -170,7 +172,7 @@ export default function SchoolBusGPSPage() {
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center">
               <span className="rounded-full bg-cyan-100 px-5 py-2 text-sm font-semibold text-cyan-700">SCHOOL BUS TRACKING FEATURES</span>
-              <h2 className="mt-6 text-4xl font-extrabold text-slate-900 md:text-5xl">Everything transport teams need for daily visibility</h2>
+              <h2 className="mt-6 text-4xl font-extrabold text-slate-900 md:text-5xl">GPS tracking for school bus operations</h2>
               <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">
                 Connect appropriate GPS hardware with NAVII GPS software to monitor school transport operations from one platform.
               </p>
@@ -206,7 +208,7 @@ export default function SchoolBusGPSPage() {
             </div>
             <div className="rounded-[32px] bg-[#06142E] p-9 text-white shadow-2xl md:p-12">
               <Bus size={44} className="text-cyan-300" />
-              <h3 className="mt-7 text-3xl font-bold">Improve Transport Visibility</h3>
+              <h3 className="mt-7 text-3xl font-bold">Improve School Transport Visibility</h3>
               <p className="mt-5 leading-8 text-slate-300">
                 Monitor buses, routes and fleet activity while giving authorized teams a clearer view of day-to-day school transport operations.
               </p>
@@ -220,7 +222,22 @@ export default function SchoolBusGPSPage() {
           </div>
         </section>
 
-        <section className="bg-white py-24">
+        <section className="bg-white py-16">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="rounded-[32px] border border-slate-200 bg-slate-50 p-9 text-center md:p-12">
+              <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">Connect School Bus Tracking with Fleet Software</h2>
+              <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-600">
+                Combine school bus GPS tracking with NAVII GPS fleet management software and suitable vehicle GPS hardware for a complete transport monitoring setup.
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <Link href="/software" className="inline-flex items-center gap-2 rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800">Fleet Management Software <ArrowRight size={18} /></Link>
+                <Link href="/ais-140-gps" className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">Explore AIS-140 GPS</Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white py-16">
           <div className="mx-auto max-w-6xl px-6">
             <div className="rounded-[32px] bg-gradient-to-r from-cyan-500 to-blue-700 p-10 text-center text-white md:p-14">
               <h2 className="text-4xl font-extrabold">Looking for a School Bus GPS Tracking Solution?</h2>
