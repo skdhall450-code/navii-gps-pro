@@ -195,6 +195,7 @@ export default function IndustriesPage() {
               {industries.map((industry) => {
                 const Icon = industry.icon;
                 const isSchool = industry.title === "Schools & Colleges";
+                const isLogistics = industry.title === "Logistics & Transport";
                 return (
                   <article key={industry.title} className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-cyan-300 hover:shadow-xl">
                     <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700"><Icon size={31} /></div>
@@ -208,6 +209,11 @@ export default function IndustriesPage() {
                     {isSchool && (
                       <Link href="/school-bus-gps" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800">
                         School Bus GPS Tracking <ArrowRight size={16} />
+                      </Link>
+                    )}
+                    {isLogistics && (
+                      <Link href="/logistics-fleet-gps" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800">
+                        Logistics Fleet Tracking <ArrowRight size={16} />
                       </Link>
                     )}
                   </article>
