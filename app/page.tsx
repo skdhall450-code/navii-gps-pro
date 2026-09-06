@@ -149,6 +149,23 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="bg-slate-50 py-10">
+          <div className="mx-auto max-w-5xl px-6 text-center">
+            <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">
+              Truck GPS Tracking System in India
+            </h2>
+            <p className="mx-auto mt-3 max-w-3xl text-slate-600">
+              Track trucks and commercial fleets with live location, route history, geofencing, vehicle alerts and fleet visibility.
+            </p>
+            <Link
+              href="/truck-gps"
+              className="mt-5 inline-flex items-center rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800"
+            >
+              Explore Truck GPS Tracking
+            </Link>
+          </div>
+        </section>
+
         <Clients />
         <CTA />
         <FAQ />
