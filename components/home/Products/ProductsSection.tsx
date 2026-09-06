@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 import ProductCard from "./ProductCard";
@@ -14,20 +15,10 @@ export default function ProductsSection() {
 
       <div className="relative mx-auto max-w-7xl px-6">
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 40,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-          }}
-          viewport={{
-            once: true,
-          }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
           className="text-center"
         >
           <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-medium text-cyan-300 backdrop-blur">
@@ -42,9 +33,27 @@ export default function ProductsSection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-300">
-            Explore GPS trackers for cars and commercial vehicles, video
-            telematics, fuel monitoring and connected security solutions
-            designed for modern fleet operations.
+            Explore GPS tracking devices for cars, trucks, buses and commercial
+            fleets, plus fleet management software, video telematics, fuel
+            monitoring and connected security solutions.
+          </p>
+
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-slate-400">
+            Looking for complete vehicle tracking and fleet management?{" "}
+            <Link
+              href="/software"
+              className="font-semibold text-cyan-300 underline decoration-cyan-400/40 underline-offset-4 hover:text-cyan-200"
+            >
+              Explore our GPS fleet management software
+            </Link>{" "}
+            or browse all{" "}
+            <Link
+              href="/products"
+              className="font-semibold text-cyan-300 underline decoration-cyan-400/40 underline-offset-4 hover:text-cyan-200"
+            >
+              vehicle GPS tracking devices
+            </Link>
+            .
           </p>
         </motion.div>
 
@@ -57,15 +66,11 @@ export default function ProductsSection() {
         <div className="mt-16 flex justify-center">
           <motion.a
             href="/products"
-            whileHover={{
-              scale: 1.05,
-            }}
-            whileTap={{
-              scale: 0.95,
-            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             className="rounded-2xl bg-cyan-500 px-10 py-4 font-semibold text-white shadow-[0_0_30px_rgba(6,182,212,.35)] transition hover:bg-cyan-400"
           >
-            View All Products &rarr;
+            View All GPS Tracking Products &rarr;
           </motion.a>
         </div>
       </div>
