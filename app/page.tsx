@@ -166,6 +166,23 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="bg-white py-10">
+          <div className="mx-auto max-w-5xl px-6 text-center">
+            <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">
+              Logistics Fleet Tracking System
+            </h2>
+            <p className="mx-auto mt-3 max-w-3xl text-slate-600">
+              Track logistics and delivery fleets with live vehicle location, route history, geofencing, alerts and fleet reports across India.
+            </p>
+            <Link
+              href="/logistics-fleet-gps"
+              className="mt-5 inline-flex items-center rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800"
+            >
+              Explore Logistics Fleet Tracking
+            </Link>
+          </div>
+        </section>
+
         <Clients />
         <CTA />
         <FAQ />
