@@ -40,31 +40,26 @@ export const metadata: Metadata = {
     "vehicle tracking system India",
   ],
   alternates: {
-    canonical:
-      "https://naviigps.com/industries",
+    canonical: "https://naviigps.com/industries",
   },
   openGraph: {
-    title:
-      "GPS & Fleet Tracking Solutions for Industries | NAVII GPS INDIA",
+    title: "GPS & Fleet Tracking Solutions for Industries | NAVII GPS INDIA",
     description:
       "Smart GPS tracking and fleet management solutions for businesses and transport operations across India.",
-    url:
-      "https://naviigps.com/industries",
+    url: "https://naviigps.com/industries",
     type: "website",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt:
-          "Industries served by NAVII GPS INDIA",
+        alt: "Industries served by NAVII GPS INDIA",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "GPS & Fleet Tracking Solutions for Industries | NAVII GPS INDIA",
+    title: "GPS & Fleet Tracking Solutions for Industries | NAVII GPS INDIA",
     description:
       "GPS tracking and fleet management solutions for businesses and transport operations across India.",
     images: ["/og-image.jpg"],
@@ -74,85 +69,73 @@ export const metadata: Metadata = {
 const industries = [
   {
     title: "Logistics & Transport",
-    description:
-      "Track vehicles, delivery progress and route performance across logistics operations.",
+    description: "Track vehicles, delivery progress and route performance across logistics operations.",
     icon: Truck,
     highlights: ["Live fleet visibility", "Route history", "Operational alerts"],
   },
   {
     title: "Manufacturing",
-    description:
-      "Monitor company vehicles, material movement and field operations from one platform.",
+    description: "Monitor company vehicles, material movement and field operations from one platform.",
     icon: Factory,
     highlights: ["Vehicle utilization", "Trip monitoring", "Centralized reports"],
   },
   {
     title: "Schools & Colleges",
-    description:
-      "Improve student transport visibility with live bus tracking and configurable alerts.",
+    description: "Improve student transport visibility with live bus tracking and configurable alerts.",
     icon: School,
     highlights: ["School bus tracking", "Geofence alerts", "Route monitoring"],
   },
   {
     title: "Hospitals & Ambulances",
-    description:
-      "Monitor ambulances and emergency fleets for faster operational coordination.",
+    description: "Monitor ambulances and emergency fleets for faster operational coordination.",
     icon: Hospital,
     highlights: ["Live ambulance location", "Trip history", "Fleet availability"],
   },
   {
     title: "Taxi & Cab Fleets",
-    description:
-      "Manage commercial cabs with location monitoring, driver activity and trip records.",
+    description: "Manage commercial cabs with location monitoring, driver activity and trip records.",
     icon: Car,
     highlights: ["Cab visibility", "Speed alerts", "Daily trip reports"],
   },
   {
     title: "Bus Operators",
-    description:
-      "Track passenger, staff and contract buses across scheduled transport routes.",
+    description: "Track passenger, staff and contract buses across scheduled transport routes.",
     icon: Bus,
     highlights: ["Route playback", "Arrival visibility", "Fleet status"],
   },
   {
     title: "Agriculture",
-    description:
-      "Track tractors, harvesters and mobile agricultural equipment across field operations.",
+    description: "Track tractors, harvesters and mobile agricultural equipment across field operations.",
     icon: Tractor,
     highlights: ["Equipment tracking", "Movement history", "Usage visibility"],
   },
   {
     title: "Fleet Owners",
-    description:
-      "Control mixed commercial fleets using real-time status, alerts and performance reports.",
+    description: "Control mixed commercial fleets using real-time status, alerts and performance reports.",
     icon: Gauge,
     highlights: ["Fleet dashboard", "Vehicle alerts", "Performance reports"],
   },
   {
     title: "Corporate Mobility",
-    description:
-      "Manage employee transportation and company-owned vehicles through secure fleet tools.",
+    description: "Manage employee transportation and company-owned vehicles through secure fleet tools.",
     icon: Building2,
     highlights: ["Employee transport", "Vehicle history", "Access control"],
   },
   {
     title: "E-Commerce Delivery",
-    description:
-      "Improve last-mile delivery visibility with vehicle tracking and route intelligence.",
+    description: "Improve last-mile delivery visibility with vehicle tracking and route intelligence.",
     icon: PackageCheck,
     highlights: ["Delivery fleet tracking", "Route visibility", "Trip analytics"],
   },
   {
     title: "Oil & Gas",
-    description:
-      "Monitor tankers and industrial transport with location, movement and safety alerts.",
+    description: "Monitor tankers and industrial transport with location, movement and safety alerts.",
     icon: Fuel,
     highlights: ["Tanker tracking", "Geofence monitoring", "Movement alerts"],
   },
   {
     title: "Emergency Services",
-    description:
-      "Support rescue and response fleets with dependable real-time vehicle visibility.",
+    description: "Support rescue and response fleets with dependable real-time vehicle visibility.",
     icon: Siren,
     highlights: ["Rapid fleet location", "Status monitoring", "Response history"],
   },
@@ -161,20 +144,17 @@ const industries = [
 const capabilities = [
   {
     title: "Real-Time Visibility",
-    description:
-      "View connected vehicles and their latest operational status through the NAVII GPS platform.",
+    description: "View connected vehicles and their latest operational status through the NAVII GPS platform.",
     icon: RadioTower,
   },
   {
     title: "Geofences & Alerts",
-    description:
-      "Configure location boundaries and receive important movement and vehicle alerts.",
+    description: "Configure location boundaries and receive important movement and vehicle alerts.",
     icon: MapPinned,
   },
   {
     title: "Reports & Analytics",
-    description:
-      "Use trip history and fleet reports to improve control, safety and operational planning.",
+    description: "Use trip history and fleet reports to improve control, safety and operational planning.",
     icon: ChartNoAxesCombined,
   },
 ];
@@ -183,39 +163,21 @@ export default function IndustriesPage() {
   return (
     <>
       <Header />
-
       <main>
         <section className="relative overflow-clip bg-gradient-to-br from-[#041225] via-[#08224A] to-[#103B82] py-24 text-white md:py-32">
           <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-cyan-400/15 blur-[120px]" />
           <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-blue-500/20 blur-[120px]" />
-
           <div className="relative mx-auto max-w-7xl px-6">
             <div className="max-w-4xl">
-              <span className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-5 py-2 text-sm font-semibold tracking-[0.18em] text-cyan-200">
-                INDUSTRY SOLUTIONS
-              </span>
-
+              <span className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-5 py-2 text-sm font-semibold tracking-[0.18em] text-cyan-200">INDUSTRY SOLUTIONS</span>
               <h1 className="mt-7 text-5xl font-extrabold leading-tight md:text-6xl lg:text-7xl">
                 GPS & Fleet Solutions
-                <span className="block bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">
-                  Built for Every Industry
-                </span>
+                <span className="block bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">Built for Every Industry</span>
               </h1>
-
-              <p className="mt-7 max-w-3xl text-lg leading-8 text-slate-200 md:text-xl">
-                NAVII GPS helps organizations monitor vehicles, improve
-                operational visibility and manage connected fleets through one
-                secure platform.
-              </p>
-
+              <p className="mt-7 max-w-3xl text-lg leading-8 text-slate-200 md:text-xl">NAVII GPS helps organizations monitor vehicles, improve operational visibility and manage connected fleets through one secure platform.</p>
               <div className="mt-10 flex flex-wrap gap-4">
-                <Link href="/contact" className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-7 py-4 font-semibold text-white transition hover:bg-cyan-400">
-                  Discuss Your Requirement
-                  <ArrowRight size={19} />
-                </Link>
-                <Link href="/products" className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-7 py-4 font-semibold text-white transition hover:bg-white/10">
-                  Explore Products
-                </Link>
+                <Link href="/contact" className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-7 py-4 font-semibold text-white transition hover:bg-cyan-400">Discuss Your Requirement <ArrowRight size={19} /></Link>
+                <Link href="/products" className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-7 py-4 font-semibold text-white transition hover:bg-white/10">Explore Products</Link>
               </div>
             </div>
           </div>
@@ -232,6 +194,7 @@ export default function IndustriesPage() {
             <div className="mt-16 grid gap-7 md:grid-cols-2 xl:grid-cols-3">
               {industries.map((industry) => {
                 const Icon = industry.icon;
+                const isSchool = industry.title === "Schools & Colleges";
                 return (
                   <article key={industry.title} className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-cyan-300 hover:shadow-xl">
                     <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700"><Icon size={31} /></div>
@@ -239,12 +202,14 @@ export default function IndustriesPage() {
                     <p className="mt-3 leading-7 text-slate-600">{industry.description}</p>
                     <ul className="mt-6 space-y-3">
                       {industry.highlights.map((highlight) => (
-                        <li key={highlight} className="flex items-center gap-3 text-sm font-medium text-slate-700">
-                          <CheckCircle2 size={17} className="shrink-0 text-emerald-500" />
-                          {highlight}
-                        </li>
+                        <li key={highlight} className="flex items-center gap-3 text-sm font-medium text-slate-700"><CheckCircle2 size={17} className="shrink-0 text-emerald-500" />{highlight}</li>
                       ))}
                     </ul>
+                    {isSchool && (
+                      <Link href="/school-bus-gps" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800">
+                        School Bus GPS Tracking <ArrowRight size={16} />
+                      </Link>
+                    )}
                   </article>
                 );
               })}
@@ -277,9 +242,7 @@ export default function IndustriesPage() {
           <div className="mx-auto max-w-5xl px-6 text-center">
             <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">AIS-140 GPS Tracking for Public Transport</h2>
             <p className="mx-auto mt-3 max-w-3xl text-slate-600">Explore our dedicated AIS-140 GPS tracking solution for buses and public transport fleets.</p>
-            <Link href="/ais-140-gps" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800">
-              View AIS-140 GPS Solution <ArrowRight size={18} />
-            </Link>
+            <Link href="/ais-140-gps" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800">View AIS-140 GPS Solution <ArrowRight size={18} /></Link>
           </div>
         </section>
 
@@ -296,7 +259,6 @@ export default function IndustriesPage() {
           </div>
         </section>
       </main>
-
       <Footer />
     </>
   );
