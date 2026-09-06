@@ -46,17 +46,22 @@ export async function generateMetadata({
   const productUrl = `https://naviigps.com/products/${product.slug}`;
   const productImage = `https://naviigps.com${product.image}`;
   const isG17 = product.slug === "g17-gps-tracker";
+  const isBT50 = product.slug === "bt50-vehicle-gps-tracker";
   const isVehicleGps = product.category === "Vehicle GPS";
 
   const seoTitle = isG17
     ? "G17 GPS Tracker for Cars & Commercial Vehicles | NAVII GPS"
-    : isVehicleGps
-      ? `${product.name} - GPS Tracking Device | NAVII GPS`
-      : `${product.name} | NAVII GPS`;
+    : isBT50
+      ? "BT50 Vehicle GPS Tracker - 9V-90V GPS Tracking Device | NAVII GPS"
+      : isVehicleGps
+        ? `${product.name} - GPS Tracking Device | NAVII GPS`
+        : `${product.name} | NAVII GPS`;
 
   const seoDescription = isG17
     ? "G17 GPS Tracker for cars, trucks, buses and commercial fleets with real-time GPS tracking, ignition monitoring, route history, geofencing and fleet alerts."
-    : product.shortDescription;
+    : isBT50
+      ? "BT50 Vehicle GPS Tracker with 9V-90V input for vehicle location monitoring, route history, geofencing and fleet tracking. Explore NAVII GPS vehicle tracking solutions."
+      : product.shortDescription;
 
   return {
     title: seoTitle,
@@ -74,7 +79,20 @@ export async function generateMetadata({
           "fleet GPS tracker",
           "GPS tracking device India",
         ]
-      : undefined,
+      : isBT50
+        ? [
+            "BT50 GPS Tracker",
+            "BT50 vehicle GPS tracker",
+            "BT50 GPS tracking device",
+            "GPS tracker for vehicle",
+            "vehicle GPS tracker India",
+            "9V-90V GPS tracker",
+            "commercial vehicle GPS tracker",
+            "real-time vehicle tracking",
+            "fleet GPS tracking device",
+            "vehicle tracking system",
+          ]
+        : undefined,
     alternates: {
       canonical: productUrl,
     },
