@@ -23,11 +23,15 @@ export default function RelatedProducts({
 }: RelatedProductsProps) {
   const clusterProducts = productCluster
     .map((slug) => products.find((item) => item.slug === slug))
-    .filter((item): item is Product => Boolean(item) && item.slug !== product.slug);
+    .filter(
+      (item): item is Product =>
+        item !== undefined && item.slug !== product.slug,
+    );
 
-  const relatedProducts = clusterProducts.length > 0
-    ? clusterProducts.slice(0, 3)
-    : products.filter((item) => item.slug !== product.slug).slice(0, 3);
+  const relatedProducts =
+    clusterProducts.length > 0
+      ? clusterProducts.slice(0, 3)
+      : products.filter((item) => item.slug !== product.slug).slice(0, 3);
 
   if (relatedProducts.length === 0) {
     return null;
