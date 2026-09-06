@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
@@ -54,25 +55,34 @@ export default function SoftwarePage() {
       <Header />
 
       <main>
-
         <SoftwareHero />
-
         <DashboardPreview />
-
         <SoftwareFeatures />
-
         <SoftwareModules />
-
         <MobileApps />
-
         <IndustrySupport />
 
-        <CTA />
+        <section className="bg-slate-50 py-10">
+          <div className="mx-auto max-w-5xl px-6 text-center">
+            <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">
+              AIS-140 GPS Tracking Software
+            </h2>
+            <p className="mx-auto mt-3 max-w-3xl text-slate-600">
+              Explore deployment-focused GPS tracking for buses and public transport with live vehicle visibility, route history, alerts and reports.
+            </p>
+            <Link
+              href="/ais-140-gps"
+              className="mt-5 inline-flex rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800"
+            >
+              Explore AIS-140 GPS Tracking
+            </Link>
+          </div>
+        </section>
 
+        <CTA />
       </main>
 
       <Footer />
-
     </>
   );
 }
