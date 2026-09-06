@@ -3,9 +3,7 @@ import { notFound } from "next/navigation";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-
 import { products } from "@/components/products/data/productsData";
-
 import ProductHero from "@/components/products/details/ProductHero";
 import ProductGallery from "@/components/products/details/ProductGallery";
 import ProductFeatures from "@/components/products/details/ProductFeatures";
@@ -15,15 +13,11 @@ import RelatedProducts from "@/components/products/details/RelatedProducts";
 import ProductCTA from "@/components/products/details/ProductCTA";
 
 interface PageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
+  return products.map((product) => ({ slug: product.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -40,6 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const isBT50 = product.slug === "bt50-vehicle-gps-tracker";
   const isAIDashCamera = product.slug === "ai-dash-camera";
   const isFuelSensor = product.slug === "fuel-monitoring-sensor";
+  const isSmartELock = product.slug === "smart-e-lock";
   const isVehicleGps = product.category === "Vehicle GPS";
 
   const seoTitle = isG17
@@ -50,9 +45,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         ? "AI Dash Camera for Vehicles & Fleets | NAVII GPS"
         : isFuelSensor
           ? "Fuel Monitoring Sensor for Vehicles & Fleets | NAVII GPS"
-          : isVehicleGps
-            ? `${product.name} - GPS Tracking Device | NAVII GPS`
-            : `${product.name} | NAVII GPS`;
+          : isSmartELock
+            ? "Smart E-Lock for Cargo & Fleet Security | NAVII GPS"
+            : isVehicleGps
+              ? `${product.name} - GPS Tracking Device | NAVII GPS`
+              : `${product.name} | NAVII GPS`;
 
   const seoDescription = isG17
     ? "G17 GPS Tracker for cars, trucks, buses and commercial fleets with real-time GPS tracking, ignition monitoring, route history, geofencing and fleet alerts."
@@ -62,7 +59,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         ? "AI Dash Camera for vehicles and commercial fleets with connected video telematics, journey recording, event review and driver safety monitoring. Explore NAVII GPS fleet camera solutions."
         : isFuelSensor
           ? "Fuel Monitoring Sensor for vehicles and commercial fleets with fuel level monitoring, refill event visibility, consumption reports and fuel theft alert support. Explore NAVII GPS fleet fuel monitoring solutions."
-          : product.shortDescription;
+          : isSmartELock
+            ? "Smart E-Lock for cargo and logistics security with electronic lock workflows, tamper status monitoring, access history and configurable security alerts. Explore NAVII GPS IoT solutions."
+            : product.shortDescription;
 
   return {
     title: seoTitle,
@@ -75,7 +74,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           ? ["AI dash camera", "AI dash camera for vehicles", "AI dash camera for commercial vehicles", "fleet dash camera", "vehicle dash camera", "AI camera for fleet management", "video telematics camera", "driver safety camera", "fleet video monitoring", "AI dashcam India"]
           : isFuelSensor
             ? ["fuel monitoring sensor", "fuel monitoring system for vehicles", "vehicle fuel monitoring system", "fuel level sensor for vehicles", "fuel monitoring system India", "fuel theft monitoring system", "fleet fuel monitoring", "fuel level monitoring for trucks", "fuel consumption monitoring", "GPS fuel monitoring system"]
-            : undefined,
+            : isSmartELock
+              ? ["Smart E-Lock", "smart e-lock for vehicles", "electronic cargo lock", "vehicle smart lock", "cargo security lock", "fleet cargo security", "electronic lock for trucks", "tamper monitoring system", "logistics security solution", "smart e-lock India"]
+              : undefined,
     alternates: { canonical: productUrl },
     openGraph: {
       title: seoTitle,
