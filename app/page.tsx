@@ -8,6 +8,20 @@ export const metadata: Metadata = {
   },
   description:
     "Explore GPS trackers and GPS tracking devices for cars and commercial fleets, with live tracking, fleet software, AI dash cameras and IoT solutions across India.",
+  keywords: [
+    "GPS tracking system",
+    "vehicle tracking system",
+    "GPS tracker for car",
+    "GPS fleet tracking software",
+    "fleet management software India",
+    "vehicle tracking software",
+    "GPS tracking company in India",
+    "GPS tracking company in Punjab",
+    "4G GPS tracker for vehicle",
+    "AIS-140 GPS tracker",
+    "AI dash camera for vehicles",
+    "fuel monitoring system for vehicles",
+  ],
   alternates: {
     canonical: "https://naviigps.com",
   },
