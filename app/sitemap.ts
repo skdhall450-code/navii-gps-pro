@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/industries`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/ais-140-gps`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/school-bus-gps`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gps-tracking-system-school-bus`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/truck-gps`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/logistics-fleet-gps`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/commercial-vehicle-tracking`, changeFrequency: "monthly", priority: 0.9 },
