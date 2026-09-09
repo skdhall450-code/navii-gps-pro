@@ -4,6 +4,7 @@ import { products } from "@/components/products/data/productsData";
 import { indiaStates } from "@/lib/seo/indiaStates";
 import { priorityCities } from "@/lib/seo/priorityCities";
 import { westIndiaCities } from "@/lib/seo/westIndiaCities";
+import { internationalCountries } from "@/lib/seo/internationalCountries";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://naviigps.com";
@@ -25,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/gps-tracking-company-india`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gps-tracker-west-india`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gps-tracker-india`, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/gps-tracker-international`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/fuel-monitoring-system`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/contact`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/privacy-policy`, changeFrequency: "yearly", priority: 0.3 },
@@ -34,5 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const stateRoutes: MetadataRoute.Sitemap = indiaStates.map((state) => ({ url: `${baseUrl}/gps-tracker/${state.slug}`, changeFrequency: "monthly", priority: state.southPriority ? 0.9 : 0.8 }));
   const cities = [...new Map([...priorityCities, ...westIndiaCities].map((city) => [city.slug, city])).values()];
   const cityRoutes: MetadataRoute.Sitemap = cities.map((city) => ({ url: `${baseUrl}/gps-tracker/${city.slug}`, changeFrequency: "monthly", priority: 0.9 }));
-  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...productRoutes];
+  const internationalRoutes: MetadataRoute.Sitemap = internationalCountries.map((country) => ({ url: `${baseUrl}/gps-tracker/${country.slug}`, changeFrequency: "monthly", priority: 0.9 }));
+  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...productRoutes];
 }
