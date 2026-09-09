@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Fuel Monitoring System for Vehicles & Fleets | NAVII GPS",
-  description: "Fuel monitoring system for vehicles and fleets to improve fuel visibility, monitor consumption, identify unusual fuel activity and support fleet operations with NAVII GPS.",
+  title: "Fuel Monitoring System for Fleets",
+  description: "Monitor fuel levels, consumption and unusual fuel activity across commercial vehicles with NAVII GPS fuel monitoring solutions for fleets in India.",
   keywords: [
     "fuel monitoring system for vehicles",
     "fuel monitoring system India",
@@ -39,7 +39,7 @@ export default function FuelMonitoringSystemPage() {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebPage", "@id": "https://naviigps.com/fuel-monitoring-system#webpage", url: "https://naviigps.com/fuel-monitoring-system", name: "Fuel Monitoring System for Vehicles & Fleets | NAVII GPS", description: metadata.description, inLanguage: "en-IN" },
-      { "@type": "Service", "@id": "https://naviigps.com/fuel-monitoring-system#service", name: "Fuel Monitoring System for Vehicles", serviceType: "Vehicle Fuel Monitoring", provider: { "@type": "Organization", name: "NAVII GPS INDIA" }, areaServed: { "@type": "Country", name: "India" }, url: "https://naviigps.com/fuel-monitoring-system" },
+      { "@type": "Service", "@id": "https://naviigps.com/fuel-monitoring-system#service", name: "Fuel Monitoring System for Vehicles", serviceType: "Vehicle Fuel Monitoring", provider: { "@id": "https://naviigps.com/#organization" }, areaServed: { "@type": "Country", name: "India" }, url: "https://naviigps.com/fuel-monitoring-system" },
       { "@type": "BreadcrumbList", itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: "https://naviigps.com/" },
         { "@type": "ListItem", position: 2, name: "Fuel Monitoring System", item: "https://naviigps.com/fuel-monitoring-system" },
