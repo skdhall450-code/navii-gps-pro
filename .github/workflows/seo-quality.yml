@@ -30,3 +30,6 @@ jobs:
 
       - name: Build production website
         run: npm run build
+
+      - name: Verify West India rendered SEO pages
+        run: node scripts/check-west-india.mjs

@@ -1,3 +1,5 @@
+import { westIndiaCities } from "./westIndiaCities";
+
 export type PriorityCitySeo = {
   slug: string;
   name: string;
@@ -6,9 +8,10 @@ export type PriorityCitySeo = {
   areas: string[];
   sectors: string[];
   localContext: string;
+  planningNote?: string;
 };
 
-export const priorityCities: PriorityCitySeo[] = [
+const existingCities: PriorityCitySeo[] = [
   {
     slug: "chennai",
     name: "Chennai",
@@ -91,3 +94,6 @@ export const priorityCities: PriorityCitySeo[] = [
     localContext: "Ahmedabad connects industrial estates, manufacturing clusters and major distribution routes where connected GPS tracking can improve fleet and trip visibility.",
   },
 ];
+
+const westSlugs = new Set(westIndiaCities.map((city) => city.slug));
+export const priorityCities: PriorityCitySeo[] = [...existingCities.filter((city) => !westSlugs.has(city.slug)), ...westIndiaCities];
