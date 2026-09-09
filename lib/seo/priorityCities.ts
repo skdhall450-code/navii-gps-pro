@@ -1,3 +1,5 @@
+import { westIndiaCities } from "./westIndiaCities";
+
 export type PriorityCitySeo = {
   slug: string;
   name: string;
@@ -9,7 +11,7 @@ export type PriorityCitySeo = {
   planningNote?: string;
 };
 
-export const priorityCities: PriorityCitySeo[] = [
+const existingCities: PriorityCitySeo[] = [
   {
     slug: "chennai", name: "Chennai", state: "Tamil Nadu", stateSlug: "tamil-nadu",
     areas: ["Ambattur", "Guindy", "Sriperumbudur", "Oragadam", "Chengalpattu"], sectors: ["manufacturing logistics", "port-linked transport", "employee transportation", "urban delivery fleets"], localContext: "Chennai's industrial, port-linked and metropolitan transport operations need clear vehicle visibility across busy urban and regional routes.",
@@ -71,3 +73,6 @@ export const priorityCities: PriorityCitySeo[] = [
     slug: "siliguri", name: "Siliguri", state: "West Bengal", stateSlug: "west-bengal", areas: ["Sevoke Road", "Matigara", "Sukna", "Fulbari", "Bagdogra"], sectors: ["regional logistics", "truck transport", "warehouse distribution", "intercity fleets"], localContext: "Siliguri connects North Bengal with Northeast India and nearby regional markets, making route and vehicle visibility useful for logistics and commercial fleets.",
   },
 ];
+
+const westSlugs = new Set(westIndiaCities.map((city) => city.slug));
+export const priorityCities: PriorityCitySeo[] = [...existingCities.filter((city) => !westSlugs.has(city.slug)), ...westIndiaCities];

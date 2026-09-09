@@ -1,60 +1,11 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { ArrowRight, BellRing, CheckCircle2, MapPin, RadioTower, Route } from "lucide-react";
-
 import Header from "@/components/layout/HeaderV2";
 import Footer from "@/components/layout/FooterV2";
-import { getIndiaState, indiaStates } from "@/lib/seo/indiaStates";
-
 import { priorityCities } from "@/lib/seo/priorityCities";
-import { westIndiaCities } from "@/lib/seo/westIndiaCities";
-import { CityGpsPage } from "@/components/seo/CityGpsPage";
+import type { IndiaStateSeo } from "@/lib/seo/indiaStates";
 
-const staticCitySlugs = new Set(["chennai", "bengaluru", "hyderabad", "kochi", "coimbatore", "visakhapatnam", "pune", "mumbai", "ahmedabad", "delhi", "gurugram", "noida", "kolkata", "bhubaneswar", "patna", "ranchi", "guwahati", "siliguri"]);
-const allCities = [...new Map([...priorityCities, ...westIndiaCities].map((city) => [city.slug, city])).values()];
-
-type PageProps = { params: Promise<{ state: string }> };
-
-export function generateStaticParams() {
-  return [...indiaStates.map((state) => ({ state: state.slug })), ...allCities.filter((city) => !staticCitySlugs.has(city.slug)).map((city) => ({ state: city.slug }))];
-}
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { state: slug } = await params;
-  const state = getIndiaState(slug);
-  if (!state) {
-    const city = allCities.find((entry) => entry.slug === slug);
-    if (!city) return {};
-    const url = `https://naviigps.com/gps-tracker/${city.slug}`;
-    const description = `GPS tracking in ${city.name}: vehicle devices, route history and fleet planning for ${city.areas.slice(0, 2).join(" and ")} routes. Discuss installation and pricing.`;
-    return {
-      title: `GPS Tracker in ${city.name} | NAVII GPS`, description,
-      alternates: { canonical: url },
-      openGraph: { title: `GPS Tracker in ${city.name} | NAVII GPS`, description, url, type: "website", images: ["/og-image.jpg"] },
-      twitter: { card: "summary_large_image", title: `GPS Tracker in ${city.name} | NAVII GPS`, description, images: ["/og-image.jpg"] },
-    };
-  }
-  const url = `https://naviigps.com/gps-tracker/${state.slug}`;
-  const cityKeywords = state.cities.slice(0, 4).map((city) => `GPS tracker ${city}`);
-  return {
-    title: `GPS Tracker in ${state.name} | Vehicle Tracking System | NAVII GPS`,
-    description: `GPS trackers and vehicle tracking systems in ${state.name} for cars, trucks, buses and commercial fleets. Coverage includes ${state.cities.slice(0, 4).join(", ")} and statewide operations.`,
-    keywords: [`GPS tracker in ${state.name}`, `GPS tracker ${state.name}`, `vehicle tracking system ${state.name}`, `GPS tracking company ${state.name}`, `car GPS tracker ${state.name}`, `truck GPS tracking ${state.name}`, `fleet management software ${state.name}`, ...cityKeywords],
-    alternates: { canonical: url },
-    openGraph: { title: `GPS Tracker in ${state.name} | NAVII GPS`, description: `Vehicle tracking devices and fleet software for ${state.name}.`, url, type: "website", images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: `NAVII GPS tracking solutions in ${state.name}` }] },
-    twitter: { card: "summary_large_image", title: `GPS Tracker in ${state.name} | NAVII GPS`, description: `Vehicle GPS tracking and fleet management in ${state.name}.`, images: ["/og-image.jpg"] },
-  };
-}
-
-export default async function StateGpsTrackerPage({ params }: PageProps) {
-  const { state: slug } = await params;
-  const state = getIndiaState(slug);
-  if (!state) {
-    const city = allCities.find((entry) => entry.slug === slug);
-    if (!city) notFound();
-    return <CityGpsPage city={city} />;
-  }
+export function StateGpsPage({ state }: { state: IndiaStateSeo }) {
   const linkedCities = allCities.filter((city) => city.stateSlug === state.slug);
   const url = `https://naviigps.com/gps-tracker/${state.slug}`;
   const structuredData = { "@context": "https://schema.org", "@graph": [
