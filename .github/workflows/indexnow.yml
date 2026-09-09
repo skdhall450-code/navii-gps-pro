@@ -21,5 +21,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Submit sitemap URLs
-        run: node scripts/submit-indexnow.mjs
+      - name: Wait for Vercel production deployment and submit sitemap URLs
+        env:
+          EXPECTED_COMMIT_SHA: ${{ github.sha }}
+        run: node scripts/submit-indexnow.mjs --wait-for-deployment
