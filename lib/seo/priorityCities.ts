@@ -6,6 +6,7 @@ export type PriorityCitySeo = {
   areas: string[];
   sectors: string[];
   localContext: string;
+  planningNote?: string;
 };
 
 export const priorityCities: PriorityCitySeo[] = [
