@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Fleet Management Software India | GPS Tracking Software | NAVII GPS",
-  description: "Fleet management software in India for real-time GPS vehicle tracking, fleet monitoring, route history, geofencing, alerts, reports and operational visibility for cars, trucks, buses and commercial fleets.",
+  title: "Fleet Management & GPS Software India",
+  description: "Track vehicles, trips, routes, geofences, alerts and reports with NAVII GPS fleet management software for commercial fleets across India.",
   keywords: [
     "fleet management software India",
     "GPS fleet management software",
