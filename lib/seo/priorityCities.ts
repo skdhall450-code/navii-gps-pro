@@ -70,4 +70,25 @@ export const priorityCities: PriorityCitySeo[] = [
   {
     slug: "siliguri", name: "Siliguri", state: "West Bengal", stateSlug: "west-bengal", areas: ["Sevoke Road", "Matigara", "Sukna", "Fulbari", "Bagdogra"], sectors: ["regional logistics", "truck transport", "warehouse distribution", "intercity fleets"], localContext: "Siliguri connects North Bengal with Northeast India and nearby regional markets, making route and vehicle visibility useful for logistics and commercial fleets.",
   },
+  {
+    slug: "itanagar", name: "Itanagar", state: "Arunachal Pradesh", stateSlug: "arunachal-pradesh", areas: ["Itanagar", "Naharlagun", "Banderdewa", "Nirjuli", "Papum Pare"], sectors: ["regional logistics", "construction fleets", "institutional transport", "commercial vehicles"], localContext: "Itanagar and nearby routes connect the state capital with hilly and regional corridors where dependable vehicle visibility can support fleet coordination.",
+  },
+  {
+    slug: "imphal", name: "Imphal", state: "Manipur", stateSlug: "manipur", areas: ["Imphal East", "Imphal West", "Thoubal", "Bishnupur", "Kakching"], sectors: ["regional goods transport", "institutional fleets", "passenger vehicles", "commercial transport"], localContext: "Imphal is a key urban and regional transport center where live tracking and trip visibility can support passenger, goods and institutional fleets.",
+  },
+  {
+    slug: "shillong", name: "Shillong", state: "Meghalaya", stateSlug: "meghalaya", areas: ["Shillong", "Nongthymmai", "Laitumkhrah", "Mawlai", "Nongpoh"], sectors: ["hill-route transport", "tourism fleets", "regional distribution", "institutional vehicles"], localContext: "Shillong's hill routes and tourism-linked transport create practical fleet-management needs where vehicle location and route visibility can support daily operations.",
+  },
+  {
+    slug: "aizawl", name: "Aizawl", state: "Mizoram", stateSlug: "mizoram", areas: ["Aizawl", "Kolasib", "Lunglei", "Sairang", "Champhai"], sectors: ["remote-route logistics", "passenger transport", "institutional vehicles", "commercial fleets"], localContext: "Aizawl connects remote and hilly routes where centralized vehicle visibility can help coordinate passenger, commercial and institutional transport operations.",
+  },
+  {
+    slug: "dimapur", name: "Dimapur", state: "Nagaland", stateSlug: "nagaland", areas: ["Dimapur", "Chumoukedima", "Dhansiripar", "Medziphema", "Kuhuboto"], sectors: ["regional logistics", "commercial transport", "institutional fleets", "intercity distribution"], localContext: "Dimapur is a key commercial and transport center for Nagaland where connected tracking can support regional logistics, commercial vehicles and fleet coordination.",
+  },
+  {
+    slug: "gangtok", name: "Gangtok", state: "Sikkim", stateSlug: "sikkim", areas: ["Gangtok", "Ranipool", "Tadong", "Deorali", "Pakyong"], sectors: ["hill-route transport", "tourism vehicles", "institutional fleets", "regional distribution"], localContext: "Gangtok's mountain routes and tourism transport require clear vehicle visibility across connected urban and regional journeys.",
+  },
+  {
+    slug: "agartala", name: "Agartala", state: "Tripura", stateSlug: "tripura", areas: ["Agartala", "Jogendranagar", "Badharghat", "Dhaleswar", "Madhupur"], sectors: ["regional distribution", "institutional transport", "commercial vehicles", "passenger fleets"], localContext: "Agartala is a central commercial and transport hub in Tripura where GPS tracking can support regional distribution, passenger and institutional fleets.",
+  },
 ];
