@@ -9,6 +9,12 @@ on:
 permissions:
   contents: read
 
+# Only the newest main-branch deployment should submit the production sitemap.
+# A newer push cancels any older run that is waiting for an obsolete Vercel commit.
+concurrency:
+  group: indexnow-production-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   submit:
     runs-on: ubuntu-latest
