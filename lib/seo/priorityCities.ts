@@ -1,5 +1,3 @@
-import { westIndiaCities } from "./westIndiaCities";
-
 export type PriorityCitySeo = {
   slug: string;
   name: string;
@@ -8,10 +6,9 @@ export type PriorityCitySeo = {
   areas: string[];
   sectors: string[];
   localContext: string;
-  planningNote?: string;
 };
 
-const existingCities: PriorityCitySeo[] = [
+export const priorityCities: PriorityCitySeo[] = [
   {
     slug: "chennai",
     name: "Chennai",
@@ -93,7 +90,31 @@ const existingCities: PriorityCitySeo[] = [
     sectors: ["manufacturing logistics", "textile distribution", "commercial transport", "warehouse fleets"],
     localContext: "Ahmedabad connects industrial estates, manufacturing clusters and major distribution routes where connected GPS tracking can improve fleet and trip visibility.",
   },
+  {
+    slug: "delhi",
+    name: "Delhi",
+    state: "Delhi",
+    stateSlug: "delhi",
+    areas: ["Okhla", "Naraina", "Rohini", "Dwarka", "Narela"],
+    sectors: ["urban delivery fleets", "commercial transport", "employee transportation", "warehouse distribution"],
+    localContext: "Delhi's dense urban network and connections across the National Capital Region create complex commercial routes where centralized vehicle visibility supports fleet coordination.",
+  },
+  {
+    slug: "gurugram",
+    name: "Gurugram",
+    state: "Haryana",
+    stateSlug: "haryana",
+    areas: ["Udyog Vihar", "Manesar", "Sohna Road", "Golf Course Road", "Cyber City"],
+    sectors: ["corporate fleets", "employee transportation", "industrial logistics", "last-mile delivery"],
+    localContext: "Gurugram connects corporate districts, industrial clusters and fast-growing delivery corridors where vehicle and route visibility can support daily fleet operations.",
+  },
+  {
+    slug: "noida",
+    name: "Noida",
+    state: "Uttar Pradesh",
+    stateSlug: "uttar-pradesh",
+    areas: ["Noida Expressway", "Sector 62", "Sector 63", "Greater Noida", "Dadri"],
+    sectors: ["technology company fleets", "e-commerce logistics", "employee transportation", "industrial distribution"],
+    localContext: "Noida and Greater Noida combine technology, industrial, expressway and distribution corridors where connected tracking can improve fleet and trip visibility.",
+  },
 ];
-
-const westSlugs = new Set(westIndiaCities.map((city) => city.slug));
-export const priorityCities: PriorityCitySeo[] = [...existingCities.filter((city) => !westSlugs.has(city.slug)), ...westIndiaCities];
