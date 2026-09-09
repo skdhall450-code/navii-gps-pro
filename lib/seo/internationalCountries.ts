@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 export type InternationalCountrySeo = {
   slug: string;
   name: string;
@@ -5,12 +7,14 @@ export type InternationalCountrySeo = {
   sectors: string[];
   localContext: string;
   planningNote: string;
+  searchAliases?: string[];
 };
 
 export const internationalCountries: InternationalCountrySeo[] = [
   {
     slug: "uae",
     name: "United Arab Emirates",
+    searchAliases: ["UAE"],
     cities: ["Dubai", "Abu Dhabi", "Sharjah", "Ajman", "Ras Al Khaimah"],
     sectors: ["last-mile delivery", "construction fleets", "rental vehicles", "inter-emirate logistics"],
     localContext: "Fleet operations in the UAE often combine dense urban deliveries with inter-emirate journeys, construction movements and scheduled commercial transport.",
@@ -75,6 +79,7 @@ export const internationalCountries: InternationalCountrySeo[] = [
   {
     slug: "united-kingdom",
     name: "United Kingdom",
+    searchAliases: ["UK"],
     cities: ["London", "Birmingham", "Manchester", "Glasgow", "Leeds"],
     sectors: ["last-mile delivery", "service fleets", "construction transport", "regional logistics"],
     localContext: "United Kingdom fleets combine dense urban deliveries, scheduled service work and motorway journeys where reliable vehicle status and trip records can support operational planning.",
@@ -99,9 +104,57 @@ export const internationalCountries: InternationalCountrySeo[] = [
   {
     slug: "new-zealand",
     name: "New Zealand",
+    searchAliases: ["NZ"],
     cities: ["Auckland", "Wellington", "Christchurch", "Hamilton", "Tauranga"],
     sectors: ["regional logistics", "service fleets", "commercial distribution", "construction vehicles"],
     localContext: "New Zealand fleets connect urban delivery areas, ports and regional routes across varied terrain where connected tracking can support trip review and fleet coordination.",
     planningNote: "Confirm cellular coverage, device compatibility, installation responsibility, local privacy and employment requirements, data handling and platform support before activation.",
   },
 ];
+
+
+export function getInternationalCountry(slug: string): InternationalCountrySeo {
+  const country = internationalCountries.find((item) => item.slug === slug);
+
+  if (!country) {
+    throw new Error(`Missing international SEO data for: ${slug}`);
+  }
+
+  return country;
+}
+
+export function generateInternationalKeywords(country: InternationalCountrySeo): string[] {
+  const locations = [country.name, ...(country.searchAliases ?? [])];
+  const countryIntentKeywords = locations.flatMap((location) => [
+    `GPS tracker ${location}`,
+    `vehicle tracking system ${location}`,
+    `fleet tracking ${location}`,
+    `fleet management software ${location}`,
+    `commercial vehicle tracking ${location}`,
+    `truck GPS tracking ${location}`,
+  ]);
+  const cityKeywords = country.cities.flatMap((city) => [
+    `GPS tracker ${city}`,
+    `vehicle tracking system ${city}`,
+  ]);
+  const sectorKeywords = country.sectors.map(
+    (sector) => `${sector} GPS tracking ${country.name}`,
+  );
+
+  return [...new Set([...countryIntentKeywords, ...cityKeywords, ...sectorKeywords])];
+}
+
+export function generateInternationalMetadata(
+  country: InternationalCountrySeo,
+): Metadata {
+  const featuredCities = country.cities.slice(0, 4);
+
+  return {
+    title: `GPS Tracker in ${country.name} | Fleet Tracking | NAVII GPS`,
+    description: `GPS tracking devices and fleet software planning for commercial vehicles in ${featuredCities.join(", ")} and across ${country.name}.`,
+    keywords: generateInternationalKeywords(country),
+    alternates: {
+      canonical: `https://naviigps.com/gps-tracker/${country.slug}`,
+    },
+  };
+}
