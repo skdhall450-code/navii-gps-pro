@@ -110,6 +110,39 @@ export const internationalCountries: InternationalCountrySeo[] = [
     localContext: "New Zealand fleets connect urban delivery areas, ports and regional routes across varied terrain where connected tracking can support trip review and fleet coordination.",
     planningNote: "Confirm cellular coverage, device compatibility, installation responsibility, local privacy and employment requirements, data handling and platform support before activation.",
   },
+  {
+    slug: "usa",
+    name: "United States",
+    searchAliases: ["USA", "US"],
+    cities: ["New York", "Los Angeles", "Chicago", "Houston", "Dallas"],
+    sectors: ["interstate logistics", "last-mile delivery", "field service fleets", "construction vehicles"],
+    localContext: "United States fleet operations can combine dense metropolitan deliveries, regional service territories and long interstate routes where vehicle status and trip history support dispatch planning.",
+    planningNote: "Confirm device certification, supported cellular bands, carrier coverage, installation standards, state privacy and employee-monitoring requirements, data handling and support responsibilities before rollout.",
+  },
+  {
+    slug: "germany",
+    name: "Germany",
+    cities: ["Berlin", "Hamburg", "Munich", "Frankfurt", "Cologne"],
+    sectors: ["road freight logistics", "service fleets", "construction transport", "commercial delivery"],
+    localContext: "German fleets operate across major cities, industrial regions and cross-border road corridors where reliable trip records and vehicle events can support logistics and service coordination.",
+    planningNote: "Review compatible mobile networks, device and installation requirements, GDPR responsibilities, employee and works-council considerations, data retention and support arrangements before deployment.",
+  },
+  {
+    slug: "france",
+    name: "France",
+    cities: ["Paris", "Lyon", "Marseille", "Toulouse", "Lille"],
+    sectors: ["regional distribution", "service fleets", "construction transport", "urban delivery"],
+    localContext: "French fleet activity connects high-density urban areas, regional distribution routes and major freight corridors where latest-location visibility can assist dispatch and journey review.",
+    planningNote: "Validate network coverage, device compatibility, installation responsibility, GDPR and workplace requirements, data retention, cross-border roaming and platform support before activation.",
+  },
+  {
+    slug: "netherlands",
+    name: "Netherlands",
+    cities: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven"],
+    sectors: ["port-linked logistics", "urban delivery", "service fleets", "commercial distribution"],
+    localContext: "Netherlands fleets connect compact urban routes, port and logistics zones, regional distribution centres and cross-border corridors where accurate trip records support operational control.",
+    planningNote: "Confirm supported networks, device and installation requirements, GDPR responsibilities, employee-tracking policies, roaming needs, data retention and ongoing support before deployment.",
+  },
 ];
 
 
@@ -142,6 +175,20 @@ export function generateInternationalKeywords(country: InternationalCountrySeo):
   );
 
   return [...new Set([...countryIntentKeywords, ...cityKeywords, ...sectorKeywords])];
+}
+
+export function generateInternationalHubKeywords(): string[] {
+  const countryKeywords = internationalCountries.flatMap((country) =>
+    [country.name, ...(country.searchAliases ?? [])].map(
+      (location) => `GPS tracker ${location}`,
+    ),
+  );
+
+  return [
+    "international GPS tracking",
+    "global fleet tracking software",
+    ...new Set(countryKeywords),
+  ];
 }
 
 export function generateInternationalMetadata(

@@ -88,6 +88,11 @@ const hub = readFileSync(`${buildRoot}/gps-tracker-international.html`, "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 const titles = new Set();
 const descriptions = new Set();
+const hubKeywords = extractTag(
+  hub,
+  /<meta name="keywords" content="([^"]+)"/,
+  "Missing international hub keywords",
+);
 
 assert.equal(sitemapUrls.length, new Set(sitemapUrls).size, "Duplicate sitemap URLs");
 
@@ -127,6 +132,10 @@ for (const country of countries) {
   assert.ok(!/<meta[^>]+name="robots"[^>]+content="[^"]*noindex/.test(html), `Noindexed page: ${route}`);
   assert.ok(sitemapUrls.includes(canonical), `Missing sitemap entry: ${route}`);
   assert.ok(hub.includes(`href="${route}"`), `Country page is orphaned from hub: ${route}`);
+  assert.ok(
+    hubKeywords.includes(`GPS tracker ${country.name}`),
+    `Country keyword missing from international hub: ${country.name}`,
+  );
 
   const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
     .map((match) => JSON.parse(match[1]));
@@ -144,5 +153,5 @@ for (const country of countries) {
 
 assert.ok(sitemapUrls.includes(`${baseUrl}/gps-tracker-international`));
 console.log(
-  `PASS: ${countries.length} rendered international pages; unique metadata, auto keywords, canonical, schema, sitemap and hub links verified.`,
+  `PASS: ${countries.length} rendered international pages; unique metadata, auto country/hub keywords, canonical, schema, sitemap and hub links verified.`,
 );
