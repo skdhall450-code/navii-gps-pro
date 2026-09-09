@@ -10,7 +10,7 @@ import { getIndiaState, indiaStates } from "@/lib/seo/indiaStates";
 import { priorityCities } from "@/lib/seo/priorityCities";
 import { CityGpsPage } from "@/components/seo/CityGpsPage";
 
-const staticCitySlugs = new Set(["chennai", "bengaluru", "hyderabad", "kochi", "coimbatore", "visakhapatnam", "pune", "mumbai", "ahmedabad"]);
+const staticCitySlugs = new Set(["chennai", "bengaluru", "hyderabad", "kochi", "coimbatore", "visakhapatnam", "pune", "mumbai", "ahmedabad", "delhi", "gurugram", "noida"]);
 
 type PageProps = { params: Promise<{ state: string }> };
 
