@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { products } from "@/components/products/data/productsData";
 import { indiaStates } from "@/lib/seo/indiaStates";
 import { priorityCities } from "@/lib/seo/priorityCities";
+import { westIndiaCities } from "@/lib/seo/westIndiaCities";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://naviigps.com";
@@ -31,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({ url: `${baseUrl}/products/${product.slug}`, changeFrequency: "monthly", priority: 0.8 }));
   const stateRoutes: MetadataRoute.Sitemap = indiaStates.map((state) => ({ url: `${baseUrl}/gps-tracker/${state.slug}`, changeFrequency: "monthly", priority: state.southPriority ? 0.9 : 0.8 }));
-  const cityRoutes: MetadataRoute.Sitemap = priorityCities.map((city) => ({ url: `${baseUrl}/gps-tracker/${city.slug}`, changeFrequency: "monthly", priority: 0.9 }));
+  const cities = [...new Map([...priorityCities, ...westIndiaCities].map((city) => [city.slug, city])).values()];
+  const cityRoutes: MetadataRoute.Sitemap = cities.map((city) => ({ url: `${baseUrl}/gps-tracker/${city.slug}`, changeFrequency: "monthly", priority: 0.9 }));
   return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...productRoutes];
 }
