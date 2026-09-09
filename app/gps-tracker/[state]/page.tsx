@@ -11,7 +11,7 @@ import { priorityCities } from "@/lib/seo/priorityCities";
 import { westIndiaCities } from "@/lib/seo/westIndiaCities";
 import { CityGpsPage } from "@/components/seo/CityGpsPage";
 
-const staticCitySlugs = new Set(["chennai", "bengaluru", "hyderabad", "kochi", "coimbatore", "visakhapatnam", "pune", "mumbai", "ahmedabad", "delhi", "gurugram", "noida"]);
+const staticCitySlugs = new Set(["chennai", "bengaluru", "hyderabad", "kochi", "coimbatore", "visakhapatnam", "pune", "mumbai", "ahmedabad", "delhi", "gurugram", "noida", "kolkata", "bhubaneswar", "patna", "ranchi", "guwahati", "siliguri"]);
 const allCities = [...new Map([...priorityCities, ...westIndiaCities].map((city) => [city.slug, city])).values()];
 
 type PageProps = { params: Promise<{ state: string }> };
