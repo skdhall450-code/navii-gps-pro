@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/gps-tracker-punjab",
+        destination: "/gps-tracker/punjab",
+        permanent: true,
+      },
+      {
         source: "/products/g17",
         destination: "/products/g17-gps-tracker",
         permanent: true,
