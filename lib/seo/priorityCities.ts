@@ -10,6 +10,15 @@ export type PriorityCitySeo = {
 
 export const priorityCities: PriorityCitySeo[] = [
   {
+    slug: "delhi",
+    name: "Delhi",
+    state: "Delhi",
+    stateSlug: "delhi",
+    areas: ["New Delhi", "Gurugram", "Noida", "Greater Noida", "Ghaziabad", "Faridabad", "Manesar", "Bahadurgarh"],
+    sectors: ["logistics and transport fleets", "company and employee vehicles", "truck and commercial fleets", "school and staff transportation", "taxi and passenger fleets", "last-mile delivery"],
+    localContext: "Delhi NCR combines dense urban routes, commercial corridors and intercity transport operations where connected GPS tracking can support vehicle visibility and fleet coordination.",
+  },
+  {
     slug: "chennai",
     name: "Chennai",
     state: "Tamil Nadu",
