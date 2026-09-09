@@ -10,15 +10,6 @@ export type PriorityCitySeo = {
 
 export const priorityCities: PriorityCitySeo[] = [
   {
-    slug: "delhi",
-    name: "Delhi",
-    state: "Delhi",
-    stateSlug: "delhi",
-    areas: ["New Delhi", "Gurugram", "Noida", "Greater Noida", "Ghaziabad", "Faridabad", "Manesar", "Bahadurgarh"],
-    sectors: ["logistics and transport fleets", "company and employee vehicles", "truck and commercial fleets", "school and staff transportation", "taxi and passenger fleets", "last-mile delivery"],
-    localContext: "Delhi NCR combines dense urban routes, commercial corridors and intercity transport operations where connected GPS tracking can support vehicle visibility and fleet coordination.",
-  },
-  {
     slug: "chennai",
     name: "Chennai",
     state: "Tamil Nadu",
@@ -71,5 +62,32 @@ export const priorityCities: PriorityCitySeo[] = [
     areas: ["Gajuwaka", "Madhurawada", "Duvvada", "Parawada", "Anakapalle"],
     sectors: ["port-linked transport", "industrial logistics", "commercial distribution", "employee transportation"],
     localContext: "Visakhapatnam's port-linked, industrial and metropolitan routes create practical demand for centralized vehicle tracking and fleet-event visibility.",
+  },
+  {
+    slug: "pune",
+    name: "Pune",
+    state: "Maharashtra",
+    stateSlug: "maharashtra",
+    areas: ["Hinjawadi", "Pimpri-Chinchwad", "Chakan", "Talegaon", "Hadapsar"],
+    sectors: ["automotive logistics", "technology company fleets", "employee transportation", "industrial distribution"],
+    localContext: "Pune's automotive, technology and industrial corridors connect dense urban routes with major manufacturing clusters where centralized vehicle visibility supports fleet coordination.",
+  },
+  {
+    slug: "mumbai",
+    name: "Mumbai",
+    state: "Maharashtra",
+    stateSlug: "maharashtra",
+    areas: ["Andheri", "Navi Mumbai", "Thane", "Bhiwandi", "Panvel"],
+    sectors: ["port-linked logistics", "last-mile delivery", "corporate fleets", "warehouse distribution"],
+    localContext: "Mumbai's metropolitan, port, warehouse and last-mile corridors create demanding fleet operations where route and vehicle-event visibility can support daily control.",
+  },
+  {
+    slug: "ahmedabad",
+    name: "Ahmedabad",
+    state: "Gujarat",
+    stateSlug: "gujarat",
+    areas: ["Sanand", "Naroda", "Changodar", "Vatva", "Sarkhej"],
+    sectors: ["manufacturing logistics", "textile distribution", "commercial transport", "warehouse fleets"],
+    localContext: "Ahmedabad connects industrial estates, manufacturing clusters and major distribution routes where connected GPS tracking can improve fleet and trip visibility.",
   },
 ];
