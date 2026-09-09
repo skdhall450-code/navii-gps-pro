@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/4g-gps-tracker`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/vehicle-tracking-system`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gps-tracking-company-india`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gps-tracker-west-india`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gps-tracker-india`, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/fuel-monitoring-system`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/contact`, changeFrequency: "monthly", priority: 0.8 },

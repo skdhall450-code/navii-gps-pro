@@ -16,24 +16,22 @@ async function waitForFreshDeployment() {
   const attempts = 20;
 
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    const response = await fetch(`${siteOrigin}/sitemap.xml`, {
-      cache: "no-store",
-      headers: { "User-Agent": "NAVII-GPS-SEO-Deployment-Check/1.0" },
-    });
-
-    if (response.ok) {
-      const deployedAt = response.headers.get("date") ?? "unknown";
-      console.log(
-        `Production is responding (attempt ${attempt}/${attempts}, expected commit ${expectedCommit ?? "unknown"}, response date ${deployedAt}).`,
-      );
-
-      // Vercel deployments normally finish shortly after a GitHub push. Requiring
-      // two successful checks avoids submitting while the production alias moves.
-      await sleep(15_000);
-      const confirmation = await fetch(`${siteOrigin}/sitemap.xml`, {
+    if (!expectedCommit) throw new Error("EXPECTED_COMMIT_SHA is required when waiting for deployment.");
+    try {
+      const response = await fetch(`${siteOrigin}/deployment-version?expected=${expectedCommit}&attempt=${attempt}`, {
         cache: "no-store",
+        signal: AbortSignal.timeout(15_000),
+        headers: { "User-Agent": "NAVII-GPS-SEO-Deployment-Check/1.0" },
       });
-      if (confirmation.ok) return;
+      if (response.ok) {
+        const deployed = await response.json();
+        if (deployed.commit === expectedCommit) {
+          console.log(`Production commit verified: ${expectedCommit}`);
+          return;
+        }
+      }
+    } catch (error) {
+      console.log(`Deployment check will retry: ${error.message}`);
     }
 
     console.log(`Production is not ready yet (attempt ${attempt}/${attempts}).`);
