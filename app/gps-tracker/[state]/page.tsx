@@ -8,21 +8,23 @@ import Footer from "@/components/layout/FooterV2";
 import { getIndiaState, indiaStates } from "@/lib/seo/indiaStates";
 
 import { priorityCities } from "@/lib/seo/priorityCities";
+import { westIndiaCities } from "@/lib/seo/westIndiaCities";
 import { CityGpsPage } from "@/components/seo/CityGpsPage";
 
 const staticCitySlugs = new Set(["chennai", "bengaluru", "hyderabad", "kochi", "coimbatore", "visakhapatnam", "pune", "mumbai", "ahmedabad", "delhi", "gurugram", "noida"]);
+const allCities = [...new Map([...priorityCities, ...westIndiaCities].map((city) => [city.slug, city])).values()];
 
 type PageProps = { params: Promise<{ state: string }> };
 
 export function generateStaticParams() {
-  return [...indiaStates.map((state) => ({ state: state.slug })), ...priorityCities.filter((city) => !staticCitySlugs.has(city.slug)).map((city) => ({ state: city.slug }))];
+  return [...indiaStates.map((state) => ({ state: state.slug })), ...allCities.filter((city) => !staticCitySlugs.has(city.slug)).map((city) => ({ state: city.slug }))];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { state: slug } = await params;
   const state = getIndiaState(slug);
   if (!state) {
-    const city = priorityCities.find((entry) => entry.slug === slug);
+    const city = allCities.find((entry) => entry.slug === slug);
     if (!city) return {};
     const url = `https://naviigps.com/gps-tracker/${city.slug}`;
     const description = `GPS tracking in ${city.name}: vehicle devices, route history and fleet planning for ${city.areas.slice(0, 2).join(" and ")} routes. Discuss installation and pricing.`;
@@ -49,11 +51,11 @@ export default async function StateGpsTrackerPage({ params }: PageProps) {
   const { state: slug } = await params;
   const state = getIndiaState(slug);
   if (!state) {
-    const city = priorityCities.find((entry) => entry.slug === slug);
+    const city = allCities.find((entry) => entry.slug === slug);
     if (!city) notFound();
     return <CityGpsPage city={city} />;
   }
-  const linkedCities = priorityCities.filter((city) => city.stateSlug === state.slug);
+  const linkedCities = allCities.filter((city) => city.stateSlug === state.slug);
   const url = `https://naviigps.com/gps-tracker/${state.slug}`;
   const structuredData = { "@context": "https://schema.org", "@graph": [
     { "@type": "WebPage", "@id": `${url}#webpage`, url, name: `GPS Tracker in ${state.name} | NAVII GPS`, description: `Vehicle GPS tracking and fleet management solutions in ${state.name}.`, isPartOf: { "@id": "https://naviigps.com/#website" }, about: { "@id": "https://naviigps.com/#organization" }, inLanguage: "en-IN" },
