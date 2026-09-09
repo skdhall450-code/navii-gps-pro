@@ -3,6 +3,45 @@ const siteOrigin = `https://${host}`;
 const key = "b33f20e6f8db4ada8e60721e2ddfbc4f";
 const keyLocation = `${siteOrigin}/${key}.txt`;
 const endpoint = "https://api.indexnow.org/indexnow";
+const waitForDeployment = process.argv.includes("--wait-for-deployment");
+const providedUrls = process.argv.slice(2).filter((value) => value !== "--wait-for-deployment");
+
+const sleep = (milliseconds) =>
+  new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+async function waitForFreshDeployment() {
+  if (!waitForDeployment) return;
+
+  const expectedCommit = process.env.EXPECTED_COMMIT_SHA;
+  const attempts = 20;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    const response = await fetch(`${siteOrigin}/sitemap.xml`, {
+      cache: "no-store",
+      headers: { "User-Agent": "NAVII-GPS-SEO-Deployment-Check/1.0" },
+    });
+
+    if (response.ok) {
+      const deployedAt = response.headers.get("date") ?? "unknown";
+      console.log(
+        `Production is responding (attempt ${attempt}/${attempts}, expected commit ${expectedCommit ?? "unknown"}, response date ${deployedAt}).`,
+      );
+
+      // Vercel deployments normally finish shortly after a GitHub push. Requiring
+      // two successful checks avoids submitting while the production alias moves.
+      await sleep(15_000);
+      const confirmation = await fetch(`${siteOrigin}/sitemap.xml`, {
+        cache: "no-store",
+      });
+      if (confirmation.ok) return;
+    }
+
+    console.log(`Production is not ready yet (attempt ${attempt}/${attempts}).`);
+    await sleep(15_000);
+  }
+
+  throw new Error("Timed out waiting for the production sitemap after GitHub push.");
+}
 
 function decodeXml(value) {
   return value
@@ -47,7 +86,7 @@ function validateUrls(urls) {
   return uniqueUrls;
 }
 
-const providedUrls = process.argv.slice(2);
+await waitForFreshDeployment();
 const urls = validateUrls(
   providedUrls.length > 0 ? providedUrls : await readSitemapUrls(),
 );
