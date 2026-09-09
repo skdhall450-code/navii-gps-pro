@@ -2,9 +2,11 @@ name: Submit URLs to IndexNow
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows:
+      - SEO and Build Quality
+    types:
+      - completed
 
 permissions:
   contents: read
@@ -17,19 +19,26 @@ concurrency:
 
 jobs:
   submit:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
 
       - name: Wait for Vercel production deployment and submit sitemap URLs
         env:
-          EXPECTED_COMMIT_SHA: ${{ github.sha }}
+          EXPECTED_COMMIT_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
         run: |
-          sleep 90
           node scripts/submit-indexnow.mjs --wait-for-deployment
