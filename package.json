@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "indexnow": "node scripts/submit-indexnow.mjs",
-    "seo:check:source": "node scripts/check-west-india.mjs --source-only && node scripts/check-international-seo.mjs --source-only && node scripts/check-haryana-seo.mjs --source-only && node scripts/check-haryana-city-seo.mjs --source-only",
-    "seo:check": "node scripts/check-west-india.mjs && node scripts/check-international-seo.mjs && node scripts/check-haryana-seo.mjs && node scripts/check-haryana-city-seo.mjs"
+    "seo:check:source": "node scripts/check-west-india.mjs --source-only && node scripts/check-international-seo.mjs --source-only && node scripts/check-haryana-seo.mjs --source-only && node scripts/check-haryana-city-seo.mjs --source-only && node scripts/check-punjab-seo.mjs --source-only",
+    "seo:check": "node scripts/check-west-india.mjs && node scripts/check-international-seo.mjs && node scripts/check-haryana-seo.mjs && node scripts/check-haryana-city-seo.mjs && node scripts/check-punjab-seo.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
