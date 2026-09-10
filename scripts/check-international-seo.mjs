@@ -16,10 +16,12 @@ function arrayValues(block, field) {
   return [...value.matchAll(/"([^"]+)"/g)].map((match) => match[1]);
 }
 
-const countryBlocks = dataSource
-  .split("\n  {\n")
-  .slice(1)
-  .map((block) => block.split("\n  },")[0]);
+function objectBlocks(source) {
+  return [...source.matchAll(/(?:^|\n)  (?:createInternationalCity\()?\{\n([\s\S]*?)\n  \}(?:\))?,/g)]
+    .map((match) => match[1]);
+}
+
+const countryBlocks = objectBlocks(dataSource);
 
 const countries = countryBlocks.map((block) => ({
   slug: fieldValue(block, "slug"),
@@ -29,19 +31,35 @@ const countries = countryBlocks.map((block) => ({
   localContext: fieldValue(block, "localContext"),
   planningNote: fieldValue(block, "planningNote"),
 }));
-const cityBlocks = cityDataSource
-  .split("\n  {\n")
-  .slice(1)
-  .map((block) => block.split("\n  },")[0]);
-const cities = cityBlocks.map((block) => ({
+const cityBlocks = objectBlocks(cityDataSource);
+const initialCities = cityBlocks.map((block) => ({
   slug: fieldValue(block, "slug"),
   name: fieldValue(block, "name"),
   countrySlug: fieldValue(block, "countrySlug"),
   countryName: fieldValue(block, "countryName"),
   areas: arrayValues(block, "areas"),
-  localContext: fieldValue(block, "localContext"),
-  planningNote: fieldValue(block, "planningNote"),
+  localContext: fieldValue(block, "localContext") ?? `${fieldValue(block, "name")} fleet operations connect ${fieldValue(block, "routeProfile")}, where reliable vehicle location, trip history and event visibility can support dispatch and route coordination.`,
+  planningNote: fieldValue(block, "planningNote") ?? `Before deployment in ${fieldValue(block, "name")}, confirm ${fieldValue(block, "planningFocus")}, compatible mobile networks, device installation responsibility, privacy and workplace requirements, data retention and ongoing platform support.`,
 }));
+const expansionSeedsMatch = cityDataSource.match(
+  /const expansionCitySeeds: InternationalCitySeed\[\] = ([\s\S]*?\n\]);/,
+);
+assert.ok(expansionSeedsMatch, "Missing international city expansion seeds");
+const expansionSeeds = JSON.parse(expansionSeedsMatch[1].replace(/,\s*]/g, "]"));
+const expansionCities = expansionSeeds.map(
+  ([slug, name, countrySlug, countryName, areas, routeProfile, planningFocus]) => ({
+    slug,
+    name,
+    countrySlug,
+    countryName,
+    areas,
+    routeProfile,
+    planningFocus,
+    localContext: `${name} fleet operations connect ${routeProfile}, where reliable vehicle location, trip history and event visibility can support dispatch and route coordination.`,
+    planningNote: `Before deployment in ${name}, confirm ${planningFocus}, compatible mobile networks, device installation responsibility, privacy and workplace requirements, data retention and ongoing platform support.`,
+  }),
+);
+const cities = [...initialCities, ...expansionCities];
 
 assert.ok(countries.length > 0, "No international country data found");
 assert.equal(
@@ -88,9 +106,20 @@ const expectedCityCounts = {
   "united-kingdom": 5,
   canada: 5,
   australia: 5,
+  germany: 5,
+  france: 5,
+  netherlands: 5,
+  uae: 5,
+  "saudi-arabia": 5,
+  qatar: 5,
+  oman: 5,
+  kuwait: 5,
+  bahrain: 5,
+  singapore: 5,
+  malaysia: 5,
 };
 
-assert.equal(cities.length, 20, "Expected the first 20 priority international city records");
+assert.equal(cities.length, 75, "Expected 75 priority international city records");
 assert.equal(citySlugs.size, cities.length, "Duplicate international city slugs");
 assert.equal(
   new Set(cities.map((city) => city.planningNote)).size,
@@ -114,6 +143,10 @@ for (const city of cities) {
   assert.equal(new Set(city.areas).size, city.areas.length, `Duplicate local areas: ${city.slug}`);
   assert.ok((city.localContext?.length ?? 0) > 120, `Local context is too short: ${city.slug}`);
   assert.ok((city.planningNote?.length ?? 0) > 120, `Planning note is too short: ${city.slug}`);
+  if (city.routeProfile || city.planningFocus) {
+    assert.ok(city.routeProfile?.length > 50, `Route profile is too short: ${city.slug}`);
+    assert.ok(city.planningFocus?.length > 45, `Planning focus is too short: ${city.slug}`);
+  }
   const country = countries.find((item) => item.slug === city.countrySlug);
   assert.ok(country, `Missing parent country: ${city.slug}`);
   assert.equal(country.name, city.countryName, `Parent country name mismatch: ${city.slug}`);
