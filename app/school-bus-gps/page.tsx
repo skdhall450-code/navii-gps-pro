@@ -14,9 +14,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "GPS Tracking System for School Bus in India | NAVII GPS",
+  title: "School Bus GPS Tracker India",
   description:
-    "GPS tracking system for school buses with live bus location, route monitoring, geofencing, trip history, alerts and fleet visibility. NAVII GPS supports school and student transport operations across India.",
+    "GPS tracker for school buses with live location, route history, geofencing and alerts for student transport operations across India.",
   keywords: [
     "GPS tracking system for school bus",
     "GPS tracking for school bus",
@@ -114,7 +114,7 @@ export default function SchoolBusGPSPage() {
         "@id": "https://naviigps.com/school-bus-gps#service",
         name: "GPS Tracking System for School Bus",
         serviceType: "School Bus GPS Tracking and Fleet Monitoring",
-        provider: { "@type": "Organization", name: "NAVII GPS INDIA" },
+        provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/school-bus-gps",
       },
