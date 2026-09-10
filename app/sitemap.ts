@@ -6,6 +6,7 @@ import { priorityCities } from "@/lib/seo/priorityCities";
 import { westIndiaCities } from "@/lib/seo/westIndiaCities";
 import { internationalCountries } from "@/lib/seo/internationalCountries";
 import { internationalCities } from "@/lib/seo/internationalCities";
+import { haryanaDistricts } from "@/lib/seo/haryanaDistricts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://naviigps.com";
@@ -39,5 +40,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const cityRoutes: MetadataRoute.Sitemap = cities.map((city) => ({ url: `${baseUrl}/gps-tracker/${city.slug}`, changeFrequency: "monthly", priority: 0.9 }));
   const internationalRoutes: MetadataRoute.Sitemap = internationalCountries.map((country) => ({ url: `${baseUrl}/gps-tracker/${country.slug}`, changeFrequency: "monthly", priority: 0.9 }));
   const internationalCityRoutes: MetadataRoute.Sitemap = internationalCities.map((city) => ({ url: `${baseUrl}/gps-tracker/${city.slug}`, changeFrequency: "monthly", priority: 0.85 }));
-  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...productRoutes];
+  const haryanaDistrictRoutes: MetadataRoute.Sitemap = haryanaDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/haryana/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
+  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...productRoutes];
 }

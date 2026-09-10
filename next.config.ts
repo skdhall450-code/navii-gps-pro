@@ -87,6 +87,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: projectRoot,
   },
+
+  experimental: {
+    cpus: 1,
+  },
 };
 
 export default nextConfig;
