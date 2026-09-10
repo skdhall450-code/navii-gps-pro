@@ -11,6 +11,7 @@ import { priorityCities } from "@/lib/seo/priorityCities";
 import { westIndiaCities } from "@/lib/seo/westIndiaCities";
 import { CityGpsPage } from "@/components/seo/CityGpsPage";
 import { InternationalCityGpsPage } from "@/components/seo/InternationalCityGpsPage";
+import { DelhiGpsPage } from "@/components/seo/DelhiGpsPage";
 import {
   generateInternationalCityMetadata,
   getInternationalCity,
@@ -30,6 +31,17 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { state: slug } = await params;
+  if (slug === "delhi") {
+    const url = "https://naviigps.com/gps-tracker/delhi";
+    const description = "GPS trackers and vehicle tracking systems across all 13 current Delhi revenue districts for cars, delivery vehicles, employee transport and commercial fleets.";
+    return {
+      title: "GPS Tracker in Delhi | Vehicle Tracking System",
+      description,
+      keywords: ["GPS tracker in Delhi", "GPS tracker Delhi", "vehicle tracking system Delhi", "car GPS tracker Delhi", "truck GPS tracking Delhi", "fleet management software Delhi", "commercial vehicle GPS Delhi NCR", "GPS tracker Delhi districts"],
+      alternates: { canonical: url },
+      openGraph: { title: "GPS Tracker in Delhi | NAVII GPS", description, url, type: "website", images: ["/og-image.jpg"] },
+    };
+  }
   const state = getIndiaState(slug);
   if (!state) {
     const city = allCities.find((entry) => entry.slug === slug);
@@ -60,6 +72,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function StateGpsTrackerPage({ params }: PageProps) {
   const { state: slug } = await params;
+  if (slug === "delhi") return <DelhiGpsPage />;
   const state = getIndiaState(slug);
   if (!state) {
     const city = allCities.find((entry) => entry.slug === slug);
