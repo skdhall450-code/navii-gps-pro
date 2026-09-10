@@ -28,26 +28,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const isSmartELock = product.slug === "smart-e-lock";
   const isVehicleGps = product.category === "Vehicle GPS";
   const seoTitle = isG17
-    ? "G17 GPS Tracker for Cars & Commercial Vehicles | NAVII GPS"
+    ? "G17 GPS Tracker for Cars & Fleets"
     : isBT50
-      ? "BT50 Vehicle GPS Tracker - 9V-90V GPS Tracking Device | NAVII GPS"
+      ? "BT50 Vehicle GPS Tracker | 9V-90V"
       : isAIDashCamera
-        ? "AI Dash Camera for Vehicles & Fleets | NAVII GPS"
+        ? "AI Dash Camera for Vehicles & Fleets"
         : isFuelSensor
-          ? "Fuel Monitoring Sensor for Vehicles & Fleets | NAVII GPS"
+          ? "Fuel Monitoring Sensor for Fleets"
           : isSmartELock
-            ? "Smart E-Lock for Cargo & Fleet Security | NAVII GPS"
-            : isVehicleGps ? `${product.name} - GPS Tracking Device | NAVII GPS` : `${product.name} | NAVII GPS`;
+            ? "Smart E-Lock for Cargo & Fleet Security"
+            : isVehicleGps ? `${product.name} - GPS Tracking Device` : product.name;
   const seoDescription = isG17
     ? "G17 GPS Tracker for cars, trucks, buses and commercial fleets with real-time GPS tracking, ignition monitoring, route history, geofencing and fleet alerts."
     : isBT50
-      ? "BT50 Vehicle GPS Tracker with 9V-90V input for vehicle location monitoring, route history, geofencing and fleet tracking. Explore NAVII GPS vehicle tracking solutions."
+      ? "BT50 vehicle GPS tracker with 9V-90V input for location monitoring, route history, geofencing and fleet tracking with NAVII GPS."
       : isAIDashCamera
-        ? "AI Dash Camera for vehicles and commercial fleets with connected video telematics, journey recording, event review and driver safety monitoring. Explore NAVII GPS fleet camera solutions."
+        ? "AI dash camera for commercial vehicles and fleets with journey recording, event review, video telematics and driver-safety monitoring from NAVII GPS."
         : isFuelSensor
-          ? "Fuel Monitoring Sensor for vehicles and commercial fleets with fuel level monitoring, refill event visibility, consumption reports and fuel theft alert support. Explore NAVII GPS fleet fuel monitoring solutions."
+          ? "Fuel monitoring sensor for fleets with fuel-level visibility, refill monitoring, consumption reports and fuel-theft alert support from NAVII GPS."
           : isSmartELock
-            ? "Smart E-Lock for cargo and logistics security with electronic lock workflows, tamper status monitoring, access history and configurable security alerts. Explore NAVII GPS IoT solutions."
+            ? "Smart E-Lock for cargo and logistics security with tamper monitoring, access history and configurable alerts from NAVII GPS."
             : product.shortDescription;
   return {
     title: seoTitle,

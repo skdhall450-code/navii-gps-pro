@@ -14,9 +14,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "GPS Tracker for Car in India | Car GPS Tracking Device | NAVII GPS",
+  title: "GPS Tracker for Cars India",
   description:
-    "GPS tracker for cars with live location, route history, geofencing, vehicle alerts and tracking visibility. Explore car GPS tracking devices and software from NAVII GPS India.",
+    "GPS tracker for cars with live location, route history, geofencing and vehicle alerts through NAVII GPS tracking solutions across India.",
   keywords: [
     "GPS tracker for car",
     "GPS tracker for car India",
@@ -112,7 +112,7 @@ export default function GPSCarPage() {
         "@id": "https://naviigps.com/gps-tracker-for-car#service",
         name: "GPS Tracker for Car",
         serviceType: "Car GPS Tracking",
-        provider: { "@type": "Organization", name: "NAVII GPS INDIA" },
+        provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/gps-tracker-for-car",
       },

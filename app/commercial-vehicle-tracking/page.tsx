@@ -6,8 +6,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "Commercial Vehicle Tracking System in India | NAVII GPS",
-  description: "Commercial vehicle tracking system for real-time vehicle location, route history, geofencing, alerts and fleet reports. NAVII GPS helps businesses monitor commercial vehicles and mixed fleets across India.",
+  title: "Commercial Vehicle Tracking India",
+  description: "Track commercial vehicles with live GPS location, route history, geofencing, alerts and fleet reports using NAVII GPS across India.",
   keywords: [
     "commercial vehicle tracking system",
     "commercial vehicle GPS tracker",
@@ -72,7 +72,7 @@ export default function CommercialVehicleTrackingPage() {
         "@id": "https://naviigps.com/commercial-vehicle-tracking#service",
         name: "Commercial Vehicle Tracking System",
         serviceType: "Commercial Vehicle GPS Tracking and Fleet Monitoring",
-        provider: { "@type": "Organization", name: "NAVII GPS INDIA" },
+        provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/commercial-vehicle-tracking",
       },

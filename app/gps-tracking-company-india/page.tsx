@@ -70,7 +70,7 @@ export default function GPSTrackingCompanyIndiaPage() {
         "@type": "Service",
         name: "GPS Tracking Solutions in India",
         serviceType: "GPS Vehicle Tracking and Fleet Management",
-        provider: { "@type": "Organization", name: "NAVII GPS INDIA (OPC) PRIVATE LIMITED", url: "https://naviigps.com" },
+        provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/gps-tracking-company-india",
       },

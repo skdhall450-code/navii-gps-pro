@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "GPS Tracking System for School Bus in India | NAVII GPS",
-  description: "GPS tracking system for school buses with live vehicle location, route monitoring, trip history, geofencing, alerts and fleet visibility for schools and student transport operators.",
+  title: "School Bus Tracking Software India",
+  description: "School bus tracking software for live location, routes, trip history, geofencing and alerts across student transport fleets in India.",
   keywords: [
     "GPS tracking system for school bus",
     "GPS tracking for school bus",
@@ -51,7 +51,7 @@ export default function SchoolBusTrackingSystemPage() {
         "@id": "https://naviigps.com/gps-tracking-system-school-bus#service",
         name: "GPS Tracking System for School Bus",
         serviceType: "School Bus GPS Tracking",
-        provider: { "@type": "Organization", name: "NAVII GPS INDIA" },
+        provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/gps-tracking-system-school-bus",
       },

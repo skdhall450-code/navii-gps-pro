@@ -16,9 +16,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "Logistics Fleet Tracking System in India | NAVII GPS",
+  title: "Logistics Fleet Tracking System India",
   description:
-    "Logistics fleet tracking system for live vehicle location, route monitoring, delivery fleet visibility, geofencing, alerts, trip history and fleet reports. NAVII GPS helps logistics operators manage commercial fleets across India.",
+    "Track logistics and delivery fleets with live vehicle location, route history, geofencing, alerts and reports using NAVII GPS across India.",
   keywords: [
     "logistics fleet tracking system",
     "logistics GPS tracking system India",
@@ -114,7 +114,7 @@ export default function LogisticsFleetGPSPage() {
         "@id": "https://naviigps.com/logistics-fleet-gps#service",
         name: "Logistics Fleet Tracking System",
         serviceType: "Logistics Fleet GPS Tracking and Vehicle Monitoring",
-        provider: { "@type": "Organization", name: "NAVII GPS INDIA" },
+        provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/logistics-fleet-gps",
       },
