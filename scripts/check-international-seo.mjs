@@ -4,6 +4,8 @@ import { existsSync, readFileSync } from "node:fs";
 const baseUrl = "https://naviigps.com";
 const dataPath = "lib/seo/internationalCountries.ts";
 const dataSource = readFileSync(dataPath, "utf8");
+const cityDataPath = "lib/seo/internationalCities.ts";
+const cityDataSource = readFileSync(cityDataPath, "utf8");
 
 function fieldValue(block, field) {
   return block.match(new RegExp(`${field}: "([^"]+)"`))?.[1];
@@ -24,6 +26,19 @@ const countries = countryBlocks.map((block) => ({
   name: fieldValue(block, "name"),
   cities: arrayValues(block, "cities"),
   sectors: arrayValues(block, "sectors"),
+  localContext: fieldValue(block, "localContext"),
+  planningNote: fieldValue(block, "planningNote"),
+}));
+const cityBlocks = cityDataSource
+  .split("\n  {\n")
+  .slice(1)
+  .map((block) => block.split("\n  },")[0]);
+const cities = cityBlocks.map((block) => ({
+  slug: fieldValue(block, "slug"),
+  name: fieldValue(block, "name"),
+  countrySlug: fieldValue(block, "countrySlug"),
+  countryName: fieldValue(block, "countryName"),
+  areas: arrayValues(block, "areas"),
   localContext: fieldValue(block, "localContext"),
   planningNote: fieldValue(block, "planningNote"),
 }));
@@ -66,13 +81,57 @@ for (const country of countries) {
   );
 }
 
+const countrySlugs = new Set(countries.map((country) => country.slug));
+const citySlugs = new Set(cities.map((city) => city.slug));
+const expectedCityCounts = {
+  usa: 5,
+  "united-kingdom": 5,
+  canada: 5,
+  australia: 5,
+};
+
+assert.equal(cities.length, 20, "Expected the first 20 priority international city records");
+assert.equal(citySlugs.size, cities.length, "Duplicate international city slugs");
+assert.equal(
+  new Set(cities.map((city) => city.planningNote)).size,
+  cities.length,
+  "Duplicate international city planning notes",
+);
+
+for (const [countrySlug, count] of Object.entries(expectedCityCounts)) {
+  assert.equal(
+    cities.filter((city) => city.countrySlug === countrySlug).length,
+    count,
+    `Unexpected priority city count: ${countrySlug}`,
+  );
+}
+
+for (const city of cities) {
+  assert.match(city.slug ?? "", /^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Invalid city slug");
+  assert.ok(!countrySlugs.has(city.slug), `City slug conflicts with country: ${city.slug}`);
+  assert.ok(city.name, `Missing city name: ${city.slug}`);
+  assert.ok(city.areas.length >= 4, `Expected at least four local areas: ${city.slug}`);
+  assert.equal(new Set(city.areas).size, city.areas.length, `Duplicate local areas: ${city.slug}`);
+  assert.ok((city.localContext?.length ?? 0) > 120, `Local context is too short: ${city.slug}`);
+  assert.ok((city.planningNote?.length ?? 0) > 120, `Planning note is too short: ${city.slug}`);
+  const country = countries.find((item) => item.slug === city.countrySlug);
+  assert.ok(country, `Missing parent country: ${city.slug}`);
+  assert.equal(country.name, city.countryName, `Parent country name mismatch: ${city.slug}`);
+  assert.ok(country.cities.includes(city.name), `City missing from parent country data: ${city.slug}`);
+}
+
+const dynamicRouteSource = readFileSync("app/gps-tracker/[state]/page.tsx", "utf8");
+assert.ok(dynamicRouteSource.includes("internationalCities.map"), "City static params are not automatic");
+assert.ok(dynamicRouteSource.includes("generateInternationalCityMetadata"), "City metadata is not automatic");
+assert.ok(dynamicRouteSource.includes("InternationalCityGpsPage"), "International city renderer is missing");
+
 assert.ok(
   dataSource.includes("new Set([...countryIntentKeywords, ...cityKeywords, ...sectorKeywords])"),
   "Automatic keyword deduplication is missing",
 );
 
 if (process.argv.includes("--source-only")) {
-  console.log(`PASS: ${countries.length} international country data records and auto-metadata pages verified.`);
+  console.log(`PASS: ${countries.length} countries and ${cities.length} priority international cities with automatic pages and metadata verified.`);
   process.exit(0);
 }
 
@@ -151,7 +210,57 @@ for (const country of countries) {
   );
 }
 
+for (const city of cities) {
+  const route = `/gps-tracker/${city.slug}`;
+  const canonical = `${baseUrl}${route}`;
+  const htmlPath = `${buildRoot}${route}.html`;
+  assert.ok(existsSync(htmlPath), `Missing rendered international city page: ${route}`);
+  const html = readFileSync(htmlPath, "utf8");
+  const title = extractTag(html, /<title>(.*?)<\/title>/, `Missing city title: ${route}`);
+  const description = extractTag(
+    html,
+    /<meta name="description" content="([^"]+)"/,
+    `Missing city description: ${route}`,
+  );
+  const keywords = extractTag(
+    html,
+    /<meta name="keywords" content="([^"]+)"/,
+    `Missing city keywords: ${route}`,
+  );
+
+  assert.ok(!titles.has(title), `Duplicate international title: ${title}`);
+  assert.ok(!descriptions.has(description), `Duplicate international description: ${description}`);
+  titles.add(title);
+  descriptions.add(description);
+  assert.ok(title.includes(city.name), `City missing from title: ${route}`);
+  assert.ok(description.includes(city.countryName), `Country missing from city description: ${route}`);
+  assert.ok(keywords.includes(`GPS tracker ${city.name}`), `Primary city keyword missing: ${route}`);
+  assert.ok(html.includes(`rel="canonical" href="${canonical}"`), `Invalid city canonical: ${route}`);
+  assert.equal((html.match(/<h1(?:\s|>)/g) || []).length, 1, `Expected one city H1: ${route}`);
+  assert.ok(!/<meta[^>]+name="robots"[^>]+content="[^"]*noindex/.test(html), `Noindexed city: ${route}`);
+  assert.ok(sitemapUrls.includes(canonical), `City missing from sitemap: ${route}`);
+  assert.ok(
+    html.includes(`href="/gps-tracker/${city.countrySlug}"`),
+    `City page is not linked to parent country: ${route}`,
+  );
+
+  const countryHtml = readFileSync(`${buildRoot}/gps-tracker/${city.countrySlug}.html`, "utf8");
+  assert.ok(countryHtml.includes(`href="${route}"`), `City is orphaned from parent country: ${route}`);
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .map((match) => JSON.parse(match[1]));
+  assert.ok(
+    schemas.some((schema) => schema["@graph"]?.some(
+      (item) => item["@type"] === "Service" && item.url === canonical && item.areaServed?.["@type"] === "City",
+    )),
+    `Missing matching city Service schema: ${route}`,
+  );
+  assert.ok(
+    schemas.some((schema) => schema["@graph"]?.some((item) => item["@type"] === "FAQPage")),
+    `Missing city FAQ schema: ${route}`,
+  );
+}
+
 assert.ok(sitemapUrls.includes(`${baseUrl}/gps-tracker-international`));
 console.log(
-  `PASS: ${countries.length} rendered international pages; unique metadata, auto country/hub keywords, canonical, schema, sitemap and hub links verified.`,
+  `PASS: ${countries.length} country and ${cities.length} priority city pages; unique metadata, auto keywords, canonical, schema, sitemap and internal links verified.`,
 );

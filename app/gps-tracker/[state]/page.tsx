@@ -10,6 +10,12 @@ import { getIndiaState, indiaStates } from "@/lib/seo/indiaStates";
 import { priorityCities } from "@/lib/seo/priorityCities";
 import { westIndiaCities } from "@/lib/seo/westIndiaCities";
 import { CityGpsPage } from "@/components/seo/CityGpsPage";
+import { InternationalCityGpsPage } from "@/components/seo/InternationalCityGpsPage";
+import {
+  generateInternationalCityMetadata,
+  getInternationalCity,
+  internationalCities,
+} from "@/lib/seo/internationalCities";
 
 const staticCitySlugs = new Set(["chennai", "bengaluru", "hyderabad", "kochi", "coimbatore", "visakhapatnam", "pune", "mumbai", "ahmedabad", "kolkata", "bhubaneswar", "patna", "ranchi", "guwahati", "siliguri"]);
 const allCities = [...new Map([...priorityCities, ...westIndiaCities].map((city) => [city.slug, city])).values()];
@@ -17,7 +23,7 @@ const allCities = [...new Map([...priorityCities, ...westIndiaCities].map((city)
 type PageProps = { params: Promise<{ state: string }> };
 
 export function generateStaticParams() {
-  return [...indiaStates.map((state) => ({ state: state.slug })), ...allCities.filter((city) => !staticCitySlugs.has(city.slug)).map((city) => ({ state: city.slug }))];
+  return [...indiaStates.map((state) => ({ state: state.slug })), ...allCities.filter((city) => !staticCitySlugs.has(city.slug)).map((city) => ({ state: city.slug })), ...internationalCities.map((city) => ({ state: city.slug }))];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -25,15 +31,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const state = getIndiaState(slug);
   if (!state) {
     const city = allCities.find((entry) => entry.slug === slug);
-    if (!city) return {};
-    const url = `https://naviigps.com/gps-tracker/${city.slug}`;
-    const description = `GPS tracking in ${city.name}: vehicle devices, route history and fleet planning for ${city.areas.slice(0, 2).join(" and ")} routes. Discuss installation and pricing.`;
-    return {
-      title: `GPS Tracker in ${city.name} | NAVII GPS`, description,
-      alternates: { canonical: url },
-      openGraph: { title: `GPS Tracker in ${city.name} | NAVII GPS`, description, url, type: "website", images: ["/og-image.jpg"] },
-      twitter: { card: "summary_large_image", title: `GPS Tracker in ${city.name} | NAVII GPS`, description, images: ["/og-image.jpg"] },
-    };
+    if (city) {
+      const url = `https://naviigps.com/gps-tracker/${city.slug}`;
+      const description = `GPS tracking in ${city.name}: vehicle devices, route history and fleet planning for ${city.areas.slice(0, 2).join(" and ")} routes. Discuss installation and pricing.`;
+      return {
+        title: `GPS Tracker in ${city.name} | NAVII GPS`, description,
+        alternates: { canonical: url },
+        openGraph: { title: `GPS Tracker in ${city.name} | NAVII GPS`, description, url, type: "website", images: ["/og-image.jpg"] },
+        twitter: { card: "summary_large_image", title: `GPS Tracker in ${city.name} | NAVII GPS`, description, images: ["/og-image.jpg"] },
+      };
+    }
+    const internationalCity = getInternationalCity(slug);
+    return internationalCity ? generateInternationalCityMetadata(internationalCity) : {};
   }
   const url = `https://naviigps.com/gps-tracker/${state.slug}`;
   const cityKeywords = state.cities.slice(0, 4).map((city) => `GPS tracker ${city}`);
@@ -52,8 +61,10 @@ export default async function StateGpsTrackerPage({ params }: PageProps) {
   const state = getIndiaState(slug);
   if (!state) {
     const city = allCities.find((entry) => entry.slug === slug);
-    if (!city) notFound();
-    return <CityGpsPage city={city} />;
+    if (city) return <CityGpsPage city={city} />;
+    const internationalCity = getInternationalCity(slug);
+    if (!internationalCity) notFound();
+    return <InternationalCityGpsPage city={internationalCity} />;
   }
   const linkedCities = allCities.filter((city) => city.stateSlug === state.slug);
   const url = `https://naviigps.com/gps-tracker/${state.slug}`;
