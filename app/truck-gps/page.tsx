@@ -14,9 +14,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "GPS Tracker for Truck & Truck GPS Tracking System | NAVII GPS",
+  title: "GPS Tracker for Trucks India",
   description:
-    "GPS tracker for truck and truck GPS tracking system for live truck location, route monitoring, trip history, geofencing, vehicle alerts and fleet visibility across India.",
+    "Track trucks with live GPS location, route history, geofencing, alerts and fleet visibility using NAVII GPS solutions across India.",
   keywords: [
     "GPS tracker for truck",
     "GPS tracker for truck India",
@@ -84,7 +84,7 @@ export default function TruckGPSPage() {
         "@id": "https://naviigps.com/truck-gps#service",
         name: "GPS Tracker for Truck",
         serviceType: "Truck GPS Tracking and Fleet Monitoring",
-        provider: { "@type": "Organization", name: "NAVII GPS INDIA" },
+        provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/truck-gps",
       },
