@@ -143,6 +143,46 @@ export const internationalCountries: InternationalCountrySeo[] = [
     localContext: "Netherlands fleets connect compact urban routes, port and logistics zones, regional distribution centres and cross-border corridors where accurate trip records support operational control.",
     planningNote: "Confirm supported networks, device and installation requirements, GDPR responsibilities, employee-tracking policies, roaming needs, data retention and ongoing support before deployment.",
   },
+  {
+    slug: "italy",
+    name: "Italy",
+    cities: ["Rome", "Milan", "Naples", "Turin", "Bologna"],
+    sectors: ["regional distribution", "urban delivery", "service fleets", "industrial logistics"],
+    localContext: "Italian fleet operations connect dense historic cities, northern industrial districts, ports and long regional corridors where trip history and vehicle events can support dispatch planning.",
+    planningNote: "Confirm mobile-network coverage, device and installation requirements, GDPR and workplace obligations, restricted-zone workflows, roaming needs and ongoing platform support before deployment.",
+  },
+  {
+    slug: "spain",
+    name: "Spain",
+    cities: ["Madrid", "Barcelona", "Valencia", "Seville", "Bilbao"],
+    sectors: ["national logistics", "urban delivery", "service fleets", "port-linked distribution"],
+    localContext: "Spanish fleets combine metropolitan deliveries, port logistics, industrial routes and long national journeys where reliable vehicle visibility can assist scheduling and operational review.",
+    planningNote: "Review carrier coverage, compatible devices, professional installation, GDPR and employee requirements, environmental-zone access, data retention and support responsibilities before activation.",
+  },
+  {
+    slug: "belgium",
+    name: "Belgium",
+    cities: ["Brussels", "Antwerp", "Ghent", "Liège", "Charleroi"],
+    sectors: ["cross-border logistics", "port freight", "urban delivery", "service fleets"],
+    localContext: "Belgian fleets operate across compact metropolitan areas, major port facilities and cross-border Benelux freight corridors where connected trip records support fleet coordination.",
+    planningNote: "Validate Belgian and EU privacy obligations, workplace policies, low-emission-zone processes, cross-border connectivity, device installation and platform support before rollout.",
+  },
+  {
+    slug: "switzerland",
+    name: "Switzerland",
+    cities: ["Zurich", "Geneva", "Basel", "Bern", "Lausanne"],
+    sectors: ["regional logistics", "service fleets", "commercial distribution", "construction transport"],
+    localContext: "Swiss fleet activity connects major commercial centres, cross-border corridors and varied alpine routes where latest-location visibility and journey records can support operational control.",
+    planningNote: "Confirm Swiss data and employment requirements, compatible networks and roaming, terrain-specific coverage, installation standards, data retention and support arrangements before deployment.",
+  },
+  {
+    slug: "ireland",
+    name: "Ireland",
+    cities: ["Dublin", "Cork", "Limerick", "Galway", "Waterford"],
+    sectors: ["regional distribution", "service fleets", "commercial delivery", "construction vehicles"],
+    localContext: "Irish fleets connect Dublin and regional cities through motorway, port and rural service routes where accurate trip history and vehicle status can assist dispatch coordination.",
+    planningNote: "Review Irish and EU data-protection duties, employee-tracking policies, regional coverage, device installation, roaming needs, data retention and ongoing support before activation.",
+  },
 ];
 
 

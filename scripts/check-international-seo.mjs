@@ -117,9 +117,15 @@ const expectedCityCounts = {
   bahrain: 5,
   singapore: 5,
   malaysia: 5,
+  "new-zealand": 5,
+  italy: 5,
+  spain: 5,
+  belgium: 5,
+  switzerland: 5,
+  ireland: 5,
 };
 
-assert.equal(cities.length, 75, "Expected 75 priority international city records");
+assert.equal(cities.length, 105, "Expected 105 priority international city records");
 assert.equal(citySlugs.size, cities.length, "Duplicate international city slugs");
 assert.equal(
   new Set(cities.map((city) => city.planningNote)).size,
