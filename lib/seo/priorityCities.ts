@@ -91,4 +91,28 @@ export const priorityCities: PriorityCitySeo[] = [
   {
     slug: "agartala", name: "Agartala", state: "Tripura", stateSlug: "tripura", areas: ["Agartala", "Jogendranagar", "Badharghat", "Dhaleswar", "Madhupur"], sectors: ["regional distribution", "institutional transport", "commercial vehicles", "passenger fleets"], localContext: "Agartala is a central commercial and transport hub in Tripura where GPS tracking can support regional distribution, passenger and institutional fleets.",
   },
+  {
+    slug: "dibrugarh", name: "Dibrugarh", state: "Assam", stateSlug: "assam", areas: ["Dibrugarh", "Mohanbari", "Chowkidinghee", "Duliajan", "Naharkatia"], sectors: ["tea logistics", "regional distribution", "commercial transport", "intercity fleets"], localContext: "Dibrugarh connects tea, energy and regional distribution routes in Upper Assam where centralized vehicle visibility can support fleet coordination.",
+  },
+  {
+    slug: "silchar", name: "Silchar", state: "Assam", stateSlug: "assam", areas: ["Silchar", "Tarapur", "Malugram", "Sonai Road", "Udharbond"], sectors: ["regional logistics", "commercial transport", "warehouse distribution", "passenger fleets"], localContext: "Silchar serves Barak Valley transport and distribution routes where connected tracking can support commercial, passenger and regional fleets.",
+  },
+  {
+    slug: "jorhat", name: "Jorhat", state: "Assam", stateSlug: "assam", areas: ["Jorhat", "Mariani", "Titabor", "Cinnamara", "Rowriah"], sectors: ["tea logistics", "regional distribution", "commercial transport", "intercity fleets"], localContext: "Jorhat's tea and regional transport corridors benefit from clear vehicle location, route history and fleet-event visibility.",
+  },
+  {
+    slug: "tura", name: "Tura", state: "Meghalaya", stateSlug: "meghalaya", areas: ["Tura", "Rongram", "Dakopgre", "Chasingre", "Ampati"], sectors: ["hill-route transport", "tourism fleets", "regional distribution", "commercial vehicles"], localContext: "Tura connects western Meghalaya through hilly regional routes where vehicle tracking can support tourism, commercial and distribution fleets.",
+  },
+  {
+    slug: "kohima", name: "Kohima", state: "Nagaland", stateSlug: "nagaland", areas: ["Kohima", "Sechü-Zubza", "Jakhama", "Tseminyu", "Chiephobozou"], sectors: ["regional logistics", "commercial transport", "institutional fleets", "passenger vehicles"], localContext: "Kohima's hilly regional routes create practical fleet-management needs where connected vehicle visibility supports transport coordination.",
+  },
+  {
+    slug: "lunglei", name: "Lunglei", state: "Mizoram", stateSlug: "mizoram", areas: ["Lunglei", "Zobawk", "Hnahthial", "Bunghmun", "Tlabung"], sectors: ["remote-route logistics", "passenger transport", "institutional vehicles", "commercial fleets"], localContext: "Lunglei connects remote and hilly Mizoram routes where dependable vehicle visibility can support passenger, institutional and commercial transport.",
+  },
+  {
+    slug: "namchi", name: "Namchi", state: "Sikkim", stateSlug: "sikkim", areas: ["Namchi", "Jorethang", "Samtse", "Ravangla", "Temi"], sectors: ["tourism vehicles", "hill-route transport", "institutional fleets", "regional distribution"], localContext: "Namchi and nearby southern Sikkim routes support tourism and regional transport where GPS tracking can improve vehicle and journey visibility.",
+  },
+  {
+    slug: "udaipur", name: "Udaipur", state: "Tripura", stateSlug: "tripura", areas: ["Udaipur", "Matabari", "Amarpur", "Kakraban", "Melaghar"], sectors: ["regional distribution", "commercial transport", "institutional transport", "passenger fleets"], localContext: "Udaipur in Tripura connects regional commercial and passenger routes where centralized vehicle tracking can support fleet oversight.",
+  },
 ];
