@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { HaryanaCityGpsPage } from "@/components/seo/HaryanaCityGpsPage";
 import { PunjabCityGpsPage } from "@/components/seo/PunjabCityGpsPage";
+import { DelhiAreaGpsPage } from "@/components/seo/DelhiAreaGpsPage";
 import {
   generateHaryanaCityMetadata,
   getHaryanaCity,
@@ -13,6 +14,11 @@ import {
   getPunjabCity,
   punjabCities,
 } from "@/lib/seo/punjabCities";
+import {
+  delhiAreas,
+  generateDelhiAreaMetadata,
+  getDelhiArea,
+} from "@/lib/seo/delhiAreas";
 
 type PageProps = {
   params: Promise<{ state: string; district: string; city: string }>;
@@ -30,6 +36,11 @@ export function generateStaticParams() {
       district: city.districtSlug,
       city: city.slug,
     })),
+    ...delhiAreas.map((area) => ({
+      state: "delhi",
+      district: area.districtSlug,
+      city: area.slug,
+    })),
   ];
 }
 
@@ -42,6 +53,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "punjab") {
     const city = getPunjabCity(district, citySlug);
     return city ? generatePunjabCityMetadata(city) : {};
+  }
+  if (state === "delhi") {
+    const area = getDelhiArea(district, citySlug);
+    return area ? generateDelhiAreaMetadata(area) : {};
   }
   return {};
 }
@@ -57,6 +72,11 @@ export default async function CityGpsTrackerPage({ params }: PageProps) {
     const city = getPunjabCity(district, citySlug);
     if (!city) notFound();
     return <PunjabCityGpsPage city={city} />;
+  }
+  if (state === "delhi") {
+    const area = getDelhiArea(district, citySlug);
+    if (!area) notFound();
+    return <DelhiAreaGpsPage area={area} />;
   }
   notFound();
 }
