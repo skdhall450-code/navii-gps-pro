@@ -6,9 +6,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "4G GPS Tracker for Vehicle in India | NAVII GPS",
+  title: "4G GPS Tracker for Vehicles India",
   description:
-    "4G GPS tracker for vehicles with connected live location, route history, geofencing and fleet alerts. Explore the GS900 4G GPS Tracker and NAVII GPS vehicle tracking platform.",
+    "4G GPS tracker for cars, trucks and fleets in India with live location, route history, geofencing and alerts. Explore the NAVII GS900 tracker.",
   keywords: [
     "4G GPS tracker for vehicle",
     "4G GPS tracker India",
@@ -73,7 +73,7 @@ export default function FourGGpsTrackerPage() {
         "@id": "https://naviigps.com/4g-gps-tracker#service",
         name: "4G GPS Tracker for Vehicle",
         serviceType: "4G Vehicle GPS Tracking",
-        provider: { "@type": "Organization", name: "NAVII GPS INDIA" },
+        provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/4g-gps-tracker",
       },
