@@ -19,6 +19,12 @@ import {
   generateDelhiDistrictMetadata,
   getDelhiDistrict,
 } from "@/lib/seo/delhiDistricts";
+import { UttarPradeshDistrictGpsPage } from "@/components/seo/UttarPradeshDistrictGpsPage";
+import {
+  generateUttarPradeshDistrictMetadata,
+  getUttarPradeshDistrict,
+  uttarPradeshDistricts,
+} from "@/lib/seo/uttarPradeshDistricts";
 
 type PageProps = {
   params: Promise<{ state: string; district: string }>;
@@ -29,6 +35,7 @@ export function generateStaticParams() {
     ...haryanaDistricts.map((district) => ({ state: "haryana", district: district.slug })),
     ...punjabDistricts.map((district) => ({ state: "punjab", district: district.slug })),
     ...delhiDistricts.map((district) => ({ state: "delhi", district: district.slug })),
+    ...uttarPradeshDistricts.map((district) => ({ state: "uttar-pradesh", district: district.slug })),
   ];
 }
 
@@ -45,6 +52,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "delhi") {
     const district = getDelhiDistrict(slug);
     return district ? generateDelhiDistrictMetadata(district) : {};
+  }
+  if (state === "uttar-pradesh") {
+    const district = getUttarPradeshDistrict(slug);
+    return district ? generateUttarPradeshDistrictMetadata(district) : {};
   }
   return {};
 }
@@ -65,6 +76,11 @@ export default async function DistrictGpsTrackerPage({ params }: PageProps) {
     const district = getDelhiDistrict(slug);
     if (!district) notFound();
     return <DelhiDistrictGpsPage district={district} />;
+  }
+  if (state === "uttar-pradesh") {
+    const district = getUttarPradeshDistrict(slug);
+    if (!district) notFound();
+    return <UttarPradeshDistrictGpsPage district={district} />;
   }
   notFound();
 }

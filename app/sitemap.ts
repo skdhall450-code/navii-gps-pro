@@ -12,6 +12,7 @@ import { punjabDistricts } from "@/lib/seo/punjabDistricts";
 import { punjabCities } from "@/lib/seo/punjabCities";
 import { delhiDistricts } from "@/lib/seo/delhiDistricts";
 import { delhiAreas } from "@/lib/seo/delhiAreas";
+import { uttarPradeshDistricts } from "@/lib/seo/uttarPradeshDistricts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://naviigps.com";
@@ -51,5 +52,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const punjabCityRoutes: MetadataRoute.Sitemap = punjabCities.map((city) => ({ url: `${baseUrl}/gps-tracker/punjab/${city.districtSlug}/${city.slug}`, changeFrequency: "monthly", priority: 0.84 }));
   const delhiDistrictRoutes: MetadataRoute.Sitemap = delhiDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/delhi/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
   const delhiAreaRoutes: MetadataRoute.Sitemap = delhiAreas.map((area) => ({ url: `${baseUrl}/gps-tracker/delhi/${area.districtSlug}/${area.slug}`, changeFrequency: "monthly", priority: 0.84 }));
-  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...haryanaCityRoutes, ...punjabDistrictRoutes, ...punjabCityRoutes, ...delhiDistrictRoutes, ...delhiAreaRoutes, ...productRoutes];
+  const uttarPradeshDistrictRoutes: MetadataRoute.Sitemap = uttarPradeshDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/uttar-pradesh/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
+  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...haryanaCityRoutes, ...punjabDistrictRoutes, ...punjabCityRoutes, ...delhiDistrictRoutes, ...delhiAreaRoutes, ...uttarPradeshDistrictRoutes, ...productRoutes];
 }
