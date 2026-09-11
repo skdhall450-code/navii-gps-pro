@@ -25,9 +25,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "GPS & Fleet Tracking Solutions for Industries | NAVII GPS",
+  title: "GPS Tracking Solutions for Industries",
   description:
-    "GPS tracking, fleet management, vehicle safety and IoT solutions for logistics, public transport, schools, healthcare, manufacturing, agriculture and commercial fleets in India.",
+    "GPS tracking and fleet management solutions for logistics, schools, transport, healthcare, manufacturing, agriculture and commercial fleets in India.",
   keywords: [
     "GPS tracking for industries",
     "fleet tracking solutions India",
