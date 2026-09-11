@@ -6,9 +6,9 @@ import Header from "@/components/layout/HeaderV2";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "Vehicle Tracking System in India | NAVII GPS",
+  title: "Vehicle Tracking System India",
   description:
-    "Vehicle tracking system in India for cars, trucks, buses and commercial fleets with live GPS location, route history, geofencing, alerts and fleet reports.",
+    "Vehicle tracking system for cars, trucks, buses and commercial fleets in India with live GPS location, route history, geofencing, alerts and reports.",
   keywords: [
     "vehicle tracking system",
     "vehicle tracking system India",
@@ -64,7 +64,7 @@ export default function VehicleTrackingSystemPage() {
         "@id": "https://naviigps.com/vehicle-tracking-system#service",
         name: "Vehicle Tracking System",
         serviceType: "GPS Vehicle Tracking",
-        provider: { "@type": "Organization", name: "NAVII GPS INDIA" },
+        provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/vehicle-tracking-system",
       },
