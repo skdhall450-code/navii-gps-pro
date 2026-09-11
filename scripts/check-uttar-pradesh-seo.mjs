@@ -56,6 +56,8 @@ const sitemap = readFileSync(`${root}/sitemap.xml.body`, "utf8");
 const hubHtml = readFileSync(`${root}/gps-tracker/uttar-pradesh.html`, "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 assert.equal(sitemapUrls.length, new Set(sitemapUrls).size, "Duplicate sitemap URLs");
+assert.ok(hubHtml.includes("<title>GPS Tracker in Uttar Pradesh | Vehicle Tracking System | NAVII GPS INDIA</title>"), "Invalid Uttar Pradesh hub title");
+assert.ok(!hubHtml.includes("NAVII GPS | NAVII GPS INDIA"), "Duplicate brand in Uttar Pradesh hub title");
 
 for (const [slug, name, cities] of districtSeeds) {
   const route = `/gps-tracker/uttar-pradesh/${slug}`;

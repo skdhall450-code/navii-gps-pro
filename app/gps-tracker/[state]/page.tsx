@@ -32,6 +32,17 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { state: slug } = await params;
+  if (slug === "uttar-pradesh") {
+    const url = "https://naviigps.com/gps-tracker/uttar-pradesh";
+    const description = "GPS trackers and vehicle tracking systems across all 75 Uttar Pradesh districts for cars, trucks, buses, school transport and commercial fleets.";
+    return {
+      title: "GPS Tracker in Uttar Pradesh | Vehicle Tracking System",
+      description,
+      keywords: ["GPS tracker in Uttar Pradesh", "GPS tracker UP", "vehicle tracking system Uttar Pradesh", "car GPS tracker UP", "truck GPS tracking Uttar Pradesh", "fleet management software UP", "commercial vehicle GPS Uttar Pradesh", "GPS tracker Uttar Pradesh districts"],
+      alternates: { canonical: url },
+      openGraph: { title: "GPS Tracker in Uttar Pradesh | NAVII GPS", description, url, type: "website", images: ["/og-image.jpg"] },
+    };
+  }
   if (slug === "delhi") {
     const url = "https://naviigps.com/gps-tracker/delhi";
     const description = "GPS trackers and vehicle tracking systems across all 13 current Delhi revenue districts for cars, delivery vehicles, employee transport and commercial fleets.";
