@@ -1,3 +1,4 @@
+import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
 export type DelhiDistrictSeo = {
@@ -74,7 +75,7 @@ export function generateDelhiDistrictMetadata(district: DelhiDistrictSeo): Metad
   return {
     title: `GPS Tracker in ${district.name} District, Delhi`,
     description,
-    keywords: generateDelhiDistrictKeywords(district),
+    keywords: uniqueKeywords([...new Set([...generateDelhiDistrictKeywords(district), ...generateLocalKeywords(district.name, district.sectors)])]),
     alternates: { canonical: url },
     openGraph: {
       title: `GPS Tracker in ${district.name} District, Delhi | NAVII GPS`,

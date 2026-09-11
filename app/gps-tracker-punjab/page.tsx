@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, MapPin, RadioTower, Route, ShieldCheck } from "lucide-react";
@@ -8,10 +9,10 @@ import Footer from "@/components/layout/FooterV2";
 const pageUrl = "https://naviigps.com/gps-tracker-punjab";
 
 export const metadata: Metadata = {
-  title: "GPS Tracker in Punjab | Vehicle Tracking System | NAVII GPS",
+  title: "GPS Tracker in Punjab | Vehicle Tracking System",
   description:
     "GPS trackers and vehicle tracking systems in Punjab for cars, trucks, school buses and commercial fleets. NAVII GPS serves Dera Bassi, Mohali, Chandigarh region and businesses across India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "GPS tracker in Punjab",
     "GPS tracker Punjab",
     "vehicle tracking system Punjab",
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     "truck GPS tracking Punjab",
     "fleet management software Punjab",
     "commercial vehicle GPS Punjab",
-  ],
+  ]),
   alternates: { canonical: pageUrl },
   openGraph: {
     title: "GPS Tracker in Punjab | NAVII GPS",

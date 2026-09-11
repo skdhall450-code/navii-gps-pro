@@ -1,3 +1,4 @@
+import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
 
 import LegalPage, { type LegalSection } from "@/components/legal/LegalPage";
@@ -139,7 +140,7 @@ const sections: LegalSection[] = [
 
 export default function PrivacyPolicyPage() {
   return (
-    <LegalPage
+    <><PageSchema path="/privacy-policy" name="Privacy Policy" description={metadata.description} /><LegalPage
       eyebrow="PRIVACY & DATA PROTECTION"
       title="Privacy Policy"
       description="How NAVII GPS INDIA handles personal, vehicle, device and location information across our website and connected GPS platform."
@@ -147,6 +148,6 @@ export default function PrivacyPolicyPage() {
       lastUpdated="26 August 2026"
       variant="privacy"
       sections={sections}
-    />
+    /></>
   );
 }

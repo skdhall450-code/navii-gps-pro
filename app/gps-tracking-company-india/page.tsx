@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, MapPinned, RadioTower, ShieldCheck, Truck, Users, BarChart3 } from "lucide-react";
@@ -6,9 +7,9 @@ import Header from "@/components/layout/HeaderV2";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "GPS Tracking Company in India | NAVII GPS",
+  title: "GPS Tracking Company in India",
   description: "NAVII GPS provides GPS tracking systems, vehicle tracking devices and fleet management software for cars, trucks, buses and commercial fleets across India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "GPS tracking company in India",
     "GPS tracking company India",
     "GPS tracking company in Punjab",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     "GPS tracker company India",
     "commercial vehicle tracking company",
     "GPS fleet management software India",
-  ],
+  ]),
   alternates: { canonical: "https://naviigps.com/gps-tracking-company-india" },
   openGraph: {
     title: "GPS Tracking Company in India | NAVII GPS",

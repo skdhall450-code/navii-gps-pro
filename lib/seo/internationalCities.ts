@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
 export type InternationalCitySeo = {
@@ -470,9 +471,9 @@ export function generateInternationalCityMetadata(city: InternationalCitySeo): M
   const description = `GPS tracking devices and fleet software planning in ${city.name}, ${city.countryName}, including routes around ${city.areas.slice(0, 2).join(" and ")}.`;
 
   return {
-    title: `GPS Tracker in ${city.name}, ${city.countryName} | NAVII GPS`,
+    title: `GPS Tracker in ${city.name}, ${city.countryName}`,
     description,
-    keywords: generateInternationalCityKeywords(city),
+    keywords: uniqueKeywords(generateInternationalCityKeywords(city)),
     alternates: { canonical: url },
     openGraph: {
       title: `GPS Tracker in ${city.name}, ${city.countryName} | NAVII GPS`,

@@ -1,3 +1,4 @@
+import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -46,7 +47,7 @@ import ProductSection from "@/components/products/ProductSection";
 export default function ProductsPage() {
   return (
     <>
-      <Header />
+      <PageSchema path="/products" name="GPS Tracking Devices" type="CollectionPage" description={metadata.description} /><Header />
 
       <main>
         <ProductSection />

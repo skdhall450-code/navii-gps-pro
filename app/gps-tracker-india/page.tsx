@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, MapPinned } from "lucide-react";
@@ -8,9 +9,9 @@ import { indiaStates, southIndiaStates } from "@/lib/seo/indiaStates";
 import { priorityCities } from "@/lib/seo/priorityCities";
 
 export const metadata: Metadata = {
-  title: "GPS Tracker Across India | State-wise Vehicle Tracking | NAVII GPS",
+  title: "GPS Tracker Across India | State-wise Vehicle Tracking",
   description: "Explore NAVII GPS vehicle tracking systems state by state across India, with dedicated GPS tracker and fleet-management information for South, North, West, East, Central and Northeast India.",
-  keywords: ["GPS tracker India", "vehicle tracking system India", "GPS tracker all states India", "fleet management software India", "GPS tracking company India", "South India GPS tracker"],
+  keywords: uniqueKeywords(["GPS tracker India", "vehicle tracking system India", "GPS tracker all states India", "fleet management software India", "GPS tracking company India", "South India GPS tracker"]),
   alternates: { canonical: "https://naviigps.com/gps-tracker-india" },
   openGraph: { title: "GPS Tracker Across India | NAVII GPS", description: "State-wise vehicle tracking and fleet management solutions across India.", url: "https://naviigps.com/gps-tracker-india", type: "website", images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS service coverage across India" }] },
 };
@@ -31,5 +32,5 @@ export default function GPSTrackerIndiaPage() {
     <section className="bg-slate-50 py-20"><div className="mx-auto max-w-7xl px-6"><span className="text-sm font-semibold tracking-[0.18em] text-blue-700">SOUTH INDIA PRIORITY COVERAGE</span><h2 className="mt-3 text-4xl font-extrabold text-slate-900">GPS Tracking in South India</h2><p className="mb-9 mt-4 max-w-3xl leading-7 text-slate-600">Dedicated information for Tamil Nadu, Karnataka, Telangana, Andhra Pradesh and Kerala, including major commercial centres and important fleet use cases.</p><StateGrid states={southIndiaStates} /><h3 className="mt-14 text-2xl font-extrabold text-slate-900">Priority South India Cities</h3><div className="mt-6 grid gap-4 md:grid-cols-3">{priorityCities.filter((city) => southIndiaStates.some((state) => state.slug === city.stateSlug)).map((city) => <Link key={city.slug} href={`/gps-tracker/${city.slug}`} className="rounded-2xl bg-[#06142E] p-6 text-white shadow-lg transition hover:-translate-y-1"><span className="text-sm font-semibold text-cyan-300">{city.state}</span><h4 className="mt-2 text-xl font-bold">GPS Tracker in {city.name}</h4><p className="mt-3 text-sm leading-6 text-slate-300">Local fleet tracking information for {city.areas.slice(0, 3).join(", ")} and nearby routes.</p></Link>)}</div></div></section>
     <section className="bg-[#06142E] py-16 text-white"><div className="mx-auto max-w-7xl px-6"><h2 className="text-4xl font-extrabold">West India GPS Tracking</h2><p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">Browse 100 city and town guides across Maharashtra, Gujarat, Goa, Rajasthan and Dadra and Nagar Haveli and Daman and Diu. Compare local route requirements and plan your vehicle tracking setup.</p><Link href="/gps-tracker-west-india" className="mt-7 inline-block rounded-xl bg-cyan-500 px-6 py-4 font-semibold">Explore West India city guides</Link></div></section>
     <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6"><h2 className="text-4xl font-extrabold text-slate-900">Indian States and Union Territories</h2><p className="mb-9 mt-4 max-w-3xl leading-7 text-slate-600">Select a state to view local GPS tracker, vehicle tracking and fleet management information.</p><StateGrid states={remainingStates} /></div></section>
-  </main><Footer /></>;
+  <section className="bg-slate-50 py-14"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">Delhi NCR district and area guides</h2><p className="mt-4 max-w-3xl leading-7 text-slate-600">Review vehicle tracking requirements for Delhi districts, connected neighbourhoods and NCR journeys.</p><Link href="/gps-tracker/delhi" className="mt-6 inline-block rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white">Explore Delhi coverage</Link></div></section></main><Footer /></>;
 }

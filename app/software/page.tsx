@@ -1,10 +1,12 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
+import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Fleet Management & GPS Software India",
   description: "Track vehicles, trips, routes, geofences, alerts and reports with NAVII GPS fleet management software for commercial fleets across India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "fleet management software India",
     "GPS fleet management software",
     "GPS fleet management software India",
@@ -18,7 +20,7 @@ export const metadata: Metadata = {
     "commercial fleet management software",
     "GPS tracking system India",
     "fleet tracking system India",
-  ],
+  ]),
   alternates: { canonical: "https://naviigps.com/software" },
   openGraph: {
     title: "Fleet Management Software India | NAVII GPS",
@@ -49,7 +51,7 @@ import CTA from "@/components/software/CTA";
 export default function SoftwarePage() {
   return (
     <>
-      <Header />
+      <PageSchema path="/software" name="GPS Tracking and Fleet Management Software" type="WebPage" description={metadata.description} /><Header />
       <main>
         <SoftwareHero />
         <DashboardPreview />

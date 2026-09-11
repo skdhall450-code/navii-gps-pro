@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   title: "GPS Tracker for Cars India",
   description:
     "GPS tracker for cars with live location, route history, geofencing and vehicle alerts through NAVII GPS tracking solutions across India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "GPS tracker for car",
     "GPS tracker for car India",
     "car GPS tracker",
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     "4G GPS tracker for car",
     "real-time car tracking",
     "vehicle tracking system India",
-  ],
+  ]),
   alternates: {
     canonical: "https://naviigps.com/gps-tracker-for-car",
   },

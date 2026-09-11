@@ -1,3 +1,5 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
+import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -28,7 +30,7 @@ export const metadata: Metadata = {
   title: "GPS Tracking Solutions for Industries",
   description:
     "GPS tracking and fleet management solutions for logistics, schools, transport, healthcare, manufacturing, agriculture and commercial fleets in India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "GPS tracking for industries",
     "fleet tracking solutions India",
     "bus GPS tracking system",
@@ -38,7 +40,7 @@ export const metadata: Metadata = {
     "logistics fleet tracking",
     "AIS-140 GPS tracking",
     "vehicle tracking system India",
-  ],
+  ]),
   alternates: {
     canonical: "https://naviigps.com/industries",
   },
@@ -162,7 +164,7 @@ const capabilities = [
 export default function IndustriesPage() {
   return (
     <>
-      <Header />
+      <PageSchema path="/industries" name="GPS and Fleet Solutions for Industries" type="CollectionPage" description={metadata.description} /><Header />
       <main>
         <section className="relative overflow-clip bg-gradient-to-br from-[#041225] via-[#08224A] to-[#103B82] py-24 text-white md:py-32">
           <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-cyan-400/15 blur-[120px]" />

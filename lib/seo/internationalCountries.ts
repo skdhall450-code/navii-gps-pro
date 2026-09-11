@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
 export type InternationalCountrySeo = {
@@ -430,11 +431,14 @@ export function generateInternationalMetadata(
   country: InternationalCountrySeo,
 ): Metadata {
   const featuredCities = country.cities.slice(0, 4);
+  const description = `GPS tracking devices and fleet software planning for commercial vehicles in ${featuredCities.join(", ")} and across ${country.name}.`;
+  const url = `https://naviigps.com/gps-tracker/${country.slug}`;
 
   return {
-    title: `GPS Tracker in ${country.name} | Fleet Tracking | NAVII GPS`,
-    description: `GPS tracking devices and fleet software planning for commercial vehicles in ${featuredCities.join(", ")} and across ${country.name}.`,
-    keywords: generateInternationalKeywords(country),
+    title: `GPS Tracker in ${country.name} | Fleet Tracking`,
+    description,
+    openGraph: { title: `GPS Tracker in ${country.name} | NAVII GPS`, description, url, type: "website", images: ["/og-image.jpg"] },
+    keywords: uniqueKeywords(generateInternationalKeywords(country)),
     alternates: {
       canonical: `https://naviigps.com/gps-tracker/${country.slug}`,
     },

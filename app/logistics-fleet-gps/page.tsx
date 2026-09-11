@@ -1,15 +1,14 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
   CheckCircle2,
   ChartNoAxesCombined,
-  MapPinned,
   PackageCheck,
   RadioTower,
   Route,
   ShieldCheck,
-  Truck,
 } from "lucide-react";
 
 import Header from "@/components/layout/Header";
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
   title: "Logistics Fleet Tracking System India",
   description:
     "Track logistics and delivery fleets with live vehicle location, route history, geofencing, alerts and reports using NAVII GPS across India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "logistics fleet tracking system",
     "logistics GPS tracking system India",
     "fleet tracking system India",
@@ -32,7 +31,7 @@ export const metadata: Metadata = {
     "truck fleet tracking",
     "last mile delivery tracking",
     "logistics fleet management",
-  ],
+  ]),
   alternates: {
     canonical: "https://naviigps.com/logistics-fleet-gps",
   },

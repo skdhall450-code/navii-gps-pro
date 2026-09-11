@@ -98,6 +98,8 @@ export default function FooterV2() {
               >
                 Contact
               </Link>
+              <Link href="/gps-tracker-india" className="block text-slate-300 transition hover:text-cyan-300">India coverage</Link>
+              <Link href="/gps-tracker-international" className="block text-slate-300 transition hover:text-cyan-300">International guides</Link>
             </div>
           </div>
           {/* Products */}

@@ -1,3 +1,4 @@
+import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
 export type HaryanaDistrictSeo = {
@@ -83,9 +84,9 @@ export function generateHaryanaDistrictMetadata(
   const description = `GPS trackers and fleet management software in ${district.name} district, Haryana, including ${district.cities.slice(0, 3).join(", ")} and nearby operating routes.`;
 
   return {
-    title: `GPS Tracker in ${district.name} District, Haryana | NAVII GPS`,
+    title: `GPS Tracker in ${district.name} District, Haryana`,
     description,
-    keywords: generateHaryanaDistrictKeywords(district),
+    keywords: uniqueKeywords([...new Set([...generateHaryanaDistrictKeywords(district), ...generateLocalKeywords(district.name, district.sectors)])]),
     alternates: { canonical: url },
     openGraph: {
       title: `GPS Tracker in ${district.name} District | NAVII GPS`,

@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -15,10 +16,10 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
 export const metadata: Metadata = {
-  title: "AIS-140 GPS Tracking Solutions for Public Transport | NAVII GPS",
+  title: "AIS-140 GPS Tracking Solutions for Public Transport",
   description:
     "Explore AIS-140 GPS tracking solutions for buses, public transport and commercial fleets. NAVII GPS supports vehicle tracking, live location visibility, alerts, reports and deployment-focused fleet monitoring.",
-  keywords: [
+  keywords: uniqueKeywords([
     "AIS-140 GPS tracker",
     "AIS 140 GPS tracking system",
     "AIS-140 GPS device",
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     "vehicle tracking system India",
     "commercial vehicle GPS tracking",
     "AIS-140 tracking solution India",
-  ],
+  ]),
   alternates: {
     canonical: "https://naviigps.com/ais-140-gps",
   },

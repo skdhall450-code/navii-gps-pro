@@ -1,3 +1,4 @@
+import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
 import { punjabDistricts } from "@/lib/seo/punjabDistricts";
@@ -83,7 +84,7 @@ export function generatePunjabCityMetadata(city: PunjabCitySeo): Metadata {
   return {
     title: `GPS Tracker in ${city.name}, ${city.districtName}`,
     description,
-    keywords: generatePunjabCityKeywords(city),
+    keywords: uniqueKeywords([...new Set([...generatePunjabCityKeywords(city), ...generateLocalKeywords(city.name, city.sectors)])]),
     alternates: { canonical: url },
     openGraph: {
       title: `GPS Tracker in ${city.name}, Punjab | NAVII GPS`,

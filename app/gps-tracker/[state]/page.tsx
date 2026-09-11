@@ -1,3 +1,5 @@
+import { TrackingSolutionLinks } from "@/components/seo/TrackingSolutionLinks";
+import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -38,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
       title: "GPS Tracker in Uttar Pradesh | Vehicle Tracking System",
       description,
-      keywords: ["GPS tracker in Uttar Pradesh", "GPS tracker UP", "vehicle tracking system Uttar Pradesh", "car GPS tracker UP", "truck GPS tracking Uttar Pradesh", "fleet management software UP", "commercial vehicle GPS Uttar Pradesh", "GPS tracker Uttar Pradesh districts"],
+      keywords: uniqueKeywords(["GPS tracker in Uttar Pradesh", "GPS tracker UP", "vehicle tracking system Uttar Pradesh", "car GPS tracker UP", "truck GPS tracking Uttar Pradesh", "fleet management software UP", "commercial vehicle GPS Uttar Pradesh", "GPS tracker Uttar Pradesh districts"]),
       alternates: { canonical: url },
       openGraph: { title: "GPS Tracker in Uttar Pradesh | NAVII GPS", description, url, type: "website", images: ["/og-image.jpg"] },
     };
@@ -49,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
       title: "GPS Tracker in Delhi | Vehicle Tracking System",
       description,
-      keywords: ["GPS tracker in Delhi", "GPS tracker Delhi", "vehicle tracking system Delhi", "car GPS tracker Delhi", "truck GPS tracking Delhi", "fleet management software Delhi", "commercial vehicle GPS Delhi NCR", "GPS tracker Delhi districts"],
+      keywords: uniqueKeywords(["GPS tracker in Delhi", "GPS tracker Delhi", "vehicle tracking system Delhi", "car GPS tracker Delhi", "truck GPS tracking Delhi", "fleet management software Delhi", "commercial vehicle GPS Delhi NCR", "GPS tracker Delhi districts"]),
       alternates: { canonical: url },
       openGraph: { title: "GPS Tracker in Delhi | NAVII GPS", description, url, type: "website", images: ["/og-image.jpg"] },
     };
@@ -61,7 +63,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       const url = `https://naviigps.com/gps-tracker/${city.slug}`;
       const description = `GPS tracking in ${city.name}: vehicle devices, route history and fleet planning for ${city.areas.slice(0, 2).join(" and ")} routes. Discuss installation and pricing.`;
       return {
-        title: `GPS Tracker in ${city.name} | NAVII GPS`, description,
+        title: `GPS Tracker in ${city.name}`, description,
+        keywords: uniqueKeywords(generateLocalKeywords(city.name, city.sectors)),
         alternates: { canonical: url },
         openGraph: { title: `GPS Tracker in ${city.name} | NAVII GPS`, description, url, type: "website", images: ["/og-image.jpg"] },
         twitter: { card: "summary_large_image", title: `GPS Tracker in ${city.name} | NAVII GPS`, description, images: ["/og-image.jpg"] },
@@ -73,9 +76,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const url = `https://naviigps.com/gps-tracker/${state.slug}`;
   const cityKeywords = state.cities.slice(0, 4).map((city) => `GPS tracker ${city}`);
   return {
-    title: `GPS Tracker in ${state.name} | Vehicle Tracking System | NAVII GPS`,
+    title: `GPS Tracker in ${state.name} | Vehicle Tracking System`,
     description: `GPS trackers and vehicle tracking systems in ${state.name} for cars, trucks, buses and commercial fleets. Coverage includes ${state.cities.slice(0, 4).join(", ")} and statewide operations.`,
-    keywords: [`GPS tracker in ${state.name}`, `GPS tracker ${state.name}`, `vehicle tracking system ${state.name}`, `GPS tracking company ${state.name}`, `car GPS tracker ${state.name}`, `truck GPS tracking ${state.name}`, `fleet management software ${state.name}`, ...cityKeywords],
+    keywords: uniqueKeywords([`GPS tracker in ${state.name}`, `GPS tracker ${state.name}`, `vehicle tracking system ${state.name}`, `GPS tracking company ${state.name}`, `car GPS tracker ${state.name}`, `truck GPS tracking ${state.name}`, `fleet management software ${state.name}`, ...cityKeywords, ...generateLocalKeywords(state.name, state.sectors)]),
     alternates: { canonical: url },
     openGraph: { title: `GPS Tracker in ${state.name} | NAVII GPS`, description: `Vehicle tracking devices and fleet software for ${state.name}.`, url, type: "website", images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: `NAVII GPS tracking solutions in ${state.name}` }] },
     twitter: { card: "summary_large_image", title: `GPS Tracker in ${state.name} | NAVII GPS`, description: `Vehicle GPS tracking and fleet management in ${state.name}.`, images: ["/og-image.jpg"] },
@@ -112,7 +115,8 @@ export default async function StateGpsTrackerPage({ params }: PageProps) {
     <section className="bg-white py-20"><div className="mx-auto grid max-w-7xl gap-8 px-6 md:grid-cols-3">{features.map((feature) => { const Icon = feature.icon; return <article key={feature.title} className="rounded-3xl border border-slate-200 p-8 shadow-sm"><div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700"><Icon size={28} /></div><h2 className="mt-5 text-2xl font-bold text-slate-900">{feature.title}</h2><p className="mt-3 leading-7 text-slate-600">{feature.text}</p></article>; })}</div></section>
     <section className="bg-slate-50 py-24"><div className="mx-auto grid max-w-6xl gap-14 px-6 lg:grid-cols-2"><div><span className="text-sm font-semibold tracking-[0.16em] text-blue-700">STATE-WIDE FLEET USE CASES</span><h2 className="mt-4 text-4xl font-extrabold text-slate-900">Vehicle Tracking for {state.name}</h2><p className="mt-6 text-lg leading-8 text-slate-600">GPS tracking can support {state.sectors.join(", ")} while giving authorized teams clearer vehicle and route visibility.</p><ul className="mt-8 space-y-4">{state.sectors.map((sector) => <li key={sector} className="flex items-start gap-3 capitalize text-slate-700"><CheckCircle2 className="mt-0.5 shrink-0 text-emerald-500" size={20} />{sector}</li>)}</ul></div><div className="rounded-[32px] bg-[#06142E] p-9 text-white shadow-xl"><h3 className="text-3xl font-bold">Coverage Across Major Cities</h3><p className="mt-5 leading-8 text-slate-300">Discuss GPS tracking requirements for vehicles operating in {state.cities.join(", ")} and other locations across {state.name}.</p><div className="mt-7 flex flex-wrap gap-2">{state.cities.map((city) => <span key={city} className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-100">{city}</span>)}</div><Link href="/software" className="mt-8 inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 font-semibold">Explore Fleet Software <ArrowRight size={17} /></Link></div></div></section>
     {linkedCities.length > 0 && <section className="bg-white py-16"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">City and Town Guides in {state.name}</h2><p className="mt-4 text-slate-600">Choose a location for route planning, device selection and installation questions. Availability is confirmed for your vehicle and location before booking.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{linkedCities.map((city) => <Link key={city.slug} href={`/gps-tracker/${city.slug}`} className="rounded-2xl border border-slate-200 p-5 text-blue-800 hover:border-cyan-500"><h3 className="font-bold">{city.name}</h3><p className="mt-2 text-sm text-slate-600">Routes around {city.areas.slice(0, 2).join(" and ")}</p></Link>)}</div></div></section>}
-    {districtGuides.length > 0 && <section className="bg-slate-50 py-20"><div className="mx-auto max-w-7xl px-6"><p className="text-sm font-semibold tracking-[0.16em] text-blue-700">DISTRICT-WISE COVERAGE</p><h2 className="mt-3 text-4xl font-extrabold text-slate-900">GPS Tracker Guides for All {districtGuides.length} {state.name} Districts</h2><p className="mt-4 max-w-3xl leading-7 text-slate-600">Choose a district to review local city and town keywords, fleet use cases, route context and deployment considerations.</p><div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{districtGuides.map((district) => <Link key={district.slug} href={`/gps-tracker/${state.slug}/${district.slug}`} className="rounded-2xl border border-slate-200 bg-white p-5 text-blue-800 shadow-sm transition hover:border-cyan-500"><h3 className="font-bold">{district.name} District</h3><p className="mt-2 text-sm text-slate-600">{district.cities.slice(0, 3).join(", ")}</p></Link>)}</div></div></section>}
+    {districtGuides.length > 0 && <section className="bg-slate-50 py-20"><div className="mx-auto max-w-7xl px-6"><p className="text-sm font-semibold tracking-[0.16em] text-blue-700">DISTRICT-WISE COVERAGE</p><h2 className="mt-3 text-4xl font-extrabold text-slate-900">GPS Tracker Guides for All {districtGuides.length} {state.name} Districts</h2><p className="mt-4 max-w-3xl leading-7 text-slate-600">Choose a district to review local cities and towns, fleet use cases, route context and deployment considerations.</p><div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{districtGuides.map((district) => <Link key={district.slug} href={`/gps-tracker/${state.slug}/${district.slug}`} className="rounded-2xl border border-slate-200 bg-white p-5 text-blue-800 shadow-sm transition hover:border-cyan-500"><h3 className="font-bold">{district.name} District</h3><p className="mt-2 text-sm text-slate-600">{district.cities.slice(0, 3).join(", ")}</p></Link>)}</div></div></section>}
     <section className="bg-white py-14"><div className="mx-auto max-w-5xl px-6 text-center"><Link href="/gps-tracker-india" className="inline-flex items-center gap-2 font-semibold text-blue-700">View GPS coverage in all Indian states <ArrowRight size={17} /></Link></div></section>
+  <TrackingSolutionLinks location={state.name} sectors={state.sectors} />
   </main><Footer /></>;
 }

@@ -1,3 +1,4 @@
+import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -48,7 +49,7 @@ import CTA from "@/components/about/CTA";
 export default function AboutPage() {
   return (
     <>
-      <Header />
+      <PageSchema path="/about" name="About NAVII GPS INDIA" type="AboutPage" description={metadata.description} /><Header />
 
       <AboutHero />
 

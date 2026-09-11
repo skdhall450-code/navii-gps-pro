@@ -1,10 +1,11 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Fuel Monitoring System for Fleets",
   description: "Monitor fuel levels, consumption and unusual fuel activity across commercial vehicles with NAVII GPS fuel monitoring solutions for fleets in India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "fuel monitoring system for vehicles",
     "fuel monitoring system India",
     "vehicle fuel monitoring system",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     "fuel theft monitoring system",
     "GPS fuel monitoring system",
     "fuel management system for vehicles",
-  ],
+  ]),
   alternates: { canonical: "https://naviigps.com/fuel-monitoring-system" },
   openGraph: {
     title: "Fuel Monitoring System for Vehicles & Fleets | NAVII GPS",

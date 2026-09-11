@@ -107,12 +107,7 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "NAVII GPS INDIA",
-    description:
-      "Professional GPS Tracking, Fleet Management and IoT Solutions.",
-
-    url: "https://naviigps.com",
-
+    // Page metadata supplies the title, description and URL for each preview.
     siteName: "NAVII GPS",
 
     locale: "en_IN",
@@ -130,11 +125,6 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-
-    title: "NAVII GPS INDIA",
-
-    description: "GPS Tracking, Fleet Management & IoT Solutions",
-
     images: ["/og-image.jpg"],
   },
 };

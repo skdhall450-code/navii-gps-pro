@@ -1,3 +1,4 @@
+import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
 
 import LegalPage, {
@@ -157,7 +158,7 @@ const sections: LegalSection[] = [
 
 export default function TermsPage() {
   return (
-    <LegalPage
+    <><PageSchema path="/terms" name="Terms and Conditions" description={metadata.description} /><LegalPage
       eyebrow="SERVICE & WEBSITE TERMS"
       title="Terms & Conditions"
       description="The rules governing use of NAVII GPS products, connected devices, fleet software, subscriptions and support services."
@@ -165,6 +166,6 @@ export default function TermsPage() {
       lastUpdated="23 August 2026"
       variant="terms"
       sections={sections}
-    />
+    /></>
   );
 }

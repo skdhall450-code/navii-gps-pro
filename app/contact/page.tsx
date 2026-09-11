@@ -1,3 +1,4 @@
+import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -48,7 +49,7 @@ import ContactFAQ from "@/components/contact/faq/ContactFAQ";
 export default function ContactPage() {
   return (
     <>
-      <Header />
+      <PageSchema path="/contact" name="Contact NAVII GPS INDIA" type="ContactPage" description={metadata.description} /><Header />
 
       <main>
 

@@ -1,6 +1,7 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, ChartNoAxesCombined, MapPinned, RadioTower, Route, ShieldCheck, Truck } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChartNoAxesCombined, RadioTower, Route, ShieldCheck, Truck } from "lucide-react";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
@@ -8,7 +9,7 @@ import Footer from "@/components/layout/FooterV2";
 export const metadata: Metadata = {
   title: "Commercial Vehicle Tracking India",
   description: "Track commercial vehicles with live GPS location, route history, geofencing, alerts and fleet reports using NAVII GPS across India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "commercial vehicle tracking system",
     "commercial vehicle GPS tracker",
     "commercial vehicle tracking system India",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     "GPS fleet tracking software",
     "vehicle tracking software India",
     "commercial vehicle GPS tracking",
-  ],
+  ]),
   alternates: { canonical: "https://naviigps.com/commercial-vehicle-tracking" },
   openGraph: {
     title: "Commercial Vehicle Tracking System in India | NAVII GPS",

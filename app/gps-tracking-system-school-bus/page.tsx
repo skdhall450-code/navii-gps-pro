@@ -1,10 +1,11 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "School Bus Tracking Software India",
   description: "School bus tracking software for live location, routes, trip history, geofencing and alerts across student transport fleets in India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "GPS tracking system for school bus",
     "GPS tracking for school bus",
     "school bus GPS tracking system",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     "bus GPS tracking system India",
     "school bus live tracking",
     "GPS tracking for schools India",
-  ],
+  ]),
   alternates: { canonical: "https://naviigps.com/gps-tracking-system-school-bus" },
   openGraph: {
     title: "GPS Tracking System for School Bus in India | NAVII GPS",

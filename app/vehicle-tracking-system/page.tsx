@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BellRing, History, MapPinned, Route, ShieldCheck, Truck } from "lucide-react";
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   title: "Vehicle Tracking System India",
   description:
     "Vehicle tracking system for cars, trucks, buses and commercial fleets in India with live GPS location, route history, geofencing, alerts and reports.",
-  keywords: [
+  keywords: uniqueKeywords([
     "vehicle tracking system",
     "vehicle tracking system India",
     "GPS vehicle tracking system",
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     "GPS fleet tracking software",
     "real-time vehicle tracking",
     "GPS tracking company India",
-  ],
+  ]),
   alternates: { canonical: "https://naviigps.com/vehicle-tracking-system" },
   openGraph: {
     title: "Vehicle Tracking System in India | NAVII GPS",

@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   title: "School Bus GPS Tracker India",
   description:
     "GPS tracker for school buses with live location, route history, geofencing and alerts for student transport operations across India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "GPS tracking system for school bus",
     "GPS tracking for school bus",
     "school bus GPS tracking system",
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     "school bus live tracking",
     "GPS tracking for schools",
     "school transport management system",
-  ],
+  ]),
   alternates: {
     canonical: "https://naviigps.com/school-bus-gps",
   },
@@ -250,7 +251,7 @@ export default function SchoolBusGPSPage() {
             </div>
           </div>
         </section>
-      </main>
+      <section className="bg-slate-50 py-12"><div className="mx-auto max-w-5xl px-6"><h2 className="text-2xl font-bold text-slate-900">Plan your school bus tracking system</h2><p className="mt-4 leading-7 text-slate-600">Review device selection, location updates and access for school transport teams.</p><Link href="/gps-tracking-system-school-bus" className="mt-5 inline-block font-semibold text-blue-700">Read the school bus tracking system guide</Link></div></section></main>
       <Footer />
     </>
   );

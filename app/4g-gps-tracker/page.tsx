@@ -1,6 +1,7 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Gauge, MapPinned, RadioTower, Route, ShieldCheck, Smartphone } from "lucide-react";
+import { ArrowRight, CheckCircle2, MapPinned, RadioTower, Route, ShieldCheck, Smartphone } from "lucide-react";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   title: "4G GPS Tracker for Vehicles India",
   description:
     "4G GPS tracker for cars, trucks and fleets in India with live location, route history, geofencing and alerts. Explore the NAVII GS900 tracker.",
-  keywords: [
+  keywords: uniqueKeywords([
     "4G GPS tracker for vehicle",
     "4G GPS tracker India",
     "4G vehicle GPS tracker",
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     "GS900 4G GPS Tracker",
     "real-time 4G vehicle tracking",
     "vehicle tracking system India",
-  ],
+  ]),
   alternates: { canonical: "https://naviigps.com/4g-gps-tracker" },
   openGraph: {
     title: "4G GPS Tracker for Vehicle in India | NAVII GPS",

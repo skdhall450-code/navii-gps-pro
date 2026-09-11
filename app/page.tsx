@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -6,7 +7,7 @@ import { faqs } from "@/components/home/FAQ/faqData";
 export const metadata: Metadata = {
   title: { absolute: "GPS Tracker & GPS Tracking Devices | NAVII GPS INDIA" },
   description: "Explore GPS trackers and GPS tracking devices for cars and commercial fleets, with live tracking, fleet software, AI dash cameras and IoT solutions across India.",
-  keywords: ["GPS tracking system","vehicle tracking system","GPS tracker for car","GPS fleet tracking software","fleet management software India","vehicle tracking software","GPS tracking company in India","GPS tracking company in Punjab","4G GPS tracker for vehicle","AIS-140 GPS tracker","AI dash camera for vehicles","fuel monitoring system for vehicles"],
+  keywords: uniqueKeywords(["GPS tracking system","vehicle tracking system","GPS tracker for car","GPS fleet tracking software","fleet management software India","vehicle tracking software","GPS tracking company in India","GPS tracking company in Punjab","4G GPS tracker for vehicle","AIS-140 GPS tracker","AI dash camera for vehicles","fuel monitoring system for vehicles"]),
   alternates: { canonical: "https://naviigps.com" },
   openGraph: { title: "GPS Tracker & Tracking Devices | NAVII GPS INDIA", description: "GPS trackers and real-time tracking devices for cars, commercial vehicles and fleet operations across India.", url: "https://naviigps.com", type: "website", images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS INDIA" }] },
   twitter: { card: "summary_large_image", title: "GPS Tracker & Tracking Devices | NAVII GPS INDIA", description: "GPS trackers, real-time tracking devices and fleet management solutions across India.", images: ["/og-image.jpg"] },

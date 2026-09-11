@@ -41,3 +41,14 @@ jobs:
 
       - name: Verify rendered SEO pages
         run: npm run seo:check
+
+      - name: Upload SEO audit and keyword inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-audit-${{ github.sha }}
+          path: |
+            .next/seo-audit.json
+            .next/seo-audit.md
+          if-no-files-found: ignore
+          retention-days: 30

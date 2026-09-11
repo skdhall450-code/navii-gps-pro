@@ -1,3 +1,4 @@
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   title: "GPS Tracker for Trucks India",
   description:
     "Track trucks with live GPS location, route history, geofencing, alerts and fleet visibility using NAVII GPS solutions across India.",
-  keywords: [
+  keywords: uniqueKeywords([
     "GPS tracker for truck",
     "GPS tracker for truck India",
     "truck GPS tracker",
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     "commercial vehicle tracking system",
     "vehicle tracking system India",
     "logistics fleet tracking",
-  ],
+  ]),
   alternates: { canonical: "https://naviigps.com/truck-gps" },
   openGraph: {
     title: "GPS Tracker for Truck & Truck GPS Tracking System | NAVII GPS",
