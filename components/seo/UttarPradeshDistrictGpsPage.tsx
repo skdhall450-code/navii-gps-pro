@@ -5,6 +5,7 @@ import { ArrowRight, BellRing, CheckCircle2, MapPin, RadioTower, Route } from "l
 import Header from "@/components/layout/HeaderV2";
 import Footer from "@/components/layout/FooterV2";
 import type { UttarPradeshDistrictSeo } from "@/lib/seo/uttarPradeshDistricts";
+import { getUttarPradeshCitiesForDistrict, getUttarPradeshCityPath } from "@/lib/seo/uttarPradeshCities";
 
 const districtFaqs = (district: UttarPradeshDistrictSeo) => [
   {
@@ -22,6 +23,7 @@ const districtFaqs = (district: UttarPradeshDistrictSeo) => [
 ];
 
 export function UttarPradeshDistrictGpsPage({ district }: { district: UttarPradeshDistrictSeo }) {
+  const cityGuides = getUttarPradeshCitiesForDistrict(district.slug);
   const url = `https://naviigps.com/gps-tracker/uttar-pradesh/${district.slug}`;
   const faqs = districtFaqs(district);
   const schema = {
@@ -78,6 +80,7 @@ export function UttarPradeshDistrictGpsPage({ district }: { district: UttarPrade
     ].map((feature) => { const Icon = feature.icon; return <article key={feature.title} className="rounded-3xl border border-slate-200 p-8 shadow-sm"><div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700"><Icon size={28} /></div><h2 className="mt-5 text-2xl font-bold text-slate-900">{feature.title}</h2><p className="mt-3 leading-7 text-slate-600">{feature.text}</p></article>; })}</div></section>
     <section className="bg-slate-50 py-24"><div className="mx-auto grid max-w-6xl gap-14 px-6 lg:grid-cols-2"><div><p className="text-sm font-semibold tracking-[0.16em] text-blue-700">{district.division.toUpperCase()} DIVISION FLEET PLANNING</p><h2 className="mt-4 text-4xl font-extrabold text-slate-900">Vehicle Tracking Across {district.name}</h2><p className="mt-6 text-lg leading-8 text-slate-600">{district.localContext}</p><p className="mt-4 leading-8 text-slate-600">{district.planningNote}</p><ul className="mt-8 space-y-4">{district.sectors.map((sector) => <li key={sector} className="flex items-start gap-3 capitalize text-slate-700"><CheckCircle2 className="mt-0.5 shrink-0 text-emerald-500" size={20} />{sector}</li>)}</ul></div><div className="rounded-[32px] bg-[#06142E] p-9 text-white shadow-xl"><h2 className="text-3xl font-bold">Locations Around {district.name}</h2><p className="mt-5 leading-8 text-slate-300">District-level route and installation planning can include these locations and connected operating corridors.</p><div className="mt-7 flex flex-wrap gap-3">{district.cities.map((city) => <span key={city} className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-cyan-100">GPS Tracker in {city}</span>)}</div><Link href="/gps-tracker/uttar-pradesh" className="mt-8 inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 font-semibold">View All UP Districts <ArrowRight size={17} /></Link></div></div></section>
     <section className="bg-white py-20"><div className="mx-auto max-w-5xl px-6"><h2 className="text-center text-4xl font-extrabold text-slate-900">GPS Tracking in {district.name}: FAQs</h2><div className="mt-10 space-y-4">{faqs.map((faq) => <article key={faq.question} className="rounded-2xl border border-slate-200 p-6"><h3 className="text-lg font-bold text-slate-900">{faq.question}</h3><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></article>)}</div></div></section>
+    {cityGuides.length > 0 && <section className="bg-slate-50 py-16"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">City and town GPS guides in {district.name}</h2><p className="mt-4 leading-7 text-slate-600">Choose a town for route planning, device selection and practical installation questions.</p><div className="mt-7 grid gap-5 sm:grid-cols-2">{cityGuides.map((city) => <Link key={city.slug} href={getUttarPradeshCityPath(city)} className="rounded-2xl border border-slate-200 bg-white p-6 hover:border-blue-500"><h3 className="text-xl font-bold text-blue-800">GPS Tracker in {city.name}</h3><p className="mt-3 capitalize leading-7 text-slate-600">{city.focus}</p></Link>)}</div></div></section>}
   <TrackingSolutionLinks location={district.name} sectors={district.sectors} />
   </main><Footer /></>;
 }

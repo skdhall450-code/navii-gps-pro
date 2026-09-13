@@ -1,0 +1,194 @@
+[
+  {
+    "slug": "dadri", "name": "Dadri", "districtSlug": "gautam-buddha-nagar",
+    "sectors": ["freight logistics", "warehouse distribution"],
+    "focus": "yard arrivals and goods-vehicle dispatch",
+    "localContext": "For a goods fleet serving Dadri and Greater Noida, the useful starting point is the handover between a vehicle's road journey and its loading location. Mark the actual yard entrance and dispatch point separately. This lets the team review reported arrival, time spent on site and the next departure without treating every stop nearby as a completed delivery.",
+    "routeChecks": ["Pilot the Dadri-to-Greater Noida round trip with a loaded vehicle and include the waiting area in the review.", "Use separate geofences for the yard entrance and customer premises; confirm whether the selected platform supports the required reports.", "Match vehicle IDs to dispatch records before reviewing dwell time; a GPS point alone does not confirm unloading."],
+    "sourceUrl": "https://gbnagar.nic.in/tehsil/"
+  },
+  {
+    "slug": "jewar", "name": "Jewar", "districtSlug": "gautam-buddha-nagar",
+    "sectors": ["construction fleets", "commercial service vehicles"],
+    "focus": "contractor vehicles moving between work sites",
+    "localContext": "A contractor coordinating vehicles around Jewar may need to distinguish travel between sites from time parked inside a work area. Start with the sites actually used by your team and a clear vehicle-to-supervisor assignment. Review one normal shift before choosing alert thresholds, especially where temporary access points change the final approach to a job.",
+    "routeChecks": ["Record each Jewar work site's current entry point and revise the geofence when access arrangements change.", "Ask the installer to assess power supply and mounting protection for the working vehicle, including dust and vibration exposure.", "Compare the driver's shift record with reported ignition events; ignition time is not automatically productive equipment time."],
+    "sourceUrl": "https://gbnagar.nic.in/tehsil/"
+  },
+  {
+    "slug": "shikohabad", "name": "Shikohabad", "districtSlug": "firozabad",
+    "sectors": ["regional distribution", "commercial deliveries"],
+    "focus": "multi-stop distribution and return-trip review",
+    "localContext": "For deliveries beginning in Shikohabad and continuing toward Firozabad, separate the outward delivery round from the return to base. A dispatch team can use journey history to compare the planned stop sequence with the route reported by the vehicle. Keep customer delivery confirmation in the order system, and use tracking to investigate exceptions or a missed return.",
+    "routeChecks": ["Choose a representative Shikohabad delivery round with several stops instead of testing only a short demonstration drive.", "Agree how long vehicles normally wait at customer premises before setting stop-duration notifications.", "Review the return leg independently so that collection stops and refuelling do not appear to be unplanned outward deliveries."],
+    "sourceUrl": "https://firozabad.nic.in/tehsil/"
+  },
+  {
+    "slug": "tundla", "name": "Tundla", "districtSlug": "firozabad",
+    "sectors": ["passenger transport", "staff vehicles"],
+    "focus": "scheduled pickups and vehicle handovers",
+    "localContext": "A pickup fleet operating from Tundla needs dispatchers to know which vehicle is assigned, when it last reported and where it can safely meet passengers. Build the tracking plan around your agreed pickup locations and onward journeys to Firozabad or other destinations. Record a handover when a driver changes so the next shift can interpret the same vehicle's trip history.",
+    "routeChecks": ["Place pickup geofences around the agreed vehicle waiting area in Tundla, with enough tolerance for normal parking variation.", "Check the age of the latest location update before using it to give a passenger a vehicle arrival estimate.", "Define who updates the driver assignment at shift change and who follows up an overdue pickup."],
+    "sourceUrl": "https://firozabad.nic.in/tehsil/"
+  },
+  {
+    "slug": "mohanlalganj", "name": "Mohanlalganj", "districtSlug": "lucknow",
+    "sectors": ["employee transport", "institutional fleets"],
+    "focus": "employee pickup rounds and shift attendance",
+    "localContext": "For staff vehicles linking Mohanlalganj with workplaces in Lucknow district, the tracking plan should follow the shift timetable and the actual pickup sequence. Separate the morning and evening rounds in your review, including the journey after the final passenger drop. Give dispatchers access to the vehicles they coordinate and keep responsibility for missed-pickup calls clear.",
+    "routeChecks": ["Test a complete Mohanlalganj pickup round at the operating time, including the first and last stop.", "Set location boundaries around safe meeting points instead of requiring a vehicle to reach every passenger's doorstep.", "Treat vehicle arrival records as operational evidence; confirm staff attendance through the employer's own attendance process."],
+    "sourceUrl": "https://lucknow.nic.in/tehsil%E2%80%8C-name/"
+  },
+  {
+    "slug": "malihabad", "name": "Malihabad", "districtSlug": "lucknow",
+    "sectors": ["agri-logistics", "local distribution"],
+    "focus": "collection rounds with changing pickup points",
+    "localContext": "Collection vehicles around Malihabad may visit several suppliers before continuing to a delivery point in Lucknow district. For this workflow, agree the day's collection list first and use GPS history to review the order and duration of visits. When suppliers or access roads change, update the route plan instead of comparing the journey against an outdated list of stops.",
+    "routeChecks": ["Include the smaller approach roads on a Malihabad trial route when assessing the chosen SIM and device combination.", "Keep separate records for collection quantity and vehicle location; tracking does not measure the goods loaded.", "Review a busy collection day before deciding which stop and movement alerts are useful to the dispatcher."],
+    "sourceUrl": "https://lucknow.nic.in/tehsil%E2%80%8C-name/"
+  },
+  {
+    "slug": "bilhaur", "name": "Bilhaur", "districtSlug": "kanpur-nagar",
+    "sectors": ["agri-logistics", "commercial distribution"],
+    "focus": "town-to-market trips and vehicle availability",
+    "localContext": "For a fleet based in Bilhaur, a useful daily view separates vehicles waiting for a load, travelling to a market and returning for their next assignment. Agree the reporting labels your team will use before introducing more alerts. Review actual journeys within Kanpur Nagar district and identify where a dispatcher needs a phone confirmation as well as the reported position.",
+    "routeChecks": ["Trial a Bilhaur-to-customer return journey and inspect the location timestamps at the turnaround point.", "Ask how long the selected device can retain journey data during a mobile-network interruption and how it uploads later.", "Assign a person to confirm vehicle readiness after unloading rather than assuming every vehicle at base is available."],
+    "sourceUrl": "https://kanpurnagar.nic.in/tehsil/"
+  },
+  {
+    "slug": "ghatampur", "name": "Ghatampur", "districtSlug": "kanpur-nagar",
+    "sectors": ["construction transport", "heavy vehicle fleets"],
+    "focus": "heavy-vehicle trip cycles and site waiting",
+    "localContext": "When trucks operate between a Ghatampur base and loading or construction sites, review each trip cycle from departure to return. Separate authorised site waiting from an unexplained halt before deciding how to escalate an exception. If the business also needs fuel information, assess the vehicle and sensor installation separately from the basic location-tracking setup.",
+    "routeChecks": ["Identify the loading, unloading and parking points used on a normal Ghatampur shift and check their geofence boundaries.", "Review wiring and voltage compatibility for each truck type instead of copying a passenger-car installation plan.", "For fuel monitoring, confirm tank access, sensor compatibility and calibration; GPS distance alone cannot verify fuel theft."],
+    "sourceUrl": "https://kanpurnagar.nic.in/tehsil/"
+  },
+  {
+    "slug": "etmadpur", "name": "Etmadpur", "districtSlug": "agra",
+    "sectors": ["warehouse logistics", "regional freight"],
+    "focus": "dispatch-to-customer journey comparisons",
+    "localContext": "For vehicles dispatched from Etmadpur toward customers in Agra district, compare the same kind of journey before deciding that a route is unusually slow. Loading queues, customer waiting and road travel should be reviewed separately. A small pilot with labelled dispatch and delivery points makes the tracking reports easier to interpret when the fleet is expanded.",
+    "routeChecks": ["Select one recurring Etmadpur delivery lane and record the expected departure, customer stop and return point.", "Review several trips with comparable loads and operating times before setting a travel-time exception threshold.", "Make sure the reporting period covers the full return journey when vehicles finish after midnight."],
+    "sourceUrl": "https://agra.nic.in/tehsil/"
+  },
+  {
+    "slug": "fatehabad", "name": "Fatehabad", "districtSlug": "agra",
+    "sectors": ["regional passenger transport", "commercial service vehicles"],
+    "focus": "local service rounds in Agra district",
+    "localContext": "This guide concerns Fatehabad in Agra district, Uttar Pradesh. For a service fleet visiting customers here, include the district in vehicle groups and saved location names so staff do not confuse it with Fatehabad in Haryana. Plan the day's customer sequence and review the reported journey alongside job records to understand a late visit or an incomplete round.",
+    "routeChecks": ["Name the vehicle group Fatehabad–Agra so that dispatchers select the correct operating area.", "Use a full service round to check reporting at customer locations as well as on the main road.", "Keep job completion and customer acknowledgement in the service record; geofence entry only shows a location event."],
+    "sourceUrl": "https://agra.nic.in/tehsil/"
+  },
+  {
+    "slug": "vrindavan", "name": "Vrindavan", "districtSlug": "mathura",
+    "sectors": ["tourism transport", "hospitality vehicles"],
+    "focus": "pilgrimage pickups and agreed parking points",
+    "localContext": "Vrindavan is part of the Mathura pilgrimage area. For taxis or guest-transfer vehicles, agree pickup and parking locations before the journey and share changes through the dispatcher. Use reported vehicle positions to coordinate the next pickup, while keeping the day's local access instructions with the driver. A tracker does not grant access to restricted streets or pedestrian areas.",
+    "routeChecks": ["Define separate Vrindavan drop-off and waiting points so the team can distinguish a passenger stop from parked standby time.", "Review the location-update timestamp before coordinating a pickup after a temple visit.", "Confirm the day's permitted vehicle approach and parking arrangements locally; do not treat a saved route as an access permit."],
+    "sourceUrl": "https://mathura.nic.in/municipal-corporation/"
+  },
+  {
+    "slug": "kosi-kalan", "name": "Kosi Kalan", "districtSlug": "mathura",
+    "sectors": ["commercial distribution", "freight logistics"],
+    "focus": "delivery vehicles crossing operating-area boundaries",
+    "localContext": "A delivery team serving Kosi Kalan and other locations in Mathura district can benefit from a clear handover between local dispatch and longer journeys. Define which supervisor follows the vehicle once it leaves the local delivery round. Review the destination and return route in the same trip record so responsibility does not become unclear at a district or shift boundary.",
+    "routeChecks": ["Include both the Kosi Kalan delivery section and the longer onward journey in the pilot coverage review.", "Agree whether after-hours movement requires a dispatcher check or is part of an approved return trip.", "Confirm access to earlier journey records for the supervisor taking over at the end of a shift."],
+    "sourceUrl": "https://mathura.nic.in/municipal-corporation/"
+  },
+  {
+    "slug": "sardhana", "name": "Sardhana", "districtSlug": "meerut",
+    "sectors": ["institutional transport", "school vehicles"],
+    "focus": "school pickup boundaries and route review",
+    "localContext": "For an authorised school transport team operating around Sardhana, begin with the approved pickup list, route supervisor and expected school arrival. Test whether the available device updates are frequent enough for the required operational view. Define how a missed report is followed up, and keep student attendance and parent communication within the school's agreed process.",
+    "routeChecks": ["Test the Sardhana school round during the normal pickup window, including stops at the edge of the route.", "Give route access only to authorised staff and agree who receives a missed-arrival or boundary alert.", "Confirm required approvals for the particular school vehicle separately; a GPS installation alone does not establish compliance."],
+    "sourceUrl": "https://meerut.nic.in/tehsil-level/"
+  },
+  {
+    "slug": "mawana", "name": "Mawana", "districtSlug": "meerut",
+    "sectors": ["agri-logistics", "commercial fleets"],
+    "focus": "seasonal collection and queue-time review",
+    "localContext": "For collection vehicles around Mawana, compare a normal operating day with a busy period before deciding which delays need attention. Record collection points and the destination queue as separate parts of the journey. This helps dispatchers review where vehicles spend time and plan the next assignment without assuming that every stationary vehicle has stopped working.",
+    "routeChecks": ["Mark the Mawana collection area and destination waiting area separately when setting up geofences.", "Review a full loading-and-return cycle before using a dwell-time alert to escalate a delay.", "Check antenna placement and device mounting on each vehicle configuration, particularly where bodywork or loads change."],
+    "sourceUrl": "https://meerut.nic.in/tehsil-level/"
+  },
+  {
+    "slug": "khurja", "name": "Khurja", "districtSlug": "bulandshahr",
+    "sectors": ["manufacturing logistics", "commercial distribution"],
+    "focus": "supplier collections and customer delivery evidence",
+    "localContext": "For a manufacturer or distributor coordinating journeys from Khurja, location records can help connect a supplier collection with the onward customer delivery. Give each stop a clear operational purpose and review unexpected detours against the dispatch instruction. Keep product condition, invoice acceptance and proof of delivery in their own records, because a vehicle's presence cannot verify the state of its cargo.",
+    "routeChecks": ["Label Khurja supplier and customer geofences distinctly so reports do not merge a collection with a delivery.", "Choose location-update settings that fit the desired trip review and confirm any effect on the subscription plan.", "If cargo-condition monitoring is required, assess dedicated compatible sensors rather than inferring condition from the map."],
+    "sourceUrl": "https://bulandshahar.nic.in/tehsil/"
+  },
+  {
+    "slug": "sikandrabad", "name": "Sikandrabad", "districtSlug": "bulandshahr",
+    "sectors": ["industrial transport", "employee fleets"],
+    "focus": "factory gates and staff-shift movements",
+    "localContext": "Where a fleet serves premises in Sikandrabad, distinguish the factory gate, external waiting area and the staff pickup point. Those locations can have different meanings for a dispatcher even when they are close together. Start with the actual entry arrangement at each customer or workplace, then check how the selected tracking platform records arrivals during a shift change.",
+    "routeChecks": ["Test Sikandrabad gate entry and exit with the geofence sized to the actual approach, not the whole surrounding neighbourhood.", "Use separate vehicle groups for staff transport and goods deliveries if different teams manage them.", "Agree the shift-change handover procedure so an alert reaches the supervisor currently responsible for that vehicle."],
+    "sourceUrl": "https://bulandshahar.nic.in/tehsil/"
+  },
+  {
+    "slug": "deoband", "name": "Deoband", "districtSlug": "saharanpur",
+    "sectors": ["institutional transport", "passenger fleets"],
+    "focus": "scheduled institutional journeys and late returns",
+    "localContext": "For institution-managed vehicles around Deoband, a clear booking and return process is as useful as a map. Assign the vehicle to a trip, record its approved destination and review the available journey history after return. A designated coordinator should handle delayed returns or an out-of-date position, especially when more than one department uses the same vehicle.",
+    "routeChecks": ["Include the Deoband base and the most-used destination in the initial tracking demonstration.", "Confirm how vehicle access is assigned when multiple departments share the fleet.", "Write down the late-return escalation contact and test the agreed notification with the coordinator."],
+    "sourceUrl": "https://saharanpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "nakur", "name": "Nakur", "districtSlug": "saharanpur",
+    "sectors": ["agri-logistics", "rural distribution"],
+    "focus": "rural supply rounds and delayed location uploads",
+    "localContext": "A supply round starting in Nakur may combine several customer stops before returning to a district distribution point. Include those smaller stops in the pilot so the team understands where updates arrive promptly and where reporting may be delayed. Dispatchers should compare the timestamp with the location before deciding a vehicle has stopped or missed its next assignment.",
+    "routeChecks": ["Test the full Nakur supply round using the proposed SIM, with attention to each customer approach.", "Ask for a demonstration of stored-trip upload after a connectivity gap on compatible hardware.", "Agree a phone-check procedure when the last reported position is too old for the dispatch decision."],
+    "sourceUrl": "https://saharanpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "sahjanwa", "name": "Sahjanwa", "districtSlug": "gorakhpur",
+    "sectors": ["industrial logistics", "warehouse fleets"],
+    "focus": "repeat loading cycles and dispatch readiness",
+    "localContext": "For vehicles making repeated journeys from a Sahjanwa loading point, review the complete cycle rather than only the outbound drive. The team needs to distinguish an empty return, a loading queue and readiness for the next dispatch. Label these operating points consistently and use tracking records alongside the loading supervisor's confirmation before allocating a vehicle to a new trip.",
+    "routeChecks": ["Pilot two consecutive Sahjanwa loading cycles to see whether reports separate one return from the next departure.", "Check the reporting available for the actual loading entrance rather than a broad industrial-area boundary.", "Use supervisor confirmation for load readiness; a vehicle inside the loading geofence may still be waiting."],
+    "sourceUrl": "https://gorakhpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "chauri-chaura", "name": "Chauri Chaura", "districtSlug": "gorakhpur",
+    "sectors": ["regional distribution", "commercial transport"],
+    "focus": "branch delivery rounds and exception follow-up",
+    "localContext": "For a delivery route connecting Chauri Chaura with other points in Gorakhpur district, use named branch stops to make journey review practical. Agree how dispatchers should respond when a vehicle skips a planned stop or reaches it later than expected. Compare the tracking record with the delivery manifest before treating a route change as a service failure.",
+    "routeChecks": ["Create Chauri Chaura branch stop names that match the names used on the delivery manifest.", "Test the stop sequence and the return journey using a route with several normal customer visits.", "Record the dispatcher's explanation for an approved diversion so it can be understood during later trip review."],
+    "sourceUrl": "https://gorakhpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "pindra", "name": "Pindra", "districtSlug": "varanasi",
+    "sectors": ["passenger transport", "commercial service vehicles"],
+    "focus": "booked journeys and changing pickup times",
+    "localContext": "For booked vehicles serving Pindra and destinations in Varanasi district, connect the dispatch record to the assigned vehicle before the trip begins. If the customer changes the pickup time or location, update the instruction available to the dispatcher. Review the latest reporting time and the agreed waiting point together when coordinating the next journey.",
+    "routeChecks": ["Use a Pindra pickup and an onward destination from your actual booking list for the trial journey.", "Confirm how the operator changes the vehicle assignment when a replacement vehicle is sent.", "Keep customer booking details out of broadly shared map views and limit access to the dispatch team."],
+    "sourceUrl": "https://varanasi.nic.in/tehsil/"
+  },
+  {
+    "slug": "rajatalab", "name": "Rajatalab", "districtSlug": "varanasi",
+    "sectors": ["regional logistics", "commercial distribution"],
+    "focus": "local deliveries after the main transport leg",
+    "localContext": "For a distribution vehicle serving Rajatalab, separate the main transport leg from the local customer round. A long drive followed by several short deliveries needs different review points from a single destination trip. Define the handover into local dispatch, then check the available journey record against the customer sequence and the final return to base.",
+    "routeChecks": ["Identify the Rajatalab handover point where the main journey becomes a local delivery round.", "Check location reporting at small customer stops so short visits are visible at the chosen update interval.", "Review the final return separately from the last delivery to avoid allocating a vehicle that has not yet reached base."],
+    "sourceUrl": "https://varanasi.nic.in/tehsil/"
+  },
+  {
+    "slug": "phulpur", "name": "Phulpur", "districtSlug": "prayagraj",
+    "sectors": ["industrial transport", "commercial fleets"],
+    "focus": "site-assigned vehicles and district identification",
+    "localContext": "This page covers Phulpur in Prayagraj district. Where vehicles serve more than one similarly named location, include the district in saved destinations and dispatch instructions. For a site-assigned fleet, review the route to the approved location and the reported return before closing the job, using tracking alongside the supervisor's operational record.",
+    "routeChecks": ["Save destinations as Phulpur–Prayagraj with a verified map point so staff choose the intended location.", "Confirm who approves a change of site during the journey and who updates the dispatch instruction.", "Compare the site's arrival record with GPS timestamps when investigating a late or disputed vehicle visit."],
+    "sourceUrl": "https://prayagraj.nic.in/tehsil/"
+  },
+  {
+    "slug": "soraon", "name": "Soraon", "districtSlug": "prayagraj",
+    "sectors": ["institutional transport", "school vehicles"],
+    "focus": "shared vehicles on separate morning and afternoon rounds",
+    "localContext": "For an institution coordinating vehicles around Soraon, one vehicle may cover different rounds at different times of day. Keep the morning pickup plan separate from the afternoon return and confirm who is responsible for each. Review a complete operating day to see how the available tracking history represents route changes, waiting between rounds and the final parking location.",
+    "routeChecks": ["Test both Soraon rounds and the waiting period between them before setting an out-of-hours movement alert.", "Create clear route names and check that the authorised coordinator can distinguish morning and afternoon journeys.", "Confirm the reporting and alert requirements with the institution; do not assume passenger attendance is recorded by GPS."],
+    "sourceUrl": "https://prayagraj.nic.in/tehsil/"
+  }
+]
