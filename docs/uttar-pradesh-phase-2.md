@@ -1,8 +1,8 @@
-# Uttar Pradesh Phase 2 — priority towns, batches 1 and 2
+# Uttar Pradesh Phase 2 — priority towns, batches 1–3
 
 Reviewed: 13 September 2026.
 
-Batch 1 added 24 curated town guides across 12 districts. Batch 2 adds 24 more towns in 12 additional districts, bringing Phase 2 coverage to 48 towns across 24 of the existing 75 districts. It does not claim complete city coverage of Uttar Pradesh. Selection balances NCR-adjacent, western, central and eastern UP operating areas. Search Console query volume was not available; this is an editorial priority batch, not a measured ranking of demand.
+Each of the first three batches adds 24 curated town guides in 12 additional districts. Batch 3 brings Phase 2 coverage to 72 towns across 36 of the existing 75 districts. It does not claim complete city coverage of Uttar Pradesh. Selection balances NCR-adjacent, western, central and eastern UP operating areas. Search Console query volume was not available; these are editorial priority batches, not a measured ranking of demand.
 
 ## Batch 1 district mapping references
 
@@ -44,6 +44,29 @@ Reviewed on 13 September 2026. These 12 districts did not have a Phase 2 town gu
 
 Ramnagar is listed as “Ram Nagar” in the Barabanki source. The new Nawabganj page is for Bareilly district. These records do not create pages for similarly named locations in other districts. Each new guide has an independently authored workflow and three operational checks; shared device advice and FAQs use the established town template.
 
+## Batch 3 district mapping references
+
+Reviewed on 13 September 2026. These 12 districts did not have a Phase 2 town guide in either earlier batch. This batch extends the collection to more central and eastern UP operating areas. All 48 earlier records remain unchanged.
+
+| District | Towns | Mapping source |
+| --- | --- | --- |
+| Shahjahanpur | Tilhar, Powayan | [District administration](https://shahjahanpur.nic.in/tehsil/) |
+| Sitapur | Mahmudabad, Laharpur | [District administration](https://sitapur.nic.in/tehsil/) |
+| Lakhimpur Kheri | Palia Kalan, Nighasan | [District revenue directory](https://kheri.nic.in/revenuedirectory/) |
+| Hardoi | Sandila, Shahabad | [District administration](https://hardoi.nic.in/tehsil/) |
+| Raebareli | Lalganj, Salon | [District administration](https://raebareli.nic.in/tehsil/) |
+| Fatehpur | Bindki, Khaga | [District administration](https://fatehpur.nic.in/tehsil/) |
+| Pratapgarh | Kunda, Patti | [District administration](https://pratapgarh.nic.in/tehsil/) |
+| Jaunpur | Shahganj, Kerakat | [District administration](https://jaunpur.nic.in/tehsil/) |
+| Azamgarh | Nizamabad, Lalganj | [District administration](https://azamgarh.nic.in/tehsil/) |
+| Ghazipur | Zamania, Saidpur | [District administration](https://ghazipur.nic.in/tehsil/) |
+| Deoria | Salempur, Rudrapur | [District administration](https://deoria.nic.in/tehsil/) |
+| Kushinagar | Hata, Tamkuhi Raj | [District administration](https://kushinagar.nic.in/tehsil/) |
+
+Lalganj in Raebareli and Lalganj in Azamgarh are distinct reviewed locations. They use separate district-scoped URLs, page titles, canonical URLs, keywords and authored content. The Raebareli guide discusses partial industrial unloading; the Azamgarh guide discusses multi-day sales visits. Other district labels called Lalganj do not produce town pages automatically. Nizamabad, Rudrapur and Patti also identify their UP district in the visible introduction.
+
+The Lakhimpur Kheri subdivision list abbreviates Palia Kalan to Palia; the linked revenue directory explicitly lists Palia Kalan and Nighasan. Workflow examples in this batch are editorial guidance, not sourced claims about local customers, live road conditions or NAVII GPS branches. Hardware-dependent features such as temperature sensing and detached-trailer tracking need a separate equipment assessment.
+
 ## Content and keyword rules
 
 - Each town has an authored operating scenario, three specific route checks, a relevant set of vehicle guides and visible FAQs matching the JSON-LD.
@@ -58,4 +81,4 @@ The curated data supplies static routes, canonical URLs, social metadata, releva
 
 `npm run seo:check:source` checks membership, unique URLs/content, actual district-scoped lookup functions and metadata. `npm run seo:check` also checks all rendered town pages, state/district navigation, source-visible content and matching FAQ and Service schemas, then runs the sitewide audit. GitHub CI includes both checks through the existing package scripts.
 
-Before the next batch, review actual enquiries and Search Console queries where available, verify each new district mapping, author a useful local workflow and update the reviewed inventory in the checker. Both batches are checked against an explicit route inventory so an existing town cannot be silently replaced. Every rendered town also needs links to its reviewed sibling towns. The remaining 51 districts currently retain their district-level guides without a dedicated Phase 2 town batch.
+Before the next batch, review actual enquiries and Search Console queries where available, verify each new district mapping, author a useful local workflow and update the reviewed inventory in the checker. All three batches are checked against an explicit route inventory so an existing town cannot be silently replaced. Both reviewed Lalganj pages must resolve independently and show their district in the introduction. Every rendered town also needs links to its reviewed sibling towns. The remaining 39 districts currently retain their district-level guides without a dedicated Phase 2 town batch.

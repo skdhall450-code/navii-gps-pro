@@ -66,12 +66,26 @@ const reviewedBatches = [
     jhansi: ["mauranipur", "moth"],
     unnao: ["bangarmau", "purwa"],
   },
+  {
+    shahjahanpur: ["tilhar", "powayan"],
+    sitapur: ["mahmudabad", "laharpur"],
+    "lakhimpur-kheri": ["palia-kalan", "nighasan"],
+    hardoi: ["sandila", "shahabad"],
+    raebareli: ["lalganj", "salon"],
+    fatehpur: ["bindki", "khaga"],
+    pratapgarh: ["kunda", "patti"],
+    jaunpur: ["shahganj", "kerakat"],
+    azamgarh: ["nizamabad", "lalganj"],
+    ghazipur: ["zamania", "saidpur"],
+    deoria: ["salempur", "rudrapur"],
+    kushinagar: ["hata", "tamkuhi-raj"],
+  },
 ];
 const expectedRoutes = reviewedBatches.flatMap((batch) => Object.entries(batch).flatMap(
   ([district, towns]) => towns.map((town) => `${district}/${town}`),
 ));
-assert.equal(cities.length, 48, "Update the reviewed batch inventory when adding towns");
-assert.equal(new Set(cities.map((city) => city.districtSlug)).size, 24);
+assert.equal(cities.length, 72, "Update the reviewed batch inventory when adding towns");
+assert.equal(new Set(cities.map((city) => city.districtSlug)).size, 36);
 assert.deepEqual(cities.map((city) => `${city.districtSlug}/${city.slug}`).sort(), expectedRoutes.sort(), "Published town inventory changed");
 assert.equal(new Set(cities.map(getUttarPradeshCityPath)).size, cities.length, "Duplicate city URL");
 for (const field of ["localContext", "focus"]) {
@@ -110,10 +124,19 @@ for (const city of cities) {
 assert.equal(getUttarPradeshCity("prayagraj", "fatehabad"), undefined, "Wrong parent must not resolve a same-name town");
 assert.equal(getUttarPradeshCity("varanasi", "ramnagar"), undefined, "A district location label must not create an unreviewed town page");
 assert.equal(getUttarPradeshCity("barabanki", "nawabganj"), undefined, "Bareilly Nawabganj must not resolve under Barabanki");
+// Both reviewed Lalganj towns must remain reachable under their own district.
+// Other district labels called Lalganj must not implicitly create new pages.
+const lalganjTowns = ["raebareli", "azamgarh"].map((district) => getUttarPradeshCity(district, "lalganj"));
+assert.ok(lalganjTowns.every(Boolean), "A reviewed Lalganj page is missing");
+assert.equal(new Set(lalganjTowns.map(getUttarPradeshCityPath)).size, 2);
+assert.equal(new Set(lalganjTowns.map((city) => generateUttarPradeshCityMetadata(city).title)).size, 2);
+assert.ok(lalganjTowns.every((city) => city.localContext.includes(city.districtName)), "Same-name guides need visible district identification");
+assert.equal(getUttarPradeshCity("pratapgarh", "lalganj"), undefined);
+assert.equal(getUttarPradeshCity("mirzapur", "lalganj"), undefined);
 assert.deepEqual(getUttarPradeshCitiesForDistrict("not-a-district"), []);
 
 if (process.argv.includes("--source-only")) {
-  console.log(`PASS: ${cities.length} curated UP towns across 24 districts; both batch inventories, scoped lookups, metadata and route uniqueness verified.`);
+  console.log(`PASS: ${cities.length} curated UP towns across 36 districts; all three batch inventories, same-name town lookups, metadata and route uniqueness verified.`);
   process.exit(0);
 }
 

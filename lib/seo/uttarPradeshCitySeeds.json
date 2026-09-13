@@ -382,5 +382,197 @@
     "localContext": "For a shared vehicle pool operating from Purwa, track who booked the vehicle, its approved destination and when the booking ends. The coordinator can use available trip history to review the journey, while each department confirms its own service outcome. Keep department access aligned with operational responsibility, especially when the same vehicle is reassigned several times during a working day.",
     "routeChecks": ["Demonstrate two consecutive Purwa department bookings and verify the vehicle assignment at each handover.", "Confirm the reporting access required by the pool coordinator without giving every department visibility of unrelated vehicles.", "Record late booking extensions so the next department's departure is coordinated using an updated return expectation."],
     "sourceUrl": "https://unnao.nic.in/tehsil/"
+  },
+  {
+    "slug": "tilhar", "name": "Tilhar", "districtSlug": "shahjahanpur",
+    "sectors": ["agri-logistics", "commercial transport"],
+    "focus": "weighbridge visits and load-record matching",
+    "localContext": "For a goods operator collecting around Tilhar, give each load a trip reference before the vehicle visits a weighbridge. Compare the reported visit time with the weighing slip and the loading record. A vehicle may enter the same premises before and after loading, so keep those events separate when reviewing its journey and deciding when it is ready for onward dispatch.",
+    "routeChecks": ["Include both weighing visits in a Tilhar pilot trip and identify which slip belongs to each visit.", "Check the time settings on the weighing record and GPS report before comparing their timestamps.", "Record the load quantity from the weighing documents; location or ignition events cannot establish the vehicle's weight."],
+    "sourceUrl": "https://shahjahanpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "powayan", "name": "Powayan", "districtSlug": "shahjahanpur",
+    "sectors": ["agricultural distribution", "commercial collection vehicles"],
+    "focus": "returnable crates on supplier collection rounds",
+    "localContext": "On a supplier round based in Powayan, empty crates may be dropped at one stop while filled crates are collected at another. Keep a simple crate register alongside the vehicle's trip reference. Journey history can help locate the relevant visit when a supplier queries a collection, while the signed quantities explain which containers should return to the store at the end of the round.",
+    "routeChecks": ["Trial a Powayan round with both empty-crate delivery and filled-crate collection recorded against the stops.", "Agree how the collection team records an exchange when a supplier uses containers belonging to another delivery.", "Compare the return journey with the store's crate count before closing the trip, without inferring quantities from GPS stops."],
+    "sourceUrl": "https://shahjahanpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "mahmudabad", "name": "Mahmudabad", "districtSlug": "sitapur",
+    "sectors": ["school vehicles", "institutional transport"],
+    "focus": "separate campus rounds using one school vehicle",
+    "localContext": "If a school vehicle in Mahmudabad serves two campuses, identify the campus for each round and confirm where the second round begins. Similar pickup names can otherwise cause confusion during a busy departure. Review the vehicle journey against the correct campus plan, and use the school's authorised attendance process to confirm boarding and the final handover of passengers.",
+    "routeChecks": ["Label the Mahmudabad campus rounds separately and demonstrate how the coordinator selects the correct journey.", "Check the planned gap between the first drop-off and the second campus pickup before assigning the same vehicle.", "Confirm who checks the vehicle after each round and records completion; the reported parking location does not replace that check."],
+    "sourceUrl": "https://sitapur.nic.in/tehsil/"
+  },
+  {
+    "slug": "laharpur", "name": "Laharpur", "districtSlug": "sitapur",
+    "sectors": ["regional distribution", "commercial transport"],
+    "focus": "temporary carrier vehicles and account assignment",
+    "localContext": "When an extra carrier vehicle joins a delivery operation in Laharpur, confirm the vehicle registration, fitted tracker and permitted reporting access before its first trip. Keep the carrier's assignment dates with the dispatch record. This gives the coordinator a clear way to identify the hired vehicle during the job and to review its reporting arrangements when the temporary assignment ends.",
+    "routeChecks": ["Verify the Laharpur carrier vehicle against its registration and tracker identifier before adding it to a dispatch group.", "Demonstrate the reporting access available for the assignment and agree who can approve any additional users.", "Record an end date for the temporary assignment and confirm who reviews vehicle visibility and retained trip records afterward."],
+    "sourceUrl": "https://sitapur.nic.in/tehsil/"
+  },
+  {
+    "slug": "palia-kalan", "name": "Palia Kalan", "districtSlug": "lakhimpur-kheri",
+    "sectors": ["tourism transport", "passenger vehicles"],
+    "focus": "tour vehicles booked for several consecutive days",
+    "localContext": "For a vehicle booked from Palia Kalan for several days, keep one booking reference with a separate departure plan for each day. Confirm the overnight parking arrangement and the next meeting time with the organiser. The dispatcher can then review the relevant day's vehicle reports without treating an agreed overnight stay as a missed return to the original pickup point.",
+    "routeChecks": ["Pilot a Palia Kalan booking with two daily itineraries and show how the coordinator retrieves each day's journey.", "Confirm the contact responsible for the next morning's departure when the organiser changes during a longer booking.", "Check reporting after the overnight stop before confirming vehicle availability for the day's first passenger pickup."],
+    "sourceUrl": "https://kheri.nic.in/revenuedirectory/"
+  },
+  {
+    "slug": "nighasan", "name": "Nighasan", "districtSlug": "lakhimpur-kheri",
+    "sectors": ["agri-logistics", "rural distribution"],
+    "focus": "resuming dispatch after a reporting interruption",
+    "localContext": "For a collection vehicle working from Nighasan, agree what the dispatcher should do when fresh reports stop arriving and how normal dispatch resumes. Check the timestamp of the next update before sending the vehicle to another supplier. If the selected device uploads stored points later, review their original event times so an old location is not mistaken for the vehicle's present position.",
+    "routeChecks": ["Ask for a controlled demonstration of reporting loss and recovery on the device proposed for the Nighasan route.", "Agree a driver contact procedure and verify the current route conditions before changing a collection instruction.", "Confirm whether recovered journey points retain their original times and how the platform distinguishes them from the latest update."],
+    "sourceUrl": "https://kheri.nic.in/revenuedirectory/"
+  },
+  {
+    "slug": "sandila", "name": "Sandila", "districtSlug": "hardoi",
+    "sectors": ["industrial logistics", "freight transport"],
+    "focus": "tractor and trailer identity during load exchanges",
+    "localContext": "For articulated vehicles serving a dispatch operation in Sandila, record the tractor and trailer identifiers separately when a load is exchanged. A tracker fitted to the tractor reports that vehicle's movement; it does not establish where a detached trailer remains. Match the dispatch sheet to the equipment actually carrying the consignment before using the location report to answer a customer query.",
+    "routeChecks": ["Review a Sandila trailer exchange with both equipment identifiers recorded before and after the handover.", "Ask where the tracker is installed and which asset the displayed registration represents on the proposed account.", "If detached-trailer visibility is required, assess separate hardware and power arrangements rather than assuming tractor tracking includes it."],
+    "sourceUrl": "https://hardoi.nic.in/tehsil/"
+  },
+  {
+    "slug": "shahabad", "name": "Shahabad", "districtSlug": "hardoi",
+    "sectors": ["commercial service vehicles", "fleet maintenance"],
+    "focus": "workshop visits and authorised test drives",
+    "localContext": "When a fleet vehicle from Shahabad goes to a workshop, record the repair booking and whether a test drive is authorised. A movement alert during that period needs to be read alongside the workshop instruction. Before returning the vehicle to duty, confirm the repair handover and check that the tracker still reports correctly after any electrical or dashboard work.",
+    "routeChecks": ["Label the Shahabad workshop booking with its expected start and finish so the monitoring team understands the vehicle's status.", "Agree how an authorised test drive is recorded and who the dispatcher should contact about unexpected movement.", "Check location and supported ignition events after workshop collection before reassigning the vehicle to a customer trip."],
+    "sourceUrl": "https://hardoi.nic.in/tehsil/"
+  },
+  {
+    "slug": "lalganj", "name": "Lalganj", "districtSlug": "raebareli",
+    "sectors": ["industrial distribution", "commercial transport"],
+    "focus": "partial unloading across industrial delivery stops",
+    "localContext": "This guide covers Lalganj in Raebareli district. For a vehicle carrying orders for several industrial customers, record which part of the load is due at each stop. The trip history helps a dispatcher review the visit sequence, while customer receipts establish what was actually unloaded. Keep the remaining consignment list current before directing the vehicle to the next delivery.",
+    "routeChecks": ["Use Lalganj–Raebareli in the route name and test a delivery containing separate customer orders.", "Match each customer receipt to the trip reference when only part of the vehicle's load is accepted.", "Confirm the remaining delivery list with the driver after a partial unloading or a customer-requested quantity change."],
+    "sourceUrl": "https://raebareli.nic.in/tehsil/"
+  },
+  {
+    "slug": "salon", "name": "Salon", "districtSlug": "raebareli",
+    "sectors": ["agri-logistics", "regional distribution"],
+    "focus": "returning seasonal vehicles to active service",
+    "localContext": "Before a seasonal fleet vehicle in Salon returns to regular collection work, check its physical condition and tracking setup together. An old vehicle entry in the account may show a previous location even though the device has not reported recently. Confirm the current tracker, SIM arrangement and first fresh report, then complete a short trial before assigning a full supplier round.",
+    "routeChecks": ["Check the timestamp of the Salon vehicle's first fresh report instead of relying on an older map marker.", "Confirm current device, SIM and platform arrangements after storage, particularly if hardware was moved to another vehicle.", "Run a short departure-and-return trial and record who accepts the vehicle back into the active dispatch list."],
+    "sourceUrl": "https://raebareli.nic.in/tehsil/"
+  },
+  {
+    "slug": "bindki", "name": "Bindki", "districtSlug": "fatehpur",
+    "sectors": ["agricultural distribution", "commercial collection vehicles"],
+    "focus": "market collection slots and overflow vehicle planning",
+    "localContext": "For market collections arranged from Bindki, set a collection slot for each vehicle and decide when an overflow vehicle should be called. Location reports can help the coordinator see which assigned vehicle is approaching or waiting. Confirm the actual load requirement with the collection team before sending another vehicle, so two drivers do not arrive expecting the same goods.",
+    "routeChecks": ["Trial two Bindki collection slots and compare the planned vehicle allocation with the reported arrivals.", "Name the person who approves an overflow vehicle and records which load has been reassigned to it.", "Review the queue and loading records together before deciding whether the next collection slot needs more time."],
+    "sourceUrl": "https://fatehpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "khaga", "name": "Khaga", "districtSlug": "fatehpur",
+    "sectors": ["freight logistics", "regional distribution"],
+    "focus": "consignment transfers between two tracked vehicles",
+    "localContext": "If a delivery from Khaga transfers to a second vehicle during its journey, retain both vehicle references against the consignment. The first vehicle's departure from the transfer point does not mean it still carries the goods. Record the receiving driver's acknowledgement and use the second vehicle's latest report for onward delivery coordination once the transfer has been confirmed.",
+    "routeChecks": ["Demonstrate a Khaga consignment transfer with the two vehicle registrations and the agreed transfer location recorded.", "Compare both vehicle histories with the documented transfer time before reviewing the onward delivery leg.", "Confirm who switches the consignment's dispatch reference to the receiving vehicle after the handover is acknowledged."],
+    "sourceUrl": "https://fatehpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "kunda", "name": "Kunda", "districtSlug": "pratapgarh",
+    "sectors": ["commercial transport", "field service vehicles"],
+    "focus": "breakdown support and replacement dispatch records",
+    "localContext": "For a transport operation based around Kunda, record a breakdown as a change in vehicle availability and identify who coordinates assistance. The last GPS report can support the driver's description of the location, but its age matters. Keep any replacement vehicle and onward delivery instruction linked to the original trip so the next dispatcher can follow what happened to the load.",
+    "routeChecks": ["Use a planned Kunda demonstration to check how the coordinator identifies an unavailable vehicle and its reporting time.", "Confirm the location with the driver before arranging assistance, especially when the most recent point is old.", "Keep the replacement vehicle reference and revised customer instruction with the original dispatch record."],
+    "sourceUrl": "https://pratapgarh.nic.in/tehsil/"
+  },
+  {
+    "slug": "patti", "name": "Patti", "districtSlug": "pratapgarh",
+    "sectors": ["agri-logistics", "produce distribution"],
+    "focus": "produce loads with agreed handling and delivery windows",
+    "localContext": "For a produce supplier collecting from Patti in Pratapgarh district, agree the handling plan and delivery window before the vehicle leaves. Use trip reports to review travel and waiting against that plan, while the collection team records the condition and quantity of the goods. A shorter journey alone does not establish that the produce was packed or handled correctly.",
+    "routeChecks": ["Label the Patti collection route with Pratapgarh district and note the delivery window agreed with the receiving team.", "Compare departure after loading with the packing record before reviewing the time spent on the delivery leg.", "Keep handling instructions and any arrival inspection with the consignment so quality decisions use more than a GPS timeline."],
+    "sourceUrl": "https://pratapgarh.nic.in/tehsil/"
+  },
+  {
+    "slug": "shahganj", "name": "Shahganj", "districtSlug": "jaunpur",
+    "sectors": ["parcel logistics", "commercial distribution"],
+    "focus": "parcel bag transfers and scan-record comparison",
+    "localContext": "For a parcel vehicle departing Shahganj, connect its trip reference to the bag or manifest identifiers used by the sorting team. Tracking can support a review of the vehicle's arrival at the receiving depot, while scan records establish which bags were processed. Investigate differences using both records rather than treating a vehicle entering the depot as confirmation that every parcel was received.",
+    "routeChecks": ["Choose a Shahganj dispatch with a small set of identified parcel bags for the first report comparison.", "Check the depot arrival time against bag-receipt scans and record any delay between vehicle arrival and processing.", "Confirm how the team retrieves the relevant vehicle journey when a parcel query arrives several days after dispatch."],
+    "sourceUrl": "https://jaunpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "kerakat", "name": "Kerakat", "districtSlug": "jaunpur",
+    "sectors": ["passenger transport", "contract vehicles"],
+    "focus": "contract end dates and vehicle handback evidence",
+    "localContext": "For a contracted passenger vehicle operating from Kerakat, agree where the vehicle should be handed back and when the final booking ends. Review the last assigned trip alongside the handback record. The operator should also decide what happens to any temporary reporting access, so the completed transport assignment and the ongoing vehicle ownership are handled as separate responsibilities.",
+    "routeChecks": ["Record the Kerakat contract's final trip and handback location before the last scheduled departure.", "Compare the final arrival report with the receiving person's acknowledgement of the vehicle handover.", "Review temporary user access and any installed device arrangements with the vehicle owner when the contract closes."],
+    "sourceUrl": "https://jaunpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "nizamabad", "name": "Nizamabad", "districtSlug": "azamgarh",
+    "sectors": ["manufacturing logistics", "wholesale distribution"],
+    "focus": "fragile consignments and delivery-condition records",
+    "localContext": "This guide is for Nizamabad in Azamgarh district. For a distributor moving fragile goods, keep packing checks, vehicle allocation and delivery-condition notes with the consignment. Journey history can help locate a delay or an unplanned stop for review, but it cannot establish whether a carton was secured properly or identify when damage occurred without additional evidence.",
+    "routeChecks": ["Trial a Nizamabad–Azamgarh dispatch with the packing record linked to the same vehicle and consignment reference.", "Ask which driving-event reports the proposed hardware actually supports before including them in a damage-review process.", "Record the receiving customer's condition check separately from the vehicle arrival time and retain relevant handling notes."],
+    "sourceUrl": "https://azamgarh.nic.in/tehsil/"
+  },
+  {
+    "slug": "lalganj", "name": "Lalganj", "districtSlug": "azamgarh",
+    "sectors": ["commercial service vehicles", "regional distribution"],
+    "focus": "sales tours with district-labelled customer visits",
+    "localContext": "This page covers Lalganj in Azamgarh district. For a sales vehicle visiting customers over several days, include the district in each saved destination and retain a dated visit plan. Review the available trip history against the day's intended customer list, while the sales record explains the outcome of each meeting and any follow-up required before another visit is booked.",
+    "routeChecks": ["Save Lalganj–Azamgarh customer stops with full addresses before sharing the tour plan with another driver.", "Review one day's journey at a time and compare it with that date's planned visits rather than the complete multi-day list.", "Confirm the return date and the next booking for the vehicle when a customer meeting extends the tour."],
+    "sourceUrl": "https://azamgarh.nic.in/tehsil/"
+  },
+  {
+    "slug": "zamania", "name": "Zamania", "districtSlug": "ghazipur",
+    "sectors": ["freight logistics", "commercial distribution"],
+    "focus": "depot arrivals before customer collection",
+    "localContext": "For goods sent from Zamania to a depot for customer collection, define where the vehicle journey ends and where the depot takes responsibility for the consignment. A customer may collect the goods well after the truck has left. Keep the depot receipt and customer collection record distinct so later enquiries can be answered using the right stage of the delivery process.",
+    "routeChecks": ["Review a Zamania depot delivery with separate vehicle arrival, depot receipt and customer collection times.", "Confirm who acknowledges the consignment after unloading before the truck is assigned to another journey.", "Keep the depot contact with the dispatch reference so a post-delivery query reaches the team holding the goods."],
+    "sourceUrl": "https://ghazipur.nic.in/tehsil/"
+  },
+  {
+    "slug": "saidpur", "name": "Saidpur", "districtSlug": "ghazipur",
+    "sectors": ["field service vehicles", "commercial transport"],
+    "focus": "urgent service calls within a scheduled work round",
+    "localContext": "If a service team in Saidpur accepts an urgent call during a planned round, check both vehicle position and the technician's current job before changing the order. The closest reported vehicle may lack the required parts or be unable to leave its existing assignment. Record the revised instruction and contact customers whose appointments change so everyone works from the updated plan.",
+    "routeChecks": ["Use a Saidpur trial call to compare vehicle location with the technician's availability and equipment list.", "Name the coordinator who approves an interruption to a booked job and records the reason for the route change.", "Check that postponed customers receive a revised arrangement and that their original service references remain available."],
+    "sourceUrl": "https://ghazipur.nic.in/tehsil/"
+  },
+  {
+    "slug": "salempur", "name": "Salempur", "districtSlug": "deoria",
+    "sectors": ["cold-chain logistics", "food distribution"],
+    "focus": "chilled deliveries and separate temperature records",
+    "localContext": "For a chilled-goods vehicle dispatched from Salempur, treat location reporting and temperature measurement as separate requirements. GPS trip history helps review the journey, but temperature evidence needs suitable sensors and agreed handling records. Before choosing a setup, show the supplier the actual vehicle and delivery process, then confirm which readings, alerts and retained reports are available with the proposed equipment.",
+    "routeChecks": ["Demonstrate location and temperature reporting separately on the setup proposed for the Salempur delivery route.", "Agree sensor placement, calibration arrangements and the person responsible for responding to the required temperature alerts.", "Compare the journey with loading and receiving records; a completed route does not by itself establish that temperature conditions were maintained."],
+    "sourceUrl": "https://deoria.nic.in/tehsil/"
+  },
+  {
+    "slug": "rudrapur", "name": "Rudrapur", "districtSlug": "deoria",
+    "sectors": ["institutional fleets", "commercial service vehicles"],
+    "focus": "service-area rounds and recorded work completion",
+    "localContext": "This guide concerns Rudrapur in Deoria district. For a vehicle assigned to a local service round, use a clear list of stops and the work expected at each one. The reported journey can support supervision of the assigned area, while the crew's completion record explains the actual service delivered. Passing a mapped point should not automatically close the associated work item.",
+    "routeChecks": ["Name the route Rudrapur–Deoria and review the planned service stops with the supervisor before dispatch.", "Compare a sample of recorded stops with the crew's completed work items and note any visit requiring another attempt.", "Agree how the supervisor records a stop that could not be serviced even though the vehicle reached the location."],
+    "sourceUrl": "https://deoria.nic.in/tehsil/"
+  },
+  {
+    "slug": "hata", "name": "Hata", "districtSlug": "kushinagar",
+    "sectors": ["commercial distribution", "leased fleet vehicles"],
+    "focus": "trip distance review for leased delivery vehicles",
+    "localContext": "For a leased delivery vehicle based in Hata, agree which distance record is used in the operating arrangement before comparing daily journeys. A GPS report and the vehicle odometer may differ because they measure distance differently or cover different time windows. Keep departure and return readings with the trip reference and investigate missing reports or extra authorised movements before reconciling the day's usage.",
+    "routeChecks": ["Record the Hata vehicle's odometer at departure and return for the same time window used in the trip report.", "Check for reporting gaps and authorised workshop or repositioning trips when reviewing a distance difference.", "Confirm the agreed method for recording vehicle usage with the owner before relying on an exported GPS distance total."],
+    "sourceUrl": "https://kushinagar.nic.in/tehsil/"
+  },
+  {
+    "slug": "tamkuhi-raj", "name": "Tamkuhi Raj", "districtSlug": "kushinagar",
+    "sectors": ["regional logistics", "commercial transport"],
+    "focus": "loaded overnight parking and morning release checks",
+    "localContext": "For a loaded vehicle parked overnight after a Tamkuhi Raj dispatch, agree the parking location and who may authorise movement before the next delivery leg. Review supported parked-movement alerts with that person. The morning release should also include the driver's vehicle and load checks; an unchanged map position alone cannot confirm the condition of the vehicle or its consignment.",
+    "routeChecks": ["Test the proposed parked-movement alert at the approved Tamkuhi Raj waiting point with the responsible coordinator.", "Confirm how any authorised repositioning is recorded during the overnight stop and who receives the revised parking details.", "Check the next fresh location report alongside the driver's morning release confirmation before issuing the onward dispatch."],
+    "sourceUrl": "https://kushinagar.nic.in/tehsil/"
   }
 ]
