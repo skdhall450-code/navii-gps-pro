@@ -1,5 +1,8 @@
 "use client";
 
+import { VEHICLE_TYPE_OPTIONS, normalizeVehicleType, type VehicleType } from "@/lib/vehicle-presentation";
+import { VehicleTypeIcon } from "@/components/tracking/VehicleTypeIcon";
+
 import Link from "next/link";
 
 import {
@@ -83,6 +86,7 @@ type Device = {
 type Vehicle = {
   id: string;
   vehicleNo: string;
+  vehicleType?: string | null;
   name: string | null;
   status: VehicleStatus;
   speed: number;
@@ -133,6 +137,7 @@ type StatusFilter =
 
 type VehicleForm = {
   vehicleNo: string;
+  vehicleType: VehicleType;
   name: string;
   imei: string;
   model: string;
@@ -143,6 +148,7 @@ type VehicleForm = {
 
 const EMPTY_FORM: VehicleForm = {
   vehicleNo: "",
+  vehicleType: "OTHER",
   name: "",
   imei: "",
   model: "",
@@ -537,9 +543,9 @@ function VehiclesPageContent() {
       form.dealerId,
     ]);
 
-  function updateForm(
-    key: keyof VehicleForm,
-    value: string,
+  function updateForm<K extends keyof VehicleForm>(
+    key: K,
+    value: VehicleForm[K],
   ) {
     setForm(
       (current) => ({
@@ -581,6 +587,7 @@ function VehiclesPageContent() {
     setEditingVehicle(vehicle);
 
     setForm({
+      vehicleType: normalizeVehicleType(vehicle.vehicleType),
       vehicleNo:
         vehicle.vehicleNo,
 
@@ -657,6 +664,7 @@ function VehiclesPageContent() {
 
                 companyId:
                   user.companyId,
+                vehicleType: form.vehicleType,
 
                 imei:
                   form.imei.trim() ||
@@ -740,7 +748,7 @@ function VehiclesPageContent() {
       return;
     }
 
-    if (!form.imei.trim()) {
+    if (editingVehicle.device && !form.imei.trim()) {
       setError(
         "IMEI cannot be empty when editing a linked device.",
       );
@@ -773,17 +781,12 @@ function VehiclesPageContent() {
                 name:
                   form.name.trim() ||
                   null,
-
-                imei:
-                  form.imei.trim(),
-
-                model:
-                  form.model.trim() ||
-                  null,
-
-                simNumber:
-                  form.simNumber.trim() ||
-                  null,
+                vehicleType: form.vehicleType,
+                ...(form.imei.trim() ? {
+                  imei: form.imei.trim(),
+                  model: form.model.trim() || null,
+                  simNumber: form.simNumber.trim() || null,
+                } : {}),
               },
             ),
           },
@@ -1203,6 +1206,22 @@ function VehiclesPageContent() {
                     className="input-field"
                     placeholder="Vehicle name"
                   />
+                </Field>
+
+                <Field label="Vehicle Type">
+                  <div className="flex items-center gap-2">
+                    <VehicleTypeIcon type={form.vehicleType} />
+                    <select
+                      aria-label="Vehicle type"
+                      value={form.vehicleType}
+                      onChange={(event) => updateForm("vehicleType", normalizeVehicleType(event.target.value))}
+                      className="input-field min-w-0 flex-1"
+                    >
+                      {VEHICLE_TYPE_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                  </div>
                 </Field>
 
                 <Field label="GPS IMEI">

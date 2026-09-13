@@ -1,5 +1,8 @@
 "use client";
 
+import { VehicleTypeIcon } from "@/components/tracking/VehicleTypeIcon";
+import { formatSimNumber, getVehicleIconSvg, getVehicleTypeLabel } from "@/lib/vehicle-presentation";
+
 import {
   useCallback,
   useEffect,
@@ -57,6 +60,7 @@ type Device = {
 type Vehicle = {
   id: string;
   vehicleNo: string;
+  vehicleType?: string | null;
   name: string | null;
   status: VehicleStatus;
   speed: number;
@@ -329,7 +333,7 @@ function createVehicleIcon(
         font-weight:800;
         letter-spacing:.5px;
       ">
-        GPS
+        ${getVehicleIconSvg(vehicle.vehicleType)}
       </div>
     `,
 
@@ -811,6 +815,8 @@ export default function LiveTrackingMap() {
             vehicle.name ?? "",
             vehicle.device
               ?.imei ?? "",
+            vehicle.device?.simNumber ?? "",
+            getVehicleTypeLabel(vehicle.vehicleType),
             vehicle.device
               ?.model ?? "",
           ]
@@ -1028,7 +1034,7 @@ export default function LiveTrackingMap() {
                       .value,
                   )
                 }
-                placeholder="Search vehicle / IMEI..."
+                placeholder="Search vehicle / IMEI / SIM..."
                 className="w-full bg-transparent text-sm outline-none placeholder:text-slate-500"
               />
             </div>
@@ -1079,7 +1085,7 @@ export default function LiveTrackingMap() {
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex min-w-0 gap-3">
                             <div className="rounded-xl bg-sky-500/10 p-2 text-sky-400">
-                              <Truck className="h-5 w-5" />
+                              <VehicleTypeIcon type={vehicle.vehicleType} />
                             </div>
 
                             <div className="min-w-0">
@@ -1103,6 +1109,12 @@ export default function LiveTrackingMap() {
                               communication
                             }
                           />
+                        </div>
+
+                        <div className="mt-3 space-y-1 break-all text-xs text-slate-300">
+                          <p>IMEI: {vehicle.device?.imei ?? "Not assigned"}</p>
+                          <p>SIM: {formatSimNumber(vehicle.device?.simNumber)}</p>
+                          <p>{getVehicleTypeLabel(vehicle.vehicleType)}</p>
                         </div>
 
                         <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-400">
@@ -1210,6 +1222,7 @@ export default function LiveTrackingMap() {
               </div>
 
               <div className="mt-5 space-y-3 border-t border-white/10 pt-5 text-sm">
+                <InfoLine label="Vehicle Type" value={getVehicleTypeLabel(selectedVehicle.vehicleType)} />
                 <InfoLine
                   label="IMEI"
                   value={
@@ -1221,24 +1234,11 @@ export default function LiveTrackingMap() {
                 />
 
                 <InfoLine
-                  label="Model"
-                  value={
-                    selectedVehicle
-                      .device
-                      ?.model ??
-                    "—"
-                  }
+                  label="SIM"
+                  value={formatSimNumber(selectedVehicle.device?.simNumber)}
                 />
 
-                <InfoLine
-                  label="SIM"
-                  value={
-                    selectedVehicle
-                      .device
-                      ?.simNumber ??
-                    "—"
-                  }
-                />
+                <InfoLine label="Model" value={selectedVehicle.device?.model ?? "—"} />
 
                 <InfoLine
                   label="Latitude"
@@ -1510,6 +1510,10 @@ export default function LiveTrackingMap() {
                               }
                             </strong>
 
+                            <p>{getVehicleTypeLabel(vehicle.vehicleType)}</p>
+                            <p className="break-all">IMEI: {vehicle.device?.imei ?? "Not assigned"}</p>
+                            <p className="break-all">SIM: {formatSimNumber(vehicle.device?.simNumber)}</p>
+
                             <br />
 
                             {vehicle
@@ -1693,7 +1697,7 @@ function InfoLine({
         {label}
       </span>
 
-      <span className="text-right font-medium">
+      <span className="min-w-0 break-all text-right font-medium">
         {value}
       </span>
     </div>
