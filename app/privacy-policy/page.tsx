@@ -1,5 +1,6 @@
 import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import LegalPage, { type LegalSection } from "@/components/legal/LegalPage";
 
@@ -119,6 +120,14 @@ const sections: LegalSection[] = [
       "Subject to applicable law and verification of your identity and authority, you may request information about processing, access, correction, completion, updating or erasure of personal data, withdraw consent, or raise a grievance.",
       "Some information may be retained where required for legal compliance, fraud prevention, security, contractual claims or another lawful purpose. Requests may be sent to helpline@naviigps.com.",
     ],
+    extra: (
+      <Link
+        href="/account-deletion"
+        className="mt-4 inline-block font-semibold text-cyan-800 underline underline-offset-4"
+      >
+        Request deletion of your NAVII GPS account and data
+      </Link>
+    ),
   },
   {
     title: "11. Cookies and similar technology",
@@ -145,7 +154,7 @@ export default function PrivacyPolicyPage() {
       title="Privacy Policy"
       description="How NAVII GPS INDIA handles personal, vehicle, device and location information across our website and connected GPS platform."
       effectiveDate="23 August 2026"
-      lastUpdated="26 August 2026"
+      lastUpdated="13 September 2026"
       variant="privacy"
       sections={sections}
     /></>

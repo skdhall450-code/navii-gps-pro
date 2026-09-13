@@ -232,6 +232,13 @@ export default function FooterV2() {
             </Link>
 
             <Link
+              href="/account-deletion"
+              className="text-slate-400 transition hover:text-cyan-300"
+            >
+              Delete account and data
+            </Link>
+
+            <Link
               href="/terms"
               className="text-slate-400 transition hover:text-cyan-300"
             >
