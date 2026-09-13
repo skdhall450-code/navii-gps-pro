@@ -43,3 +43,7 @@ The existing IndexNow workflow runs after successful main-branch validation, che
 ## September 2026 correction baseline
 
 The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 11 missing canonicals and 705 inherited homepage social titles. Full link-graph validation also found 356 pages unreachable from the homepage. Corrections add entry links for the Delhi and international hubs, city links on standalone Northeast state pages, and a link between the two school-bus guides. No new location routes are introduced by this maintenance change.
+
+## Uttar Pradesh town expansion
+
+[Phase 2 batch 1](uttar-pradesh-phase-2.md) adds 24 reviewed town guides across 12 districts, with explicit district mapping sources and authored route-planning content. The automatic route, keyword and sitemap generation is limited to these curated records. The UP town checks run in both source and production audit commands.
