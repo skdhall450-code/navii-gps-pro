@@ -35,8 +35,44 @@ const { uttarPradeshDistricts: districts } = loadSeoModule("lib/seo/uttarPradesh
 const { priorityCities } = loadSeoModule("lib/seo/priorityCities.ts");
 const { westIndiaCities } = loadSeoModule("lib/seo/westIndiaCities.ts");
 
-assert.equal(cities.length, 24, "Update the reviewed batch inventory when adding towns");
-assert.equal(new Set(cities.map((city) => city.districtSlug)).size, 12);
+// Reviewed route inventory prevents an old town from being silently replaced
+// by another record while a simple total-count check still passes.
+const reviewedBatches = [
+  {
+    "gautam-buddha-nagar": ["dadri", "jewar"],
+    firozabad: ["shikohabad", "tundla"],
+    lucknow: ["mohanlalganj", "malihabad"],
+    "kanpur-nagar": ["bilhaur", "ghatampur"],
+    agra: ["etmadpur", "fatehabad"],
+    mathura: ["vrindavan", "kosi-kalan"],
+    meerut: ["sardhana", "mawana"],
+    bulandshahr: ["khurja", "sikandrabad"],
+    saharanpur: ["deoband", "nakur"],
+    gorakhpur: ["sahjanwa", "chauri-chaura"],
+    varanasi: ["pindra", "rajatalab"],
+    prayagraj: ["phulpur", "soraon"],
+  },
+  {
+    ayodhya: ["rudauli", "bikapur"],
+    barabanki: ["haidergarh", "ramnagar"],
+    sultanpur: ["lambhua", "kadipur"],
+    bareilly: ["aonla", "nawabganj"],
+    moradabad: ["bilari", "thakurdwara"],
+    bijnor: ["najibabad", "dhampur"],
+    muzaffarnagar: ["khatauli", "budhana"],
+    shamli: ["kairana", "kandhla"],
+    hapur: ["pilkhuwa", "garhmukteshwar"],
+    aligarh: ["khair", "atrauli"],
+    jhansi: ["mauranipur", "moth"],
+    unnao: ["bangarmau", "purwa"],
+  },
+];
+const expectedRoutes = reviewedBatches.flatMap((batch) => Object.entries(batch).flatMap(
+  ([district, towns]) => towns.map((town) => `${district}/${town}`),
+));
+assert.equal(cities.length, 48, "Update the reviewed batch inventory when adding towns");
+assert.equal(new Set(cities.map((city) => city.districtSlug)).size, 24);
+assert.deepEqual(cities.map((city) => `${city.districtSlug}/${city.slug}`).sort(), expectedRoutes.sort(), "Published town inventory changed");
 assert.equal(new Set(cities.map(getUttarPradeshCityPath)).size, cities.length, "Duplicate city URL");
 for (const field of ["localContext", "focus"]) {
   assert.equal(new Set(cities.map((city) => city[field])).size, cities.length, `Repeated ${field}`);
@@ -55,6 +91,10 @@ for (const city of cities) {
   assert.equal(getUttarPradeshCity("not-a-district", city.slug), undefined);
   assert.equal(getUttarPradeshCity(city.districtSlug, "not-a-city"), undefined);
   assert.equal(getUttarPradeshCity("haryana", city.slug), undefined);
+  for (const otherDistrict of districts.filter((entry) => entry.slug !== city.districtSlug)) {
+    const expected = cities.find((entry) => entry.districtSlug === otherDistrict.slug && entry.slug === city.slug);
+    assert.equal(getUttarPradeshCity(otherDistrict.slug, city.slug), expected, `Town resolved under the wrong district: ${otherDistrict.slug}/${city.slug}`);
+  }
   assert.equal(getUttarPradeshCitiesForDistrict(city.districtSlug).length, 2);
   assert.ok(![...priorityCities, ...westIndiaCities].some((entry) => entry.stateSlug === "uttar-pradesh" && entry.name.toLowerCase() === city.name.toLowerCase()), `Existing flat city page would compete: ${city.name}`);
   assert.ok(!existsSync(`app/gps-tracker/${city.slug}/page.tsx`), `Existing static city page would compete: ${city.slug}`);
@@ -68,10 +108,12 @@ for (const city of cities) {
   assert.equal(new Set(metadata.keywords.map((entry) => entry.toLowerCase())).size, metadata.keywords.length);
 }
 assert.equal(getUttarPradeshCity("prayagraj", "fatehabad"), undefined, "Wrong parent must not resolve a same-name town");
+assert.equal(getUttarPradeshCity("varanasi", "ramnagar"), undefined, "A district location label must not create an unreviewed town page");
+assert.equal(getUttarPradeshCity("barabanki", "nawabganj"), undefined, "Bareilly Nawabganj must not resolve under Barabanki");
 assert.deepEqual(getUttarPradeshCitiesForDistrict("not-a-district"), []);
 
 if (process.argv.includes("--source-only")) {
-  console.log("PASS: 24 curated UP towns across 12 districts; mappings, scoped lookups, metadata and route uniqueness verified.");
+  console.log(`PASS: ${cities.length} curated UP towns across 24 districts; both batch inventories, scoped lookups, metadata and route uniqueness verified.`);
   process.exit(0);
 }
 
@@ -89,6 +131,9 @@ for (const city of cities) {
   assert.ok(hub.includes(`href="${path}"`), `Missing state-to-town link: ${path}`);
   assert.ok(districtHtml.includes(`href="${path}"`), `Missing district-to-town link: ${path}`);
   assert.ok(html.includes(`href="/gps-tracker/uttar-pradesh/${city.districtSlug}"`), `Missing parent: ${path}`);
+  for (const sibling of getUttarPradeshCitiesForDistrict(city.districtSlug).filter((entry) => entry.slug !== city.slug)) {
+    assert.ok(html.includes(`href="${getUttarPradeshCityPath(sibling)}"`), `Missing sibling link: ${path}`);
+  }
   assert.ok(html.includes(`rel="canonical" href="${url}"`), `Wrong canonical: ${path}`);
   assert.ok(!existsSync(`${root}/gps-tracker/${city.slug}.html`), `Duplicate flat URL for ${city.name}`);
   const visible = normalize(html.split("<main>")[1].split("</main>")[0].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, ""));
@@ -110,4 +155,4 @@ for (const city of cities) {
     assert.ok(visible.includes(question.acceptedAnswer.text), `Hidden FAQ answer: ${path}`);
   }
 }
-console.log("PASS: 24 rendered UP town pages; parent/hub links, visible local content, sitemap, FAQ and district-scoped schema verified.");
+console.log(`PASS: ${cities.length} rendered UP town pages; parent/hub/sibling links, visible local content, sitemap, FAQ and district-scoped schema verified.`);

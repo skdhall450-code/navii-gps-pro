@@ -190,5 +190,197 @@
     "localContext": "For an institution coordinating vehicles around Soraon, one vehicle may cover different rounds at different times of day. Keep the morning pickup plan separate from the afternoon return and confirm who is responsible for each. Review a complete operating day to see how the available tracking history represents route changes, waiting between rounds and the final parking location.",
     "routeChecks": ["Test both Soraon rounds and the waiting period between them before setting an out-of-hours movement alert.", "Create clear route names and check that the authorised coordinator can distinguish morning and afternoon journeys.", "Confirm the reporting and alert requirements with the institution; do not assume passenger attendance is recorded by GPS."],
     "sourceUrl": "https://prayagraj.nic.in/tehsil/"
+  },
+{
+    "slug": "rudauli", "name": "Rudauli", "districtSlug": "ayodhya",
+    "sectors": ["passenger transport", "commercial service vehicles"],
+    "focus": "pre-booked transfers and backup vehicle allocation",
+    "localContext": "For a transfer operator serving Rudauli and destinations in Ayodhya district, tracking is most useful when each booking has a named vehicle and a clear backup plan. Agree when a dispatcher should check a delayed departure and when a replacement is needed. Use the latest reported location together with driver confirmation, particularly when the next booking depends on the previous vehicle returning.",
+    "routeChecks": ["Trial a Rudauli departure with the dispatcher checking the vehicle's reporting time before confirming it to the customer.", "Test the procedure for assigning a replacement vehicle, including updating the driver and customer pickup instructions.", "Review the time between bookings and agree a realistic turnaround allowance before treating a late return as an exception."],
+    "sourceUrl": "https://ayodhya.nic.in/tehsil/"
+  },
+  {
+    "slug": "bikapur", "name": "Bikapur", "districtSlug": "ayodhya",
+    "sectors": ["commercial distribution", "field service vehicles"],
+    "focus": "field visits with equipment collection on return",
+    "localContext": "A field service team working from Bikapur may deliver equipment to one customer and collect it from another during the same round. Label those two job types separately in the work order. Journey history can help a coordinator review when the vehicle visited each location, while the technician's equipment record establishes what was delivered, collected or left for a later visit.",
+    "routeChecks": ["Build a Bikapur trial round containing both a delivery and a collection, and compare the visit sequence with the work orders.", "Record approved extra stops in the day's job list so that a collection added by the coordinator can be explained later.", "Define who confirms returned equipment at base; parking near the store does not confirm that the equipment was checked in."],
+    "sourceUrl": "https://ayodhya.nic.in/tehsil/"
+  },
+  {
+    "slug": "haidergarh", "name": "Haidergarh", "districtSlug": "barabanki",
+    "sectors": ["regional logistics", "commercial distribution"],
+    "focus": "branch replenishment with fixed receiving windows",
+    "localContext": "For stock replenishment around Haidergarh, identify which branches accept deliveries only during an agreed receiving window. Review the vehicle's reported arrival against that window and the branch's receipt record. If a stop is postponed, keep the revised instruction with the dispatch record so the remaining journey can be understood without assuming that a route change was made without authorisation.",
+    "routeChecks": ["Choose a Haidergarh replenishment route with at least one time-limited receiving point for the first reporting review.", "Separate the scheduled receiving time, reported vehicle arrival and branch acceptance in the dispatch record.", "Agree how the dispatcher records a closed branch and reschedules that delivery without losing the original trip reference."],
+    "sourceUrl": "https://barabanki.nic.in/about-district/administrative-setup/tehsil/"
+  },
+  {
+    "slug": "ramnagar", "name": "Ramnagar", "districtSlug": "barabanki",
+    "sectors": ["institutional transport", "school vehicles"],
+    "focus": "district-specific school routes and substitute drivers",
+    "localContext": "This guide covers Ramnagar in Barabanki district, listed as Ram Nagar in the district administration's tehsil directory. For a school route here, give substitute drivers a verified pickup list rather than only a town name. The authorised coordinator can review the vehicle journey and follow up a missed pickup, while the school's attendance process records which passengers actually boarded.",
+    "routeChecks": ["Label saved pickup points Ramnagar–Barabanki and check them with the route supervisor before the first run.", "Demonstrate how a substitute driver receives the current stop list and how the coordinator records the change of driver.", "Test an agreed missed-pickup notification without including student names in a widely accessible vehicle group."],
+    "sourceUrl": "https://barabanki.nic.in/about-district/administrative-setup/tehsil/"
+  },
+  {
+    "slug": "lambhua", "name": "Lambhua", "districtSlug": "sultanpur",
+    "sectors": ["agri-logistics", "commercial transport"],
+    "focus": "supplier rounds with a daily load cut-off",
+    "localContext": "For a collection fleet working around Lambhua, agree the last collection time before vehicles leave for the day's delivery destination. Use the tracking record to review the order of supplier visits and the departure after the final pickup. If a late collection is approved, record that decision so the driver and the receiving team work from the same revised plan.",
+    "routeChecks": ["Test a Lambhua supplier round through the final collection and check when the loaded vehicle begins its onward journey.", "Agree which person can approve a collection after the daily cut-off and how that instruction reaches the driver.", "Compare trip history with the collection register; a stop-duration report cannot establish the quantity or quality of goods loaded."],
+    "sourceUrl": "https://sultanpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "kadipur", "name": "Kadipur", "districtSlug": "sultanpur",
+    "sectors": ["commercial service vehicles", "regional distribution"],
+    "focus": "repeat customer visits and unresolved service calls",
+    "localContext": "When a service vehicle returns to the same customer in Kadipur, the second visit should remain linked to the original job. Use a job reference and the available trip history to distinguish a planned follow-up from an unnecessary repeat journey. A location record can support visit review, but the service team's notes are needed to explain what remained unresolved and why another trip was required.",
+    "routeChecks": ["Include a planned return visit to one Kadipur customer in the pilot and review how both stops appear in journey history.", "Check that the coordinator can retrieve the right reporting date when a follow-up occurs on a later day.", "Keep the reason for a repeat visit in the service record instead of inferring the outcome from time parked at the customer."],
+    "sourceUrl": "https://sultanpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "aonla", "name": "Aonla", "districtSlug": "bareilly",
+    "sectors": ["industrial transport", "warehouse logistics"],
+    "focus": "loaded and empty vehicle movements between depots",
+    "localContext": "For depot journeys involving Aonla, make the loading status part of the dispatch instruction rather than guessing it from the route. A vehicle can follow the same road while carrying goods in one direction and returning empty in the other. Review those movements as separate operational legs and confirm the unloading or collection event with the depot team before assigning the next load.",
+    "routeChecks": ["Pilot an Aonla depot journey with loaded and empty legs clearly labelled in the dispatch register.", "Check whether the chosen reporting plan lets supervisors review each leg within the required date and time range.", "Agree how the depot records loading completion so a vehicle's departure timestamp can be compared with that confirmation."],
+    "sourceUrl": "https://bareilly.nic.in/tehsil/"
+  },
+  {
+    "slug": "nawabganj", "name": "Nawabganj", "districtSlug": "bareilly",
+    "sectors": ["regional distribution", "commercial service vehicles"],
+    "focus": "unambiguous customer locations and address corrections",
+    "localContext": "This page concerns Nawabganj in Bareilly district. When customers provide only a town name, verify the district and the actual delivery entrance before saving the destination. For repeat rounds, keep one agreed location record per customer and have the dispatcher review address corrections. This reduces confusion when different drivers use the same customer list or similarly named places appear in search.",
+    "routeChecks": ["Save the route group as Nawabganj–Bareilly and check each customer's location against the delivery address.", "Ask a driver to confirm the usable vehicle entrance during the first visit instead of relying only on a building's map label.", "Define who updates a corrected customer point and check that the next dispatcher uses the revised location."],
+    "sourceUrl": "https://bareilly.nic.in/tehsil/"
+  },
+  {
+    "slug": "bilari", "name": "Bilari", "districtSlug": "moradabad",
+    "sectors": ["commercial distribution", "retail delivery fleets"],
+    "focus": "retailer delivery attempts and undelivered returns",
+    "localContext": "For a retailer delivery round around Bilari, distinguish a successful handover from an attempted visit to a closed shop. Tracking can support the reported arrival and departure times, while the delivery record explains why an order returns to base. Keep failed attempts attached to the original route so the next day's planner can decide whether to combine a retry with another scheduled round.",
+    "routeChecks": ["Review a Bilari delivery attempt with the stop location and the driver's recorded outcome side by side.", "Agree how undelivered items are reconciled at base before closing the vehicle's route for the day.", "Check access to the previous journey when the dispatcher prepares a retry, rather than creating an unrelated delivery history."],
+    "sourceUrl": "https://moradabad.nic.in/tehsil/"
+  },
+  {
+    "slug": "thakurdwara", "name": "Thakurdwara", "districtSlug": "moradabad",
+    "sectors": ["regional passenger transport", "employee vehicles"],
+    "focus": "split shifts and authorised parking between rounds",
+    "localContext": "For passenger vehicles based around Thakurdwara, define where a vehicle may park between two assigned rounds. A long stationary period can be normal during a split shift, while a short unscheduled movement may need a coordinator's attention. Review the timetable with the driver and make the approved waiting arrangement visible to the person monitoring the fleet.",
+    "routeChecks": ["Test a Thakurdwara split shift including the agreed parking interval, not just the active passenger journeys.", "Ask which parked-movement alerts the selected device supports and confirm who should respond during the break.", "Update the parking instruction when a driver is assigned a different waiting location for a particular day."],
+    "sourceUrl": "https://moradabad.nic.in/tehsil/"
+  },
+  {
+    "slug": "najibabad", "name": "Najibabad", "districtSlug": "bijnor",
+    "sectors": ["freight logistics", "regional distribution"],
+    "focus": "longer journeys with planned driver check-ins",
+    "localContext": "For a goods vehicle leaving Najibabad on a longer delivery, agree check-in points and the dispatcher responsible beyond the local operating area. Use the latest position and reporting timestamp to decide whether a scheduled call is needed. Record planned breaks separately from customer waiting so the team can review the journey without confusing an approved rest stop with a delivery delay.",
+    "routeChecks": ["Include the full Najibabad outbound route when checking SIM coverage and the age of reported positions.", "Agree driver check-in times and a contact procedure when updates are too old for a dispatch decision.", "Keep planned break information with the trip record; a GPS stop alone cannot determine whether a driver has rested adequately."],
+    "sourceUrl": "https://bijnor.nic.in/tehsil/"
+  },
+  {
+    "slug": "dhampur", "name": "Dhampur", "districtSlug": "bijnor",
+    "sectors": ["agri-logistics", "commercial collection vehicles"],
+    "focus": "rotating collection vehicles and consistent reporting",
+    "localContext": "A collection operator in Dhampur may rotate vehicles across the same supplier round as availability changes. Keep the route identity separate from the vehicle identity so yesterday's report can still be compared with today's trip. When a replacement vehicle joins the operation, confirm its tracker assignment and reporting settings before relying on it for collection follow-up.",
+    "routeChecks": ["Run the Dhampur collection route with a replacement vehicle and verify that the correct registration appears in the account.", "Compare the reporting interval on both devices before interpreting a difference in the number of recorded stops.", "Record the vehicle substitution in dispatch notes so supplier visits remain associated with the intended collection round."],
+    "sourceUrl": "https://bijnor.nic.in/tehsil/"
+  },
+  {
+    "slug": "khatauli", "name": "Khatauli", "districtSlug": "muzaffarnagar",
+    "sectors": ["commercial transport", "freight logistics"],
+    "focus": "approved refuelling stops and journey reconciliation",
+    "localContext": "For trucks operating from Khatauli, agree how the dispatcher records approved refuelling and other intermediate stops. Journey history can show where the vehicle reported a halt, but fuel quantity should come from receipts or a separately assessed compatible monitoring system. Reconcile those records with the trip before using a stop or a distance difference to question a driver's route.",
+    "routeChecks": ["Include the usual Khatauli refuelling stop in a test trip and distinguish it from customer unloading time.", "Compare the receipt time and vehicle report when checking a refuelling visit; do not treat proximity as proof of a purchase.", "If tank monitoring is required, request a separate sensor and calibration assessment for the actual truck."],
+    "sourceUrl": "https://muzaffarnagar.nic.in/tehsil/"
+  },
+  {
+    "slug": "budhana", "name": "Budhana", "districtSlug": "muzaffarnagar",
+    "sectors": ["agri-logistics", "rural distribution"],
+    "focus": "collection routes with temporary access changes",
+    "localContext": "For a supplier collection round around Budhana, record the actual vehicle approach when a regular entrance is temporarily unavailable. The dispatcher should retain the approved alternative with the day's instruction. Reviewing that note alongside journey history helps explain a different approach or a longer stop without comparing every trip against an access arrangement that may no longer apply.",
+    "routeChecks": ["Use a Budhana collection point with an alternate entrance to test whether the saved location still describes the usable approach.", "Confirm who records temporary route instructions and when they should be reviewed or removed.", "Check that an approved detour remains visible in dispatch notes when the supervisor later reviews the vehicle history."],
+    "sourceUrl": "https://muzaffarnagar.nic.in/tehsil/"
+  },
+  {
+    "slug": "kairana", "name": "Kairana", "districtSlug": "shamli",
+    "sectors": ["commercial distribution", "regional transport"],
+    "focus": "delivery handovers between two dispatch teams",
+    "localContext": "For a delivery beginning in Kairana and continuing into another team's operating area, define the handover before departure. Both coordinators should use the same vehicle identity and agree who follows up a delayed location report. Keep the receiving team's acknowledgement with the trip so there is a clear transition in responsibility, even if the vehicle continues without stopping at a branch.",
+    "routeChecks": ["Trial a Kairana departure with both dispatch teams confirming access to the intended vehicle's current reporting view.", "Choose a named handover point or time and record when the receiving coordinator takes responsibility.", "Check that access after handover remains limited to the vehicles needed by each team under the chosen account configuration."],
+    "sourceUrl": "https://shamli.nic.in/public-utility-category/municipality/"
+  },
+  {
+    "slug": "kandhla", "name": "Kandhla", "districtSlug": "shamli",
+    "sectors": ["retail distribution", "commercial service vehicles"],
+    "focus": "short market visits and reporting interval selection",
+    "localContext": "A vehicle serving shops in Kandhla may make visits shorter than a fleet's default reporting interval. Test that workflow before assuming every completed stop will appear as a separate event. Compare the available trip record with the delivery list and ask about suitable device settings, while keeping the driver's delivery confirmation as the record of the actual customer handover.",
+    "routeChecks": ["Pilot a Kandhla round with several brief shop visits and compare which stops are visible at the proposed update interval.", "Confirm any subscription or data implications before changing location-reporting frequency across the fleet.", "Decide how the dispatcher records very short visits that cannot be distinguished reliably from the available GPS points."],
+    "sourceUrl": "https://shamli.nic.in/public-utility-category/municipality/"
+  },
+  {
+    "slug": "pilkhuwa", "name": "Pilkhuwa", "districtSlug": "hapur",
+    "sectors": ["manufacturing logistics", "wholesale distribution"],
+    "focus": "consolidated dispatch from several supplier premises",
+    "localContext": "For consolidated deliveries assembled around Pilkhuwa, distinguish each supplier pickup from the point where the final outbound load is ready. Several stops near one another may serve different orders or vehicles. Use consistent supplier names and a dispatch manifest to connect the recorded journey with the intended consignment, then confirm the final handover before the longer delivery leg begins.",
+    "routeChecks": ["Include two different Pilkhuwa supplier premises in the pilot and check that their location boundaries remain distinguishable.", "Match the vehicle registration and consignment reference before reviewing a combined pickup-and-delivery journey.", "Record the point where consolidation finishes so the dispatcher can separate collection delays from outbound travel time."],
+    "sourceUrl": "https://hapur.nic.in/public-utility-category/municipalities/"
+  },
+  {
+    "slug": "garhmukteshwar", "name": "Garhmukteshwar", "districtSlug": "hapur",
+    "sectors": ["passenger transport", "tourism vehicles"],
+    "focus": "group transfers with a separate rendezvous point",
+    "localContext": "For a group transfer to Garhmukteshwar, agree both the arrival point and where the vehicle will meet the group for the return. Those locations may differ according to the organiser's arrangements. A dispatcher can use the latest vehicle report to coordinate the return pickup, while the group leader confirms that passengers are ready and directs them to the agreed meeting place.",
+    "routeChecks": ["Save the Garhmukteshwar arrival and return meeting points separately and confirm both with the trip organiser.", "Check the reporting timestamp before giving the group leader an estimated vehicle arrival time.", "Define who approves a new rendezvous point and ensure the driver receives that change before moving from the waiting area."],
+    "sourceUrl": "https://hapur.nic.in/public-utility-category/municipalities/"
+  },
+  {
+    "slug": "khair", "name": "Khair", "districtSlug": "aligarh",
+    "sectors": ["commercial service vehicles", "regional distribution"],
+    "focus": "appointment windows and technician vehicle availability",
+    "localContext": "For technicians visiting customers from Khair, distinguish a vehicle's travel time from the time required to complete a job. Tracking can support the dispatcher's view of the current journey, but the technician must confirm when the work is finished. Use that confirmation before promising the next appointment, particularly when two service calls share the same vehicle and equipment.",
+    "routeChecks": ["Review a Khair appointment journey alongside the technician's work-start and work-finish record.", "Ask which supported alerts help identify departure from a customer without exposing unnecessary access to other fleet vehicles.", "Agree how the coordinator handles a job overrun before assigning a second appointment to the same technician vehicle."],
+    "sourceUrl": "https://aligarh.nic.in/tehsil/"
+  },
+  {
+    "slug": "atrauli", "name": "Atrauli", "districtSlug": "aligarh",
+    "sectors": ["institutional transport", "school vehicles"],
+    "focus": "route changes for a different school-day timetable",
+    "localContext": "For a school transport operation around Atrauli, an examination day or a changed timetable may require a different pickup and return plan. Record that day's approved route with the coordinator before the vehicle leaves. Review tracking against the correct timetable, and ensure the return arrangement is communicated through the school's normal process rather than assuming yesterday's schedule still applies.",
+    "routeChecks": ["Test an Atrauli route with a changed return time and verify that the dispatcher reviews the correct day's plan.", "Confirm which authorised staff can update route instructions and who communicates the revised pickup arrangement.", "Review any parked or out-of-hours alerts against the revised timetable before escalating a normal school-day change."],
+    "sourceUrl": "https://aligarh.nic.in/tehsil/"
+  },
+  {
+    "slug": "mauranipur", "name": "Mauranipur", "districtSlug": "jhansi",
+    "sectors": ["construction fleets", "commercial transport"],
+    "focus": "project vehicle allocation and end-of-day reconciliation",
+    "localContext": "When vehicles serve several project sites from Mauranipur, identify the project assigned to each journey and confirm where the vehicle should finish the day. The tracking record can help compare site visits with the allocation sheet. Before assigning the next day's work, reconcile the final reported position with the supervisor's confirmation of parking, available equipment and any vehicle maintenance requirement.",
+    "routeChecks": ["Run a Mauranipur project trip with the allocated site and end-of-day parking point labelled separately.", "Confirm whether the chosen hardware provides the required ignition events on each project vehicle type.", "Keep maintenance holds in the allocation record so a vehicle at the expected parking point is not automatically treated as available."],
+    "sourceUrl": "https://jhansi.nic.in/tehsil/"
+  },
+  {
+    "slug": "moth", "name": "Moth", "districtSlug": "jhansi",
+    "sectors": ["freight logistics", "commercial distribution"],
+    "focus": "overnight journeys spanning two reporting dates",
+    "localContext": "For a goods vehicle leaving Moth late in the day, a single dispatch may continue past midnight. Review the full departure-to-return window instead of treating the two calendar dates as unrelated trips. Keep the trip reference and the receiving contact together so the morning coordinator can follow the same journey and understand stops recorded before the shift changed.",
+    "routeChecks": ["Use a Moth dispatch that spans midnight to demonstrate the date-range controls available in journey history.", "Confirm the time zone shown in reports and agree how it is compared with customer receipt times.", "Check that the incoming dispatcher can retrieve the entire journey rather than only points reported after the new shift began."],
+    "sourceUrl": "https://jhansi.nic.in/tehsil/"
+  },
+  {
+    "slug": "bangarmau", "name": "Bangarmau", "districtSlug": "unnao",
+    "sectors": ["agri-logistics", "regional distribution"],
+    "focus": "shared collection routes and supplier rescheduling",
+    "localContext": "For a collection route around Bangarmau, a supplier who is not ready can change the order of the remaining stops. Agree whether the dispatcher should move that visit later in the same round or leave it for another vehicle. Keep the approved change with the collection record so trip review explains the new sequence and the supplier is not accidentally visited twice.",
+    "routeChecks": ["Include a rescheduled Bangarmau supplier pickup in the trial and review the changed sequence against dispatch instructions.", "Define how two vehicle coordinators check that only one vehicle remains assigned to the postponed collection.", "Confirm the final supplier visit list before reconciling the reported journey with the goods received at base."],
+    "sourceUrl": "https://unnao.nic.in/tehsil/"
+  },
+  {
+    "slug": "purwa", "name": "Purwa", "districtSlug": "unnao",
+    "sectors": ["institutional transport", "commercial service vehicles"],
+    "focus": "pool vehicles booked by different departments",
+    "localContext": "For a shared vehicle pool operating from Purwa, track who booked the vehicle, its approved destination and when the booking ends. The coordinator can use available trip history to review the journey, while each department confirms its own service outcome. Keep department access aligned with operational responsibility, especially when the same vehicle is reassigned several times during a working day.",
+    "routeChecks": ["Demonstrate two consecutive Purwa department bookings and verify the vehicle assignment at each handover.", "Confirm the reporting access required by the pool coordinator without giving every department visibility of unrelated vehicles.", "Record late booking extensions so the next department's departure is coordinated using an updated return expectation."],
+    "sourceUrl": "https://unnao.nic.in/tehsil/"
   }
 ]

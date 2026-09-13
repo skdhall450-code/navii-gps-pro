@@ -1,10 +1,10 @@
-# Uttar Pradesh Phase 2 — priority towns, batch 1
+# Uttar Pradesh Phase 2 — priority towns, batches 1 and 2
 
 Reviewed: 13 September 2026.
 
-This release adds 24 curated town guides across 12 of the existing 75 districts. It does not claim complete city coverage of Uttar Pradesh. Selection balances NCR-adjacent, western, central and eastern UP operating areas. Search Console query volume was not available; this is an editorial priority batch, not a measured ranking of demand.
+Batch 1 added 24 curated town guides across 12 districts. Batch 2 adds 24 more towns in 12 additional districts, bringing Phase 2 coverage to 48 towns across 24 of the existing 75 districts. It does not claim complete city coverage of Uttar Pradesh. Selection balances NCR-adjacent, western, central and eastern UP operating areas. Search Console query volume was not available; this is an editorial priority batch, not a measured ranking of demand.
 
-## District mapping references
+## Batch 1 district mapping references
 
 District membership was checked against the following administration pages. These references establish location names and membership, not NAVII GPS office locations, installation availability or endorsements. The fleet scenarios are authored planning examples, not claims about a specific customer's operation.
 
@@ -23,6 +23,27 @@ District membership was checked against the following administration pages. Thes
 | Varanasi | Pindra, Rajatalab | [District administration](https://varanasi.nic.in/tehsil/) |
 | Prayagraj | Phulpur, Soraon | [District administration](https://prayagraj.nic.in/tehsil/) |
 
+## Batch 2 district mapping references
+
+Reviewed on 13 September 2026. These 12 districts did not have a Phase 2 town guide in Batch 1.
+
+| District | Towns | Mapping source |
+| --- | --- | --- |
+| Ayodhya | Rudauli, Bikapur | [District administration](https://ayodhya.nic.in/tehsil/) |
+| Barabanki | Haidergarh, Ramnagar | [District administration](https://barabanki.nic.in/about-district/administrative-setup/tehsil/) |
+| Sultanpur | Lambhua, Kadipur | [District administration](https://sultanpur.nic.in/tehsil/) |
+| Bareilly | Aonla, Nawabganj | [District administration](https://bareilly.nic.in/tehsil/) |
+| Moradabad | Bilari, Thakurdwara | [District administration](https://moradabad.nic.in/tehsil/) |
+| Bijnor | Najibabad, Dhampur | [District administration](https://bijnor.nic.in/tehsil/) |
+| Muzaffarnagar | Khatauli, Budhana | [District administration](https://muzaffarnagar.nic.in/tehsil/) |
+| Shamli | Kairana, Kandhla | [District administration](https://shamli.nic.in/public-utility-category/municipality/) |
+| Hapur | Pilkhuwa, Garhmukteshwar | [District administration](https://hapur.nic.in/public-utility-category/municipalities/) |
+| Aligarh | Khair, Atrauli | [District administration](https://aligarh.nic.in/tehsil/) |
+| Jhansi | Mauranipur, Moth | [District administration](https://jhansi.nic.in/tehsil/) |
+| Unnao | Bangarmau, Purwa | [District administration](https://unnao.nic.in/tehsil/) |
+
+Ramnagar is listed as “Ram Nagar” in the Barabanki source. The new Nawabganj page is for Bareilly district. These records do not create pages for similarly named locations in other districts. Each new guide has an independently authored workflow and three operational checks; shared device advice and FAQs use the established town template.
+
 ## Content and keyword rules
 
 - Each town has an authored operating scenario, three specific route checks, a relevant set of vehicle guides and visible FAQs matching the JSON-LD.
@@ -37,4 +58,4 @@ The curated data supplies static routes, canonical URLs, social metadata, releva
 
 `npm run seo:check:source` checks membership, unique URLs/content, actual district-scoped lookup functions and metadata. `npm run seo:check` also checks all rendered town pages, state/district navigation, source-visible content and matching FAQ and Service schemas, then runs the sitewide audit. GitHub CI includes both checks through the existing package scripts.
 
-Before the next batch, review actual enquiries and Search Console queries where available, verify each new district mapping, author a useful local workflow and update the reviewed inventory in the checker. The remaining 63 districts currently retain their district-level guides without a dedicated Phase 2 town batch.
+Before the next batch, review actual enquiries and Search Console queries where available, verify each new district mapping, author a useful local workflow and update the reviewed inventory in the checker. Both batches are checked against an explicit route inventory so an existing town cannot be silently replaced. Every rendered town also needs links to its reviewed sibling towns. The remaining 51 districts currently retain their district-level guides without a dedicated Phase 2 town batch.

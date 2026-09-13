@@ -46,4 +46,4 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 
 ## Uttar Pradesh town expansion
 
-[Phase 2 batch 1](uttar-pradesh-phase-2.md) adds 24 reviewed town guides across 12 districts, with explicit district mapping sources and authored route-planning content. The automatic route, keyword and sitemap generation is limited to these curated records. The UP town checks run in both source and production audit commands.
+[Phase 2 batches 1 and 2](uttar-pradesh-phase-2.md) provide 48 reviewed town guides across 24 districts, with explicit district mapping sources and authored route-planning content. The automatic route, keyword and sitemap generation is limited to these curated records. The UP town checks run in both source and production audit commands.
