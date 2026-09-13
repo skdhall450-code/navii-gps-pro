@@ -1,8 +1,8 @@
-# Uttar Pradesh Phase 2 — priority towns, batches 1–3
+# Uttar Pradesh Phase 2 — priority towns, batches 1–4
 
 Reviewed: 13 September 2026.
 
-Each of the first three batches adds 24 curated town guides in 12 additional districts. Batch 3 brings Phase 2 coverage to 72 towns across 36 of the existing 75 districts. It does not claim complete city coverage of Uttar Pradesh. Selection balances NCR-adjacent, western, central and eastern UP operating areas. Search Console query volume was not available; these are editorial priority batches, not a measured ranking of demand.
+Each of the first four batches adds 24 curated town guides in 12 additional districts. Batch 4 brings Phase 2 coverage to 96 towns across 48 of the existing 75 districts. It does not claim complete city coverage of Uttar Pradesh. Selection balances NCR-adjacent, western, central and eastern UP operating areas. Search Console query volume was not available; these are editorial priority batches, not a measured ranking of demand.
 
 ## Batch 1 district mapping references
 
@@ -67,6 +67,29 @@ Lalganj in Raebareli and Lalganj in Azamgarh are distinct reviewed locations. Th
 
 The Lakhimpur Kheri subdivision list abbreviates Palia Kalan to Palia; the linked revenue directory explicitly lists Palia Kalan and Nighasan. Workflow examples in this batch are editorial guidance, not sourced claims about local customers, live road conditions or NAVII GPS branches. Hardware-dependent features such as temperature sensing and detached-trailer tracking need a separate equipment assessment.
 
+## Batch 4 district mapping references
+
+Reviewed on 13 September 2026. These 12 districts did not have a Phase 2 town guide in the earlier batches. This batch adds western and central UP locations, including the Ghaziabad and Baghpat district towns below. All 72 earlier records remain unchanged.
+
+| District | Towns | Mapping source |
+| --- | --- | --- |
+| Baghpat | Baraut, Khekra | [District administration](https://bagpat.nic.in/tehsil/) |
+| Ghaziabad | Loni, Modinagar | [District administration](https://ghaziabad.nic.in/en/tehsil/) |
+| Amroha | Hasanpur, Dhanaura | [District administration](https://amroha.nic.in/tehsil/) |
+| Rampur | Bilaspur, Milak | [District tehsil directory](https://rampur.nic.in/public-utility-category/tehsils/) |
+| Sambhal | Chandausi, Gunnaur | [District administration](https://sambhal.nic.in/tehsil/) |
+| Badaun | Bisauli, Sahaswan | [District administration](https://budaun.nic.in/tahsils/) |
+| Pilibhit | Puranpur, Bisalpur | [District municipal boards](https://pilibhit.nic.in/municipal-board/) |
+| Mainpuri | Karhal, Kishni | [District municipalities](https://mainpuri.nic.in/municipality/) |
+| Etawah | Bharthana, Jaswantnagar | [District administration](https://etawah.nic.in/tehsil/) |
+| Kannauj | Chhibramau, Tirwa | [District administration](https://kannauj.nic.in/tehsil/) |
+| Farrukhabad | Kaimganj, Fatehgarh | [Kaimganj tehsil](https://farrukhabad.nic.in/tehsil/), [Fatehgarh town and district headquarters](https://farrukhabad.nic.in/about-district/) |
+| Auraiya | Bidhuna, Ajitmal | [District administration](https://auraiya.nic.in/tehsil/) |
+
+The official Baghpat website uses the hostname `bagpat.nic.in`. The Badaun district source uses the spelling Budaun; existing Badaun labels and URLs are preserved. Pilibhit's municipal board page explicitly names Puranpur and Bisalpur. The Kannauj page uses Chibramau in a heading and Chhibramau in its officer rows; the established Chhibramau label is retained.
+
+Bilaspur in Rampur and Bisalpur in Pilibhit have different spellings, parent districts and URLs. Both introductions name their district, and source checks reject swapped district mappings. Hasanpur and Fatehgarh also name their district in the introduction. Each new record has a distinct fleet workflow and three operational checks, including address revisions, exam-day transport, equipment handovers and load changes. These are planning examples, not claims of local customers or verified service availability.
+
 ## Content and keyword rules
 
 - Each town has an authored operating scenario, three specific route checks, a relevant set of vehicle guides and visible FAQs matching the JSON-LD.
@@ -81,4 +104,4 @@ The curated data supplies static routes, canonical URLs, social metadata, releva
 
 `npm run seo:check:source` checks membership, unique URLs/content, actual district-scoped lookup functions and metadata. `npm run seo:check` also checks all rendered town pages, state/district navigation, source-visible content and matching FAQ and Service schemas, then runs the sitewide audit. GitHub CI includes both checks through the existing package scripts.
 
-Before the next batch, review actual enquiries and Search Console queries where available, verify each new district mapping, author a useful local workflow and update the reviewed inventory in the checker. All three batches are checked against an explicit route inventory so an existing town cannot be silently replaced. Both reviewed Lalganj pages must resolve independently and show their district in the introduction. Every rendered town also needs links to its reviewed sibling towns. The remaining 39 districts currently retain their district-level guides without a dedicated Phase 2 town batch.
+Before the next batch, review actual enquiries and Search Console queries where available, verify each new district mapping, author a useful local workflow and update the reviewed inventory in the checker. All four batches are checked against an explicit route inventory so an existing town cannot be silently replaced. Both reviewed Lalganj pages must resolve independently and show their district in the introduction. Every rendered town also needs links to its reviewed sibling towns. The remaining 27 districts currently retain their district-level guides without a dedicated Phase 2 town batch.

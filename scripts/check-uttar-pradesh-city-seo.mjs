@@ -80,12 +80,26 @@ const reviewedBatches = [
     deoria: ["salempur", "rudrapur"],
     kushinagar: ["hata", "tamkuhi-raj"],
   },
+  {
+    baghpat: ["baraut", "khekra"],
+    ghaziabad: ["loni", "modinagar"],
+    amroha: ["hasanpur", "dhanaura"],
+    rampur: ["bilaspur", "milak"],
+    sambhal: ["chandausi", "gunnaur"],
+    badaun: ["bisauli", "sahaswan"],
+    pilibhit: ["puranpur", "bisalpur"],
+    mainpuri: ["karhal", "kishni"],
+    etawah: ["bharthana", "jaswantnagar"],
+    kannauj: ["chhibramau", "tirwa"],
+    farrukhabad: ["kaimganj", "fatehgarh"],
+    auraiya: ["bidhuna", "ajitmal"],
+  },
 ];
 const expectedRoutes = reviewedBatches.flatMap((batch) => Object.entries(batch).flatMap(
   ([district, towns]) => towns.map((town) => `${district}/${town}`),
 ));
-assert.equal(cities.length, 72, "Update the reviewed batch inventory when adding towns");
-assert.equal(new Set(cities.map((city) => city.districtSlug)).size, 36);
+assert.equal(cities.length, 96, "Update the reviewed batch inventory when adding towns");
+assert.equal(new Set(cities.map((city) => city.districtSlug)).size, 48);
 assert.deepEqual(cities.map((city) => `${city.districtSlug}/${city.slug}`).sort(), expectedRoutes.sort(), "Published town inventory changed");
 assert.equal(new Set(cities.map(getUttarPradeshCityPath)).size, cities.length, "Duplicate city URL");
 for (const field of ["localContext", "focus"]) {
@@ -133,10 +147,17 @@ assert.equal(new Set(lalganjTowns.map((city) => generateUttarPradeshCityMetadata
 assert.ok(lalganjTowns.every((city) => city.localContext.includes(city.districtName)), "Same-name guides need visible district identification");
 assert.equal(getUttarPradeshCity("pratapgarh", "lalganj"), undefined);
 assert.equal(getUttarPradeshCity("mirzapur", "lalganj"), undefined);
+// Similar spellings refer to different reviewed towns, not interchangeable aliases.
+for (const [district, town] of [["rampur", "bilaspur"], ["pilibhit", "bisalpur"]]) {
+  const city = getUttarPradeshCity(district, town);
+  assert.ok(city?.localContext.includes(city.districtName), "Bilaspur and Bisalpur need visible district identification");
+}
+assert.equal(getUttarPradeshCity("rampur", "bisalpur"), undefined);
+assert.equal(getUttarPradeshCity("pilibhit", "bilaspur"), undefined);
 assert.deepEqual(getUttarPradeshCitiesForDistrict("not-a-district"), []);
 
 if (process.argv.includes("--source-only")) {
-  console.log(`PASS: ${cities.length} curated UP towns across 36 districts; all three batch inventories, same-name town lookups, metadata and route uniqueness verified.`);
+  console.log(`PASS: ${cities.length} curated UP towns across 48 districts; all four batch inventories, same-name town lookups, metadata and route uniqueness verified.`);
   process.exit(0);
 }
 
