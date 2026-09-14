@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Copy, Plus, RefreshCw, Trash2 } from "lucide-react";
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
-import { SAFE_SMS_PROFILES, findSmsCommand, findSmsProfile, supportsSmsProfile } from "@/lib/device-command-profiles";
+import { DEVICE_CATALOG_CATEGORIES, DEVICE_MODEL_CATALOG, SAFE_SMS_PROFILES, catalogModelNames, findCatalogEntry, findSmsCommand, findSmsProfile, supportsSmsProfile } from "@/lib/device-command-profiles";
 import { deviceProgress, isRegistered, registerDeviceBatch, RegistrationError, parseDeviceRows, prepareCommand, type RegistrationResult, type RegistrationRow, type SetupDevice } from "@/lib/device-setup";
 
 const API = (process.env.NEXT_PUBLIC_NAVII_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com").replace(/\/$/, "");
@@ -119,7 +119,9 @@ function DeviceSetup() {
     catch { setNotice("Copy unavailable. Select the command text and copy it manually."); }
   }
 
-  const models = [...new Set(devices.map(device => device.model?.trim()).filter((value): value is string => !!value))].sort();
+  const registeredModels = devices.map(device => device.model?.trim()).filter((value): value is string => !!value);
+  const models = [...new Set([...catalogModelNames(), ...registeredModels])].sort();
+  const selectedCatalogEntry = findCatalogEntry(model);
   const selectedProfile = findSmsProfile(profileId);
   const selectedProfileCommand = findSmsCommand(profileId, profileCommandId);
   const visible = devices.filter(device => [device.model, device.imei, device.simNumber, device.vehicle.vehicleNo].some(value => value?.toLowerCase().includes(query.trim().toLowerCase())));
@@ -140,8 +142,18 @@ function DeviceSetup() {
     </div>
     <section className="mb-6 rounded-2xl border border-white/10 bg-[#0a1525] p-4 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="text-xl font-semibold">1. Register devices</h2><p className="mt-1 text-sm text-slate-400">Up to 100 per batch. Add vehicle details later in Vehicles. Include + and country code in SIM phone numbers.</p></div><span className="text-sm text-slate-400">{rows.length} / 100</span></div>
+      <details className="mt-5 rounded-xl border border-sky-400/20 bg-sky-500/5 p-4">
+        <summary className="cursor-pointer text-sm font-medium text-sky-300">NAVII supported-device catalog ({DEVICE_MODEL_CATALOG.length} entries)</summary>
+        <p className="mt-3 text-xs leading-5 text-slate-400">Verified means the SMS format has a traceable manual. Protocol identified still needs a matching NAVII receiver. Manual required entries stay selectable for registration but do not receive guessed commands.</p>
+        <div className="mt-4 space-y-4">{DEVICE_CATALOG_CATEGORIES.map(category => {
+          const entries = DEVICE_MODEL_CATALOG.filter(entry => entry.category === category);
+          return <div key={category}><h3 className="text-sm font-semibold text-slate-200">{category} ({entries.length})</h3>
+            <div className="mt-2 overflow-x-auto"><table className="w-full min-w-[760px] text-left text-xs"><thead className="border-b border-white/10 text-slate-400"><tr><th className="p-2">Model</th><th className="p-2">Manufacturer</th><th className="p-2">Network</th><th className="p-2">Protocol</th><th className="p-2">Verification</th></tr></thead><tbody>{entries.map(entry => <tr key={entry.model} className="border-b border-white/5"><td className="p-2 font-medium">{entry.model}{entry.aliases?.length ? <span className="block text-slate-500">Alias: {entry.aliases.join(", ")}</span> : null}</td><td className="p-2">{entry.manufacturer}</td><td className="p-2">{entry.network}</td><td className="p-2">{entry.protocol}</td><td className="p-2"><span className={"rounded-full px-2 py-1 " + (entry.status === "VERIFIED_COMMANDS" ? "bg-emerald-500/15 text-emerald-300" : entry.status === "ACCESSORY_ONLY" ? "bg-violet-500/15 text-violet-300" : "bg-amber-500/15 text-amber-300")}>{entry.status.replaceAll("_", " ")}</span>{entry.sourceUrl ? <a className="ml-2 text-sky-300 underline" href={entry.sourceUrl} target="_blank" rel="noreferrer">Source</a> : null}</td></tr>)}</tbody></table></div>
+          </div>;
+        })}</div>
+      </details>
       <fieldset disabled={saving} className="mt-5 space-y-3">
-        <datalist id="device-models"><option value="PT06" /><option value="GT06" /><option value="G17" />{models.filter(value => !["PT06", "GT06", "G17"].includes(value)).map(value => <option key={value} value={value} />)}</datalist>
+        <datalist id="device-models">{models.map(value => <option key={value} value={value} />)}</datalist>
         {rows.map((row, index) => <div key={row.key} className="rounded-xl border border-white/10 p-3">
           <div className="grid items-end gap-3 sm:grid-cols-[1fr_1.4fr_1.4fr_auto]">
             <label className="text-xs text-slate-400">Model Â· row {index + 1}<input aria-label={"Model row " + (index + 1)} list="device-models" className={inputStyle + " mt-2"} value={row.model} maxLength={80} onChange={event => updateRow(row.key, "model", event.target.value)} placeholder="PT06" disabled={isRegistered(row.result)} /></label>
@@ -184,6 +196,7 @@ function DeviceSetup() {
         <label className="text-xs text-slate-400">SIM operator APN<input className={inputStyle + " mt-2"} value={apn} onChange={event => setApn(event.target.value)} placeholder="From your SIM operator" /></label>
         <label className="text-xs text-slate-400">Device SMS password<input className={inputStyle + " mt-2 font-mono"} value={password} maxLength={16} onChange={event => setPassword(event.target.value)} placeholder="Only for profiles that require it" /></label>
       </div>
+      {model && selectedCatalogEntry && <div className={"mt-4 rounded-xl border p-3 text-xs leading-5 " + (selectedCatalogEntry.status === "VERIFIED_COMMANDS" ? "border-emerald-400/20 bg-emerald-500/5 text-emerald-100" : "border-amber-400/20 bg-amber-500/5 text-amber-100")}><p><strong>{selectedCatalogEntry.model}</strong> · {selectedCatalogEntry.manufacturer} · {selectedCatalogEntry.network}</p><p>Catalog status: {selectedCatalogEntry.status.replaceAll("_", " ")}. Protocol: {selectedCatalogEntry.protocol}.</p>{selectedCatalogEntry.note && <p>{selectedCatalogEntry.note}</p>}{selectedCatalogEntry.status !== "VERIFIED_COMMANDS" && <p>No automatic command is enabled for this model until its exact supplier manual and firmware are confirmed.</p>}</div>}
       {selectedProfile && <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-500/5 p-3 text-xs leading-5 text-slate-300"><p>{selectedProfile.note}</p><p className="mt-1">Receiver protocol: {selectedProfile.protocol}. Source: <a className="text-sky-300 underline" href={selectedProfile.sourceUrl} target="_blank" rel="noreferrer">{selectedProfile.sourceLabel}</a>.</p>{selectedProfileCommand && <p className="mt-1">Required fields: {selectedProfileCommand.requires.length ? selectedProfileCommand.requires.join(", ") : "none"}.</p>}</div>}
       <label className="mt-4 block text-xs text-slate-400">Manufacturerâ€™s SMS command<textarea rows={3} maxLength={500} className={inputStyle + " mt-2 font-mono"} value={template} onChange={event => setTemplate(event.target.value)} placeholder="Paste the exact command from the device manual" /></label>
       <p className="mt-2 text-xs leading-5 text-slate-400">Optional placeholders: {"{IMEI}, {SIM}, {SERVER}, {PORT}, {APN}, {PASSWORD}"}. Prepare and send one command at a time in the manufacturerâ€™s specified order.</p>

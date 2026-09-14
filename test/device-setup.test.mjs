@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { parseDeviceRows, deviceProgress, prepareCommand, registerDeviceBatch } from '../lib/device-setup.ts';
-import { SAFE_SMS_PROFILES, findSmsCommand, supportsSmsProfile } from '../lib/device-command-profiles.ts';
+import { DEVICE_MODEL_CATALOG, SAFE_SMS_PROFILES, catalogModelNames, findCatalogEntry, findSmsCommand, supportsSmsProfile } from '../lib/device-command-profiles.ts';
 const now = Date.parse('2026-09-14T00:00:00Z');
 const device = { id: 'd', model: 'PT06', imei: '012345678901234', simNumber: '+919876543210', isActive: true, lastSeenAt: null, vehicle: { id: 'v', vehicleNo: 'GPS-012345678901234', latitude: null, longitude: null, lastUpdate: null } };
 // Synthetic fixture, deliberately not a manufacturer's actual provisioning command.
@@ -96,6 +96,8 @@ test('verified provisioning profiles expose only safe setup and diagnostic comma
     'jimi-concox-gt06-current',
     'concox-gt06-legacy-numeric',
     'teltonika-fm',
+    'wanway-s20-4g',
+    'wanway-gs900',
     'meitrack-a21',
   ]);
   assert.equal(findSmsCommand('pictor-pt06-ev02', 'status').template, 'STATUS#');
@@ -108,7 +110,7 @@ test('verified provisioning profiles expose only safe setup and diagnostic comma
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[1], 'GT06N'), true);
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'FMC920'), true);
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'PT06'), false);
-  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[4], 'T355G'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES.find(profile => profile.id === 'meitrack-a21'), 'T355G'), true);
   for (const profile of SAFE_SMS_PROFILES) {
     for (const command of profile.commands) {
       assert.doesNotMatch(command.template, /RELAY|DYD|HFYD|cut.?off|factory|reset/i);
@@ -130,4 +132,33 @@ test('protected profiles require a validated device SMS password', () => {
   assert.equal(prepareCommand(meitrack, meitrackConfig).body, '0000,A21,1,192.0.2.1,5001,test.apn,,');
   assert.throws(() => prepareCommand(meitrack, { ...meitrackConfig, password: '' }));
   assert.throws(() => prepareCommand(meitrack, { ...meitrackConfig, password: 'bad password' }));
+});
+
+
+test('catalog lists every supplied poster model without enabling guessed commands', () => {
+  assert.equal(DEVICE_MODEL_CATALOG.length, 44);
+  const suppliedModels = [
+    'G17', 'BT50', 'V5', 'EV02', 'FMB920', 'M1', 'M1-SM', 'M1-AD', 'GS10',
+    'GS33', 'GS149', 'G175', 'GS900', 'FMB125', 'XY71',
+    'S15', 'S20', 'A50L', 'GS30', 'GS08', 'GS06',
+    '360 Dashcam', 'Black Box', 'GS55', 'GS 1+3', 'GS 1+2', 'GS 2+2', 'EC800', 'H20P', 'Non-AI',
+    'GL600', 'GL500', 'HHD', 'MERCETECH', 'ESCORT', 'MIELTA', 'CLS2', 'FANTOM 2G',
+    'GS25', 'GS50', 'GS500', 'GS100', 'G08',
+  ];
+  for (const model of suppliedModels) assert.ok(findCatalogEntry(model), model + ' is missing');
+  assert.equal(findCatalogEntry('GS149').model, 'VL149');
+  assert.equal(findCatalogEntry('GS30').model, 'GS300');
+  assert.equal(findCatalogEntry('GS10').model, 'GS10G');
+  assert.equal(new Set(catalogModelNames()).size, catalogModelNames().length);
+  for (const entry of DEVICE_MODEL_CATALOG.filter(item => item.status !== 'VERIFIED_COMMANDS')) {
+    assert.equal(entry.profileId, undefined);
+  }
+});
+
+test('WanWay profiles expose diagnostics and migration commands but no destructive actions', () => {
+  assert.equal(findSmsCommand('wanway-s20-4g', 'status').template, 'STATUS#');
+  assert.equal(findSmsCommand('wanway-s20-4g', 'server-ip').template, 'SERVER,0,{SERVER},{PORT},0#');
+  assert.equal(findSmsCommand('wanway-gs900', 'gprs-check').template, 'GPRSSET#');
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES.find(profile => profile.id === 'wanway-s20-4g'), 'S20'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES.find(profile => profile.id === 'wanway-gs900'), 'GS900'), true);
 });
