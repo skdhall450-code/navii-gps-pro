@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 const menu = [
+  { name: "Device Setup", href: "/dashboard/device-setup", icon: RadioTower },
   {
     name: "Dashboard",
     href: "/dashboard",

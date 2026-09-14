@@ -68,6 +68,7 @@ const API_URL =
   "https://api.naviigps.com";
 
 const navigation: NavItem[] = [
+  { name: "Device Setup", href: "/dashboard/device-setup", icon: Radio, roles: ["SUPER_ADMIN", "ADMIN"] },
   {
     name: "Dashboard",
     href: "/dashboard",
