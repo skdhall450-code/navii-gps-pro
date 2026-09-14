@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import {
@@ -68,7 +68,7 @@ const API_URL =
   "https://api.naviigps.com";
 
 const navigation: NavItem[] = [
-  { name: "Device Setup", href: "/dashboard/device-setup", icon: Radio, roles: ["SUPER_ADMIN", "ADMIN"] },
+  { name: "Device Setup", href: "/dashboard/device-setup", icon: Radio, roles: ["SUPER_ADMIN", "ADMIN", "DEALER"] },
   {
     name: "Dashboard",
     href: "/dashboard",
