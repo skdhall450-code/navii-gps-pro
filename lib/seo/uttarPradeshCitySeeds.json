@@ -958,5 +958,197 @@
     "localContext": "Before dispatching a Manikpur service vehicle to another job, check the timestamp of its latest report and confirm the crew's current status. An older point may not represent the present position, especially after interrupted uploads. Record the contact confirmation and new assignment so later review distinguishes live coordination from locations received after a delay.",
     "routeChecks": ["Check the timestamp and reporting status of the Manikpur vehicle before offering it another service job.", "Confirm crew availability and required equipment directly when the latest location report is not fresh.", "Keep the new dispatch instruction with any delayed-upload note when reviewing the completed journey."],
     "sourceUrl": "https://chitrakoot.nic.in/tehsil/"
+  },
+  {
+    "slug": "rath", "name": "Rath", "districtSlug": "hamirpur",
+    "sectors": ["construction transport", "commercial freight"],
+    "focus": "material-delivery slots matched with site acknowledgements",
+    "localContext": "For a material vehicle serving Rath, confirm the site's receiving slot, unloading contact and consignment reference before dispatch. If the vehicle waits outside, record the site's instruction separately from travel time. GPS history supports arrival review, while the signed receipt and quantity record establish what the site actually accepted.",
+    "routeChecks": ["Confirm the Rath receiving slot and unloading contact before releasing the loaded vehicle.", "Record site waiting and unloading as separate events when reviewing the reported stop.", "Match the signed material receipt to the consignment and journey before closing the dispatch."],
+    "sourceUrl": "https://hamirpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "maudaha", "name": "Maudaha", "districtSlug": "hamirpur",
+    "sectors": ["agri-logistics", "commercial collection vehicles"],
+    "focus": "collection-grade decisions retained outside the GPS report",
+    "localContext": "For a Maudaha collection round, identify the expected material grade and the person authorised to accept it before the vehicle arrives. A rejected or reduced load should remain linked to the supplier and trip reference. The vehicle trace can explain travel and waiting, but quality and quantity decisions must come from inspection and handover records.",
+    "routeChecks": ["Add the expected Maudaha collection grade and authorised checker to the dispatch note.", "Record rejected or reduced quantities with the supplier reference before the vehicle departs.", "Review the inspection result alongside the journey instead of inferring load quality from GPS data."],
+    "sourceUrl": "https://hamirpur.nic.in/tehsil/"
+  },
+  {
+    "slug": "charkhari", "name": "Charkhari", "districtSlug": "mahoba",
+    "sectors": ["commercial service vehicles", "construction support"],
+    "focus": "equipment-repair pickups linked to original service requests",
+    "localContext": "When a Charkhari service visit becomes an equipment pickup for repair, record the item, condition and authorised handover under the original job. The workshop journey should be a new task linked to that case. Location history supports movement review but cannot establish the equipment condition or the repair work completed.",
+    "routeChecks": ["Record the Charkhari equipment identity and handover condition before changing the service job.", "Create a linked workshop transport task so the onward journey remains clearly explained.", "Use the repair receipt and customer return acknowledgement with the vehicle histories to close the case."],
+    "sourceUrl": "https://mahoba.nic.in/tehsil/"
+  },
+  {
+    "slug": "kulpahar", "name": "Kulpahar", "districtSlug": "mahoba",
+    "sectors": ["construction logistics", "commercial transport"],
+    "focus": "loaded-vehicle release after documented safety checks",
+    "localContext": "For a loaded vehicle departing Kulpahar, keep the loading supervisor's release and required vehicle checks with the dispatch reference. The first GPS movement can show departure, but it does not prove that the load was secured or the vehicle was inspected. Any return for adjustment should be recorded as an operational exception.",
+    "routeChecks": ["Attach the Kulpahar loading release and required safety checks to the dispatch reference.", "Do not use initial vehicle movement as a substitute for the operator's load-security confirmation.", "Record any return for load adjustment with its reason before restarting the delivery journey."],
+    "sourceUrl": "https://mahoba.nic.in/tehsil/"
+  },
+  {
+    "slug": "nanpara", "name": "Nanpara", "districtSlug": "bahraich",
+    "sectors": ["regional logistics", "commercial distribution"],
+    "focus": "onward dispatch after a documented vehicle handover",
+    "localContext": "For a Nanpara vehicle handed to another authorised driver, record the handover time, load status and next instruction before onward travel. Journey history remains associated with the vehicle, so the duty record must explain who controlled each leg. Keep driver identity and compliance checks in the operator's approved process.",
+    "routeChecks": ["Record the Nanpara driver handover time and the next approved route before onward dispatch.", "Confirm the load and vehicle condition with both drivers as part of the custody transfer.", "Review journey legs against the duty and handover records when investigating an exception."],
+    "sourceUrl": "https://bahraich.nic.in/tehsil/"
+  },
+  {
+    "slug": "kaiserganj", "name": "Kaiserganj", "districtSlug": "bahraich",
+    "sectors": ["school transport", "institutional fleets"],
+    "focus": "route changes caused by institutional calendar updates",
+    "localContext": "When an institutional calendar changes a Kaiserganj transport round, issue a dated route version showing active stops and release times. The coordinator should compare the journey with that version rather than an older routine. Attendance and authorised passenger handover remain separate institutional records and cannot be inferred from vehicle location.",
+    "routeChecks": ["Label the revised Kaiserganj route with the active date and responsible institution contact.", "Confirm changed pickup and release times with the driver before the first updated round.", "Retain attendance and handover records separately when reviewing the journey after completion."],
+    "sourceUrl": "https://bahraich.nic.in/tehsil/"
+  },
+  {
+    "slug": "tulsipur", "name": "Tulsipur", "districtSlug": "balrampur",
+    "sectors": ["passenger transport", "tourism vehicles"],
+    "focus": "multi-stop group itineraries with organiser approvals",
+    "localContext": "For a group vehicle booked from Tulsipur, identify each planned stop, waiting window and organiser contact before departure. If the itinerary changes, retain the approved revision with the booking. GPS playback can support route review, while passenger counts and decisions about missed stops remain the organiser's documented responsibility.",
+    "routeChecks": ["Attach the Tulsipur itinerary and organiser contact to the assigned passenger vehicle.", "Record an approved stop change before redirecting the driver during the active booking.", "Compare the completed journey with the revised itinerary and final passenger record."],
+    "sourceUrl": "https://balrampur.nic.in/tehsil/"
+  },
+  {
+    "slug": "utraula", "name": "Utraula", "districtSlug": "balrampur",
+    "sectors": ["agri supply transport", "commercial delivery"],
+    "focus": "delivery returns separated from refused consignments",
+    "localContext": "For an Utraula supply round, distinguish reusable packaging returns from goods refused by a customer. Both may travel back on the same vehicle but need separate references, quantities and destinations. Journey history supports the visit timeline; return notes and receiving acknowledgements establish what came back and why.",
+    "routeChecks": ["Give Utraula packaging returns and refused goods separate references before loading them back.", "Record quantities and reasons at the customer handover instead of relying on the vehicle stop.", "Match both return categories to their correct receiving acknowledgements after the vehicle reaches base."],
+    "sourceUrl": "https://balrampur.nic.in/tehsil/"
+  },
+  {
+    "slug": "colonelganj", "name": "Colonelganj", "districtSlug": "gonda",
+    "sectors": ["commercial service fleets", "field support vehicles"],
+    "focus": "shared technicians coordinated across separate vehicles",
+    "localContext": "When a technician transfers between service vehicles during a Colonelganj workday, update both vehicle assignments and the affected jobs. The vehicles' traces remain separate, while the workforce record explains who completed each visit. Do not infer technician presence from the vehicle that originally carried the team.",
+    "routeChecks": ["Record the Colonelganj technician transfer time and both vehicle references in the work schedule.", "Update each affected customer job so the responsible crew remains clear after reassignment.", "Review vehicle histories with technician completion records before closing the day's service work."],
+    "sourceUrl": "https://gonda.nic.in/tehsil/"
+  },
+  {
+    "slug": "mankapur", "name": "Mankapur", "districtSlug": "gonda",
+    "sectors": ["commercial distribution", "warehouse transport"],
+    "focus": "warehouse queue numbers matched to vehicle arrivals",
+    "localContext": "For a Mankapur warehouse delivery, record the booking or queue reference before the vehicle arrives. A long stop may include gate waiting, unloading and paperwork, so capture these stages separately when available. GPS history supports the overall visit window, while warehouse records explain when the load was accepted.",
+    "routeChecks": ["Add the Mankapur warehouse booking or queue number to the vehicle dispatch instruction.", "Record gate entry, unloading and receipt stages separately when reviewing a prolonged stop.", "Use the warehouse acknowledgement with the journey window to explain completion time."],
+    "sourceUrl": "https://gonda.nic.in/tehsil/"
+  },
+  {
+    "slug": "bhinga", "name": "Bhinga", "districtSlug": "shravasti",
+    "sectors": ["institutional service fleets", "commercial support vehicles"],
+    "focus": "inspection evidence linked to scheduled public-service rounds",
+    "localContext": "For a scheduled inspection vehicle in Bhinga, give each site a visit reference and the evidence expected from the inspecting team. The journey trace can confirm reported travel and stop timing, but it cannot establish that an inspection passed. Keep photographs, forms or completion notes under the responsible organisation's process.",
+    "routeChecks": ["Prepare the Bhinga inspection schedule with a site reference and expected evidence for each visit.", "Record inaccessible or incomplete sites instead of closing them from vehicle arrival alone.", "Compare completed inspection records with the journey before planning follow-up visits."],
+    "sourceUrl": "https://shravasti.nic.in/public-utilities/"
+  },
+  {
+    "slug": "ikauna", "name": "Ikauna", "districtSlug": "shravasti",
+    "sectors": ["passenger transport", "tourism fleets"],
+    "focus": "vehicle waiting points kept distinct from passenger pickup",
+    "localContext": "For an Ikauna passenger booking, identify the approved vehicle waiting point and the actual passenger meeting point before the trip. These may not be identical. A location report can help the organiser find the vehicle, while direct boarding confirmation establishes that passengers joined safely and the onward journey may begin.",
+    "routeChecks": ["Share the Ikauna vehicle waiting point and passenger meeting instructions with the organiser.", "Confirm boarding through the agreed contact rather than treating arrival at parking as pickup completion.", "Record any changed meeting point with the booking before starting the onward journey."],
+    "sourceUrl": "https://shravasti.nic.in/public-utilities/"
+  },
+  {
+    "slug": "nautanwa", "name": "Nautanwa", "districtSlug": "maharajganj",
+    "sectors": ["regional freight", "commercial logistics"],
+    "focus": "document readiness checked before onward freight release",
+    "localContext": "For a freight vehicle dispatched from Nautanwa, confirm that the responsible team has approved the required consignment documents before the next leg. A vehicle may be physically ready while paperwork remains incomplete. GPS location supports fleet coordination, but document status and lawful movement decisions remain with authorised operational staff.",
+    "routeChecks": ["Confirm the Nautanwa consignment reference and document approval before releasing the onward leg.", "Keep paperwork waiting separate from loading and road time in the trip exception notes.", "Review the authorised release with the journey without treating vehicle movement as document validation."],
+    "sourceUrl": "https://maharajganj.nic.in/tehsil/"
+  },
+  {
+    "slug": "nichlaul", "name": "Nichlaul", "districtSlug": "maharajganj",
+    "sectors": ["agri-logistics", "commercial collection vehicles"],
+    "focus": "collection substitutions approved against supplier records",
+    "localContext": "If a Nichlaul supplier substitutes a collection item or quantity, obtain coordinator approval before loading and update the dispatch record. The vehicle can continue under the revised task once suitability is checked. Journey history explains movement, while supplier and receiving records establish what was collected and accepted.",
+    "routeChecks": ["Record the Nichlaul supplier's proposed substitution and revised quantity before loading.", "Have the coordinator confirm vehicle suitability and receiving instructions for the changed collection.", "Reconcile the supplier handover and final receipt with the updated task and journey."],
+    "sourceUrl": "https://maharajganj.nic.in/tehsil/"
+  },
+  {
+    "slug": "orai", "name": "Orai", "districtSlug": "jalaun",
+    "sectors": ["commercial distribution", "regional delivery"],
+    "focus": "urban delivery zones assigned to avoid duplicate visits",
+    "localContext": "When two delivery vehicles cover Orai, divide orders by a clear zone or customer list before dispatch. Changes should identify which driver now owns the order so both vehicles do not visit the same receiver. GPS reports support coordination, while order status and acknowledgements determine actual delivery completion.",
+    "routeChecks": ["Assign every Orai order to one vehicle and zone before the delivery shift begins.", "Record reassignment with both drivers when a vehicle crosses into another planned delivery list.", "Review duplicate or missed visits using order acknowledgements alongside both journey histories."],
+    "sourceUrl": "https://jalaun.nic.in/tehsil/"
+  },
+  {
+    "slug": "kalpi", "name": "Kalpi", "districtSlug": "jalaun",
+    "sectors": ["manufacturing logistics", "commercial freight"],
+    "focus": "finished-goods dispatch released by batch status",
+    "localContext": "For finished goods leaving Kalpi, link the vehicle assignment to the approved production batch and loading note. If the batch is not released, keep the vehicle waiting task separate from the delivery journey. Location data supports vehicle availability review but cannot establish product quality or production release.",
+    "routeChecks": ["Add the approved Kalpi production batch and loading reference to the dispatch task.", "Record a batch-release delay separately from vehicle travel and customer delivery time.", "Match the receiver acknowledgement to the released batch before closing the freight job."],
+    "sourceUrl": "https://jalaun.nic.in/tehsil/"
+  },
+  {
+    "slug": "talbehat", "name": "Talbehat", "districtSlug": "lalitpur",
+    "sectors": ["construction support", "commercial equipment vehicles"],
+    "focus": "rented-tool returns reconciled with condition reports",
+    "localContext": "For rented tools collected from Talbehat, identify each item and its agreed return location before dispatch. The driver's collection acknowledgement should remain separate from the owner's condition assessment. GPS history supports travel and pickup timing, but it cannot confirm item condition or whether every tool was returned.",
+    "routeChecks": ["List the Talbehat rented tools and authorised handover contact before the collection trip.", "Record collected items separately from the later owner or workshop condition assessment.", "Reconcile missing items using the handover and return receipt with the vehicle journey."],
+    "sourceUrl": "https://lalitpur.nic.in/en/complete-helpline-numbers/"
+  },
+  {
+    "slug": "mahroni", "name": "Mahroni", "districtSlug": "lalitpur",
+    "sectors": ["commercial service fleets", "regional support vehicles"],
+    "focus": "overnight field assignments with next-day readiness checks",
+    "localContext": "When a Mahroni service vehicle remains away overnight, record the approved parking arrangement, responsible driver and next appointment. Before the following dispatch, confirm a fresh report and crew readiness. An unchanged map point supports parking review but does not establish vehicle condition, tool security or driver fitness.",
+    "routeChecks": ["Record the approved Mahroni overnight parking point and responsible driver in the assignment.", "Check a fresh location report and direct crew confirmation before issuing the next-day job.", "Keep vehicle and tool checks separate from the GPS parking history when reviewing readiness."],
+    "sourceUrl": "https://lalitpur.nic.in/en/complete-helpline-numbers/"
+  },
+  {
+    "slug": "rura", "name": "Rura", "districtSlug": "kanpur-dehat",
+    "sectors": ["commercial distribution", "retail delivery"],
+    "focus": "partial customer acceptance recorded at unloading",
+    "localContext": "For a Rura delivery where the customer accepts only part of an order, record accepted and returned quantities before the vehicle leaves. Keep the remaining goods linked to the original dispatch and their approved destination. GPS history supports visit timing, while the signed acknowledgement establishes the actual delivery outcome.",
+    "routeChecks": ["Record accepted and returned quantities on the Rura customer acknowledgement at unloading.", "Confirm where refused goods should travel before redirecting the delivery vehicle.", "Reconcile the partial receipt and return destination with the completed journey and original order."],
+    "sourceUrl": "https://kanpurdehat.nic.in/tehsil/"
+  },
+  {
+    "slug": "pukhrayan", "name": "Pukhrayan", "districtSlug": "kanpur-dehat",
+    "sectors": ["employee transport", "commercial passenger fleets"],
+    "focus": "shift-vehicle standby separated from active passenger service",
+    "localContext": "For a Pukhrayan staff vehicle kept on standby between shifts, define its approved parking area, release contact and next duty time. Movement during standby should be recorded with a reason. Vehicle location helps the coordinator see availability, while staff rosters and passenger attendance remain separate operational records.",
+    "routeChecks": ["Set the Pukhrayan standby window, parking instruction and release contact before the shift ends.", "Record authorised workshop or repositioning movement during standby with its operational reason.", "Confirm the next driver and staff roster before releasing the vehicle for passenger service."],
+    "sourceUrl": "https://kanpurdehat.nic.in/tehsil/"
+  },
+  {
+    "slug": "chunar", "name": "Chunar", "districtSlug": "mirzapur",
+    "sectors": ["manufacturing logistics", "commercial distribution"],
+    "focus": "pallet exchanges counted independently from delivered goods",
+    "localContext": "For a Chunar delivery involving reusable pallets, record product delivery and pallet exchange as separate quantities. The same vehicle stop may include both activities, but each needs its own acknowledgement. Journey history supports the visit timeline, while warehouse records determine pallet ownership and the balance still due.",
+    "routeChecks": ["List the Chunar product quantity and expected pallet exchange separately before dispatch.", "Obtain distinct receiver acknowledgements for delivered goods and reusable pallets.", "Reconcile the pallet balance with warehouse records and the relevant journey after return."],
+    "sourceUrl": "https://mirzapur.nic.in/tehsil/"
+  },
+  {
+    "slug": "marihan", "name": "Marihan", "districtSlug": "mirzapur",
+    "sectors": ["construction logistics", "commercial transport"],
+    "focus": "multi-site loads released in the safe unloading order",
+    "localContext": "For a Marihan vehicle carrying materials to multiple sites, confirm that loading order permits safe unloading at each planned stop. A route change may require review by the loading supervisor before the driver proceeds. GPS data supports journey coordination, but it cannot show which items are accessible or safely secured on the vehicle.",
+    "routeChecks": ["Check the Marihan multi-site loading order against the planned unloading sequence before departure.", "Have the loading supervisor approve a route reversal that changes access to carried materials.", "Use site receipts and the revised route when reconciling the completed delivery round."],
+    "sourceUrl": "https://mirzapur.nic.in/tehsil/"
+  },
+  {
+    "slug": "gyanpur", "name": "Gyanpur", "districtSlug": "bhadohi",
+    "sectors": ["commercial service vehicles", "institutional fleets"],
+    "focus": "scheduled document collections with custody acknowledgements",
+    "localContext": "For a document collection vehicle in Gyanpur, list the authorised sender, sealed package reference and receiving office before the trip. The driver should acknowledge custody at handover. GPS history supports travel review, but it cannot verify document contents, seal condition or final receipt without the organisation's custody records.",
+    "routeChecks": ["Confirm the Gyanpur sender and sealed package reference before assigning the collection vehicle.", "Record driver custody and the receiving office as separate handover stages.", "Match the final receipt to the package reference and journey when closing the collection."],
+    "sourceUrl": "https://bhadohi.nic.in/tehsil/"
+  },
+  {
+    "slug": "gopiganj", "name": "Gopiganj", "districtSlug": "bhadohi",
+    "sectors": ["manufacturing logistics", "commercial distribution"],
+    "focus": "sample approval trips separated from production deliveries",
+    "localContext": "For a Gopiganj vehicle carrying a product sample for approval, keep the visit separate from a production delivery. Record the sample reference, decision contact and return instruction before dispatch. Journey history supports appointment timing, while the customer's approval record determines whether later production goods may be released.",
+    "routeChecks": ["Label the Gopiganj sample trip separately from any later production consignment.", "Record the customer decision and return instruction against the sample reference.", "Release a production delivery only through the approved order process, not from GPS visit completion."],
+    "sourceUrl": "https://bhadohi.nic.in/tehsil/"
   }
 ]
