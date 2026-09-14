@@ -95,16 +95,35 @@ test('verified provisioning profiles expose only safe setup and diagnostic comma
     'jimi-concox-gt06-current',
     'concox-gt06-legacy-numeric',
     'teltonika-fm',
+    'meitrack-a21',
   ]);
   assert.equal(findSmsCommand('jimi-concox-gt06-current', 'server-ip').template, 'SERVER,0,{SERVER},{PORT},0#');
   assert.equal(findSmsCommand('concox-gt06-legacy-numeric', 'server-ip').template, '803#{SERVER}#{PORT}#');
   assert.equal(findSmsCommand('teltonika-fm', 'configure').template.startsWith('  setparam '), true);
+  assert.equal(findSmsCommand('meitrack-a21', 'configure').template, '{PASSWORD},A21,1,{SERVER},{PORT},{APN},,');
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[0], 'GT06N'), true);
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[2], 'FMC920'), true);
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[2], 'PT06'), false);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'T355G'), true);
   for (const profile of SAFE_SMS_PROFILES) {
     for (const command of profile.commands) {
       assert.doesNotMatch(command.template, /RELAY|DYD|HFYD|cut.?off|factory|reset/i);
     }
   }
+});
+
+
+test('protected profiles require a validated device SMS password', () => {
+  const meitrack = { ...device, model: 'T355G' };
+  const meitrackConfig = {
+    model: 'T355G',
+    template: findSmsCommand('meitrack-a21', 'configure').template,
+    server: '192.0.2.1',
+    port: '5001',
+    apn: 'test.apn',
+    password: '0000',
+  };
+  assert.equal(prepareCommand(meitrack, meitrackConfig).body, '0000,A21,1,192.0.2.1,5001,test.apn,,');
+  assert.throws(() => prepareCommand(meitrack, { ...meitrackConfig, password: '' }));
+  assert.throws(() => prepareCommand(meitrack, { ...meitrackConfig, password: 'bad password' }));
 });
