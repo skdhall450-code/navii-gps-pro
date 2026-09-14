@@ -1,8 +1,8 @@
-# Uttar Pradesh Phase 2 — priority towns, batches 1–4
+# Uttar Pradesh Phase 2 — priority towns, batches 1–5
 
 Reviewed: 13 September 2026.
 
-Each of the first four batches adds 24 curated town guides in 12 additional districts. Batch 4 brings Phase 2 coverage to 96 towns across 48 of the existing 75 districts. It does not claim complete city coverage of Uttar Pradesh. Selection balances NCR-adjacent, western, central and eastern UP operating areas. Search Console query volume was not available; these are editorial priority batches, not a measured ranking of demand.
+Each of the first five batches adds 24 curated town guides in 12 additional districts. Batch 5 brings Phase 2 coverage to 120 towns across 60 of the existing 75 districts. It does not claim complete city coverage of Uttar Pradesh. Selection balances NCR-adjacent, western, central, Bundelkhand and eastern UP operating areas. Search Console query volume was not available; these are editorial priority batches, not a measured ranking of demand.
 
 ## Batch 1 district mapping references
 
@@ -90,6 +90,29 @@ The official Baghpat website uses the hostname `bagpat.nic.in`. The Badaun distr
 
 Bilaspur in Rampur and Bisalpur in Pilibhit have different spellings, parent districts and URLs. Both introductions name their district, and source checks reject swapped district mappings. Hasanpur and Fatehgarh also name their district in the introduction. Each new record has a distinct fleet workflow and three operational checks, including address revisions, exam-day transport, equipment handovers and load changes. These are planning examples, not claims of local customers or verified service availability.
 
+## Batch 5 district mapping references
+
+Reviewed on 13 September 2026. These 12 districts did not have a Phase 2 town guide in the earlier batches. All 96 earlier records remain unchanged.
+
+| District | Towns | Mapping source |
+| --- | --- | --- |
+| Etah | Jalesar, Aliganj | [District administration](https://etah.nic.in/tehsil/) |
+| Hathras | Sikandra Rao, Sadabad | [District administration](https://hathras.nic.in/tehsil/) |
+| Kasganj | Patiyali, Sahawar | [District administration](https://kasganj.nic.in/tehsil/) |
+| Ambedkar Nagar | Tanda, Jalalpur | [District administration](https://ambedkarnagar.nic.in/tehsil/) |
+| Amethi | Gauriganj, Tiloi | [District administration](https://amethi.nic.in/tehsil/) |
+| Ballia | Rasra, Bansdih | [District administration](https://ballia.nic.in/tehsil/) |
+| Mau | Ghosi, Madhuban | [District constituency and tehsil reference](https://mau.nic.in/tehsil-loksabha-vidhan-sabha/) |
+| Basti | Harraiya, Bhanpur | [District administration](https://basti.nic.in/tehsil/) |
+| Sant Kabir Nagar | Mehdawal, Dhanghata | [Mehdawal Nagar Panchayat](https://sknagar.nic.in/public-utility/nagar-panchayat-mehdawal/), [district revenue directory](https://sknagar.nic.in/directory/) |
+| Siddharthnagar | Bansi, Domariyaganj | [District block directory](https://siddharthnagar.nic.in/administrative-setup/block/) |
+| Banda | Atarra, Baberu | [District administration](https://banda.nic.in/tehsil/) |
+| Chitrakoot | Rajapur, Manikpur | [District administration](https://chitrakoot.nic.in/tehsil/) |
+
+The Banda source spells Atarra as “Attarra”; the established Atarra name and URL are retained. Basti's officer table also shows spelling variants for Harraiya and Bhanpur, while its main tehsil list uses the labels retained here. Siddharthnagar's official block table spells Domariyaganj as Dumariyaganj; the existing district dataset label remains unchanged.
+
+Every new guide has an independently authored operating scenario and three route checks. Examples cover split orders, shared delivery premises, driver handovers, passenger schedules, combined supplier loads and service-job changes. They are planning guidance, not claims about NAVII GPS customers, offices, live road conditions or guaranteed installation coverage.
+
 ## Content and keyword rules
 
 - Each town has an authored operating scenario, three specific route checks, a relevant set of vehicle guides and visible FAQs matching the JSON-LD.
@@ -104,4 +127,4 @@ The curated data supplies static routes, canonical URLs, social metadata, releva
 
 `npm run seo:check:source` checks membership, unique URLs/content, actual district-scoped lookup functions and metadata. `npm run seo:check` also checks all rendered town pages, state/district navigation, source-visible content and matching FAQ and Service schemas, then runs the sitewide audit. GitHub CI includes both checks through the existing package scripts.
 
-Before the next batch, review actual enquiries and Search Console queries where available, verify each new district mapping, author a useful local workflow and update the reviewed inventory in the checker. All four batches are checked against an explicit route inventory so an existing town cannot be silently replaced. Both reviewed Lalganj pages must resolve independently and show their district in the introduction. Every rendered town also needs links to its reviewed sibling towns. The remaining 27 districts currently retain their district-level guides without a dedicated Phase 2 town batch.
+Before the next batch, review actual enquiries and Search Console queries where available, verify each new district mapping, author a useful local workflow and update the reviewed inventory in the checker. All five batches are checked against an explicit route inventory so an existing town cannot be silently replaced. Both reviewed Lalganj pages must resolve independently and show their district in the introduction. Every rendered town also needs links to its reviewed sibling towns. The remaining 15 districts currently retain their district-level guides without a dedicated Phase 2 town batch.
