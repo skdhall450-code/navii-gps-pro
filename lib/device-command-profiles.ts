@@ -2,7 +2,7 @@ export type SafeSmsCommand = {
   id: string;
   label: string;
   template: string;
-  requires: Array<'APN' | 'SERVER' | 'PORT'>;
+  requires: Array<'APN' | 'SERVER' | 'PORT' | 'PASSWORD'>;
 };
 
 export type SafeSmsProfile = {
@@ -70,6 +70,23 @@ export const SAFE_SMS_PROFILES: SafeSmsProfile[] = [
         label: 'Check APN, server and protocol',
         template: '  getparam 2001;2004;2005;2006',
         requires: [],
+      },
+    ],
+  },
+  {
+    id: 'meitrack-a21',
+    label: 'Meitrack A21 command family',
+    protocol: 'Meitrack proprietary GPRS',
+    modelPrefixes: ['MEITRACK', 'T333', 'T355', 'T366', 'T622', 'MVT', 'MT90', 'P99'],
+    sourceLabel: 'Meitrack General FAQ',
+    sourceUrl: 'https://www.meitrack.com/general-faq/',
+    note: 'Confirm that the model manual uses A21. The factory password is often 0000, but enter the device’s current password.',
+    commands: [
+      {
+        id: 'configure',
+        label: 'Set TCP server, APN and tracking',
+        template: '{PASSWORD},A21,1,{SERVER},{PORT},{APN},,',
+        requires: ['PASSWORD', 'APN', 'SERVER', 'PORT'],
       },
     ],
   },
