@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { parseDeviceRows, deviceProgress, prepareCommand } from '../lib/device-setup.ts';
+import { parseDeviceRows, deviceProgress, prepareCommand, registerDeviceBatch } from '../lib/device-setup.ts';
 const now = Date.parse('2026-09-14T00:00:00Z');
 const device = { id: 'd', model: 'PT06', imei: '012345678901234', simNumber: '+919876543210', isActive: true, lastSeenAt: null, vehicle: { id: 'v', vehicleNo: 'GPS-012345678901234', latitude: null, longitude: null, lastUpdate: null } };
 // Synthetic fixture, deliberately not a manufacturer's actual provisioning command.
@@ -33,4 +33,57 @@ test('mismatched model, disabled devices and invalid SIMs cannot prepare SMS', (
 });
 test('missing, unsafe, multiline and overlength commands are blocked', () => {
   for (const patch of [{ template: '' }, { apn: '' }, { port: '65536' }, { port: '1.5' }, { server: 'https://example.com' }, { template: 'TEST\nRESET' }, { template: 'A'.repeat(161) }, { template: '{UNKNOWN}' }, { template: '{constructor}' }, { template: '^'.repeat(81) }]) assert.throws(() => prepareCommand(device, { ...config, ...patch }));
+});
+
+const jsonResponse = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
+test('legacy fallback uses verified company and handles invalid, duplicate and existing rows', async () => {
+  const requests = [];
+  const row = { model: 'PT06', imei: '012345678901235', simNumber: '+919876543211' };
+  const request = async (url, init) => {
+    requests.push({ url, init });
+    if (url.endsWith('/setup/bulk')) return jsonResponse({}, 404);
+    if (url.endsWith('/api/auth/me')) return jsonResponse({ success: true, data: { role: 'ADMIN', companyId: 'trusted-company' } });
+    if (url.endsWith('/device-management')) return jsonResponse({ success: true, data: [{ ...device, vehicle: { ...device.vehicle, companyId: 'trusted-company' } }] });
+    const sent = JSON.parse(init.body);
+    assert.equal(sent.companyId, 'trusted-company');
+    assert.equal(sent.vehicleNo, 'GPS-' + row.imei);
+    assert.equal(sent.imei, row.imei);
+    return jsonResponse({ success: true, data: { device: { id: 'created' } } });
+  };
+  const result = await registerDeviceBatch('https://api.example', { Authorization: 'Bearer test' }, [
+    { model: device.model, imei: device.imei, simNumber: device.simNumber }, row, row, { ...row, imei: 'bad' },
+  ], undefined, request);
+  assert.deepEqual(result.map(item => item.status), ['EXISTS', 'CREATED', 'DUPLICATE', 'INVALID']);
+  assert.equal(requests.filter(item => item.url.endsWith('/vehicles')).length, 1);
+});
+test('bulk auth, server errors and timeouts never trigger fallback writes', async () => {
+  for (const status of [401, 403, 500]) {
+    let calls = 0;
+    await assert.rejects(registerDeviceBatch('', {}, [device], undefined, async () => { calls++; return jsonResponse({}, status); }));
+    assert.equal(calls, 1);
+  }
+  let calls = 0;
+  await assert.rejects(registerDeviceBatch('', {}, [device], undefined, async () => { calls++; throw new Error('timeout'); }));
+  assert.equal(calls, 1);
+});
+test('legacy network interruption preserves partial successes and stops further writes', async () => {
+  let writes = 0;
+  const rows = [1,2,3].map(n => ({ model: 'PT06', imei: '01234567890123' + n, simNumber: '+91987654321' + n }));
+  const request = async (url) => {
+    if (url.endsWith('/setup/bulk')) return jsonResponse({}, 404);
+    if (url.endsWith('/api/auth/me')) return jsonResponse({ success: true, data: { role: 'ADMIN', companyId: 'a' } });
+    if (url.endsWith('/device-management')) return jsonResponse({ success: true, data: [] });
+    writes++;
+    if (writes === 2) throw new Error('timeout');
+    return jsonResponse({ success: true, data: { device: { id: 'new' } } });
+  };
+  const result = await registerDeviceBatch('', {}, rows, undefined, request);
+  assert.deepEqual(result.map(row => row.status), ['CREATED', 'FAILED', 'FAILED']);
+  assert.equal(writes, 2);
+});
+test('a successful bulk response does not call legacy routes', async () => {
+  let calls = 0;
+  const result = await registerDeviceBatch('', {}, [device], undefined, async () => { calls++; return jsonResponse({ success: true, data: [{ row: 1, status: 'CREATED', message: 'Registered' }] }); });
+  assert.equal(result[0].status, 'CREATED');
+  assert.equal(calls, 1);
 });

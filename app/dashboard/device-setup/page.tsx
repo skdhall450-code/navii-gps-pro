@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Copy, Plus, RefreshCw, Trash2 } from "lucide-react";
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
-import { deviceProgress, isRegistered, parseDeviceRows, prepareCommand, type RegistrationResult, type RegistrationRow, type SetupDevice } from "@/lib/device-setup";
+import { deviceProgress, isRegistered, registerDeviceBatch, RegistrationError, parseDeviceRows, prepareCommand, type RegistrationResult, type RegistrationRow, type SetupDevice } from "@/lib/device-setup";
 
 const API = (process.env.NEXT_PUBLIC_NAVII_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com").replace(/\/$/, "");
 const inputStyle = "w-full min-h-11 rounded-xl border border-white/15 bg-[#091524] px-3 py-2 text-sm text-white outline-none focus:border-sky-400 disabled:opacity-50";
@@ -91,20 +91,13 @@ function DeviceSetup() {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 60_000);
     try {
-      const response = await fetch(API + "/api/gps/device-management/setup/bulk", {
-        method: "POST", headers: { ...authorization(), "Content-Type": "application/json" }, signal: controller.signal,
-        body: JSON.stringify({ devices: pending.map(({ model, imei, simNumber }) => ({ model, imei, simNumber })) }),
-      });
-      if (response.status === 401) { router.replace("/login"); throw new Error("Please sign in again."); }
-      const json = await response.json().catch(() => null);
-      if (!response.ok || !json?.success || !Array.isArray(json.data)) throw new Error(typeof json?.message === "string" ? json.message : "Registration unavailable. Check the server and retry.");
-      const results = json.data as RegistrationResult[];
-      if (results.length !== pending.length || results.some((item, index) => item.row !== index + 1)) throw new Error("Incomplete result. Refresh devices before retrying.");
+      const results = await registerDeviceBatch(API, authorization(), pending.map(({ model, imei, simNumber }) => ({ model, imei, simNumber })), controller.signal);
       const byKey = new Map(pending.map((row, index) => [row.key, results[index]]));
       setRows(current => current.map(row => byKey.has(row.key) ? { ...row, result: byKey.get(row.key) } : row));
       setRegistrationMessage(results.filter(isRegistered).length + " of " + pending.length + " registered. Review any row errors.");
       await refresh();
     } catch (caught) {
+      if (caught instanceof RegistrationError && caught.status === 401) router.replace("/login");
       setRegistrationMessage(caught instanceof Error && caught.name !== "AbortError" ? caught.message : "Request timed out. Refresh devices before retrying; matching registrations will not be duplicated.");
     } finally { clearTimeout(timeout); savingRef.current = false; setSaving(false); }
   }
