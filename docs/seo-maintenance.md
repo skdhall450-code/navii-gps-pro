@@ -47,3 +47,7 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 ## Uttar Pradesh town expansion
 
 [Phase 2 batches 1–7](uttar-pradesh-phase-2.md) provide 150 reviewed town guides across all 75 districts, with explicit district mapping sources and authored route-planning content. The automatic route, keyword and sitemap generation is limited to these curated records. The UP town checks run in both source and production audit commands, including independent lookups and district identification for the two reviewed Lalganj towns, plus separate Bilaspur (Rampur) and Bisalpur (Pilibhit) mappings.
+
+## Tamil Nadu district expansion
+
+[Tamil Nadu Phase 1](tamil-nadu-phase-1.md) provides district-level GPS tracking guides for all 38 districts listed by the Government of Tamil Nadu portal. Automatic checks enforce the reviewed inventory, official district-source domains, unique content, local keywords, canonical URLs, Service and FAQ schema, sitemap inclusion and links from the Tamil Nadu state hub. The regional content groups are editorial navigation labels, not claims of an additional administrative tier.
