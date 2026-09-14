@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Copy, Plus, RefreshCw, Trash2 } from "lucide-react";
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
+import { SAFE_SMS_PROFILES, findSmsCommand, findSmsProfile, supportsSmsProfile } from "@/lib/device-command-profiles";
 import { deviceProgress, isRegistered, registerDeviceBatch, RegistrationError, parseDeviceRows, prepareCommand, type RegistrationResult, type RegistrationRow, type SetupDevice } from "@/lib/device-setup";
 
 const API = (process.env.NEXT_PUBLIC_NAVII_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com").replace(/\/$/, "");
@@ -38,9 +39,12 @@ function DeviceSetup() {
   const [selected, setSelected] = useState<string[]>([]);
   const [model, setModel] = useState("");
   const [template, setTemplate] = useState("");
+  const [profileId, setProfileId] = useState("");
+  const [profileCommandId, setProfileCommandId] = useState("");
   const [server, setServer] = useState("148.66.158.29");
   const [port, setPort] = useState("5001");
   const [apn, setApn] = useState("");
+  const [password, setPassword] = useState("0000");
   const [now, setNow] = useState(() => Date.now());
   const [lastSync, setLastSync] = useState<number | null>(null);
   const fetchController = useRef<AbortController | null>(null);
@@ -116,9 +120,11 @@ function DeviceSetup() {
   }
 
   const models = [...new Set(devices.map(device => device.model?.trim()).filter((value): value is string => !!value))].sort();
+  const selectedProfile = findSmsProfile(profileId);
+  const selectedProfileCommand = findSmsCommand(profileId, profileCommandId);
   const visible = devices.filter(device => [device.model, device.imei, device.simNumber, device.vehicle.vehicleNo].some(value => value?.toLowerCase().includes(query.trim().toLowerCase())));
   const targets = devices.filter(device => selected.includes(device.id));
-  const config = { model, template, server, port, apn };
+  const config = { model, template, server, port, apn, password };
   const live = devices.filter(device => deviceProgress(device, now).stage === "Live").length;
   const connected = devices.filter(device => deviceProgress(device, now).connected).length;
 
@@ -162,14 +168,25 @@ function DeviceSetup() {
     <section className="rounded-2xl border border-sky-400/20 bg-[#0a1525] p-4 sm:p-6">
       <h2 className="text-xl font-semibold">3. Prepare SMS commands</h2>
       <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-400">Use the exact command for your model and firmware. The SIM needs an active SMS/data plan. Open SMS on your phone to send, or copy the command. Automatic SMS delivery is not connected.</p>
-      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <label className="text-xs text-slate-400">Command model<select className={inputStyle + " mt-2"} value={model} onChange={event => setModel(event.target.value)}><option value="">Choose model</option>{models.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
+      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <label className="text-xs text-slate-400">Command model<select className={inputStyle + " mt-2"} value={model} onChange={event => { setModel(event.target.value); setProfileId(""); setProfileCommandId(""); setTemplate(""); }}><option value="">Choose model</option>{models.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
+        <label className="text-xs text-slate-400">Verified command profile<select className={inputStyle + " mt-2"} value={profileId} onChange={event => {
+          const nextProfile = findSmsProfile(event.target.value);
+          const first = nextProfile?.commands[0];
+          setProfileId(event.target.value); setProfileCommandId(first?.id || ""); setTemplate(first?.template || "");
+        }}><option value="">Manual command</option>{SAFE_SMS_PROFILES.map(profile => <option key={profile.id} value={profile.id} disabled={!!model && !supportsSmsProfile(profile, model)}>{profile.label}</option>)}</select></label>
+        <label className="text-xs text-slate-400">Setup step<select className={inputStyle + " mt-2"} value={profileCommandId} disabled={!selectedProfile} onChange={event => {
+          const command = findSmsCommand(profileId, event.target.value);
+          setProfileCommandId(event.target.value); setTemplate(command?.template || "");
+        }}><option value="">Choose command</option>{selectedProfile?.commands.map(command => <option key={command.id} value={command.id}>{command.label}</option>)}</select></label>
         <label className="text-xs text-slate-400">Server IP / hostname<input className={inputStyle + " mt-2"} value={server} onChange={event => setServer(event.target.value)} /></label>
         <label className="text-xs text-slate-400">Port<input className={inputStyle + " mt-2"} value={port} inputMode="numeric" onChange={event => setPort(event.target.value)} /></label>
         <label className="text-xs text-slate-400">SIM operator APN<input className={inputStyle + " mt-2"} value={apn} onChange={event => setApn(event.target.value)} placeholder="From your SIM operator" /></label>
+        <label className="text-xs text-slate-400">Device SMS password<input className={inputStyle + " mt-2 font-mono"} value={password} maxLength={16} onChange={event => setPassword(event.target.value)} placeholder="Only for profiles that require it" /></label>
       </div>
+      {selectedProfile && <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-500/5 p-3 text-xs leading-5 text-slate-300"><p>{selectedProfile.note}</p><p className="mt-1">Receiver protocol: {selectedProfile.protocol}. Source: <a className="text-sky-300 underline" href={selectedProfile.sourceUrl} target="_blank" rel="noreferrer">{selectedProfile.sourceLabel}</a>.</p>{selectedProfileCommand && <p className="mt-1">Required fields: {selectedProfileCommand.requires.length ? selectedProfileCommand.requires.join(", ") : "none"}.</p>}</div>}
       <label className="mt-4 block text-xs text-slate-400">Manufacturerâ€™s SMS command<textarea rows={3} maxLength={500} className={inputStyle + " mt-2 font-mono"} value={template} onChange={event => setTemplate(event.target.value)} placeholder="Paste the exact command from the device manual" /></label>
-      <p className="mt-2 text-xs leading-5 text-slate-400">Optional placeholders: {"{IMEI}, {SIM}, {SERVER}, {PORT}, {APN}"}. Prepare and send one command at a time in the manufacturerâ€™s specified order.</p>
+      <p className="mt-2 text-xs leading-5 text-slate-400">Optional placeholders: {"{IMEI}, {SIM}, {SERVER}, {PORT}, {APN}, {PASSWORD}"}. Prepare and send one command at a time in the manufacturerâ€™s specified order.</p>
       <p role="status" className="mt-4 text-sm text-sky-300">{notice}</p>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">{targets.map(device => {
         let prepared: ReturnType<typeof prepareCommand> | null = null; let problem = "";

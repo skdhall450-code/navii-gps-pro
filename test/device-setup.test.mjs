@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { parseDeviceRows, deviceProgress, prepareCommand, registerDeviceBatch } from '../lib/device-setup.ts';
+import { SAFE_SMS_PROFILES, findSmsCommand, supportsSmsProfile } from '../lib/device-command-profiles.ts';
 const now = Date.parse('2026-09-14T00:00:00Z');
 const device = { id: 'd', model: 'PT06', imei: '012345678901234', simNumber: '+919876543210', isActive: true, lastSeenAt: null, vehicle: { id: 'v', vehicleNo: 'GPS-012345678901234', latitude: null, longitude: null, lastUpdate: null } };
 // Synthetic fixture, deliberately not a manufacturer's actual provisioning command.
@@ -86,4 +87,47 @@ test('a successful bulk response does not call legacy routes', async () => {
   const result = await registerDeviceBatch('', {}, [device], undefined, async () => { calls++; return jsonResponse({ success: true, data: [{ row: 1, status: 'CREATED', message: 'Registered' }] }); });
   assert.equal(result[0].status, 'CREATED');
   assert.equal(calls, 1);
+});
+
+
+test('verified provisioning profiles expose only safe setup and diagnostic commands', () => {
+  assert.deepEqual(SAFE_SMS_PROFILES.map(profile => profile.id), [
+    'pictor-pt06-ev02',
+    'jimi-concox-gt06-current',
+    'concox-gt06-legacy-numeric',
+    'teltonika-fm',
+    'meitrack-a21',
+  ]);
+  assert.equal(findSmsCommand('pictor-pt06-ev02', 'status').template, 'STATUS#');
+  assert.equal(findSmsCommand('pictor-pt06-ev02', 'server-ip').template, 'SERVER,0,{SERVER},{PORT},0#');
+  assert.equal(findSmsCommand('jimi-concox-gt06-current', 'server-ip').template, 'SERVER,0,{SERVER},{PORT},0#');
+  assert.equal(findSmsCommand('concox-gt06-legacy-numeric', 'server-ip').template, '803#{SERVER}#{PORT}#');
+  assert.equal(findSmsCommand('teltonika-fm', 'configure').template.startsWith('  setparam '), true);
+  assert.equal(findSmsCommand('meitrack-a21', 'configure').template, '{PASSWORD},A21,1,{SERVER},{PORT},{APN},,');
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[0], 'PT06'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[1], 'GT06N'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'FMC920'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'PT06'), false);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[4], 'T355G'), true);
+  for (const profile of SAFE_SMS_PROFILES) {
+    for (const command of profile.commands) {
+      assert.doesNotMatch(command.template, /RELAY|DYD|HFYD|cut.?off|factory|reset/i);
+    }
+  }
+});
+
+
+test('protected profiles require a validated device SMS password', () => {
+  const meitrack = { ...device, model: 'T355G' };
+  const meitrackConfig = {
+    model: 'T355G',
+    template: findSmsCommand('meitrack-a21', 'configure').template,
+    server: '192.0.2.1',
+    port: '5001',
+    apn: 'test.apn',
+    password: '0000',
+  };
+  assert.equal(prepareCommand(meitrack, meitrackConfig).body, '0000,A21,1,192.0.2.1,5001,test.apn,,');
+  assert.throws(() => prepareCommand(meitrack, { ...meitrackConfig, password: '' }));
+  assert.throws(() => prepareCommand(meitrack, { ...meitrackConfig, password: 'bad password' }));
 });
