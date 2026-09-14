@@ -110,7 +110,7 @@ test('verified provisioning profiles expose only safe setup and diagnostic comma
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[1], 'GT06N'), true);
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'FMC920'), true);
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'PT06'), false);
-  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[4], 'T355G'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES.find(profile => profile.id === 'meitrack-a21'), 'T355G'), true);
   for (const profile of SAFE_SMS_PROFILES) {
     for (const command of profile.commands) {
       assert.doesNotMatch(command.template, /RELAY|DYD|HFYD|cut.?off|factory|reset/i);
