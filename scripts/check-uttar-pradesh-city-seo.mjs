@@ -122,12 +122,17 @@ const reviewedBatches = [
     mirzapur: ["chunar", "marihan"],
     bhadohi: ["gyanpur", "gopiganj"],
   },
+  {
+    sonbhadra: ["obra", "dudhi"],
+    kaushambi: ["sirathu", "chail"],
+    chandauli: ["mughalsarai", "chakia"],
+  },
 ];
 const expectedRoutes = reviewedBatches.flatMap((batch) => Object.entries(batch).flatMap(
   ([district, towns]) => towns.map((town) => `${district}/${town}`),
 ));
-assert.equal(cities.length, 144, "Update the reviewed batch inventory when adding towns");
-assert.equal(new Set(cities.map((city) => city.districtSlug)).size, 72);
+assert.equal(cities.length, 150, "Update the reviewed batch inventory when adding towns");
+assert.equal(new Set(cities.map((city) => city.districtSlug)).size, 75);
 assert.deepEqual(cities.map((city) => `${city.districtSlug}/${city.slug}`).sort(), expectedRoutes.sort(), "Published town inventory changed");
 assert.equal(new Set(cities.map(getUttarPradeshCityPath)).size, cities.length, "Duplicate city URL");
 for (const field of ["localContext", "focus"]) {
@@ -185,7 +190,7 @@ assert.equal(getUttarPradeshCity("pilibhit", "bilaspur"), undefined);
 assert.deepEqual(getUttarPradeshCitiesForDistrict("not-a-district"), []);
 
 if (process.argv.includes("--source-only")) {
-  console.log(`PASS: ${cities.length} curated UP towns across 72 districts; all six batch inventories, same-name town lookups, metadata and route uniqueness verified.`);
+  console.log(`PASS: ${cities.length} curated UP towns across all 75 districts; all seven batch inventories, same-name town lookups, metadata and route uniqueness verified.`);
   process.exit(0);
 }
 

@@ -1150,5 +1150,53 @@
     "localContext": "For a Gopiganj vehicle carrying a product sample for approval, keep the visit separate from a production delivery. Record the sample reference, decision contact and return instruction before dispatch. Journey history supports appointment timing, while the customer's approval record determines whether later production goods may be released.",
     "routeChecks": ["Label the Gopiganj sample trip separately from any later production consignment.", "Record the customer decision and return instruction against the sample reference.", "Release a production delivery only through the approved order process, not from GPS visit completion."],
     "sourceUrl": "https://bhadohi.nic.in/tehsil/"
+  },
+  {
+    "slug": "obra", "name": "Obra", "districtSlug": "sonbhadra",
+    "sectors": ["industrial service fleets", "commercial transport"],
+    "focus": "maintenance shutdown journeys linked to approved work orders",
+    "localContext": "For an Obra maintenance vehicle, connect each dispatch to the approved work order, access contact and planned shutdown window. If the job is postponed, keep the waiting period separate from active service travel. GPS history supports vehicle coordination, while the site team confirms access, completed work and safe release.",
+    "routeChecks": ["Confirm the Obra work order, authorised site contact and shutdown window before dispatch.", "Record a postponed access window separately from vehicle travel and maintenance time.", "Match the site completion note and vehicle release to the original work order after the visit."],
+    "sourceUrl": "https://sonbhadra.nic.in/tehsil/"
+  },
+  {
+    "slug": "dudhi", "name": "Dudhi", "districtSlug": "sonbhadra",
+    "sectors": ["regional freight", "commercial logistics"],
+    "focus": "multi-day freight assignments with daily readiness checks",
+    "localContext": "When a Dudhi freight assignment continues across several days, record the approved overnight stop, driver handover and next delivery instruction. Start each new leg with a fresh vehicle and load-status check. GPS location supports route review, but it does not establish driver fitness, cargo condition or delivery acceptance.",
+    "routeChecks": ["Record the approved Dudhi overnight stop, responsible driver and next-leg instruction each day.", "Confirm vehicle readiness and load status before releasing every new freight leg.", "Reconcile the daily journey history with driver handovers and final receiver acknowledgement."],
+    "sourceUrl": "https://sonbhadra.nic.in/tehsil/"
+  },
+  {
+    "slug": "sirathu", "name": "Sirathu", "districtSlug": "kaushambi",
+    "sectors": ["commercial distribution", "regional delivery"],
+    "focus": "revised customer delivery windows confirmed before rerouting",
+    "localContext": "If a Sirathu customer changes the delivery window after dispatch, confirm the revised time and receiving contact before rerouting the vehicle. Keep the schedule change attached to the original order. GPS reports support route coordination, while the customer acknowledgement remains the record of actual delivery completion.",
+    "routeChecks": ["Confirm the revised Sirathu delivery window and receiving contact before changing the route.", "Record the schedule change against the original order rather than creating a duplicate delivery task.", "Match the customer acknowledgement with the revised visit and completed journey when closing the order."],
+    "sourceUrl": "https://kaushambi.nic.in/tehsil/"
+  },
+  {
+    "slug": "chail", "name": "Chail", "districtSlug": "kaushambi",
+    "sectors": ["school transport", "commercial passenger fleets"],
+    "focus": "separate passenger rosters for school activity journeys",
+    "localContext": "For a Chail school activity vehicle, keep the trip roster separate from the regular route list and confirm the authorised pickup, destination and return contact. Attendance must be checked through the school's process. GPS tracking supports journey oversight, but it cannot replace passenger verification or safeguarding procedures.",
+    "routeChecks": ["Prepare the Chail activity-trip passenger roster and authorised contacts before departure.", "Confirm boarding and return attendance through the school's approved process at each stage.", "Review route changes with the trip coordinator without treating map arrival as passenger confirmation."],
+    "sourceUrl": "https://kaushambi.nic.in/tehsil/"
+  },
+  {
+    "slug": "mughalsarai", "name": "Mughalsarai", "districtSlug": "chandauli",
+    "sectors": ["commercial logistics", "regional service fleets"],
+    "focus": "depot transfers documented through separate custody stages",
+    "localContext": "For a Mughalsarai depot transfer in Chandauli district, also officially identified as Pt. Deen Dayal Upadhyay Nagar, record dispatch, driver custody and receiving-depot acceptance as separate stages. A vehicle location can support transfer timing, while signed handovers establish responsibility for equipment, documents or goods.",
+    "routeChecks": ["Record the Mughalsarai dispatch reference and releasing-depot contact before the transfer begins.", "Capture driver custody and receiving-depot acceptance as distinct documented stages.", "Reconcile transferred items and exceptions with both handovers and the completed vehicle journey."],
+    "sourceUrl": "https://chandauli.nic.in/tehsil/"
+  },
+  {
+    "slug": "chakia", "name": "Chakia", "districtSlug": "chandauli",
+    "sectors": ["commercial service vehicles", "field support fleets"],
+    "focus": "failed site access converted into approved repeat appointments",
+    "localContext": "When a Chakia service vehicle cannot access the planned site, record the attempt, authorised contact response and reason before leaving. Create a repeat appointment only after the customer confirms a new window. GPS history supports the visit timeline, but access outcome and completed service require direct operational records.",
+    "routeChecks": ["Record the Chakia access attempt, customer contact and stated reason before leaving the site.", "Confirm a new appointment window and responsible contact before scheduling the repeat visit.", "Keep the failed attempt and completed service as separate outcomes linked to the same job reference."],
+    "sourceUrl": "https://chandauli.nic.in/tehsil/"
   }
 ]

@@ -1,8 +1,8 @@
-# Uttar Pradesh Phase 2 — priority towns, batches 1–6
+# Uttar Pradesh Phase 2 — priority towns, batches 1–7
 
 Reviewed: 13 September 2026.
 
-Each of the first six batches adds 24 curated town guides in 12 additional districts. Batch 6 brings Phase 2 coverage to 144 towns across 72 of the existing 75 districts. It does not yet claim complete city coverage of Uttar Pradesh. Selection balances NCR-adjacent, western, central, Bundelkhand and eastern UP operating areas. Search Console query volume was not available; these are editorial priority batches, not a measured ranking of demand.
+Each of the first six batches adds 24 curated town guides in 12 additional districts. The final batch adds six guides in the remaining three districts, bringing Phase 2 to 150 reviewed towns across all 75 Uttar Pradesh districts. This is district coverage, not a claim that every locality or city in Uttar Pradesh has a page. Selection balances NCR-adjacent, western, central, Bundelkhand and eastern UP operating areas. Search Console query volume was not available; these are editorial priority batches, not a measured ranking of demand.
 
 ## Batch 1 district mapping references
 
@@ -136,6 +136,20 @@ Bahraich's source spells Kaiserganj as Kaisarganj; the established district data
 
 Every new guide has a distinct operational scenario and three route checks. Examples cover custody transfers, multi-site unloading, partial delivery acceptance, pallet exchanges, inspection evidence and return-load approval. They are planning guidance, not claims about local NAVII GPS customers, offices, road conditions or guaranteed installation coverage.
 
+## Final Batch 7 district mapping references
+
+Reviewed on 14 September 2026. This final batch adds two curated town guides for each of the three districts that previously had district-level coverage only. All 144 earlier records remain unchanged.
+
+| District | Towns | Mapping source |
+| --- | --- | --- |
+| Sonbhadra | Obra, Dudhi | [District administration](https://sonbhadra.nic.in/tehsil/) |
+| Kaushambi | Sirathu, Chail | [District administration](https://kaushambi.nic.in/tehsil/) |
+| Chandauli | Mughalsarai, Chakia | [District administration](https://chandauli.nic.in/tehsil/) |
+
+The Sonbhadra source spells Dudhi as Duddhi, while the established district dataset label is retained. The Kaushambi source uses Chayal for the established Chail label. Chandauli's current official list names Pt. Dindayal Upadhyay Nagar with Mughalsarai in parentheses; the recognisable existing Mughalsarai name remains in the district-scoped route and visible text explains the relationship. These spelling variants do not create alias pages.
+
+All 75 Uttar Pradesh districts now have two reviewed Phase 2 town guides. The final scenarios cover maintenance shutdowns, multi-day freight, changed delivery windows, school activity rosters, depot custody transfers and repeat service appointments. They remain operational planning guidance rather than claims of local branches, customers or guaranteed installation availability.
+
 ## Content and keyword rules
 
 - Each town has an authored operating scenario, three specific route checks, a relevant set of vehicle guides and visible FAQs matching the JSON-LD.
@@ -150,4 +164,4 @@ The curated data supplies static routes, canonical URLs, social metadata, releva
 
 `npm run seo:check:source` checks membership, unique URLs/content, actual district-scoped lookup functions and metadata. `npm run seo:check` also checks all rendered town pages, state/district navigation, source-visible content and matching FAQ and Service schemas, then runs the sitewide audit. GitHub CI includes both checks through the existing package scripts.
 
-Before the final batch, review actual enquiries and Search Console queries where available, verify each new district mapping, author a useful local workflow and update the reviewed inventory in the checker. All six batches are checked against an explicit route inventory so an existing town cannot be silently replaced. Both reviewed Lalganj pages must resolve independently and show their district in the introduction. Every rendered town also needs links to its reviewed sibling towns. The remaining three districts—Sonbhadra, Kaushambi and Chandauli—currently retain district-level guides without a dedicated Phase 2 town batch.
+For future expansion, review actual enquiries and Search Console queries where available, verify each location mapping, author a useful local workflow and update the reviewed inventory in the checker. All seven batches are checked against an explicit route inventory so an existing town cannot be silently replaced. Both reviewed Lalganj pages must resolve independently and show their district in the introduction. Every rendered town also needs links to its reviewed sibling town. Phase 2 now provides two curated town pages in every one of Uttar Pradesh's 75 districts; it does not automatically publish every locality.
