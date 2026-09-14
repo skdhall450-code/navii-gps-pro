@@ -6,6 +6,8 @@ import { indiaStates } from "@/lib/seo/indiaStates";
 const state = indiaStates.find((item) => item.slug === "arunachal-pradesh")!;
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://naviigps.com/gps-tracker/arunachal-pradesh" },
+  openGraph: { title: "GPS Tracker in Arunachal Pradesh | Vehicle Tracking System | NAVII GPS", description: "GPS tracker and vehicle tracking solutions in Arunachal Pradesh for cars, trucks, buses, institutional fleets and commercial vehicles across Itanagar, Naharlagun, Pasighat and other cities.", url: "https://naviigps.com/gps-tracker/arunachal-pradesh", type: "website", images: ["/og-image.jpg"] },
   title: "GPS Tracker in Arunachal Pradesh | Vehicle Tracking System",
   description:
     "GPS tracker and vehicle tracking solutions in Arunachal Pradesh for cars, trucks, buses, institutional fleets and commercial vehicles across Itanagar, Naharlagun, Pasighat and other cities.",

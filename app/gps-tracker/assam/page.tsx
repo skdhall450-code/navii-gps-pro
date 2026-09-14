@@ -6,6 +6,8 @@ import { indiaStates } from "@/lib/seo/indiaStates";
 const state = indiaStates.find((item) => item.slug === "assam")!;
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://naviigps.com/gps-tracker/assam" },
+  openGraph: { title: "GPS Tracker in Assam | Vehicle Tracking System | NAVII GPS", description: "GPS tracker and vehicle tracking solutions in Assam for cars, trucks, buses, tea logistics, regional distribution and commercial fleets.", url: "https://naviigps.com/gps-tracker/assam", type: "website", images: ["/og-image.jpg"] },
   title: "GPS Tracker in Assam | Vehicle Tracking System",
   description:
     "GPS tracker and vehicle tracking solutions in Assam for cars, trucks, buses, logistics fleets and commercial vehicles across Guwahati, Dibrugarh, Silchar and other cities.",
