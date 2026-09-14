@@ -14,7 +14,7 @@ export default function TopBar() {
             className="flex items-center gap-2 hover:text-cyan-300"
           >
             <Phone size={14} />
-            +91 88997 29705
+            Sales: +91 88997 29705
           </a>
 
           <a

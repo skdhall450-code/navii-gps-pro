@@ -1,4 +1,26 @@
+# NAVII GPS platform
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Website enquiry delivery
+
+The `/contact` form succeeds only after at least one NAVII team notification
+channel accepts the enquiry. Configure one or more of these production options:
+
+- `RESEND_API_KEY`, `CONTACT_ENQUIRY_EMAIL`, and `CONTACT_FROM_EMAIL` for email.
+- `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`,
+  `WHATSAPP_GRAPH_VERSION`, and `CONTACT_WHATSAPP_TO` for an internal WhatsApp
+  notification.
+- `CONTACT_WEBHOOK_URL` and optional `CONTACT_WEBHOOK_TOKEN` for a CRM or
+  automation webhook.
+
+If every configured channel fails, the form shows a direct WhatsApp fallback
+instead of claiming that the enquiry was received.
+
+International SEO is held by default while India is the active priority.
+Country and international-city routes stay available but use `noindex, follow`
+and are excluded from the sitemap. Set `INTERNATIONAL_SEO_ENABLED=true` at
+build time to restore them to the public sitemap and search index.
 
 ## Getting Started
 

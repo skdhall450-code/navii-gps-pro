@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -8,8 +9,14 @@ import {
   ShieldCheck,
   Package,
 } from "lucide-react";
+import { products } from "../data/productsData";
 
-export default function ProductHero() {
+type ProductHeroProps = {
+  searchQuery: string;
+  onSearchChange: (value: string) => void;
+};
+
+export default function ProductHero({ searchQuery, onSearchChange }: ProductHeroProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#06142E] via-[#081C3D] to-[#0B254F] py-24">
 
@@ -35,9 +42,6 @@ export default function ProductHero() {
         {/* LEFT */}
 
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
         >
 
           <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-5 py-2 text-sm font-semibold text-cyan-300">
@@ -77,7 +81,10 @@ export default function ProductHero() {
 
             <input
               type="text"
+              aria-label="Search NAVII GPS products"
               placeholder="Search GPS products..."
+              value={searchQuery}
+              onChange={(event) => onSearchChange(event.target.value)}
               className="ml-4 w-full bg-transparent text-white outline-none placeholder:text-slate-400"
             />
 
@@ -87,28 +94,28 @@ export default function ProductHero() {
 
           <div className="mt-10 flex flex-wrap gap-5">
 
-            <button className="flex items-center gap-2 rounded-xl bg-cyan-500 px-8 py-4 font-semibold text-white transition hover:bg-cyan-400">
+            <a href="#product-catalog" className="flex items-center gap-2 rounded-xl bg-cyan-500 px-8 py-4 font-semibold text-white transition hover:bg-cyan-400">
 
               Browse Products
 
               <ArrowRight size={18} />
 
-            </button>
+            </a>
 
-            <button className="flex items-center gap-2 rounded-xl border border-cyan-400/20 px-8 py-4 font-semibold text-white hover:bg-white/10">
+            <Link href="/ais-140-gps" className="flex items-center gap-2 rounded-xl border border-cyan-400/20 px-8 py-4 font-semibold text-white hover:bg-white/10">
 
               <ShieldCheck size={18} />
 
               AIS 140 Certified
 
-            </button>
+            </Link>
 
           </div>          {/* Hero Stats */}
 
           <div className="mt-14 grid grid-cols-2 gap-5 md:grid-cols-4">
 
             {[
-              ["20+", "Products"],
+              [`${products.length}`, "Featured Products"],
               ["500+", "Clients"],
               ["25K+", "Vehicles"],
               ["24×7", "Support"],
@@ -143,17 +150,6 @@ export default function ProductHero() {
         {/* RIGHT */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            x: 40,
-          }}
-          animate={{
-            opacity: 1,
-            x: 0,
-          }}
-          transition={{
-            duration: 0.9,
-          }}
           className="relative flex justify-center"
         >
 

@@ -19,7 +19,7 @@ export default function HeroV2() {
 
       {/* Main Hero */}
 
-      <div className="relative mx-auto grid min-h-[90vh] max-w-7xl items-center gap-16 px-6 py-20 lg:grid-cols-2">
+      <div className="relative mx-auto grid min-h-[calc(100svh-7.5rem)] max-w-7xl items-center gap-12 px-6 py-14 sm:py-16 lg:grid-cols-2 lg:gap-10 lg:py-12">
 
         <HeroContent />
 

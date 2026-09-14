@@ -15,6 +15,7 @@ import { delhiAreas } from "@/lib/seo/delhiAreas";
 import { uttarPradeshDistricts } from "@/lib/seo/uttarPradeshDistricts";
 import { uttarPradeshCities, getUttarPradeshCityPath } from "@/lib/seo/uttarPradeshCities";
 import { tamilNaduDistricts } from "@/lib/seo/tamilNaduDistricts";
+import { internationalSeoEnabled } from "@/lib/seo/internationalStatus";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://naviigps.com";
@@ -36,7 +37,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/gps-tracking-company-india`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gps-tracker-west-india`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gps-tracker-india`, changeFrequency: "monthly", priority: 0.95 },
-    { url: `${baseUrl}/gps-tracker-international`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/fuel-monitoring-system`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/contact`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/privacy-policy`, changeFrequency: "yearly", priority: 0.3 },
@@ -46,16 +46,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const stateRoutes: MetadataRoute.Sitemap = indiaStates.map((state) => ({ url: `${baseUrl}/gps-tracker/${state.slug}`, changeFrequency: "monthly", priority: state.southPriority ? 0.9 : 0.8 }));
   const cities = [...new Map([...priorityCities, ...westIndiaCities].map((city) => [city.slug, city])).values()];
   const cityRoutes: MetadataRoute.Sitemap = cities.map((city) => ({ url: `${baseUrl}/gps-tracker/${city.slug}`, changeFrequency: "monthly", priority: 0.9 }));
-  const internationalRoutes: MetadataRoute.Sitemap = internationalCountries.map((country) => ({ url: `${baseUrl}/gps-tracker/${country.slug}`, changeFrequency: "monthly", priority: 0.9 }));
-  const internationalCityRoutes: MetadataRoute.Sitemap = internationalCities.map((city) => ({ url: `${baseUrl}/gps-tracker/${city.slug}`, changeFrequency: "monthly", priority: 0.85 }));
+  const internationalRoutes: MetadataRoute.Sitemap = internationalSeoEnabled
+    ? [
+        { url: `${baseUrl}/gps-tracker-international`, changeFrequency: "monthly", priority: 0.9 },
+        ...internationalCountries.map((country) => ({ url: `${baseUrl}/gps-tracker/${country.slug}`, changeFrequency: "monthly" as const, priority: 0.9 })),
+      ]
+    : [];
+  const internationalCityRoutes: MetadataRoute.Sitemap = internationalSeoEnabled
+    ? internationalCities.map((city) => ({ url: `${baseUrl}/gps-tracker/${city.slug}`, changeFrequency: "monthly", priority: 0.85 }))
+    : [];
   const haryanaDistrictRoutes: MetadataRoute.Sitemap = haryanaDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/haryana/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
-  const haryanaCityRoutes: MetadataRoute.Sitemap = haryanaCities.map((city) => ({ url: `${baseUrl}/gps-tracker/haryana/${city.districtSlug}/${city.slug}`, changeFrequency: "monthly", priority: 0.84 }));
+  const haryanaCityRoutes: MetadataRoute.Sitemap = haryanaCities.filter((city) => city.slug !== city.districtSlug).map((city) => ({ url: `${baseUrl}/gps-tracker/haryana/${city.districtSlug}/${city.slug}`, changeFrequency: "monthly", priority: 0.84 }));
   const punjabDistrictRoutes: MetadataRoute.Sitemap = punjabDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/punjab/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
-  const punjabCityRoutes: MetadataRoute.Sitemap = punjabCities.map((city) => ({ url: `${baseUrl}/gps-tracker/punjab/${city.districtSlug}/${city.slug}`, changeFrequency: "monthly", priority: 0.84 }));
+  const punjabCityRoutes: MetadataRoute.Sitemap = punjabCities.filter((city) => city.slug !== city.districtSlug).map((city) => ({ url: `${baseUrl}/gps-tracker/punjab/${city.districtSlug}/${city.slug}`, changeFrequency: "monthly", priority: 0.84 }));
   const delhiDistrictRoutes: MetadataRoute.Sitemap = delhiDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/delhi/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
-  const delhiAreaRoutes: MetadataRoute.Sitemap = delhiAreas.map((area) => ({ url: `${baseUrl}/gps-tracker/delhi/${area.districtSlug}/${area.slug}`, changeFrequency: "monthly", priority: 0.84 }));
+  const delhiAreaRoutes: MetadataRoute.Sitemap = delhiAreas.filter((area) => area.slug !== area.districtSlug).map((area) => ({ url: `${baseUrl}/gps-tracker/delhi/${area.districtSlug}/${area.slug}`, changeFrequency: "monthly", priority: 0.84 }));
   const uttarPradeshDistrictRoutes: MetadataRoute.Sitemap = uttarPradeshDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/uttar-pradesh/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
-  const uttarPradeshCityRoutes: MetadataRoute.Sitemap = uttarPradeshCities.map((city) => ({ url: `${baseUrl}${getUttarPradeshCityPath(city)}`, changeFrequency: "monthly", priority: 0.84 }));
+  const uttarPradeshCityRoutes: MetadataRoute.Sitemap = uttarPradeshCities.filter((city) => city.slug !== city.districtSlug).map((city) => ({ url: `${baseUrl}${getUttarPradeshCityPath(city)}`, changeFrequency: "monthly", priority: 0.84 }));
   const tamilNaduDistrictRoutes: MetadataRoute.Sitemap = tamilNaduDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/tamil-nadu/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
   return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...haryanaCityRoutes, ...punjabDistrictRoutes, ...punjabCityRoutes, ...delhiDistrictRoutes, ...delhiAreaRoutes, ...uttarPradeshDistrictRoutes, ...uttarPradeshCityRoutes, ...tamilNaduDistrictRoutes, ...productRoutes];
 }

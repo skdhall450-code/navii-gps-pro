@@ -215,11 +215,7 @@ export default function GoogleAnalytics() {
       });
     };
 
-    const handleSubmit = (): void => {
-      if (pathname !== "/contact") {
-        return;
-      }
-
+    const handleSuccessfulLead = (): void => {
       sendGoogleAnalyticsEvent("contact_form_submit", {
         interaction_channel: "contact_form",
         page_path: pathname,
@@ -236,12 +232,12 @@ export default function GoogleAnalytics() {
 
     document.addEventListener("click", handleClick, true);
 
-    document.addEventListener("submit", handleSubmit, true);
+    window.addEventListener("navii:lead-submitted", handleSuccessfulLead);
 
     return () => {
       document.removeEventListener("click", handleClick, true);
 
-      document.removeEventListener("submit", handleSubmit, true);
+      window.removeEventListener("navii:lead-submitted", handleSuccessfulLead);
     };
   }, [consent, pathname]);
 
@@ -298,55 +294,35 @@ export default function GoogleAnalytics() {
           aria-labelledby="analytics-consent-title"
           aria-describedby="analytics-consent-description"
           data-cookie-consent="banner"
-          className="fixed inset-x-4 bottom-4 z-[10000] mx-auto max-w-2xl rounded-2xl border border-cyan-300/40 bg-[#06142E]/95 p-5 text-white shadow-2xl shadow-slate-950/40 backdrop-blur-xl sm:p-6"
+          className="fixed inset-x-3 bottom-3 z-[10000] mx-auto max-w-5xl rounded-2xl border border-cyan-300/40 bg-[#06142E]/95 p-4 text-white shadow-2xl shadow-slate-950/40 backdrop-blur-xl"
         >
-          <div className="flex items-start gap-4">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center">
             <div className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-400/15 text-cyan-300 sm:flex">
               <Cookie size={23} aria-hidden="true" />
             </div>
 
-            <div className="min-w-0 flex-1">
-              <h2 id="analytics-consent-title" className="text-lg font-bold">
+            <div className="min-w-0 flex-1 md:flex md:items-center md:gap-5">
+              <h2 id="analytics-consent-title" className="shrink-0 text-base font-bold">
                 Your privacy choices
               </h2>
 
-              <p
-                id="analytics-consent-description"
-                className="mt-2 text-sm leading-6 text-slate-300"
-              >
-                We use optional Google Analytics to understand website usage and
-                improve NAVII GPS services. It loads only if you accept.
-                Necessary website functionality remains available either way.
-              </p>
-
-              <p className="mt-2 text-xs leading-5 text-slate-400">
-                Read our{" "}
+              <p id="analytics-consent-description" className="mt-1 text-xs leading-5 text-slate-300 md:mt-0">
+                Optional analytics helps us improve the website. Necessary features work either way. Read our{" "}
                 <Link
                   href="/privacy-policy"
                   className="font-semibold text-cyan-300 underline underline-offset-2 hover:text-cyan-200"
                 >
                   Privacy Policy
                 </Link>
-                .
               </p>
-
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-end">
-                <button
-                  type="button"
-                  onClick={useNecessaryOnly}
-                  className="rounded-xl border border-slate-500 px-5 py-3 text-sm font-semibold text-white transition hover:border-slate-300 hover:bg-white/10"
-                >
-                  Necessary Only
-                </button>
-
-                <button
-                  type="button"
-                  onClick={acceptAnalytics}
-                  className="rounded-xl bg-cyan-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-400"
-                >
-                  Accept Analytics
-                </button>
-              </div>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button type="button" onClick={useNecessaryOnly} className="flex-1 rounded-xl border border-slate-500 px-4 py-2.5 text-xs font-semibold text-white transition hover:border-slate-300 hover:bg-white/10 md:flex-none">
+                Necessary Only
+              </button>
+              <button type="button" onClick={acceptAnalytics} className="flex-1 rounded-xl bg-cyan-500 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-cyan-400 md:flex-none">
+                Accept Analytics
+              </button>
             </div>
           </div>
         </section>

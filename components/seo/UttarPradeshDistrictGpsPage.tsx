@@ -23,7 +23,9 @@ const districtFaqs = (district: UttarPradeshDistrictSeo) => [
 ];
 
 export function UttarPradeshDistrictGpsPage({ district }: { district: UttarPradeshDistrictSeo }) {
-  const cityGuides = getUttarPradeshCitiesForDistrict(district.slug);
+  const cityGuides = getUttarPradeshCitiesForDistrict(district.slug).filter(
+    (city) => city.slug !== district.slug,
+  );
   const url = `https://naviigps.com/gps-tracker/uttar-pradesh/${district.slug}`;
   const faqs = districtFaqs(district);
   const schema = {

@@ -103,7 +103,7 @@ const sections: LegalSection[] = [
   {
     title: "8. WhatsApp and third-party services",
     paragraphs: [
-      "The website enquiry form may open WhatsApp with a pre-filled message. The message is not sent until you choose to send it through WhatsApp. Once you use WhatsApp, Google Maps or another third-party service, that provider's privacy terms may also apply.",
+      "The website enquiry form sends the details you provide to NAVII GPS through configured business notification channels so our team can respond. If automatic delivery is unavailable, you may choose to open WhatsApp with a pre-filled message; that message is not sent until you send it. WhatsApp, email, Google Maps and other third-party services apply their own privacy terms when used.",
       "We do not control independent third-party platforms. You should review their policies before submitting sensitive information.",
     ],
   },

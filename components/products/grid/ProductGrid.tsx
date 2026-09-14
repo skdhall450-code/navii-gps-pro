@@ -7,11 +7,9 @@ import ProductFilters from "../filters/ProductFilters";
 
 import { products } from "../data/productsData";
 
-export default function ProductGrid() {
+export default function ProductGrid({ searchQuery }: { searchQuery: string }) {
   const [activeCategory, setActiveCategory] =
     useState("All Products");
-
-  const [search] = useState("");
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
@@ -22,17 +20,17 @@ export default function ProductGrid() {
       const searchMatch =
         product.name
           .toLowerCase()
-          .includes(search.toLowerCase()) ||
+          .includes(searchQuery.toLowerCase()) ||
         product.shortDescription
           .toLowerCase()
-          .includes(search.toLowerCase());
+          .includes(searchQuery.toLowerCase());
 
       return categoryMatch && searchMatch;
     });
-  }, [activeCategory, search]);
+  }, [activeCategory, searchQuery]);
 
   return (
-    <section className="bg-white py-20">
+    <section id="product-catalog" className="scroll-mt-28 bg-white py-20">
 
       {/* Filters */}
 
@@ -69,7 +67,7 @@ export default function ProductGrid() {
             </h3>
 
             <p className="mt-4 text-slate-600">
-              Please try another category.
+              Please try another product name or category.
             </p>
 
           </div>

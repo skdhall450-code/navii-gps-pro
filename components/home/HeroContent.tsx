@@ -6,9 +6,7 @@ import { motion } from "framer-motion";
 export default function HeroContent() {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -60 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8 }}
+      className="relative z-30"
     >
       {/* Badge */}
 
@@ -18,12 +16,10 @@ export default function HeroContent() {
 
       {/* Heading */}
 
-      <h1 className="mt-8 text-5xl font-extrabold leading-tight lg:text-7xl">
-        Smart GPS Tracker
-        <br />
-        & Tracking
+      <h1 className="mt-8 text-5xl font-extrabold leading-[1.08] sm:text-6xl lg:text-6xl xl:text-7xl">
+        <span className="block">Smart GPS Tracker</span>
         <span className="block text-cyan-300">
-          Solutions
+          &amp; Tracking Solutions
         </span>
       </h1>
 
@@ -48,6 +44,7 @@ export default function HeroContent() {
 
         <Link
           href="/contact"
+          aria-label="Book a free NAVII GPS product and software demo"
           className="rounded-xl border border-white px-8 py-4 font-semibold transition hover:bg-white hover:text-blue-700"
         >
           Book Demo

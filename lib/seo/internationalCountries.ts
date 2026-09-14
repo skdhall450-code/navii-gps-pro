@@ -1,5 +1,6 @@
 import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
+import { internationalRobots } from "@/lib/seo/internationalStatus";
 
 export type InternationalCountrySeo = {
   slug: string;
@@ -437,6 +438,7 @@ export function generateInternationalMetadata(
   return {
     title: `GPS Tracker in ${country.name} | Fleet Tracking`,
     description,
+    robots: internationalRobots,
     openGraph: { title: `GPS Tracker in ${country.name} | NAVII GPS`, description, url, type: "website", images: ["/og-image.jpg"] },
     keywords: uniqueKeywords(generateInternationalKeywords(country)),
     alternates: {

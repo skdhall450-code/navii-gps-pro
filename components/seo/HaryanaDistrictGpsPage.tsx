@@ -25,7 +25,9 @@ const districtFaqs = (district: HaryanaDistrictSeo) => [
 export function HaryanaDistrictGpsPage({ district }: { district: HaryanaDistrictSeo }) {
   const url = `https://naviigps.com/gps-tracker/haryana/${district.slug}`;
   const faqs = districtFaqs(district);
-  const cityGuides = getHaryanaCitiesForDistrict(district.slug);
+  const cityGuides = getHaryanaCitiesForDistrict(district.slug).filter(
+    (city) => city.slug !== district.slug,
+  );
   const schema = {
     "@context": "https://schema.org",
     "@graph": [

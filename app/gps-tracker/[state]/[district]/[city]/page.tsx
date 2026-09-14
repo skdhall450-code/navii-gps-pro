@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import { HaryanaCityGpsPage } from "@/components/seo/HaryanaCityGpsPage";
 import { PunjabCityGpsPage } from "@/components/seo/PunjabCityGpsPage";
@@ -75,6 +75,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CityGpsTrackerPage({ params }: PageProps) {
   const { state, district, city: citySlug } = await params;
+  if (citySlug === district) {
+    permanentRedirect(`/gps-tracker/${state}/${district}`);
+  }
   if (state === "uttar-pradesh") {
     const city = getUttarPradeshCity(district, citySlug);
     if (!city) notFound();

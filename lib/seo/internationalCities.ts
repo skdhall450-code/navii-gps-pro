@@ -1,5 +1,6 @@
 import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
+import { internationalRobots } from "@/lib/seo/internationalStatus";
 
 export type InternationalCitySeo = {
   slug: string;
@@ -473,6 +474,7 @@ export function generateInternationalCityMetadata(city: InternationalCitySeo): M
   return {
     title: `GPS Tracker in ${city.name}, ${city.countryName}`,
     description,
+    robots: internationalRobots,
     keywords: uniqueKeywords(generateInternationalCityKeywords(city)),
     alternates: { canonical: url },
     openGraph: {

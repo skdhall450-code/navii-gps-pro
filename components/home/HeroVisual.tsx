@@ -31,10 +31,7 @@ const handleMouseLeave = () => {
     <motion.div
   onMouseMove={handleMouseMove}
   onMouseLeave={handleMouseLeave}
-      initial={{ opacity: 0, x: 60 }}
       animate={{
-        opacity: 1,
-        x: 0,
         y: [0, -15, 0],
       }}
       transition={{
@@ -44,7 +41,7 @@ const handleMouseLeave = () => {
           repeat: Infinity,
         },
       }}
-      className="relative flex justify-center"
+      className="relative hidden justify-center lg:flex"
     >
       {/* World Map */}
 
@@ -259,7 +256,7 @@ const handleMouseLeave = () => {
     rotateY,
     transformPerspective: 1200,
   }}
-  className="relative z-20 flex h-[700px] w-[600px] items-center justify-center rounded-[40px] border border-cyan-400/30 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl shadow-[0_0_120px_rgba(34,211,238,0.25)] hover:shadow-[0_0_160px_rgba(34,211,238,0.5)] transition-all duration-700"
+  className="relative z-20 flex h-[620px] w-full max-w-[540px] items-center justify-center rounded-[40px] border border-cyan-400/30 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl shadow-[0_0_120px_rgba(34,211,238,0.25)] transition-all duration-700 hover:shadow-[0_0_160px_rgba(34,211,238,0.5)]"
 >
 
         {/* Device Glow */}
@@ -313,7 +310,8 @@ const handleMouseLeave = () => {
   width={560}
   height={700}
   priority
-  className="relative z-10 h-auto w-auto drop-shadow-[0_0_60px_rgba(34,211,238,0.8)]"
+  sizes="(min-width: 1024px) 520px, 0px"
+  className="relative z-10 h-auto max-h-[590px] w-auto drop-shadow-[0_0_60px_rgba(34,211,238,0.8)]"
 />
 
 </motion.div>

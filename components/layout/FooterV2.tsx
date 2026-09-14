@@ -99,7 +99,6 @@ export default function FooterV2() {
                 Contact
               </Link>
               <Link href="/gps-tracker-india" className="block text-slate-300 transition hover:text-cyan-300">India coverage</Link>
-              <Link href="/gps-tracker-international" className="block text-slate-300 transition hover:text-cyan-300">International guides</Link>
             </div>
           </div>
           {/* Products */}
@@ -169,7 +168,7 @@ export default function FooterV2() {
               >
                 <Phone size={20} className="mt-1 text-cyan-400" />
 
-                <span>+91 88997 29705</span>
+                <span>Sales: +91 88997 29705</span>
               </a>
 
               <a
@@ -206,7 +205,7 @@ export default function FooterV2() {
               className="mt-8 inline-flex items-center gap-3 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-5 py-3 font-semibold text-emerald-300 transition-all duration-300 hover:scale-105 hover:bg-emerald-500 hover:text-white"
             >
               <MessageCircle size={19} />
-              WhatsApp Support
+              Support WhatsApp: +91 77173 94007
             </a>
           </div>
         </div>

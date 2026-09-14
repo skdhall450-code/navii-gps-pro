@@ -25,7 +25,9 @@ const districtFaqs = (district: PunjabDistrictSeo) => [
 export function PunjabDistrictGpsPage({ district }: { district: PunjabDistrictSeo }) {
   const url = `https://naviigps.com/gps-tracker/punjab/${district.slug}`;
   const faqs = districtFaqs(district);
-  const cityGuides = getPunjabCitiesForDistrict(district.slug);
+  const cityGuides = getPunjabCitiesForDistrict(district.slug).filter(
+    (city) => city.slug !== district.slug,
+  );
   const schema = {
     "@context": "https://schema.org",
     "@graph": [

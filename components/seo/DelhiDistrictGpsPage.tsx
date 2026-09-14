@@ -25,7 +25,9 @@ const districtFaqs = (district: DelhiDistrictSeo) => [
 export function DelhiDistrictGpsPage({ district }: { district: DelhiDistrictSeo }) {
   const url = `https://naviigps.com/gps-tracker/delhi/${district.slug}`;
   const faqs = districtFaqs(district);
-  const areaGuides = getDelhiAreasForDistrict(district.slug);
+  const areaGuides = getDelhiAreasForDistrict(district.slug).filter(
+    (area) => area.slug !== district.slug,
+  );
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
