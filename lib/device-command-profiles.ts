@@ -18,6 +18,25 @@ export type SafeSmsProfile = {
 
 export const SAFE_SMS_PROFILES: SafeSmsProfile[] = [
   {
+    id: 'pictor-pt06-ev02',
+    label: 'Pictor / EV02 PT06',
+    protocol: 'EV02 / GT06 V02 binary TCP',
+    modelPrefixes: ['PT06', 'EV02', 'PICTOR'],
+    sourceLabel: 'Pictor Telematics PT06 SMS command manual',
+    sourceUrl: 'https://pictortelematics.com/downloads/pt06-all-sms-command',
+    note: 'If this PT06 is already online, do not change APN or server. Use STATUS#, GPRSSET# or PARAM# for diagnostics; provisioning is only for a planned migration.',
+    commands: [
+      { id: 'status', label: 'Safely check live status', template: 'STATUS#', requires: [] },
+      { id: 'gprs-check', label: 'Safely check GPRS settings', template: 'GPRSSET#', requires: [] },
+      { id: 'parameters', label: 'Safely check device parameters', template: 'PARAM#', requires: [] },
+      { id: 'location', label: 'Safely request current location', template: 'WHERE#', requires: [] },
+      { id: 'apn', label: '1. Set APN (migration only)', template: 'APN,{APN}#', requires: ['APN'] },
+      { id: 'server-ip', label: '2. Set server by IP / TCP (migration only)', template: 'SERVER,0,{SERVER},{PORT},0#', requires: ['SERVER', 'PORT'] },
+      { id: 'server-dns', label: '2. Set server by hostname / TCP (migration only)', template: 'SERVER,1,{SERVER},{PORT},0#', requires: ['SERVER', 'PORT'] },
+      { id: 'interval', label: 'Set 10s moving / 30s parked', template: 'TIMER,10,30#', requires: [] },
+    ],
+  },
+  {
     id: 'jimi-concox-gt06-current',
     label: 'Jimi / Concox GT06 current firmware',
     protocol: 'GT06 binary TCP',
