@@ -92,19 +92,23 @@ test('a successful bulk response does not call legacy routes', async () => {
 
 test('verified provisioning profiles expose only safe setup and diagnostic commands', () => {
   assert.deepEqual(SAFE_SMS_PROFILES.map(profile => profile.id), [
+    'pictor-pt06-ev02',
     'jimi-concox-gt06-current',
     'concox-gt06-legacy-numeric',
     'teltonika-fm',
     'meitrack-a21',
   ]);
+  assert.equal(findSmsCommand('pictor-pt06-ev02', 'status').template, 'STATUS#');
+  assert.equal(findSmsCommand('pictor-pt06-ev02', 'server-ip').template, 'SERVER,0,{SERVER},{PORT},0#');
   assert.equal(findSmsCommand('jimi-concox-gt06-current', 'server-ip').template, 'SERVER,0,{SERVER},{PORT},0#');
   assert.equal(findSmsCommand('concox-gt06-legacy-numeric', 'server-ip').template, '803#{SERVER}#{PORT}#');
   assert.equal(findSmsCommand('teltonika-fm', 'configure').template.startsWith('  setparam '), true);
   assert.equal(findSmsCommand('meitrack-a21', 'configure').template, '{PASSWORD},A21,1,{SERVER},{PORT},{APN},,');
-  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[0], 'GT06N'), true);
-  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[2], 'FMC920'), true);
-  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[2], 'PT06'), false);
-  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'T355G'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[0], 'PT06'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[1], 'GT06N'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'FMC920'), true);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[3], 'PT06'), false);
+  assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES[4], 'T355G'), true);
   for (const profile of SAFE_SMS_PROFILES) {
     for (const command of profile.commands) {
       assert.doesNotMatch(command.template, /RELAY|DYD|HFYD|cut.?off|factory|reset/i);
