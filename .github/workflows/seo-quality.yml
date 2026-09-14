@@ -37,7 +37,7 @@ jobs:
         run: npm run lint
 
       - name: Check vehicle markers and SIM labels
-        run: node --experimental-strip-types --test test/vehicle-presentation.test.mjs
+        run: node --experimental-strip-types --test test/vehicle-presentation.test.mjs test/device-setup.test.mjs
 
       - name: Build production website
         run: npm run build
