@@ -7,6 +7,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 The `/contact` form succeeds only after at least one NAVII team notification
 channel accepts the enquiry. Configure one or more of these production options:
 
+- `WEB3FORMS_ACCESS_KEY` for Web3Forms email delivery.
 - `RESEND_API_KEY`, `CONTACT_ENQUIRY_EMAIL`, and `CONTACT_FROM_EMAIL` for email.
 - `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`,
   `WHATSAPP_GRAPH_VERSION`, and `CONTACT_WHATSAPP_TO` for an internal WhatsApp

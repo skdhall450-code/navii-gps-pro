@@ -22,7 +22,7 @@ type Enquiry = {
 };
 
 type DeliveryResult = {
-  channel: "email" | "whatsapp" | "webhook";
+  channel: "email" | "whatsapp" | "webhook" | "web3forms";
   ok: boolean;
 };
 
@@ -204,6 +204,36 @@ async function notifyWebhook(enquiry: Enquiry): Promise<DeliveryResult> {
   return { channel: "webhook", ok: response.ok };
 }
 
+async function notifyByWeb3Forms(enquiry: Enquiry): Promise<DeliveryResult> {
+  const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+  if (!accessKey) return { channel: "web3forms", ok: false };
+
+  const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      access_key: accessKey,
+      subject: `New NAVII GPS enquiry from ${enquiry.name}`,
+      from_name: "NAVII GPS Website",
+      name: enquiry.name,
+      company: enquiry.company || "Not provided",
+      email: enquiry.email,
+      phone: `+${enquiry.phone}`,
+      vehicles: enquiry.vehicles || "Not provided",
+      message: enquiry.message || "Not provided",
+      source: "https://naviigps.com/contact",
+    }),
+  });
+
+  if (!response.ok) return { channel: "web3forms", ok: false };
+
+  const result = (await response.json().catch(() => null)) as
+    | { success?: boolean }
+    | null;
+
+  return { channel: "web3forms", ok: result?.success === true };
+}
+
 export async function POST(request: Request) {
   const responseHeaders = { "Cache-Control": "no-store" };
 
@@ -239,6 +269,7 @@ export async function POST(request: Request) {
     }
 
     const deliveries = await Promise.allSettled([
+      notifyByWeb3Forms(validation.enquiry),
       notifyByEmail(validation.enquiry),
       notifyByWhatsApp(validation.enquiry),
       notifyWebhook(validation.enquiry),
