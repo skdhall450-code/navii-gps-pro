@@ -6,6 +6,8 @@ const dataPath = "lib/seo/internationalCountries.ts";
 const dataSource = readFileSync(dataPath, "utf8");
 const cityDataPath = "lib/seo/internationalCities.ts";
 const cityDataSource = readFileSync(cityDataPath, "utf8");
+const statusSource = readFileSync("lib/seo/internationalStatus.ts", "utf8");
+const internationalSeoEnabled = /internationalSeoEnabled\s*=\s*true/.test(statusSource);
 
 function fieldValue(block, field) {
   return block.match(new RegExp(`${field}: "([^"]+)"`))?.[1];
@@ -206,6 +208,36 @@ function extractTag(html, pattern, message) {
 
 const buildRoot = ".next/server/app";
 const sitemap = readFileSync(`${buildRoot}/sitemap.xml.body`, "utf8");
+
+if (!internationalSeoEnabled) {
+  const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+  const hubPath = `${buildRoot}/gps-tracker-international.html`;
+  assert.ok(existsSync(hubPath), "Missing rendered international hub while SEO is disabled");
+  const hub = readFileSync(hubPath, "utf8");
+  assert.ok(/<meta[^>]+name="robots"[^>]+content="[^"]*noindex/.test(hub), "International hub must be noindexed while disabled");
+  assert.ok(!sitemapUrls.includes(`${baseUrl}/gps-tracker-international`), "Disabled international hub must not be in sitemap");
+
+  for (const country of countries) {
+    const route = `/gps-tracker/${country.slug}`;
+    const htmlPath = `${buildRoot}${route}.html`;
+    assert.ok(existsSync(htmlPath), `Missing rendered country page: ${route}`);
+    const html = readFileSync(htmlPath, "utf8");
+    assert.ok(/<meta[^>]+name="robots"[^>]+content="[^"]*noindex/.test(html), `International country must be noindexed: ${route}`);
+    assert.ok(!sitemapUrls.includes(`${baseUrl}${route}`), `Disabled country must not be in sitemap: ${route}`);
+  }
+
+  for (const city of cities) {
+    const route = `/gps-tracker/${city.slug}`;
+    const htmlPath = `${buildRoot}${route}.html`;
+    assert.ok(existsSync(htmlPath), `Missing rendered city page: ${route}`);
+    const html = readFileSync(htmlPath, "utf8");
+    assert.ok(/<meta[^>]+name="robots"[^>]+content="[^"]*noindex/.test(html), `International city must be noindexed: ${route}`);
+    assert.ok(!sitemapUrls.includes(`${baseUrl}${route}`), `Disabled city must not be in sitemap: ${route}`);
+  }
+
+  console.log(`PASS: International SEO is disabled; ${countries.length} country and ${cities.length} city pages are noindexed and excluded from sitemap.`);
+  process.exit(0);
+}
 const hub = readFileSync(`${buildRoot}/gps-tracker-international.html`, "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 const titles = new Set();
