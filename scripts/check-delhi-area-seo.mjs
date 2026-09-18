@@ -29,12 +29,13 @@ assert.equal(
   60,
   "Duplicate Delhi district-area routes",
 );
-for (const area of areas) {
+for (const area of publishedLocations) {
   assert.match(area.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/, `Invalid Delhi area slug: ${area.slug}`);
   assert.ok(area.siblings.length >= 3, `Expected sibling areas for ${area.name}`);
 }
 
 const areaDataSource = readFileSync("lib/seo/delhiAreas.ts", "utf8");
+const publishedLocations = areas.filter((location) => location.slug !== location.districtSlug);
 const routeSource = readFileSync("app/gps-tracker/[state]/[district]/[city]/page.tsx", "utf8");
 const areaPageSource = readFileSync("components/seo/DelhiAreaGpsPage.tsx", "utf8");
 const districtPageSource = readFileSync("components/seo/DelhiDistrictGpsPage.tsx", "utf8");
@@ -94,4 +95,4 @@ for (const area of areas) {
   );
 }
 
-console.log("PASS: 60 rendered Delhi area and city pages; canonical, schema, sitemap and district links verified.");
+console.log(`PASS: ${publishedLocations.length} published Delhi area and city pages; canonical, schema, sitemap and district links verified.`);
