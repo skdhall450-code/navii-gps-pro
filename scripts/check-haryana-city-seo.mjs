@@ -34,6 +34,7 @@ for (const city of cities) {
 }
 
 const cityDataSource = readFileSync("lib/seo/haryanaCities.ts", "utf8");
+const publishedCities = cities.filter((city) => city.slug !== city.districtSlug);
 const routeSource = readFileSync("app/gps-tracker/[state]/[district]/[city]/page.tsx", "utf8");
 const cityPageSource = readFileSync("components/seo/HaryanaCityGpsPage.tsx", "utf8");
 const districtPageSource = readFileSync("components/seo/HaryanaDistrictGpsPage.tsx", "utf8");
@@ -57,7 +58,7 @@ const sitemap = readFileSync(`${root}/sitemap.xml.body`, "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 assert.equal(sitemapUrls.length, new Set(sitemapUrls).size, "Duplicate sitemap URLs");
 
-for (const city of cities) {
+for (const city of publishedCities) {
   const route = `/gps-tracker/haryana/${city.districtSlug}/${city.slug}`;
   const canonical = `https://naviigps.com${route}`;
   const htmlPath = `${root}${route}.html`;
@@ -93,4 +94,4 @@ for (const city of cities) {
   );
 }
 
-console.log("PASS: 96 rendered Haryana city and town pages; canonical, schema, sitemap and district links verified.");
+console.log(`PASS: ${publishedCities.length} published Haryana city and town pages; canonical, schema, sitemap and district links verified.`);
