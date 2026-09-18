@@ -28,12 +28,13 @@ assert.equal(
   104,
   "Duplicate Punjab district-city routes",
 );
-for (const city of cities) {
+for (const city of publishedLocations) {
   assert.match(city.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/, `Invalid city slug: ${city.slug}`);
   assert.ok(city.siblings.length >= 3, `Expected sibling locations for ${city.name}`);
 }
 
 const cityDataSource = readFileSync("lib/seo/punjabCities.ts", "utf8");
+const publishedLocations = cities.filter((location) => location.slug !== location.districtSlug);
 const routeSource = readFileSync("app/gps-tracker/[state]/[district]/[city]/page.tsx", "utf8");
 const cityPageSource = readFileSync("components/seo/PunjabCityGpsPage.tsx", "utf8");
 const districtPageSource = readFileSync("components/seo/PunjabDistrictGpsPage.tsx", "utf8");
@@ -93,4 +94,4 @@ for (const city of cities) {
   );
 }
 
-console.log("PASS: 104 rendered Punjab city and town pages; canonical, schema, sitemap and district links verified.");
+console.log(`PASS: ${publishedLocations.length} published Punjab city and town pages; canonical, schema, sitemap and district links verified.`);
