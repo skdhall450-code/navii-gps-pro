@@ -1,8 +1,8 @@
-// International SEO remains preserved in source while India coverage is the
-// active priority. Set INTERNATIONAL_SEO_ENABLED=true at build time to publish
-// the hub, country and city guides back into the sitemap and search index.
-export const internationalSeoEnabled =
-  process.env.INTERNATIONAL_SEO_ENABLED === "true";
+// International SEO remains preserved in source while India coverage is the active priority.
+// Keep these routes available in source for future expansion, but do not publish
+// international country/city guides to the sitemap or search index unless the
+// international program is deliberately re-enabled in code.
+export const internationalSeoEnabled = false;
 
 export const internationalRobots = internationalSeoEnabled
   ? { index: true, follow: true }
