@@ -134,7 +134,7 @@ function DeviceSetup() {
     <header className="mb-8 flex flex-wrap items-start justify-between gap-4">
       <div><p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-400">NAVII / Device setup</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight">Add devices. Check they are live.</h1>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Register model, IMEI and SIM phone number. Prepare the manufacturer's SMS command, then watch for the device connection and GPS fix.</p>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Register model, IMEI and SIM phone number. Prepare the manufacturer’s SMS command, then watch for the device connection and GPS fix.</p>
       </div><Link href="/dashboard/devices" className={buttonStyle}>Manage existing devices</Link>
     </header>
     <div className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -198,8 +198,8 @@ function DeviceSetup() {
       </div>
       {model && selectedCatalogEntry && <div className={"mt-4 rounded-xl border p-3 text-xs leading-5 " + (selectedCatalogEntry.status === "VERIFIED_COMMANDS" ? "border-emerald-400/20 bg-emerald-500/5 text-emerald-100" : "border-amber-400/20 bg-amber-500/5 text-amber-100")}><p><strong>{selectedCatalogEntry.model}</strong> · {selectedCatalogEntry.manufacturer} · {selectedCatalogEntry.network}</p><p>Catalog status: {selectedCatalogEntry.status.replaceAll("_", " ")}. Protocol: {selectedCatalogEntry.protocol}.</p>{selectedCatalogEntry.note && <p>{selectedCatalogEntry.note}</p>}{selectedCatalogEntry.status !== "VERIFIED_COMMANDS" && <p>No automatic command is enabled for this model until its exact supplier manual and firmware are confirmed.</p>}</div>}
       {selectedProfile && <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-500/5 p-3 text-xs leading-5 text-slate-300"><p>{selectedProfile.note}</p><p className="mt-1">Receiver protocol: {selectedProfile.protocol}. Source: <a className="text-sky-300 underline" href={selectedProfile.sourceUrl} target="_blank" rel="noreferrer">{selectedProfile.sourceLabel}</a>.</p>{selectedProfileCommand && <p className="mt-1">Required fields: {selectedProfileCommand.requires.length ? selectedProfileCommand.requires.join(", ") : "none"}.</p>}</div>}
-      <label className="mt-4 block text-xs text-slate-400">Manufacturer's SMS command<textarea rows={3} maxLength={500} className={inputStyle + " mt-2 font-mono"} value={template} onChange={event => setTemplate(event.target.value)} placeholder="Paste the exact command from the device manual" /></label>
-      <p className="mt-2 text-xs leading-5 text-slate-400">Optional placeholders: {"{IMEI}, {SIM}, {SERVER}, {PORT}, {APN}, {PASSWORD}"}. Prepare and send one command at a time in the manufacturer's specified order.</p>
+      <label className="mt-4 block text-xs text-slate-400">Manufacturer’s SMS command<textarea rows={3} maxLength={500} className={inputStyle + " mt-2 font-mono"} value={template} onChange={event => setTemplate(event.target.value)} placeholder="Paste the exact command from the device manual" /></label>
+      <p className="mt-2 text-xs leading-5 text-slate-400">Optional placeholders: {"{IMEI}, {SIM}, {SERVER}, {PORT}, {APN}, {PASSWORD}"}. Prepare and send one command at a time in the manufacturer’s specified order.</p>
       <p role="status" className="mt-4 text-sm text-sky-300">{notice}</p>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">{targets.map(device => {
         let prepared: ReturnType<typeof prepareCommand> | null = null; let problem = "";
