@@ -21,6 +21,7 @@ const areas = seeds.flatMap(([districtSlug, districtName, districtAreas]) =>
     siblings: districtAreas.filter((area) => area !== name),
   })),
 );
+const publishedLocations = areas.filter((location) => location.slug !== location.districtSlug);
 
 assert.equal(areas.length, 60, "Expected all 60 Delhi area and city records");
 assert.equal(new Set(areas.map((area) => area.name)).size, 60, "Duplicate Delhi area names");
@@ -35,7 +36,6 @@ for (const area of publishedLocations) {
 }
 
 const areaDataSource = readFileSync("lib/seo/delhiAreas.ts", "utf8");
-const publishedLocations = areas.filter((location) => location.slug !== location.districtSlug);
 const routeSource = readFileSync("app/gps-tracker/[state]/[district]/[city]/page.tsx", "utf8");
 const areaPageSource = readFileSync("components/seo/DelhiAreaGpsPage.tsx", "utf8");
 const districtPageSource = readFileSync("components/seo/DelhiDistrictGpsPage.tsx", "utf8");
@@ -59,7 +59,7 @@ const sitemap = readFileSync(`${root}/sitemap.xml.body`, "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 assert.equal(sitemapUrls.length, new Set(sitemapUrls).size, "Duplicate sitemap URLs");
 
-for (const area of areas) {
+for (const area of publishedLocations) {
   const route = `/gps-tracker/delhi/${area.districtSlug}/${area.slug}`;
   const canonical = `https://naviigps.com${route}`;
   const htmlPath = `${root}${route}.html`;

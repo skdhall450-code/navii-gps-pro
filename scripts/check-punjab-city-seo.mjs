@@ -21,6 +21,7 @@ const cities = seeds.flatMap(([districtSlug, districtName, districtCities]) =>
     siblings: districtCities.filter((city) => city !== name),
   })),
 );
+const publishedLocations = cities.filter((location) => location.slug !== location.districtSlug);
 
 assert.equal(cities.length, 104, "Expected all 104 Punjab city and town records");
 assert.equal(
@@ -34,7 +35,6 @@ for (const city of publishedLocations) {
 }
 
 const cityDataSource = readFileSync("lib/seo/punjabCities.ts", "utf8");
-const publishedLocations = cities.filter((location) => location.slug !== location.districtSlug);
 const routeSource = readFileSync("app/gps-tracker/[state]/[district]/[city]/page.tsx", "utf8");
 const cityPageSource = readFileSync("components/seo/PunjabCityGpsPage.tsx", "utf8");
 const districtPageSource = readFileSync("components/seo/PunjabDistrictGpsPage.tsx", "utf8");
@@ -58,7 +58,7 @@ const sitemap = readFileSync(`${root}/sitemap.xml.body`, "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 assert.equal(sitemapUrls.length, new Set(sitemapUrls).size, "Duplicate sitemap URLs");
 
-for (const city of cities) {
+for (const city of publishedLocations) {
   const route = `/gps-tracker/punjab/${city.districtSlug}/${city.slug}`;
   const canonical = `https://naviigps.com${route}`;
   const htmlPath = `${root}${route}.html`;
