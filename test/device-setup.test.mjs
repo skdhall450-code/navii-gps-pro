@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { parseDeviceRows, deviceProgress, prepareCommand, registerDeviceBatch } from '../lib/device-setup.ts';
+import { parseDeviceRows, deviceProgress, prepareCommand, registerDeviceBatch, filterSetupDevices, activationGuidance, readPt06Status } from '../lib/device-setup.ts';
 import { DEVICE_MODEL_CATALOG, SAFE_SMS_PROFILES, catalogModelNames, findCatalogEntry, findSmsCommand, supportsSmsProfile } from '../lib/device-command-profiles.ts';
 const now = Date.parse('2026-09-14T00:00:00Z');
 const device = { id: 'd', model: 'PT06', imei: '012345678901234', simNumber: '+919876543210', isActive: true, lastSeenAt: null, vehicle: { id: 'v', vehicleNo: 'GPS-012345678901234', latitude: null, longitude: null, lastUpdate: null } };
@@ -161,4 +161,66 @@ test('WanWay profiles expose diagnostics and migration commands but no destructi
   assert.equal(findSmsCommand('wanway-gs900', 'gprs-check').template, 'GPRSSET#');
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES.find(profile => profile.id === 'wanway-s20-4g'), 'S20'), true);
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES.find(profile => profile.id === 'wanway-gs900'), 'GS900'), true);
+});
+
+test('activation filters combine search with current device and GPS freshness', () => {
+  const connected = { ...device, id: 'connected', lastSeenAt: new Date(now).toISOString() };
+  const live = { ...connected, id: 'live', vehicle: { ...device.vehicle, latitude: 30, longitude: 76, lastUpdate: new Date(now).toISOString() } };
+  const list = [device, connected, live, { ...live, id: 'disabled', isActive: false }];
+  assert.deepEqual(filterSetupDevices(list, '  PT06 ', 'Awaiting GPS', now).map(d => d.id), ['connected']);
+  assert.deepEqual(filterSetupDevices(list, device.simNumber, 'Live', now).map(d => d.id), ['live']);
+  assert.deepEqual(filterSetupDevices(list, 'missing', 'All', now), []);
+  assert.deepEqual(filterSetupDevices(list, '', 'Offline', now + 600001).map(d => d.id), ['connected', 'live']);
+  assert.match(activationGuidance(connected, now), /Keep the working APN and server settings/);
+  assert.match(activationGuidance({ ...live, isActive: false }, now), /Enable this device/);
+});
+
+test('invalid and future timestamps cannot complete activation checks', () => {
+  for (const timestamp of ['invalid', new Date(now + 60001).toISOString()]) {
+    const invalid = { ...device, lastSeenAt: timestamp, vehicle: { ...device.vehicle, latitude: 30, longitude: 76, lastUpdate: timestamp } };
+    assert.equal(deviceProgress(invalid, now).connected, false);
+    assert.equal(deviceProgress(invalid, now).gpsFresh, false);
+    assert.equal(filterSetupDevices([invalid], '', 'Live', now).length, 0);
+  }
+});
+
+test('PT06 replies recognize explicit fields without inventing a fix or changing server state', () => {
+  const before = structuredClone(device);
+  assert.deepEqual(readPt06Status('Status: Charging; GPRS: Link Up; GSM Signal Level: Strong; GPS: Fixed; ACC: ON;'), { gps: 'Fixed', gprs: 'Link up' });
+  assert.deepEqual(readPt06Status('gprs: link down\r\nGPS: Not Fixed\r\nACC: OFF'), { gps: 'No fix', gprs: 'Link down' });
+  for (const reply of ['no data', 'GPS: Not Fixed yet', 'GPS: Fixed previously', 'GPS: Fixed; GPS: Not Fixed;', 'not GPS: Fixed', 'Fixed']) {
+    assert.equal(readPt06Status(reply).gps, 'Unknown');
+  }
+  assert.deepEqual(device, before);
+  assert.equal(deviceProgress(device, now).stage, 'Registered');
+});
+
+test('Teltonika authentication spaces survive SMS preview and encoding', () => {
+  const teltonika = { ...device, model: 'FMB920' };
+  for (const id of ['configure', 'verify']) {
+    const template = findSmsCommand('teltonika-fm', id).template;
+    const command = prepareCommand(teltonika, { ...config, model: 'FMB920', template });
+    assert.ok(command.body.startsWith('  '));
+    assert.ok(command.href.includes('?body=%20%20'));
+    assert.equal(decodeURIComponent(command.href.split('?body=')[1]), command.body);
+  }
+  for (const template of ['STATUS#\n', '\tSTATUS#', ' '.repeat(161), '  ' + 'A'.repeat(159)]) {
+    assert.throws(() => prepareCommand(device, { ...config, template }));
+  }
+});
+
+test('catalog aliases use their verified profile and unrelated substrings do not match', () => {
+  const profile = id => SAFE_SMS_PROFILES.find(p => p.id === id);
+  assert.equal(supportsSmsProfile(profile('jimi-concox-gt06-current'), 'V5'), true);
+  assert.equal(supportsSmsProfile(profile('jimi-concox-gt06-current'), 'Concox V5'), true);
+  assert.equal(supportsSmsProfile(profile('concox-gt06-legacy-numeric'), 'Concox V5'), false);
+  assert.equal(supportsSmsProfile(profile('pictor-pt06-ev02'), 'Pictor PT06'), true);
+  for (const model of ['GS20', 'UNKNOWNPT06', 'S20CLONE', 'G17', '']) {
+    assert.equal(supportsSmsProfile(profile('wanway-s20-4g'), model), false);
+  }
+  for (const entry of DEVICE_MODEL_CATALOG) {
+    for (const p of SAFE_SMS_PROFILES) {
+      assert.equal(supportsSmsProfile(p, entry.model), entry.status === 'VERIFIED_COMMANDS' && entry.profileId === p.id);
+    }
+  }
 });
