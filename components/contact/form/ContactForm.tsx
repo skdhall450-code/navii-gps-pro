@@ -35,16 +35,46 @@ export default function ContactForm() {
     setStatus(null);
 
     try {
-      const response = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      const web3FormsAccessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+      const response = web3FormsAccessKey
+        ? await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              access_key: web3FormsAccessKey,
+              subject: `New NAVII GPS enquiry from ${form.name.trim()}`,
+              from_name: "NAVII GPS Website",
+              name: form.name.trim(),
+              company: form.company.trim() || "Not provided",
+              email: form.email.trim().toLowerCase(),
+              phone: form.phone.trim(),
+              vehicles: form.vehicles || "Not provided",
+              message: form.message.trim() || "Not provided",
+              source: "https://naviigps.com/contact",
+              botcheck: Boolean(form.website),
+            }),
+          })
+        : await fetch("/api/enquiries", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(form),
+          });
 
-      const result = (await response.json()) as { ok?: boolean; error?: string };
+      const result = (await response.json()) as {
+        ok?: boolean;
+        success?: boolean;
+        error?: string;
+        message?: string;
+      };
+      const delivered = web3FormsAccessKey ? result.success : result.ok;
 
-      if (!response.ok || !result.ok) {
-        throw new Error(result.error || "Your enquiry could not be delivered.");
+      if (!response.ok || !delivered) {
+        throw new Error(
+          result.error || result.message || "Your enquiry could not be delivered.",
+        );
       }
 
       setStatus({
