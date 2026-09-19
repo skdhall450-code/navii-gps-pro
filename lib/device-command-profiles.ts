@@ -149,7 +149,14 @@ export const SAFE_SMS_PROFILES: SafeSmsProfile[] = [
 
 export function supportsSmsProfile(profile: SafeSmsProfile, model: string) {
   const normalized = model.trim().toUpperCase();
-  return !normalized || profile.modelPrefixes.some(prefix => normalized.includes(prefix));
+  const entry = findCatalogEntry(model);
+  if (entry) return entry.status === 'VERIFIED_COMMANDS' && entry.profileId === profile.id;
+  // Match a manufacturer token or a model family at the start of a token.
+  // Substring matching incorrectly offered S20 commands for unknown GS20 units.
+  return !!normalized && normalized.split(/[^A-Z0-9]+/).some(token =>
+    profile.modelPrefixes.some(prefix => token === prefix ||
+      (token.startsWith(prefix) && (/^[0-9][A-Z0-9]*$/.test(token.slice(prefix.length)) ||
+        (/\d$/.test(prefix) && /^[A-Z]$/.test(token.slice(prefix.length)))))));
 }
 
 export function findSmsProfile(profileId: string) {

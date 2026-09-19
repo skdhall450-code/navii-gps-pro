@@ -31,14 +31,51 @@ export function deviceProgress(device: SetupDevice, now: number) {
     stage: !device.isActive ? 'Disabled' : connected && gpsFresh ? 'Live' : connected ? 'Awaiting GPS' : device.lastSeenAt ? 'Offline' : 'Registered',
   };
 }
+export const DEVICE_STAGES = ['Registered', 'Awaiting GPS', 'Live', 'Offline', 'Disabled'] as const;
+export type DeviceStageFilter = 'All' | typeof DEVICE_STAGES[number];
+
+export function filterSetupDevices(devices: SetupDevice[], query: string, stage: DeviceStageFilter, now: number) {
+  const search = query.trim().toLowerCase();
+  return devices.filter(device => (stage === 'All' || deviceProgress(device, now).stage === stage) &&
+    [device.model, device.imei, device.simNumber, device.vehicle.vehicleNo].some(value => value?.toLowerCase().includes(search)));
+}
+
+export function activationGuidance(device: SetupDevice, now: number) {
+  const progress = deviceProgress(device, now);
+  switch (progress.stage) {
+    case 'Disabled': return 'Enable this device in Manage existing devices before checking activation.';
+    case 'Registered': return 'Check device power, the registered IMEI and the SIM data plan. No connection has been recorded yet. Confirm the model and receiver support before configuring its server.';
+    case 'Offline': return 'No recent device connection. Check power and mobile network coverage, then request its status. The last location may be historical.';
+    case 'Awaiting GPS': return 'A recent device connection is recorded, but no current GPS fix. Check the tracker has a clear view of the sky and request its GPS status. Keep the working APN and server settings.';
+    default: return 'A recent connection and GPS fix are recorded. Compare the location with the vehicle before completing installation.';
+  }
+}
+
+// Interpret only explicit fields from the manufacturer's STATUS# reply. This is
+// a pasted snapshot, never evidence of a new server connection or location.
+export function readPt06Status(reply: string) {
+  function field(name: string) {
+    const values = Array.from(reply.matchAll(new RegExp('(?:^|[;\\r\\n])\\s*' + name + '\\s*:\\s*([^;\\r\\n]+)', 'gi')),
+      match => match[1].trim().toLowerCase());
+    return values.length === 1 ? values[0] : '';
+  }
+  const gps = field('GPS');
+  const gprs = field('GPRS');
+  return {
+    gps: gps === 'fixed' ? 'Fixed' : ['not fixed', 'unfixed', 'no fix'].includes(gps) ? 'No fix' : 'Unknown',
+    gprs: gprs === 'link up' ? 'Link up' : gprs === 'link down' ? 'Link down' : 'Unknown',
+  };
+}
 export type CommandConfig = { model: string; template: string; server: string; port: string; apn: string; password?: string };
 export function prepareCommand(device: SetupDevice, config: CommandConfig): { body: string; href: string } {
   if (!device.isActive) throw new Error('Enable this device before preparing a command.');
   if (!config.model || device.model?.trim().toLowerCase() !== config.model.trim().toLowerCase()) throw new Error('The command model does not match this device.');
   if (!/^\d{15}$/.test(device.imei)) throw new Error('Check the device IMEI.');
   if (!device.simNumber || !/^\+[1-9]\d{9,14}$/.test(device.simNumber)) throw new Error('Edit the SIM phone number to include + and its country code.');
-  const template = config.template.trim();
-  if (!template) throw new Error('Enter the SMS command from the device manual.');
+  // Leading spaces can be authentication fields (for example Teltonika).
+  // Preserve the exact command; validate blank input without normalizing it.
+  const template = config.template;
+  if (!template.trim()) throw new Error('Enter the SMS command from the device manual.');
   const values: Record<string, string> = { IMEI: device.imei, SIM: device.simNumber, SERVER: config.server.trim(), PORT: config.port.trim(), APN: config.apn.trim(), PASSWORD: config.password?.trim() || '' };
   const body = template.replace(/\{([^{}]+)\}/g, (_match, key: string) => {
     if (!Object.hasOwn(values, key) || !values[key]) throw new Error('Fill in a value for {' + key + '} or correct the placeholder.');

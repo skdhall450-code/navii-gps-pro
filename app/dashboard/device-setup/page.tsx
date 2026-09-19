@@ -1,12 +1,13 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Copy, Plus, RefreshCw, Trash2 } from "lucide-react";
+import DeviceActivationCheck from "@/components/devices/DeviceActivationCheck";
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
 import { DEVICE_CATALOG_CATEGORIES, DEVICE_MODEL_CATALOG, SAFE_SMS_PROFILES, catalogModelNames, findCatalogEntry, findSmsCommand, findSmsProfile, supportsSmsProfile } from "@/lib/device-command-profiles";
-import { deviceProgress, isRegistered, registerDeviceBatch, RegistrationError, parseDeviceRows, prepareCommand, type RegistrationResult, type RegistrationRow, type SetupDevice } from "@/lib/device-setup";
+import { DEVICE_STAGES, filterSetupDevices, type DeviceStageFilter, deviceProgress, isRegistered, registerDeviceBatch, RegistrationError, parseDeviceRows, prepareCommand, type RegistrationResult, type RegistrationRow, type SetupDevice } from "@/lib/device-setup";
 
 const API = (process.env.NEXT_PUBLIC_NAVII_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com").replace(/\/$/, "");
 const inputStyle = "w-full min-h-11 rounded-xl border border-white/15 bg-[#091524] px-3 py-2 text-sm text-white outline-none focus:border-sky-400 disabled:opacity-50";
@@ -36,6 +37,8 @@ function DeviceSetup() {
   const [registrationMessage, setRegistrationMessage] = useState("");
   const [notice, setNotice] = useState("");
   const [query, setQuery] = useState("");
+  const [stageFilter, setStageFilter] = useState<DeviceStageFilter>("All");
+  const [checkingId, setCheckingId] = useState<string | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
   const [model, setModel] = useState("");
   const [template, setTemplate] = useState("");
@@ -124,17 +127,29 @@ function DeviceSetup() {
   const selectedCatalogEntry = findCatalogEntry(model);
   const selectedProfile = findSmsProfile(profileId);
   const selectedProfileCommand = findSmsCommand(profileId, profileCommandId);
-  const visible = devices.filter(device => [device.model, device.imei, device.simNumber, device.vehicle.vehicleNo].some(value => value?.toLowerCase().includes(query.trim().toLowerCase())));
+  const visible = filterSetupDevices(devices, query, stageFilter, now);
+  const checkingDevice = devices.find(device => device.id === checkingId);
   const targets = devices.filter(device => selected.includes(device.id));
   const config = { model, template, server, port, apn, password };
   const live = devices.filter(device => deviceProgress(device, now).stage === "Live").length;
   const connected = devices.filter(device => deviceProgress(device, now).connected).length;
 
+  function prepareStatus(device: SetupDevice) {
+    const entry = findCatalogEntry(device.model || "");
+    if (entry?.profileId !== "pictor-pt06-ev02") return;
+    const command = findSmsCommand(entry.profileId, "status");
+    if (!command) return;
+    setSelected([device.id]); setModel(device.model?.trim() || "");
+    setProfileId(entry.profileId); setProfileCommandId(command.id); setTemplate(command.template);
+    setNotice("STATUS# prepared for " + device.imei + ". Review the SIM number, then use Open SMS or Copy command.");
+    document.getElementById("device-commands")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return <main className="min-h-screen bg-[#050b16] p-4 text-slate-100 sm:p-6 lg:p-8">
     <header className="mb-8 flex flex-wrap items-start justify-between gap-4">
       <div><p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-400">NAVII / Device setup</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight">Add devices. Check they are live.</h1>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Register model, IMEI and SIM phone number. Prepare the manufacturerâ€™s SMS command, then watch for the device connection and GPS fix.</p>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Register model, IMEI and SIM phone number. Prepare the manufacturer’s SMS command, then watch for the device connection and GPS fix.</p>
       </div><Link href="/dashboard/devices" className={buttonStyle}>Manage existing devices</Link>
     </header>
     <div className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -156,7 +171,7 @@ function DeviceSetup() {
         <datalist id="device-models">{models.map(value => <option key={value} value={value} />)}</datalist>
         {rows.map((row, index) => <div key={row.key} className="rounded-xl border border-white/10 p-3">
           <div className="grid items-end gap-3 sm:grid-cols-[1fr_1.4fr_1.4fr_auto]">
-            <label className="text-xs text-slate-400">Model Â· row {index + 1}<input aria-label={"Model row " + (index + 1)} list="device-models" className={inputStyle + " mt-2"} value={row.model} maxLength={80} onChange={event => updateRow(row.key, "model", event.target.value)} placeholder="PT06" disabled={isRegistered(row.result)} /></label>
+            <label className="text-xs text-slate-400">Model · row {index + 1}<input aria-label={"Model row " + (index + 1)} list="device-models" className={inputStyle + " mt-2"} value={row.model} maxLength={80} onChange={event => updateRow(row.key, "model", event.target.value)} placeholder="PT06" disabled={isRegistered(row.result)} /></label>
             <label className="text-xs text-slate-400">IMEI<input aria-label={"IMEI row " + (index + 1)} className={inputStyle + " mt-2 font-mono"} value={row.imei} inputMode="numeric" maxLength={15} onChange={event => updateRow(row.key, "imei", event.target.value)} placeholder="15 digits" disabled={isRegistered(row.result)} /></label>
             <label className="text-xs text-slate-400">SIM phone number<input aria-label={"SIM phone number row " + (index + 1)} className={inputStyle + " mt-2 font-mono"} value={row.simNumber} inputMode="tel" maxLength={16} onChange={event => updateRow(row.key, "simNumber", event.target.value)} placeholder="+919876543210" disabled={isRegistered(row.result)} /></label>
             <button type="button" aria-label={"Remove row " + (index + 1)} className={buttonStyle} onClick={() => setRows(current => current.length === 1 ? [emptyRow(nextKey.current++)] : current.filter(item => item.key !== row.key))}><Trash2 size={16} /></button>
@@ -166,18 +181,22 @@ function DeviceSetup() {
           <button type="button" className={buttonStyle} onClick={() => setRows(current => { const pending = current.filter(row => !isRegistered(row.result)); return pending.length ? pending : [emptyRow(nextKey.current++)]; })}>Clear registered rows</button></div>
         <details className="rounded-xl border border-white/10 p-4"><summary className="cursor-pointer text-sm text-sky-300">Paste rows from Excel</summary><p className="mt-3 text-xs leading-5 text-slate-400">Three columns: Model, IMEI, SIM phone number. Tabs or commas, one device per line, no heading. Format IMEI and SIM columns as text to preserve digits.</p><textarea aria-label="Device rows from Excel" rows={4} maxLength={20000} className={inputStyle + " mt-3 font-mono"} value={paste} onChange={event => setPaste(event.target.value)} /><button type="button" className={buttonStyle + " mt-3"} disabled={!paste.trim()} onClick={importRows}>Add pasted rows</button></details>
       </fieldset>
-      <div className="mt-5 flex flex-wrap items-center gap-4"><button type="button" disabled={saving || rows.every(row => isRegistered(row.result))} onClick={() => void register()} className={buttonStyle + " border-sky-400/40 bg-sky-500/20 text-sky-100"}>{saving ? "Registeringâ€¦" : "Register devices"}</button><p role="status" className="text-sm text-slate-300">{registrationMessage}</p></div>
+      <div className="mt-5 flex flex-wrap items-center gap-4"><button type="button" disabled={saving || rows.every(row => isRegistered(row.result))} onClick={() => void register()} className={buttonStyle + " border-sky-400/40 bg-sky-500/20 text-sky-100"}>{saving ? "Registering…" : "Register devices"}</button><p role="status" className="text-sm text-slate-300">{registrationMessage}</p></div>
     </section>
     <section className="mb-6 rounded-2xl border border-white/10 bg-[#0a1525] p-4 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4"><div><h2 className="text-xl font-semibold">2. Select devices</h2><p className="mt-1 text-sm text-slate-400">Refreshes every 5 seconds. Connection and GPS updates are current for 10 minutes.</p><p className="mt-1 text-xs text-slate-400">Last checked: {lastSync ? new Date(lastSync).toLocaleTimeString() : "Waiting"}</p></div><button type="button" onClick={() => void refresh()} className={buttonStyle}><RefreshCw size={16} />Refresh</button></div>
       {error && <p role="alert" className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-200">{error} Status below is based on the last received data.</p>}
       <label className="mt-5 block text-xs text-slate-400">Search devices<input className={inputStyle + " mt-2 max-w-lg"} value={query} onChange={event => setQuery(event.target.value)} placeholder="Model, IMEI, SIM or vehicle" /></label>
-      <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[760px] text-left text-sm"><thead className="border-b border-white/10 text-xs text-slate-400"><tr><th className="p-3">Select</th><th className="p-3">Device</th><th className="p-3">SIM / vehicle</th><th className="p-3">Connection</th><th className="p-3">GPS</th></tr></thead><tbody>
-        {visible.map(device => { const progress = deviceProgress(device, now); return <tr key={device.id} className="border-b border-white/5"><td className="p-3"><input type="checkbox" aria-label={"Select device " + device.imei} checked={selected.includes(device.id)} onChange={event => setSelected(current => event.target.checked ? [...current, device.id] : current.filter(id => id !== device.id))} className="h-5 w-5 accent-sky-400" /></td><td className="p-3"><p className="font-medium">{device.model || "Unknown model"}</p><p className="mt-1 font-mono text-xs text-slate-400">{device.imei}</p><span className={"mt-2 inline-block rounded-full px-2 py-1 text-xs " + (progress.stage === "Live" ? "bg-emerald-500/15 text-emerald-300" : "bg-slate-700/50 text-slate-300")}>{progress.stage}</span></td><td className="p-3"><p className="font-mono text-xs">{device.simNumber || "Not provided"}</p><p className="mt-2 text-xs text-slate-400">{device.vehicle.vehicleNo}</p></td><td className="p-3"><p>{progress.connection}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.lastSeenAt)}</p></td><td className="p-3"><p>{progress.gps}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.vehicle.lastUpdate)}</p></td></tr>; })}
-      </tbody></table>{!visible.length && <p className="p-8 text-center text-sm text-slate-400">{loading ? "Loading devicesâ€¦" : "No matching devices. Register a device or clear your search."}</p>}</div>
+      <div className="mt-4 flex flex-wrap gap-2" aria-label="Filter by activation stage">{(["All", ...DEVICE_STAGES] as DeviceStageFilter[]).map(stage => <button key={stage} type="button" aria-pressed={stageFilter === stage} onClick={() => setStageFilter(stage)} className={buttonStyle + (stageFilter === stage ? " border-sky-400/50 bg-sky-500/20 text-sky-200" : "")}>
+        {stage} ({stage === "All" ? devices.length : devices.filter(device => deviceProgress(device, now).stage === stage).length})
+      </button>)}</div>
+      <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[760px] text-left text-sm"><thead className="border-b border-white/10 text-xs text-slate-400"><tr><th className="p-3">Select</th><th className="p-3">Device</th><th className="p-3">SIM / vehicle</th><th className="p-3">Connection</th><th className="p-3">GPS</th><th className="p-3">Next step</th></tr></thead><tbody>
+        {visible.map(device => { const progress = deviceProgress(device, now); return <tr key={device.id} className="border-b border-white/5"><td className="p-3"><input type="checkbox" aria-label={"Select device " + device.imei} checked={selected.includes(device.id)} onChange={event => setSelected(current => event.target.checked ? [...current, device.id] : current.filter(id => id !== device.id))} className="h-5 w-5 accent-sky-400" /></td><td className="p-3"><p className="font-medium">{device.model || "Unknown model"}</p><p className="mt-1 font-mono text-xs text-slate-400">{device.imei}</p><span className={"mt-2 inline-block rounded-full px-2 py-1 text-xs " + (progress.stage === "Live" ? "bg-emerald-500/15 text-emerald-300" : "bg-slate-700/50 text-slate-300")}>{progress.stage}</span></td><td className="p-3"><p className="font-mono text-xs">{device.simNumber || "Not provided"}</p><p className="mt-2 text-xs text-slate-400">{device.vehicle.vehicleNo}</p></td><td className="p-3"><p>{progress.connection}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.lastSeenAt)}</p></td><td className="p-3"><p>{progress.gps}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.vehicle.lastUpdate)}</p></td><td className="p-3"><button type="button" aria-label={"Check activation for " + device.imei} aria-pressed={checkingId === device.id} className={buttonStyle} onClick={() => { setCheckingId(device.id); requestAnimationFrame(() => document.getElementById("activation-check")?.scrollIntoView({ behavior: "smooth", block: "nearest" })); }}>Check activation</button></td></tr>; })}
+      </tbody></table>{!visible.length && <p className="p-8 text-center text-sm text-slate-400">{loading ? "Loading devices…" : "No matching devices. Register a device or clear your search and stage filter."}</p>}</div>
       <div className="mt-4 flex flex-wrap items-center gap-3"><button type="button" className={buttonStyle} onClick={() => setSelected(visible.map(device => device.id))}>Select shown devices ({visible.length})</button><button type="button" className={buttonStyle} onClick={() => setSelected([])}>Clear selection</button><p className="text-sm text-slate-400">{targets.length} selected, including devices outside the current search</p></div>
+      {checkingDevice && <DeviceActivationCheck key={checkingDevice.id} device={checkingDevice} now={now} syncUnavailable={!!error || !lastSync || now - lastSync > 15_000} onPrepareStatus={() => prepareStatus(checkingDevice)} />}
     </section>
-    <section className="rounded-2xl border border-sky-400/20 bg-[#0a1525] p-4 sm:p-6">
+    <section id="device-commands" className="scroll-mt-6 rounded-2xl border border-sky-400/20 bg-[#0a1525] p-4 sm:p-6">
       <h2 className="text-xl font-semibold">3. Prepare SMS commands</h2>
       <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-400">Use the exact command for your model and firmware. The SIM needs an active SMS/data plan. Open SMS on your phone to send, or copy the command. Automatic SMS delivery is not connected.</p>
       <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -198,13 +217,14 @@ function DeviceSetup() {
       </div>
       {model && selectedCatalogEntry && <div className={"mt-4 rounded-xl border p-3 text-xs leading-5 " + (selectedCatalogEntry.status === "VERIFIED_COMMANDS" ? "border-emerald-400/20 bg-emerald-500/5 text-emerald-100" : "border-amber-400/20 bg-amber-500/5 text-amber-100")}><p><strong>{selectedCatalogEntry.model}</strong> · {selectedCatalogEntry.manufacturer} · {selectedCatalogEntry.network}</p><p>Catalog status: {selectedCatalogEntry.status.replaceAll("_", " ")}. Protocol: {selectedCatalogEntry.protocol}.</p>{selectedCatalogEntry.note && <p>{selectedCatalogEntry.note}</p>}{selectedCatalogEntry.status !== "VERIFIED_COMMANDS" && <p>No automatic command is enabled for this model until its exact supplier manual and firmware are confirmed.</p>}</div>}
       {selectedProfile && <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-500/5 p-3 text-xs leading-5 text-slate-300"><p>{selectedProfile.note}</p><p className="mt-1">Receiver protocol: {selectedProfile.protocol}. Source: <a className="text-sky-300 underline" href={selectedProfile.sourceUrl} target="_blank" rel="noreferrer">{selectedProfile.sourceLabel}</a>.</p>{selectedProfileCommand && <p className="mt-1">Required fields: {selectedProfileCommand.requires.length ? selectedProfileCommand.requires.join(", ") : "none"}.</p>}</div>}
-      <label className="mt-4 block text-xs text-slate-400">Manufacturerâ€™s SMS command<textarea rows={3} maxLength={500} className={inputStyle + " mt-2 font-mono"} value={template} onChange={event => setTemplate(event.target.value)} placeholder="Paste the exact command from the device manual" /></label>
-      <p className="mt-2 text-xs leading-5 text-slate-400">Optional placeholders: {"{IMEI}, {SIM}, {SERVER}, {PORT}, {APN}, {PASSWORD}"}. Prepare and send one command at a time in the manufacturerâ€™s specified order.</p>
+      <label className="mt-4 block text-xs text-slate-400">Manufacturer’s SMS command<textarea rows={3} maxLength={500} className={inputStyle + " mt-2 font-mono"} value={template} onChange={event => { setTemplate(event.target.value); setProfileId(""); setProfileCommandId(""); }} placeholder="Paste the exact command from the device manual" /></label>
+      <p className="mt-2 text-xs leading-5 text-slate-400">Optional placeholders: {"{IMEI}, {SIM}, {SERVER}, {PORT}, {APN}, {PASSWORD}"}. Prepare and send one command at a time in the manufacturer’s specified order.</p>
       <p role="status" className="mt-4 text-sm text-sky-300">{notice}</p>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">{targets.map(device => {
         let prepared: ReturnType<typeof prepareCommand> | null = null; let problem = "";
         try {
           if (targets.filter(target => target.simNumber === device.simNumber).length > 1) throw new Error("Multiple selected devices have this SIM number. Check the SIM assignments first.");
+          if (selectedProfile && !supportsSmsProfile(selectedProfile, model)) throw new Error("Choose a command profile that matches this model.");
           prepared = prepareCommand(device, config);
         } catch (caught) { problem = caught instanceof Error ? caught.message : "Check command details."; }
         return <article key={device.id} className="rounded-xl border border-white/10 bg-[#07111f] p-4"><p className="font-medium">{device.model} <span className="font-mono text-xs text-slate-400">{device.imei}</span></p><p className="mt-2 text-sm text-slate-400">To: {device.simNumber || "SIM number missing"}</p>{prepared ? <><pre className="mt-4 whitespace-pre-wrap break-all rounded-lg bg-black/30 p-3 font-mono text-sm text-sky-200">{prepared.body}</pre><div className="mt-4 flex flex-wrap gap-3"><a className={buttonStyle} href={prepared.href} onClick={() => setNotice("SMS handoff requested. Review and send in your SMS app; if it does not open, use Copy command. Check the device connection above to confirm it comes online.")}>Open SMS</a><button type="button" className={buttonStyle} onClick={() => void copy(prepared!.body)}><Copy size={16} />Copy command</button></div></> : <p className="mt-4 text-sm text-amber-300">{problem}</p>}</article>;
