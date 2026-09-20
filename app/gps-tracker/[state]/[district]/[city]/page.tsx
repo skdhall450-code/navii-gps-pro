@@ -5,7 +5,9 @@ import { HaryanaCityGpsPage } from "@/components/seo/HaryanaCityGpsPage";
 import { PunjabCityGpsPage } from "@/components/seo/PunjabCityGpsPage";
 import { DelhiAreaGpsPage } from "@/components/seo/DelhiAreaGpsPage";
 import { UttarPradeshCityGpsPage } from "@/components/seo/UttarPradeshCityGpsPage";
+import { TamilNaduCityGpsPage } from "@/components/seo/TamilNaduCityGpsPage";
 import { uttarPradeshCities, getUttarPradeshCity, generateUttarPradeshCityMetadata } from "@/lib/seo/uttarPradeshCities";
+import { tamilNaduCities, getTamilNaduCity, generateTamilNaduCityMetadata } from "@/lib/seo/tamilNaduCities";
 import {
   generateHaryanaCityMetadata,
   getHaryanaCity,
@@ -48,6 +50,11 @@ export function generateStaticParams() {
       district: area.districtSlug,
       city: area.slug,
     })),
+    ...tamilNaduCities.map((city) => ({
+      state: "tamil-nadu",
+      district: city.districtSlug,
+      city: city.slug,
+    })),
   ];
 }
 
@@ -69,6 +76,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "delhi") {
     const area = getDelhiArea(district, citySlug);
     return area ? generateDelhiAreaMetadata(area) : {};
+  }
+  if (state === "tamil-nadu") {
+    const city = getTamilNaduCity(district, citySlug);
+    return city ? generateTamilNaduCityMetadata(city) : {};
   }
   return {};
 }
@@ -97,6 +108,11 @@ export default async function CityGpsTrackerPage({ params }: PageProps) {
     const area = getDelhiArea(district, citySlug);
     if (!area) notFound();
     return <DelhiAreaGpsPage area={area} />;
+  }
+  if (state === "tamil-nadu") {
+    const city = getTamilNaduCity(district, citySlug);
+    if (!city) notFound();
+    return <TamilNaduCityGpsPage city={city} />;
   }
   notFound();
 }
