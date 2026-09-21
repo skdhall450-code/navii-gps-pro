@@ -23,6 +23,7 @@ import { haryanaDistricts } from "@/lib/seo/haryanaDistricts";
 import { punjabDistricts } from "@/lib/seo/punjabDistricts";
 import { uttarPradeshDistricts } from "@/lib/seo/uttarPradeshDistricts";
 import { tamilNaduDistricts } from "@/lib/seo/tamilNaduDistricts";
+import { karnatakaDistricts } from "@/lib/seo/karnatakaDistricts";
 import { tamilNaduCities, getTamilNaduCityPath } from "@/lib/seo/tamilNaduCities";
 import { uttarPradeshCities, getUttarPradeshCityPath } from "@/lib/seo/uttarPradeshCities";
 
@@ -100,7 +101,7 @@ export default async function StateGpsTrackerPage({ params }: PageProps) {
     return <InternationalCityGpsPage city={internationalCity} />;
   }
   const linkedCities = allCities.filter((city) => city.stateSlug === state.slug);
-  const districtGuides = state.slug === "haryana" ? haryanaDistricts : state.slug === "punjab" ? punjabDistricts : state.slug === "uttar-pradesh" ? uttarPradeshDistricts : state.slug === "tamil-nadu" ? tamilNaduDistricts : [];
+  const districtGuides = state.slug === "haryana" ? haryanaDistricts : state.slug === "punjab" ? punjabDistricts : state.slug === "uttar-pradesh" ? uttarPradeshDistricts : state.slug === "tamil-nadu" ? tamilNaduDistricts : state.slug === "karnataka" ? karnatakaDistricts : [];
   const url = `https://naviigps.com/gps-tracker/${state.slug}`;
   const structuredData = { "@context": "https://schema.org", "@graph": [
     { "@type": "WebPage", "@id": `${url}#webpage`, url, name: `GPS Tracker in ${state.name} | NAVII GPS`, description: `Vehicle GPS tracking and fleet management solutions in ${state.name}.`, isPartOf: { "@id": "https://naviigps.com/#website" }, about: { "@id": "https://naviigps.com/#organization" }, inLanguage: "en-IN" },
