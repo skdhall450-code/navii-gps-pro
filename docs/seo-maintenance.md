@@ -53,3 +53,7 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 [Tamil Nadu Phase 1](tamil-nadu-phase-1.md) provides district-level GPS tracking guides for all 38 districts listed by the Government of Tamil Nadu portal. Automatic checks enforce the reviewed inventory, official district-source domains, unique content, local keywords, canonical URLs, Service and FAQ schema, sitemap inclusion and links from the Tamil Nadu state hub. The regional content groups are editorial navigation labels, not claims of an additional administrative tier.
 
 [Tamil Nadu Phase 2](tamil-nadu-phase-2.md) adds 76 reviewed priority city and town guides—two within each of the 38 districts. The exact district-scoped route inventory is locked in the source checker, and every rendered page must remain reachable from the state hub and parent district while linking to its reviewed sibling town. This is curated priority coverage rather than an automatic page for every locality.
+
+## Karnataka district expansion
+
+[Karnataka Phase 1](karnataka-phase-1.md) provides district-level GPS tracking guides for all 31 districts in the current NIC/MeitY directory, including the current Bengaluru South name. Automatic checks enforce the locked inventory, official district-source domains, unique operational content, English and Kannada-intent local keywords, canonical URLs, Service and FAQ schema, sitemap inclusion and state-hub links. Regional content groups are editorial labels, not claims of an extra administrative tier.
