@@ -37,6 +37,12 @@ import {
   getKarnatakaDistrict,
   karnatakaDistricts,
 } from "@/lib/seo/karnatakaDistricts";
+import { AndhraPradeshDistrictGpsPage } from "@/components/seo/AndhraPradeshDistrictGpsPage";
+import {
+  andhraPradeshDistricts,
+  generateAndhraPradeshDistrictMetadata,
+  getAndhraPradeshDistrict,
+} from "@/lib/seo/andhraPradeshDistricts";
 
 type PageProps = {
   params: Promise<{ state: string; district: string }>;
@@ -50,6 +56,7 @@ export function generateStaticParams() {
     ...uttarPradeshDistricts.map((district) => ({ state: "uttar-pradesh", district: district.slug })),
     ...tamilNaduDistricts.map((district) => ({ state: "tamil-nadu", district: district.slug })),
     ...karnatakaDistricts.map((district) => ({ state: "karnataka", district: district.slug })),
+    ...andhraPradeshDistricts.map((district) => ({ state: "andhra-pradesh", district: district.slug })),
   ];
 }
 
@@ -78,6 +85,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "karnataka") {
     const district = getKarnatakaDistrict(slug);
     return district ? generateKarnatakaDistrictMetadata(district) : {};
+  }
+  if (state === "andhra-pradesh") {
+    const district = getAndhraPradeshDistrict(slug);
+    return district ? generateAndhraPradeshDistrictMetadata(district) : {};
   }
   return {};
 }
@@ -113,6 +124,11 @@ export default async function DistrictGpsTrackerPage({ params }: PageProps) {
     const district = getKarnatakaDistrict(slug);
     if (!district) notFound();
     return <KarnatakaDistrictGpsPage district={district} />;
+  }
+  if (state === "andhra-pradesh") {
+    const district = getAndhraPradeshDistrict(slug);
+    if (!district) notFound();
+    return <AndhraPradeshDistrictGpsPage district={district} />;
   }
   notFound();
 }

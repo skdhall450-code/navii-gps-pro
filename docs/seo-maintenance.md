@@ -59,3 +59,7 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 [Karnataka Phase 1](karnataka-phase-1.md) provides district-level GPS tracking guides for all 31 districts in the current NIC/MeitY directory, including the current Bengaluru South name. Automatic checks enforce the locked inventory, official district-source domains, unique operational content, English and Kannada-intent local keywords, canonical URLs, Service and FAQ schema, sitemap inclusion and state-hub links. Regional content groups are editorial labels, not claims of an extra administrative tier.
 
 [Karnataka Phase 2](karnataka-phase-2.md) adds 62 reviewed priority city and town guides—two within each of the 31 districts. The exact district-scoped inventory is locked in the source checker, and every rendered page must remain reachable from the Karnataka hub and parent district while linking to its reviewed sibling. English and Kannada-intent keywords are generated from curated records rather than publishing every locality automatically.
+
+## Andhra Pradesh district expansion
+
+[Andhra Pradesh Phase 1](andhra-pradesh-phase-1.md) provides district-level GPS tracking guides for all 28 current districts, including Markapuram and Polavaram from the reorganisation effective 31 December 2025. Automatic checks lock the reviewed inventory and enforce official district sources, unique operational content, English and Telugu-intent keywords, canonical URLs, Service and FAQ schema, sitemap inclusion and links from the Andhra Pradesh state hub.
