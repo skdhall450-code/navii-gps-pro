@@ -63,3 +63,5 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 ## Andhra Pradesh district expansion
 
 [Andhra Pradesh Phase 1](andhra-pradesh-phase-1.md) provides district-level GPS tracking guides for all 28 current districts, including Markapuram and Polavaram from the reorganisation effective 31 December 2025. Automatic checks lock the reviewed inventory and enforce official district sources, unique operational content, English and Telugu-intent keywords, canonical URLs, Service and FAQ schema, sitemap inclusion and links from the Andhra Pradesh state hub.
+
+[Andhra Pradesh Phase 2](andhra-pradesh-phase-2.md) adds 56 reviewed priority city and town guides—two within each current district. The exact district-scoped inventory is locked in the source checker, and every rendered page must remain reachable from the state hub and parent district while linking to its reviewed sibling. English and Telugu-intent keywords are generated from curated records.
