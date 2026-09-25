@@ -7,9 +7,11 @@ import { DelhiAreaGpsPage } from "@/components/seo/DelhiAreaGpsPage";
 import { UttarPradeshCityGpsPage } from "@/components/seo/UttarPradeshCityGpsPage";
 import { TamilNaduCityGpsPage } from "@/components/seo/TamilNaduCityGpsPage";
 import { KarnatakaCityGpsPage } from "@/components/seo/KarnatakaCityGpsPage";
+import { AndhraPradeshCityGpsPage } from "@/components/seo/AndhraPradeshCityGpsPage";
 import { uttarPradeshCities, getUttarPradeshCity, generateUttarPradeshCityMetadata } from "@/lib/seo/uttarPradeshCities";
 import { tamilNaduCities, getTamilNaduCity, generateTamilNaduCityMetadata } from "@/lib/seo/tamilNaduCities";
 import { karnatakaCities, getKarnatakaCity, generateKarnatakaCityMetadata } from "@/lib/seo/karnatakaCities";
+import { andhraPradeshCities, getAndhraPradeshCity, generateAndhraPradeshCityMetadata } from "@/lib/seo/andhraPradeshCities";
 import {
   generateHaryanaCityMetadata,
   getHaryanaCity,
@@ -62,6 +64,11 @@ export function generateStaticParams() {
       district: city.districtSlug,
       city: city.slug,
     })),
+    ...andhraPradeshCities.map((city) => ({
+      state: "andhra-pradesh",
+      district: city.districtSlug,
+      city: city.slug,
+    })),
   ];
 }
 
@@ -91,6 +98,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "karnataka") {
     const city = getKarnatakaCity(district, citySlug);
     return city ? generateKarnatakaCityMetadata(city) : {};
+  }
+  if (state === "andhra-pradesh") {
+    const city = getAndhraPradeshCity(district, citySlug);
+    return city ? generateAndhraPradeshCityMetadata(city) : {};
   }
   return {};
 }
@@ -129,6 +140,11 @@ export default async function CityGpsTrackerPage({ params }: PageProps) {
     const city = getKarnatakaCity(district, citySlug);
     if (!city) notFound();
     return <KarnatakaCityGpsPage city={city} />;
+  }
+  if (state === "andhra-pradesh") {
+    const city = getAndhraPradeshCity(district, citySlug);
+    if (!city) notFound();
+    return <AndhraPradeshCityGpsPage city={city} />;
   }
   notFound();
 }
