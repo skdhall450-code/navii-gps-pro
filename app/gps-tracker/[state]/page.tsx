@@ -24,6 +24,7 @@ import { punjabDistricts } from "@/lib/seo/punjabDistricts";
 import { uttarPradeshDistricts } from "@/lib/seo/uttarPradeshDistricts";
 import { tamilNaduDistricts } from "@/lib/seo/tamilNaduDistricts";
 import { karnatakaDistricts } from "@/lib/seo/karnatakaDistricts";
+import { andhraPradeshDistricts } from "@/lib/seo/andhraPradeshDistricts";
 import { karnatakaCities, getKarnatakaCityPath } from "@/lib/seo/karnatakaCities";
 import { tamilNaduCities, getTamilNaduCityPath } from "@/lib/seo/tamilNaduCities";
 import { uttarPradeshCities, getUttarPradeshCityPath } from "@/lib/seo/uttarPradeshCities";
@@ -39,6 +40,17 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { state: slug } = await params;
+  if (slug === "andhra-pradesh") {
+    const url = "https://naviigps.com/gps-tracker/andhra-pradesh";
+    const description = "GPS trackers and vehicle tracking systems across all 28 current Andhra Pradesh districts for cars, trucks, buses and commercial fleets.";
+    return {
+      title: "GPS Tracker in Andhra Pradesh | Vehicle Tracking System",
+      description,
+      keywords: uniqueKeywords(["GPS tracker in Andhra Pradesh", "GPS tracker Andhra Pradesh", "vehicle tracking system Andhra Pradesh", "car GPS tracker Andhra Pradesh", "truck GPS tracking Andhra Pradesh", "fleet management software Andhra Pradesh", "commercial vehicle GPS Andhra Pradesh", "Andhra Pradesh district GPS tracker", "వాహన GPS ట్రాకర్ ఆంధ్ర ప్రదేశ్"]),
+      alternates: { canonical: url },
+      openGraph: { title: "GPS Tracker in Andhra Pradesh | NAVII GPS", description, url, type: "website", images: ["/og-image.jpg"] },
+    };
+  }
   if (slug === "uttar-pradesh") {
     const url = "https://naviigps.com/gps-tracker/uttar-pradesh";
     const description = "GPS trackers and vehicle tracking systems across all 75 Uttar Pradesh districts for cars, trucks, buses, school transport and commercial fleets.";
@@ -102,7 +114,7 @@ export default async function StateGpsTrackerPage({ params }: PageProps) {
     return <InternationalCityGpsPage city={internationalCity} />;
   }
   const linkedCities = allCities.filter((city) => city.stateSlug === state.slug);
-  const districtGuides = state.slug === "haryana" ? haryanaDistricts : state.slug === "punjab" ? punjabDistricts : state.slug === "uttar-pradesh" ? uttarPradeshDistricts : state.slug === "tamil-nadu" ? tamilNaduDistricts : state.slug === "karnataka" ? karnatakaDistricts : [];
+  const districtGuides = state.slug === "haryana" ? haryanaDistricts : state.slug === "punjab" ? punjabDistricts : state.slug === "uttar-pradesh" ? uttarPradeshDistricts : state.slug === "tamil-nadu" ? tamilNaduDistricts : state.slug === "karnataka" ? karnatakaDistricts : state.slug === "andhra-pradesh" ? andhraPradeshDistricts : [];
   const url = `https://naviigps.com/gps-tracker/${state.slug}`;
   const structuredData = { "@context": "https://schema.org", "@graph": [
     { "@type": "WebPage", "@id": `${url}#webpage`, url, name: `GPS Tracker in ${state.name} | NAVII GPS`, description: `Vehicle GPS tracking and fleet management solutions in ${state.name}.`, isPartOf: { "@id": "https://naviigps.com/#website" }, about: { "@id": "https://naviigps.com/#organization" }, inLanguage: "en-IN" },
