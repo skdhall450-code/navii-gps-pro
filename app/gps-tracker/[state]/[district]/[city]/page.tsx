@@ -11,6 +11,7 @@ import { AndhraPradeshCityGpsPage } from "@/components/seo/AndhraPradeshCityGpsP
 import { TelanganaCityGpsPage } from "@/components/seo/TelanganaCityGpsPage";
 import { KeralaCityGpsPage } from "@/components/seo/KeralaCityGpsPage";
 import { MaharashtraCityGpsPage } from "@/components/seo/MaharashtraCityGpsPage";
+import { GujaratCityGpsPage } from "@/components/seo/GujaratCityGpsPage";
 import { uttarPradeshCities, getUttarPradeshCity, generateUttarPradeshCityMetadata } from "@/lib/seo/uttarPradeshCities";
 import { tamilNaduCities, getTamilNaduCity, generateTamilNaduCityMetadata } from "@/lib/seo/tamilNaduCities";
 import { karnatakaCities, getKarnatakaCity, generateKarnatakaCityMetadata } from "@/lib/seo/karnatakaCities";
@@ -18,6 +19,7 @@ import { andhraPradeshCities, getAndhraPradeshCity, generateAndhraPradeshCityMet
 import { telanganaCities, getTelanganaCity, generateTelanganaCityMetadata } from "@/lib/seo/telanganaCities";
 import { keralaCities, getKeralaCity, generateKeralaCityMetadata } from "@/lib/seo/keralaCities";
 import { maharashtraCities, getMaharashtraCity, generateMaharashtraCityMetadata } from "@/lib/seo/maharashtraCities";
+import { gujaratCities, getGujaratCity, generateGujaratCityMetadata } from "@/lib/seo/gujaratCities";
 import {
   generateHaryanaCityMetadata,
   getHaryanaCity,
@@ -78,6 +80,7 @@ export function generateStaticParams() {
     ...telanganaCities.map((city) => ({ state: "telangana", district: city.districtSlug, city: city.slug })),
     ...keralaCities.map((city) => ({ state: "kerala", district: city.districtSlug, city: city.slug })),
     ...maharashtraCities.map((city) => ({ state: "maharashtra", district: city.districtSlug, city: city.slug })),
+    ...gujaratCities.map((city) => ({ state: "gujarat", district: city.districtSlug, city: city.slug })),
   ];
 }
 
@@ -123,6 +126,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "maharashtra") {
     const city = getMaharashtraCity(district, citySlug);
     return city ? generateMaharashtraCityMetadata(city) : {};
+  }
+  if (state === "gujarat") {
+    const city = getGujaratCity(district, citySlug);
+    return city ? generateGujaratCityMetadata(city) : {};
   }
   return {};
 }
@@ -181,6 +188,11 @@ export default async function CityGpsTrackerPage({ params }: PageProps) {
     const city = getMaharashtraCity(district, citySlug);
     if (!city) notFound();
     return <MaharashtraCityGpsPage city={city} />;
+  }
+  if (state === "gujarat") {
+    const city = getGujaratCity(district, citySlug);
+    if (!city) notFound();
+    return <GujaratCityGpsPage city={city} />;
   }
   notFound();
 }
