@@ -23,6 +23,7 @@ import { andhraPradeshCities, getAndhraPradeshCityPath } from "@/lib/seo/andhraP
 import { telanganaDistricts } from "@/lib/seo/telanganaDistricts";
 import { telanganaCities, getTelanganaCityPath } from "@/lib/seo/telanganaCities";
 import { keralaDistricts } from "@/lib/seo/keralaDistricts";
+import { keralaCities, getKeralaCityPath } from "@/lib/seo/keralaCities";
 import { internationalSeoEnabled } from "@/lib/seo/internationalStatus";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -81,5 +82,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const telanganaDistrictRoutes: MetadataRoute.Sitemap = telanganaDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/telangana/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
   const telanganaCityRoutes: MetadataRoute.Sitemap = telanganaCities.map((city) => ({ url: `${baseUrl}${getTelanganaCityPath(city)}`, changeFrequency: "monthly", priority: 0.84 }));
   const keralaDistrictRoutes: MetadataRoute.Sitemap = keralaDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/kerala/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
-  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...haryanaCityRoutes, ...punjabDistrictRoutes, ...punjabCityRoutes, ...delhiDistrictRoutes, ...delhiAreaRoutes, ...uttarPradeshDistrictRoutes, ...uttarPradeshCityRoutes, ...tamilNaduDistrictRoutes, ...tamilNaduCityRoutes, ...karnatakaDistrictRoutes, ...karnatakaCityRoutes, ...andhraPradeshDistrictRoutes, ...andhraPradeshCityRoutes, ...telanganaDistrictRoutes, ...telanganaCityRoutes, ...keralaDistrictRoutes, ...productRoutes];
+  const keralaCityRoutes: MetadataRoute.Sitemap = keralaCities.map((city) => ({ url: `${baseUrl}${getKeralaCityPath(city)}`, changeFrequency: "monthly", priority: 0.84 }));
+  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...haryanaCityRoutes, ...punjabDistrictRoutes, ...punjabCityRoutes, ...delhiDistrictRoutes, ...delhiAreaRoutes, ...uttarPradeshDistrictRoutes, ...uttarPradeshCityRoutes, ...tamilNaduDistrictRoutes, ...tamilNaduCityRoutes, ...karnatakaDistrictRoutes, ...karnatakaCityRoutes, ...andhraPradeshDistrictRoutes, ...andhraPradeshCityRoutes, ...telanganaDistrictRoutes, ...telanganaCityRoutes, ...keralaDistrictRoutes, ...keralaCityRoutes, ...productRoutes];
 }

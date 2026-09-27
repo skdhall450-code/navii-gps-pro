@@ -9,11 +9,13 @@ import { TamilNaduCityGpsPage } from "@/components/seo/TamilNaduCityGpsPage";
 import { KarnatakaCityGpsPage } from "@/components/seo/KarnatakaCityGpsPage";
 import { AndhraPradeshCityGpsPage } from "@/components/seo/AndhraPradeshCityGpsPage";
 import { TelanganaCityGpsPage } from "@/components/seo/TelanganaCityGpsPage";
+import { KeralaCityGpsPage } from "@/components/seo/KeralaCityGpsPage";
 import { uttarPradeshCities, getUttarPradeshCity, generateUttarPradeshCityMetadata } from "@/lib/seo/uttarPradeshCities";
 import { tamilNaduCities, getTamilNaduCity, generateTamilNaduCityMetadata } from "@/lib/seo/tamilNaduCities";
 import { karnatakaCities, getKarnatakaCity, generateKarnatakaCityMetadata } from "@/lib/seo/karnatakaCities";
 import { andhraPradeshCities, getAndhraPradeshCity, generateAndhraPradeshCityMetadata } from "@/lib/seo/andhraPradeshCities";
 import { telanganaCities, getTelanganaCity, generateTelanganaCityMetadata } from "@/lib/seo/telanganaCities";
+import { keralaCities, getKeralaCity, generateKeralaCityMetadata } from "@/lib/seo/keralaCities";
 import {
   generateHaryanaCityMetadata,
   getHaryanaCity,
@@ -72,6 +74,7 @@ export function generateStaticParams() {
       city: city.slug,
     })),
     ...telanganaCities.map((city) => ({ state: "telangana", district: city.districtSlug, city: city.slug })),
+    ...keralaCities.map((city) => ({ state: "kerala", district: city.districtSlug, city: city.slug })),
   ];
 }
 
@@ -109,6 +112,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "telangana") {
     const city = getTelanganaCity(district, citySlug);
     return city ? generateTelanganaCityMetadata(city) : {};
+  }
+  if (state === "kerala") {
+    const city = getKeralaCity(district, citySlug);
+    return city ? generateKeralaCityMetadata(city) : {};
   }
   return {};
 }
@@ -157,6 +164,11 @@ export default async function CityGpsTrackerPage({ params }: PageProps) {
     const city = getTelanganaCity(district, citySlug);
     if (!city) notFound();
     return <TelanganaCityGpsPage city={city} />;
+  }
+  if (state === "kerala") {
+    const city = getKeralaCity(district, citySlug);
+    if (!city) notFound();
+    return <KeralaCityGpsPage city={city} />;
   }
   notFound();
 }
