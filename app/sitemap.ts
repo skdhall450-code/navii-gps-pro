@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: baseUrl, changeFrequency: "weekly", priority: 1 },
     { url: `${baseUrl}/about`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/products`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/shop-now`, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/software`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/industries`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/ais-140-gps`, changeFrequency: "monthly", priority: 0.9 },

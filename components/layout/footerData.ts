@@ -12,6 +12,10 @@ export const quickLinks = [
     href: "/products",
   },
   {
+    name: "Shop Now",
+    href: "/shop-now",
+  },
+  {
     name: "Software",
     href: "/software",
   },
