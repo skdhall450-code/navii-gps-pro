@@ -10,7 +10,7 @@ import Footer from "@/components/layout/Footer";
 import { products } from "@/components/products/data/productsData";
 
 export const metadata: Metadata = {
-  title: "Shop GPS Trackers Online | NAVII GPS India",
+  title: "Shop GPS Trackers Online | G17 Offer",
   description:
     "Shop NAVII GPS vehicle trackers with transparent device, annual Airtel SIM, platform and shipping prices. G17 is the first model available.",
   alternates: { canonical: "https://naviigps.com/shop-now" },
