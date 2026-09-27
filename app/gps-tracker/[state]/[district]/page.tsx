@@ -59,6 +59,8 @@ import { MaharashtraDistrictGpsPage } from "@/components/seo/MaharashtraDistrict
 import { generateMaharashtraDistrictMetadata, getMaharashtraDistrict, maharashtraDistricts } from "@/lib/seo/maharashtraDistricts";
 import { GujaratDistrictGpsPage } from "@/components/seo/GujaratDistrictGpsPage";
 import { generateGujaratDistrictMetadata, getGujaratDistrict, gujaratDistricts } from "@/lib/seo/gujaratDistricts";
+import { RajasthanDistrictGpsPage } from "@/components/seo/RajasthanDistrictGpsPage";
+import { generateRajasthanDistrictMetadata, getRajasthanDistrict, rajasthanDistricts } from "@/lib/seo/rajasthanDistricts";
 
 type PageProps = {
   params: Promise<{ state: string; district: string }>;
@@ -77,6 +79,7 @@ export function generateStaticParams() {
     ...keralaDistricts.map((district) => ({ state: "kerala", district: district.slug })),
     ...maharashtraDistricts.map((district) => ({ state: "maharashtra", district: district.slug })),
     ...gujaratDistricts.map((district) => ({ state: "gujarat", district: district.slug })),
+    ...rajasthanDistricts.map((district) => ({ state: "rajasthan", district: district.slug })),
   ];
 }
 
@@ -125,6 +128,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "gujarat") {
     const district = getGujaratDistrict(slug);
     return district ? generateGujaratDistrictMetadata(district) : {};
+  }
+  if (state === "rajasthan") {
+    const district = getRajasthanDistrict(slug);
+    return district ? generateRajasthanDistrictMetadata(district) : {};
   }
   return {};
 }
@@ -185,6 +192,11 @@ export default async function DistrictGpsTrackerPage({ params }: PageProps) {
     const district = getGujaratDistrict(slug);
     if (!district) notFound();
     return <GujaratDistrictGpsPage district={district} />;
+  }
+  if (state === "rajasthan") {
+    const district = getRajasthanDistrict(slug);
+    if (!district) notFound();
+    return <RajasthanDistrictGpsPage district={district} />;
   }
   notFound();
 }
