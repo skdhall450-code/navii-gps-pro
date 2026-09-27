@@ -73,3 +73,5 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 [Telangana Phase 2](telangana-phase-2.md) adds 66 curated priority city and town guides—two in every district. The exact district-scoped inventory is locked in the source checker, and each rendered page must link to the Telangana hub, its parent district and its paired town. English and Telugu-intent keywords are generated from these reviewed records.
 
 [Kerala Phase 1](kerala-phase-1.md) provides district-level GPS tracking guides for all 14 Kerala districts. Automatic checks lock the district inventory and validate official sources, unique operational context, English and Malayalam-intent keywords, canonical URLs, structured data, sitemap inclusion and Kerala hub links.
+
+[Kerala Phase 2](kerala-phase-2.md) adds 28 curated priority city and town guides—two in every district. The reviewed inventory is locked in the source checker, and each rendered page must link to the Kerala hub, its parent district and its paired location. English and Malayalam-intent keywords are generated from the reviewed records.
