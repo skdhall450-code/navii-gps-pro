@@ -79,3 +79,5 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 [Maharashtra Phase 1](maharashtra-phase-1.md) provides district-level GPS tracking guides for all 36 current districts. Automated checks validate the current renamed-district inventory, Marathi and English intent keywords, unique route context, canonical URLs, structured data, sitemap inclusion and Maharashtra hub links.
 
 [Maharashtra Phase 2](maharashtra-phase-2.md) adds 72 curated priority city and town guides—two in every district. The exact district-scoped inventory is locked in the source checker, and each rendered page must link to the Maharashtra hub, its parent district and paired location. English and Marathi-intent keywords are generated from reviewed records.
+
+[Gujarat Phase 1](gujarat-phase-1.md) provides district-level GPS tracking guides for all 34 current districts, including the newly formed Vav-Tharad district. Automated checks lock the current inventory and validate the official district source, Gujarati and English intent keywords, unique route context, canonical URLs, structured data, sitemap inclusion and Gujarat hub links.
