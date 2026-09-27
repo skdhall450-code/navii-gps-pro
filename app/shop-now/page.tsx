@@ -158,7 +158,7 @@ export default function ShopNowPage() {
 
               <div className="mt-5 divide-y divide-slate-100">
                 <PriceRow label="G17 GPS tracker" detail={`${money(pricing.deviceSaleInr)} + ${money(deviceGst)} GST`} amount={deviceTotal} />
-                <PriceRow label="Airtel IoT SIM - 12 months" detail={`${money(simBeforeGst)} + ${money(simGst)} GST (${money(pricing.airtelSimMonthlyInr)} / month`} amount={simTotal} />
+                <PriceRow label="Airtel IoT SIM - 12 months" detail={`${money(simBeforeGst)} + ${money(simGst)} GST (${money(pricing.airtelSimMonthlyInr)} / month)`} amount={simTotal} />
                 <PriceRow label="NAVII GPS platform - 12 months" detail={`${money(pricing.platformAnnualInr)} + ${money(platformGst)} GST`} amount={platformTotal} />
               </div>
 
