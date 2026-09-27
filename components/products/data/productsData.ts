@@ -1,3 +1,13 @@
+export interface ProductPricing {
+  deviceMrpInr: number;
+  deviceSaleInr: number;
+  gstRatePercent: number;
+  airtelSimMonthlyInr: number;
+  platformAnnualInr: number;
+  shippingUpTo500KmInr: number;
+  shippingOver500KmInr: number;
+}
+
 export interface Product {
   id: number;
   slug: string;
@@ -13,6 +23,7 @@ export interface Product {
   specifications: { label: string; value: string }[];
   brochure: string;
   whatsapp: string;
+  pricing?: ProductPricing;
 }
 
 const salesWhatsApp = "917717394007";
@@ -23,6 +34,15 @@ export const products: Product[] = [
     slug: "g17-gps-tracker",
     name: "G17 GPS Tracker for Cars & Commercial Vehicles",
     category: "Vehicle GPS",
+    pricing: {
+      deviceMrpInr: 2000,
+      deviceSaleInr: 700,
+      gstRatePercent: 18,
+      airtelSimMonthlyInr: 35,
+      platformAnnualInr: 120,
+      shippingUpTo500KmInr: 100,
+      shippingOver500KmInr: 150,
+    },
     badge: "GT06 COMPATIBLE",
     shortDescription: "G17 vehicle GPS tracker for cars, trucks, buses and commercial fleets with real-time location, ignition monitoring, route history, geofencing and fleet alerts.",
     description: "The G17 GPS Tracker is a wired vehicle tracking device for cars, trucks, buses and commercial vehicles. Designed for real-time vehicle tracking and fleet monitoring, it supports GT06-compatible communication, ignition status monitoring, route history and trip playback, geofencing, overspeed alerts, and monitoring through the NAVII GPS web and mobile platform.",

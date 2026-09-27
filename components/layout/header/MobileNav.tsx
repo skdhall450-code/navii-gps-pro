@@ -11,6 +11,7 @@ const menu = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Products", href: "/products" },
+  { name: "Shop Now", href: "/shop-now" },
   { name: "Software", href: "/software" },
   { name: "Industries", href: "/industries" },
   { name: "Contact", href: "/contact" },
