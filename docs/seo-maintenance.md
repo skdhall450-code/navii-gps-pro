@@ -69,3 +69,5 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 ## Telangana district expansion
 
 [Telangana Phase 1](telangana-phase-1.md) provides district-level GPS tracking guides for all 33 districts listed by the Government of Telangana. Automatic checks lock the reviewed inventory and enforce official district sources, unique operational content, English and Telugu-intent keywords, canonical URLs, Service and FAQ schema, sitemap inclusion and links from the Telangana state hub. Regional content groups are editorial labels, not claims of an extra administrative tier.
+
+[Telangana Phase 2](telangana-phase-2.md) adds 66 curated priority city and town guides—two in every district. The exact district-scoped inventory is locked in the source checker, and each rendered page must link to the Telangana hub, its parent district and its paired town. English and Telugu-intent keywords are generated from these reviewed records.
