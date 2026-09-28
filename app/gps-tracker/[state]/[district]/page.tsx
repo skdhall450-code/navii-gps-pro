@@ -61,6 +61,8 @@ import { GujaratDistrictGpsPage } from "@/components/seo/GujaratDistrictGpsPage"
 import { generateGujaratDistrictMetadata, getGujaratDistrict, gujaratDistricts } from "@/lib/seo/gujaratDistricts";
 import { RajasthanDistrictGpsPage } from "@/components/seo/RajasthanDistrictGpsPage";
 import { generateRajasthanDistrictMetadata, getRajasthanDistrict, rajasthanDistricts } from "@/lib/seo/rajasthanDistricts";
+import { MadhyaPradeshDistrictGpsPage } from "@/components/seo/MadhyaPradeshDistrictGpsPage";
+import { generateMadhyaPradeshDistrictMetadata, getMadhyaPradeshDistrict, madhyaPradeshDistricts } from "@/lib/seo/madhyaPradeshDistricts";
 
 type PageProps = {
   params: Promise<{ state: string; district: string }>;
@@ -80,6 +82,7 @@ export function generateStaticParams() {
     ...maharashtraDistricts.map((district) => ({ state: "maharashtra", district: district.slug })),
     ...gujaratDistricts.map((district) => ({ state: "gujarat", district: district.slug })),
     ...rajasthanDistricts.map((district) => ({ state: "rajasthan", district: district.slug })),
+    ...madhyaPradeshDistricts.map((district) => ({ state: "madhya-pradesh", district: district.slug })),
   ];
 }
 
@@ -132,6 +135,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "rajasthan") {
     const district = getRajasthanDistrict(slug);
     return district ? generateRajasthanDistrictMetadata(district) : {};
+  }
+  if (state === "madhya-pradesh") {
+    const district = getMadhyaPradeshDistrict(slug);
+    return district ? generateMadhyaPradeshDistrictMetadata(district) : {};
   }
   return {};
 }
@@ -197,6 +204,11 @@ export default async function DistrictGpsTrackerPage({ params }: PageProps) {
     const district = getRajasthanDistrict(slug);
     if (!district) notFound();
     return <RajasthanDistrictGpsPage district={district} />;
+  }
+  if (state === "madhya-pradesh") {
+    const district = getMadhyaPradeshDistrict(slug);
+    if (!district) notFound();
+    return <MadhyaPradeshDistrictGpsPage district={district} />;
   }
   notFound();
 }
