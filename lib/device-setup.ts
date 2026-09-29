@@ -31,12 +31,31 @@ export function deviceProgress(device: SetupDevice, now: number) {
     stage: !device.isActive ? 'Disabled' : connected && gpsFresh ? 'Live' : connected ? 'Awaiting GPS' : device.lastSeenAt ? 'Offline' : 'Registered',
   };
 }
-export type CommandConfig = { model: string; template: string; server: string; port: string; apn: string; password?: string };
-export function prepareCommand(device: SetupDevice, config: CommandConfig): { body: string; href: string } {
+export type CommandConfig = { model: string; template: string; server: string; port: string; apn: string; password?: string; smsCountryCode?: string };
+export const DEFAULT_DEVICE_SERVER = 'api.naviigps.com';
+export const DEFAULT_DEVICE_PORT = '5101';
+export type DeviceSetupPreset = { model: string; profileId: string; commandId: string; server: string; port: string; apn: string; smsCountryCode: string };
+export function getDeviceSetupPreset(model: string): DeviceSetupPreset | null {
+  const normalized = model.trim().toUpperCase().replace(/\s+/g, '');
+  if (normalized !== 'G17/GT06') return null;
+  return { model: model.trim(), profileId: 'jimi-concox-gt06-current', commandId: 'apn', server: DEFAULT_DEVICE_SERVER, port: DEFAULT_DEVICE_PORT, apn: 'Airteliot.com', smsCountryCode: '+91' };
+}
+function resolveSmsRecipient(simNumber: string, countryCode?: string): string {
+  const value = simNumber.trim();
+  if (/^\+[1-9]\d{9,14}$/.test(value)) return value;
+  if (!/^\d{10,15}$/.test(value) || !countryCode || !/^\+[1-9]\d{0,2}$/.test(countryCode.trim())) {
+    throw new Error('Enter the SIM number with + and country code, or set the SMS country code for a saved local-format number.');
+  }
+  const recipient = countryCode.trim() + value;
+  if (!/^\+[1-9]\d{9,14}$/.test(recipient)) throw new Error('Check the SIM number and SMS country code.');
+  return recipient;
+}
+export function prepareCommand(device: SetupDevice, config: CommandConfig): { body: string; href: string; recipient: string } {
   if (!device.isActive) throw new Error('Enable this device before preparing a command.');
   if (!config.model || device.model?.trim().toLowerCase() !== config.model.trim().toLowerCase()) throw new Error('The command model does not match this device.');
   if (!/^\d{15}$/.test(device.imei)) throw new Error('Check the device IMEI.');
-  if (!device.simNumber || !/^\+[1-9]\d{9,14}$/.test(device.simNumber)) throw new Error('Edit the SIM phone number to include + and its country code.');
+  if (!device.simNumber) throw new Error('Add a SIM phone number before preparing a command.');
+  const recipient = resolveSmsRecipient(device.simNumber, config.smsCountryCode);
   const template = config.template.trim();
   if (!template) throw new Error('Enter the SMS command from the device manual.');
   const values: Record<string, string> = { IMEI: device.imei, SIM: device.simNumber, SERVER: config.server.trim(), PORT: config.port.trim(), APN: config.apn.trim(), PASSWORD: config.password?.trim() || '' };
@@ -52,7 +71,7 @@ export function prepareCommand(device: SetupDevice, config: CommandConfig): { bo
   const septets = Array.from(body).reduce((count, char) => count + ('^[]~|\\'.includes(char) ? 2 : char.charCodeAt(0) === 96 ? 999 : 1), 0);
   if (septets > 160) throw new Error('Keep the command within one SMS (160 GSM characters).');
   // One recipient per composer. Opening it is not evidence of SMS delivery.
-  return { body, href: 'sms:' + device.simNumber + '?body=' + encodeURIComponent(body) };
+  return { body, recipient, href: 'sms:' + recipient + '?body=' + encodeURIComponent(body) };
 }
 
 export class RegistrationError extends Error {
