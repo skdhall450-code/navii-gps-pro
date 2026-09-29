@@ -31,6 +31,7 @@ import { maharashtraDistricts } from "@/lib/seo/maharashtraDistricts";
 import { gujaratDistricts } from "@/lib/seo/gujaratDistricts";
 import { rajasthanDistricts } from "@/lib/seo/rajasthanDistricts";
 import { madhyaPradeshDistricts } from "@/lib/seo/madhyaPradeshDistricts";
+import { chhattisgarhDistricts } from "@/lib/seo/chhattisgarhDistricts";
 import { madhyaPradeshCities, getMadhyaPradeshCityPath } from "@/lib/seo/madhyaPradeshCities";
 import { maharashtraCities, getMaharashtraCityPath } from "@/lib/seo/maharashtraCities";
 import { gujaratCities, getGujaratCityPath } from "@/lib/seo/gujaratCities";
@@ -53,6 +54,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { state: slug } = await params;
+  if (slug === "chhattisgarh") {
+    const url = "https://naviigps.com/gps-tracker/chhattisgarh";
+    const description = "GPS trackers and vehicle tracking systems across all 33 current Chhattisgarh districts for cars, trucks, buses and commercial fleets.";
+    return { title: "GPS Tracker in Chhattisgarh | Vehicle Tracking System", description, keywords: uniqueKeywords(["GPS tracker in Chhattisgarh", "vehicle tracking system Chhattisgarh", "car GPS tracker Chhattisgarh", "truck GPS tracking Chhattisgarh", "fleet management software Chhattisgarh", "Chhattisgarh district GPS tracker", "वाहन GPS ट्रैकर छत्तीसगढ़", "जीपीएस ट्रैकर छत्तीसगढ़"]), alternates: { canonical: url }, openGraph: { title: "GPS Tracker in Chhattisgarh | NAVII GPS", description, url, type: "website", images: ["/og-image.jpg"] } };
+  }
   if (slug === "madhya-pradesh") {
     const url = "https://naviigps.com/gps-tracker/madhya-pradesh";
     const description = "GPS trackers and vehicle tracking systems across all 55 current Madhya Pradesh districts for cars, trucks, buses and commercial fleets.";
@@ -169,7 +175,7 @@ export default async function StateGpsTrackerPage({ params }: PageProps) {
     return <InternationalCityGpsPage city={internationalCity} />;
   }
   const linkedCities = allCities.filter((city) => city.stateSlug === state.slug);
-  const districtGuides = state.slug === "haryana" ? haryanaDistricts : state.slug === "punjab" ? punjabDistricts : state.slug === "uttar-pradesh" ? uttarPradeshDistricts : state.slug === "tamil-nadu" ? tamilNaduDistricts : state.slug === "karnataka" ? karnatakaDistricts : state.slug === "andhra-pradesh" ? andhraPradeshDistricts : state.slug === "telangana" ? telanganaDistricts : state.slug === "kerala" ? keralaDistricts : state.slug === "maharashtra" ? maharashtraDistricts : state.slug === "gujarat" ? gujaratDistricts : state.slug === "rajasthan" ? rajasthanDistricts : state.slug === "madhya-pradesh" ? madhyaPradeshDistricts : [];
+  const districtGuides = state.slug === "haryana" ? haryanaDistricts : state.slug === "punjab" ? punjabDistricts : state.slug === "uttar-pradesh" ? uttarPradeshDistricts : state.slug === "tamil-nadu" ? tamilNaduDistricts : state.slug === "karnataka" ? karnatakaDistricts : state.slug === "andhra-pradesh" ? andhraPradeshDistricts : state.slug === "telangana" ? telanganaDistricts : state.slug === "kerala" ? keralaDistricts : state.slug === "maharashtra" ? maharashtraDistricts : state.slug === "gujarat" ? gujaratDistricts : state.slug === "rajasthan" ? rajasthanDistricts : state.slug === "madhya-pradesh" ? madhyaPradeshDistricts : state.slug === "chhattisgarh" ? chhattisgarhDistricts : [];
   const url = `https://naviigps.com/gps-tracker/${state.slug}`;
   const structuredData = { "@context": "https://schema.org", "@graph": [
     { "@type": "WebPage", "@id": `${url}#webpage`, url, name: `GPS Tracker in ${state.name} | NAVII GPS`, description: `Vehicle GPS tracking and fleet management solutions in ${state.name}.`, isPartOf: { "@id": "https://naviigps.com/#website" }, about: { "@id": "https://naviigps.com/#organization" }, inLanguage: "en-IN" },
