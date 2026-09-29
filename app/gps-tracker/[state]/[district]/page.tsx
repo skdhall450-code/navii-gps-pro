@@ -63,6 +63,8 @@ import { RajasthanDistrictGpsPage } from "@/components/seo/RajasthanDistrictGpsP
 import { generateRajasthanDistrictMetadata, getRajasthanDistrict, rajasthanDistricts } from "@/lib/seo/rajasthanDistricts";
 import { MadhyaPradeshDistrictGpsPage } from "@/components/seo/MadhyaPradeshDistrictGpsPage";
 import { generateMadhyaPradeshDistrictMetadata, getMadhyaPradeshDistrict, madhyaPradeshDistricts } from "@/lib/seo/madhyaPradeshDistricts";
+import { ChhattisgarhDistrictGpsPage } from "@/components/seo/ChhattisgarhDistrictGpsPage";
+import { chhattisgarhDistricts, generateChhattisgarhDistrictMetadata, getChhattisgarhDistrict } from "@/lib/seo/chhattisgarhDistricts";
 
 type PageProps = {
   params: Promise<{ state: string; district: string }>;
@@ -83,6 +85,7 @@ export function generateStaticParams() {
     ...gujaratDistricts.map((district) => ({ state: "gujarat", district: district.slug })),
     ...rajasthanDistricts.map((district) => ({ state: "rajasthan", district: district.slug })),
     ...madhyaPradeshDistricts.map((district) => ({ state: "madhya-pradesh", district: district.slug })),
+    ...chhattisgarhDistricts.map((district) => ({ state: "chhattisgarh", district: district.slug })),
   ];
 }
 
@@ -139,6 +142,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (state === "madhya-pradesh") {
     const district = getMadhyaPradeshDistrict(slug);
     return district ? generateMadhyaPradeshDistrictMetadata(district) : {};
+  }
+  if (state === "chhattisgarh") {
+    const district = getChhattisgarhDistrict(slug);
+    return district ? generateChhattisgarhDistrictMetadata(district) : {};
   }
   return {};
 }
@@ -209,6 +216,11 @@ export default async function DistrictGpsTrackerPage({ params }: PageProps) {
     const district = getMadhyaPradeshDistrict(slug);
     if (!district) notFound();
     return <MadhyaPradeshDistrictGpsPage district={district} />;
+  }
+  if (state === "chhattisgarh") {
+    const district = getChhattisgarhDistrict(slug);
+    if (!district) notFound();
+    return <ChhattisgarhDistrictGpsPage district={district} />;
   }
   notFound();
 }
