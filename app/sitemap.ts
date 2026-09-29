@@ -33,6 +33,7 @@ import { rajasthanCities, getRajasthanCityPath } from "@/lib/seo/rajasthanCities
 import { madhyaPradeshDistricts } from "@/lib/seo/madhyaPradeshDistricts";
 import { madhyaPradeshCities, getMadhyaPradeshCityPath } from "@/lib/seo/madhyaPradeshCities";
 import { chhattisgarhDistricts } from "@/lib/seo/chhattisgarhDistricts";
+import { chhattisgarhCities, getChhattisgarhCityPath } from "@/lib/seo/chhattisgarhCities";
 import { internationalSeoEnabled } from "@/lib/seo/internationalStatus";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -101,5 +102,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const madhyaPradeshDistrictRoutes: MetadataRoute.Sitemap = madhyaPradeshDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/madhya-pradesh/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
   const madhyaPradeshCityRoutes: MetadataRoute.Sitemap = madhyaPradeshCities.map((city) => ({ url: `${baseUrl}${getMadhyaPradeshCityPath(city)}`, changeFrequency: "monthly", priority: 0.84 }));
   const chhattisgarhDistrictRoutes: MetadataRoute.Sitemap = chhattisgarhDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/chhattisgarh/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
-  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...haryanaCityRoutes, ...punjabDistrictRoutes, ...punjabCityRoutes, ...delhiDistrictRoutes, ...delhiAreaRoutes, ...uttarPradeshDistrictRoutes, ...uttarPradeshCityRoutes, ...tamilNaduDistrictRoutes, ...tamilNaduCityRoutes, ...karnatakaDistrictRoutes, ...karnatakaCityRoutes, ...andhraPradeshDistrictRoutes, ...andhraPradeshCityRoutes, ...telanganaDistrictRoutes, ...telanganaCityRoutes, ...keralaDistrictRoutes, ...keralaCityRoutes, ...maharashtraDistrictRoutes, ...maharashtraCityRoutes, ...gujaratDistrictRoutes, ...gujaratCityRoutes, ...rajasthanDistrictRoutes, ...rajasthanCityRoutes, ...madhyaPradeshDistrictRoutes, ...madhyaPradeshCityRoutes, ...chhattisgarhDistrictRoutes, ...productRoutes];
+  const chhattisgarhCityRoutes: MetadataRoute.Sitemap = chhattisgarhCities.map((city) => ({ url: `${baseUrl}${getChhattisgarhCityPath(city)}`, changeFrequency: "monthly", priority: 0.84 }));
+  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...haryanaCityRoutes, ...punjabDistrictRoutes, ...punjabCityRoutes, ...delhiDistrictRoutes, ...delhiAreaRoutes, ...uttarPradeshDistrictRoutes, ...uttarPradeshCityRoutes, ...tamilNaduDistrictRoutes, ...tamilNaduCityRoutes, ...karnatakaDistrictRoutes, ...karnatakaCityRoutes, ...andhraPradeshDistrictRoutes, ...andhraPradeshCityRoutes, ...telanganaDistrictRoutes, ...telanganaCityRoutes, ...keralaDistrictRoutes, ...keralaCityRoutes, ...maharashtraDistrictRoutes, ...maharashtraCityRoutes, ...gujaratDistrictRoutes, ...gujaratCityRoutes, ...rajasthanDistrictRoutes, ...rajasthanCityRoutes, ...madhyaPradeshDistrictRoutes, ...madhyaPradeshCityRoutes, ...chhattisgarhDistrictRoutes, ...chhattisgarhCityRoutes, ...productRoutes];
 }
