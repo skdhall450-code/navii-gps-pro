@@ -91,3 +91,5 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 [Madhya Pradesh Phase 1](madhya-pradesh-phase-1.md) provides district-level GPS tracking guides for all 55 current districts, including Maihar, Mauganj and Pandhurna. Automated checks lock the current government inventory and validate Hindi and English intent keywords, unique route context, canonical URLs, structured data, sitemap inclusion and Madhya Pradesh hub links.
 
 [Madhya Pradesh Phase 2](madhya-pradesh-phase-2.md) adds 110 curated priority city and town guides—two in every district. The reviewed selection is derived from the locked Phase 1 district inventory, and every rendered page must link to the Madhya Pradesh hub, its parent district and paired location. English and Hindi-intent keywords are generated automatically.
+
+[Chhattisgarh Phase 1](chhattisgarh-phase-1.md) provides district-level GPS tracking guides for all 33 current districts. Automated checks lock the current government inventory and validate Hindi and English intent keywords, unique route context, canonical URLs, structured data, sitemap inclusion and Chhattisgarh hub links.
