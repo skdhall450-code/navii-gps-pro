@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { parseDeviceRows, deviceProgress, prepareCommand, registerDeviceBatch } from '../lib/device-setup.ts';
+import { DEFAULT_DEVICE_PORT, DEFAULT_DEVICE_SERVER, getDeviceSetupPreset, parseDeviceRows, deviceProgress, prepareCommand, registerDeviceBatch } from '../lib/device-setup.ts';
 import { DEVICE_MODEL_CATALOG, SAFE_SMS_PROFILES, catalogModelNames, findCatalogEntry, findSmsCommand, supportsSmsProfile } from '../lib/device-command-profiles.ts';
 const now = Date.parse('2026-09-14T00:00:00Z');
 const device = { id: 'd', model: 'PT06', imei: '012345678901234', simNumber: '+919876543210', isActive: true, lastSeenAt: null, vehicle: { id: 'v', vehicleNo: 'GPS-012345678901234', latitude: null, longitude: null, lastUpdate: null } };
@@ -161,4 +161,31 @@ test('WanWay profiles expose diagnostics and migration commands but no destructi
   assert.equal(findSmsCommand('wanway-gs900', 'gprs-check').template, 'GPRSSET#');
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES.find(profile => profile.id === 'wanway-s20-4g'), 'S20'), true);
   assert.equal(supportsSmsProfile(SAFE_SMS_PROFILES.find(profile => profile.id === 'wanway-gs900'), 'GS900'), true);
+});
+
+test('G17 / GT06 auto preset uses confirmed NAVII and Airtel M2M values', () => {
+  assert.deepEqual(getDeviceSetupPreset('G17 / GT06'), {
+    model: 'G17 / GT06', profileId: 'jimi-concox-gt06-current', commandId: 'apn',
+    server: 'api.naviigps.com', port: '5101', apn: 'Airteliot.com', smsCountryCode: '+91',
+  });
+  assert.deepEqual(getDeviceSetupPreset('g17 / gt06'), {
+    model: 'g17 / gt06', profileId: 'jimi-concox-gt06-current', commandId: 'apn',
+    server: DEFAULT_DEVICE_SERVER, port: DEFAULT_DEVICE_PORT, apn: 'Airteliot.com', smsCountryCode: '+91',
+  });
+  assert.equal(getDeviceSetupPreset('G17'), null);
+  assert.equal(getDeviceSetupPreset('G17 / unknown'), null);
+  const target = { ...device, model: 'G17 / GT06', imei: '864540081832115', simNumber: '5754161947890' };
+  const preset = getDeviceSetupPreset(target.model);
+  const apn = prepareCommand(target, {
+    model: target.model, template: findSmsCommand(preset.profileId, 'apn').template,
+    server: preset.server, port: preset.port, apn: preset.apn, smsCountryCode: preset.smsCountryCode,
+  });
+  assert.equal(apn.body, 'APN,Airteliot.com#');
+  assert.equal(apn.recipient, '+915754161947890');
+  assert.equal(apn.href, 'sms:+915754161947890?body=' + encodeURIComponent('APN,Airteliot.com#'));
+  const server = prepareCommand(target, {
+    model: target.model, template: findSmsCommand(preset.profileId, 'server-dns').template,
+    server: preset.server, port: preset.port, apn: preset.apn, smsCountryCode: preset.smsCountryCode,
+  });
+  assert.equal(server.body, 'SERVER,1,api.naviigps.com,5101,0#');
 });
