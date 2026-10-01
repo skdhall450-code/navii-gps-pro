@@ -177,6 +177,7 @@ export type DeviceCatalogEntry = {
 };
 
 export const DEVICE_MODEL_CATALOG: DeviceCatalogEntry[] = [
+  { model: 'GX3', category: 'Vehicle tracker', manufacturer: 'Supplier GX3 protocol sheet', network: 'Confirm device variant', protocol: 'JT/T808-2013 binary TCP', status: 'PROTOCOL_IDENTIFIED', note: 'Protocol documented in the supplied GX3 JT/T808-2013 sheet. Activation requires deployment of the GX3 receiver and explicit terminal-ID to IMEI mapping. Register with the full 15-digit IMEI. Supplier APN/server SMS commands and a physical live test are still required; do not use GT06 commands.' },
   { model: 'PT06', aliases: ['Pictor PT06'], category: 'Vehicle tracker', manufacturer: 'Pictor / EV02 family', network: '2G', protocol: 'EV02 / GT06 V02 binary TCP', status: 'VERIFIED_COMMANDS', profileId: 'pictor-pt06-ev02', sourceUrl: 'https://pictortelematics.com/downloads/pt06-all-sms-command' },
   { model: 'EV02', category: 'Vehicle tracker', manufacturer: 'WanWay / Pictor OEM family', network: '2G/4G variant dependent', protocol: 'GT06-family binary TCP', status: 'VERIFIED_COMMANDS', profileId: 'pictor-pt06-ev02', sourceUrl: 'https://www.wanwaytech.net/' },
   { model: 'V5', aliases: ['Concox V5'], category: 'Vehicle tracker', manufacturer: 'Markon / Concox family', network: '2G', protocol: 'GT06 binary TCP', status: 'VERIFIED_COMMANDS', profileId: 'jimi-concox-gt06-current', sourceUrl: 'https://iconcox.in/' },
