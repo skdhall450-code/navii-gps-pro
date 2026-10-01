@@ -136,9 +136,9 @@ test('protected profiles require a validated device SMS password', () => {
 
 
 test('catalog lists every supplied poster model without enabling guessed commands', () => {
-  assert.equal(DEVICE_MODEL_CATALOG.length, 44);
+  assert.equal(DEVICE_MODEL_CATALOG.length, 45);
   const suppliedModels = [
-    'G17', 'BT50', 'V5', 'EV02', 'FMB920', 'M1', 'M1-SM', 'M1-AD', 'GS10',
+    'GX3', 'G17', 'BT50', 'V5', 'EV02', 'FMB920', 'M1', 'M1-SM', 'M1-AD', 'GS10',
     'GS33', 'GS149', 'G175', 'GS900', 'FMB125', 'XY71',
     'S15', 'S20', 'A50L', 'GS30', 'GS08', 'GS06',
     '360 Dashcam', 'Black Box', 'GS55', 'GS 1+3', 'GS 1+2', 'GS 2+2', 'EC800', 'H20P', 'Non-AI',
