@@ -58,6 +58,7 @@ export default function FooterV2() {
 
             <div className="space-y-4">
               <Link
+                prefetch={false}
                 href="/"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -65,6 +66,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/about"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -72,6 +74,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/products"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -79,6 +82,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/software"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -86,6 +90,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/industries"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -93,12 +98,13 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/contact"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
                 Contact
               </Link>
-              <Link href="/gps-tracker-india" className="block text-slate-300 transition hover:text-cyan-300">India coverage</Link>
+              <Link prefetch={false} href="/gps-tracker-india" className="block text-slate-300 transition hover:text-cyan-300">India coverage</Link>
             </div>
           </div>
           {/* Products */}
@@ -107,6 +113,7 @@ export default function FooterV2() {
 
             <div className="space-y-4">
               <Link
+                prefetch={false}
                 href="/products/g17-gps-tracker"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -114,6 +121,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/products/gs900-4g-gps-tracker"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -121,6 +129,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/products/bt50-vehicle-gps-tracker"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -128,6 +137,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/products/ev02-gps-tracker"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -135,6 +145,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/products/ai-dash-camera"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -142,6 +153,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/products/fuel-monitoring-sensor"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -149,6 +161,7 @@ export default function FooterV2() {
               </Link>
 
               <Link
+                prefetch={false}
                 href="/products/smart-e-lock"
                 className="block text-slate-300 transition hover:text-cyan-300"
               >
@@ -224,6 +237,7 @@ export default function FooterV2() {
 
           <div className="flex flex-wrap items-center gap-6">
             <Link
+              prefetch={false}
               href="/privacy-policy"
               className="text-slate-400 transition hover:text-cyan-300"
             >
@@ -231,6 +245,7 @@ export default function FooterV2() {
             </Link>
 
             <Link
+              prefetch={false}
               href="/account-deletion"
               className="text-slate-400 transition hover:text-cyan-300"
             >
@@ -238,6 +253,7 @@ export default function FooterV2() {
             </Link>
 
             <Link
+              prefetch={false}
               href="/terms"
               className="text-slate-400 transition hover:text-cyan-300"
             >
