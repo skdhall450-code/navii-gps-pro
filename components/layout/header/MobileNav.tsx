@@ -112,6 +112,7 @@ export default function MobileNav() {
               <div className="space-y-2">
                 {menu.map((item) => (
                   <Link
+                    prefetch={false}
                     key={item.href}
                     href={item.href}
                     onClick={closeMenu}

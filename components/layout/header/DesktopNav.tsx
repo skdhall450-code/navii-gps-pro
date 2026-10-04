@@ -46,6 +46,7 @@ export default function DesktopNav() {
         >
 
           <Link
+            prefetch={false}
             href={item.href}
             className={`flex items-center gap-1 font-semibold transition-all duration-300 ${
               pathname === item.href

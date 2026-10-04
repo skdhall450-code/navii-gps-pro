@@ -20,6 +20,7 @@ export default function HeaderV2() {
           {/* Logo */}
 
           <Link
+            prefetch={false}
             href="/"
             className="flex items-center gap-2"
           >
