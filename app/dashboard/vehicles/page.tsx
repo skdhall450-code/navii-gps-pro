@@ -77,7 +77,8 @@ type Customer = {
 
 type Device = {
   id: string;
-  imei: string;
+  imei: string | null;
+  terminalId?: string | null;
   model: string | null;
   simNumber: string | null;
   isActive: boolean;
@@ -748,7 +749,7 @@ function VehiclesPageContent() {
       return;
     }
 
-    if (editingVehicle.device && !form.imei.trim()) {
+    if (editingVehicle.device && !form.imei.trim() && !(editingVehicle.device.model?.trim().toLowerCase() === "gx3" && editingVehicle.device.terminalId)) {
       setError(
         "IMEI cannot be empty when editing a linked device.",
       );
@@ -979,6 +980,7 @@ function VehiclesPageContent() {
           const searchText = [
             vehicle.vehicleNo,
             vehicle.name ?? "",
+            vehicle.device?.terminalId ?? "",
             vehicle.device?.imei ??
               "",
             vehicle.device?.model ??
@@ -1511,7 +1513,7 @@ function VehiclesPageContent() {
                     Device
                   </th>
                   <th className="p-4">
-                    IMEI
+                    IMEI / terminal ID
                   </th>
                   <th className="p-4">
                     Dealer
@@ -1581,7 +1583,7 @@ function VehiclesPageContent() {
 
                       <td className="p-4 font-mono text-xs text-slate-300">
                         {vehicle.device
-                          ?.imei ||
+                          ?.imei || vehicle.device?.terminalId ||
                           "—"}
                       </td>
 

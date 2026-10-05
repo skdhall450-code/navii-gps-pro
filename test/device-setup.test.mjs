@@ -189,3 +189,26 @@ test('G17 / GT06 auto preset uses confirmed NAVII and Airtel M2M values', () => 
   });
   assert.equal(server.body, 'SERVER,1,api.naviigps.com,5101,0#');
 });
+
+test('GX3 paste preserves the confirmed terminal ID with an empty IMEI', () => {
+  assert.deepEqual(parseDeviceRows('GX3,,+915754161947897,019176701175'), [{ model: 'GX3', imei: '', simNumber: '+915754161947897', terminalId: '019176701175' }]);
+  for (const text of ['PT06,,+919876543210,019176701175', 'GX3,,+919876543210,19176701175', 'GX3,,+919876543210']) assert.throws(() => parseDeviceRows(text));
+});
+test('terminal-only GX3 supports manual commands without substituting the terminal ID for IMEI', () => {
+  const gx3 = { ...device, model: 'GX3', imei: null, terminalId: '019176701175' };
+  assert.equal(prepareCommand(gx3, { ...config, model: 'GX3', template: 'TEST,{SERVER},{PORT}#' }).body, 'TEST,192.0.2.1,5001#');
+  assert.equal(prepareCommand(gx3, { ...config, model: 'GX3', template: 'TEST,{TERMINAL_ID}#' }).body, 'TEST,019176701175#');
+  assert.throws(() => prepareCommand(gx3, { ...config, model: 'GX3', template: 'TEST,{IMEI}#' }));
+  assert.throws(() => prepareCommand({ ...gx3, terminalId: '19176701175' }, { ...config, model: 'GX3', template: 'TEST#' }));
+});
+test('terminal registration uses bulk route and refuses legacy fallback writes', async () => {
+  const row = { model: 'GX3', imei: '', terminalId: '019176701175', simNumber: '+915754161947897' };
+  let calls = 0;
+  await assert.rejects(registerDeviceBatch('', {}, [row], undefined, async () => { calls++; return jsonResponse({}, 404); }), /updated backend/);
+  assert.equal(calls, 1);
+  const result = await registerDeviceBatch('', {}, [row], undefined, async (_url, init) => {
+    assert.deepEqual(JSON.parse(init.body).devices, [row]);
+    return jsonResponse({ success: true, data: [{ row: 1, status: 'CREATED', message: 'Registered' }] });
+  });
+  assert.equal(result[0].status, 'CREATED');
+});

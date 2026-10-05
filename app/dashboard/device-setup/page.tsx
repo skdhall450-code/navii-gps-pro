@@ -12,7 +12,7 @@ const API = (process.env.NEXT_PUBLIC_NAVII_API_URL || process.env.NEXT_PUBLIC_AP
 const inputStyle = "w-full min-h-11 rounded-xl border border-white/15 bg-[#091524] px-3 py-2 text-sm text-white outline-none focus:border-sky-400 disabled:opacity-50";
 const buttonStyle = "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-slate-100 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40";
 type Draft = RegistrationRow & { key: number; result?: RegistrationResult };
-const emptyRow = (key: number): Draft => ({ key, model: "", imei: "", simNumber: "" });
+const emptyRow = (key: number): Draft => ({ key, model: "", imei: "", terminalId: "", simNumber: "" });
 function dateLabel(value: string | null) {
   if (!value) return "Never";
   const date = new Date(value);
@@ -96,7 +96,7 @@ function DeviceSetup() {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 60_000);
     try {
-      const results = await registerDeviceBatch(API, authorization(), pending.map(({ model, imei, simNumber }) => ({ model, imei, simNumber })), controller.signal);
+      const results = await registerDeviceBatch(API, authorization(), pending.map(({ model, imei, terminalId, simNumber }) => ({ model, imei, terminalId: model.trim().toLowerCase() === "gx3" ? terminalId : undefined, simNumber })), controller.signal);
       const byKey = new Map(pending.map((row, index) => [row.key, results[index]]));
       setRows(current => current.map(row => byKey.has(row.key) ? { ...row, result: byKey.get(row.key) } : row));
       setRegistrationMessage(results.filter(isRegistered).length + " of " + pending.length + " registered. Review any row errors.");
@@ -109,7 +109,7 @@ function DeviceSetup() {
   function importRows() {
     try {
       const imported = parseDeviceRows(paste);
-      const existing = rows.filter(row => row.model || row.imei || row.simNumber);
+      const existing = rows.filter(row => row.model || row.imei || row.terminalId || row.simNumber);
       if (existing.length + imported.length > 100) throw new Error("Keep each batch within 100 devices.");
       setRows([...existing, ...imported.map(row => ({ ...row, key: nextKey.current++ }))]);
       setPaste(""); setRegistrationMessage("");
@@ -125,7 +125,7 @@ function DeviceSetup() {
   const selectedCatalogEntry = findCatalogEntry(model);
   const selectedProfile = findSmsProfile(profileId);
   const selectedProfileCommand = findSmsCommand(profileId, profileCommandId);
-  const visible = devices.filter(device => [device.model, device.imei, device.simNumber, device.vehicle.vehicleNo].some(value => value?.toLowerCase().includes(query.trim().toLowerCase())));
+  const visible = devices.filter(device => [device.model, device.imei, device.terminalId, device.simNumber, device.vehicle.vehicleNo].some(value => value?.toLowerCase().includes(query.trim().toLowerCase())));
   const targets = devices.filter(device => selected.includes(device.id));
   const config = { model, template, server, port, apn, password, smsCountryCode };
   const live = devices.filter(device => deviceProgress(device, now).stage === "Live").length;
@@ -135,7 +135,7 @@ function DeviceSetup() {
     <header className="mb-8 flex flex-wrap items-start justify-between gap-4">
       <div><p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-400">NAVII / Device setup</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight">Add devices. Check they are live.</h1>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Register model, IMEI and SIM phone number. Prepare the manufacturer’s SMS command, then watch for the device connection and GPS fix.</p>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">Register model, IMEI or confirmed GX3 terminal ID, and SIM phone number. Prepare the manufacturer’s SMS command, then watch for the device connection and GPS fix.</p>
       </div><Link href="/dashboard/devices" className={buttonStyle}>Manage existing devices</Link>
     </header>
     <div className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -156,25 +156,26 @@ function DeviceSetup() {
       <fieldset disabled={saving} className="mt-5 space-y-3">
         <datalist id="device-models">{models.map(value => <option key={value} value={value} />)}</datalist>
         {rows.map((row, index) => <div key={row.key} className="rounded-xl border border-white/10 p-3">
-          <div className="grid items-end gap-3 sm:grid-cols-[1fr_1.4fr_1.4fr_auto]">
+          <div className="grid items-end gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1.4fr_1.4fr_auto]">
             <label className="text-xs text-slate-400">Model - row {index + 1}<input aria-label={"Model row " + (index + 1)} list="device-models" className={inputStyle + " mt-2"} value={row.model} maxLength={80} onChange={event => updateRow(row.key, "model", event.target.value)} placeholder="PT06" disabled={isRegistered(row.result)} /></label>
-            <label className="text-xs text-slate-400">IMEI<input aria-label={"IMEI row " + (index + 1)} className={inputStyle + " mt-2 font-mono"} value={row.imei} inputMode="numeric" maxLength={15} onChange={event => updateRow(row.key, "imei", event.target.value)} placeholder="15 digits" disabled={isRegistered(row.result)} /></label>
+            <label className="text-xs text-slate-400">{row.model.trim().toLowerCase() === "gx3" ? "IMEI (optional with terminal ID)" : "IMEI"}<input aria-label={"IMEI row " + (index + 1)} className={inputStyle + " mt-2 font-mono"} value={row.imei} inputMode="numeric" maxLength={15} onChange={event => updateRow(row.key, "imei", event.target.value)} placeholder="15 digits" disabled={isRegistered(row.result)} /></label>
             <label className="text-xs text-slate-400">SIM phone number<input aria-label={"SIM phone number row " + (index + 1)} className={inputStyle + " mt-2 font-mono"} value={row.simNumber} inputMode="tel" maxLength={16} onChange={event => updateRow(row.key, "simNumber", event.target.value)} placeholder="+919876543210" disabled={isRegistered(row.result)} /></label>
             <button type="button" aria-label={"Remove row " + (index + 1)} className={buttonStyle} onClick={() => setRows(current => current.length === 1 ? [emptyRow(nextKey.current++)] : current.filter(item => item.key !== row.key))}><Trash2 size={16} /></button>
+            {row.model.trim().toLowerCase() === "gx3" && <label className="text-xs text-slate-400 sm:col-span-2 lg:col-span-4">GX3 terminal ID<input aria-label={"GX3 terminal ID row " + (index + 1)} className={inputStyle + " mt-2 font-mono"} value={row.terminalId || ""} inputMode="numeric" maxLength={12} onChange={event => updateRow(row.key, "terminalId", event.target.value)} placeholder="12 confirmed digits, including leading zeroes" disabled={isRegistered(row.result)} /><span className="mt-2 block">Use the terminal ID from a verified device packet or supplier configuration.</span></label>}
           </div>{row.result && <p className={"mt-3 text-sm " + (isRegistered(row.result) ? "text-emerald-300" : "text-amber-300")}>{row.result.message}</p>}
         </div>)}
         <div className="flex flex-wrap gap-3"><button type="button" className={buttonStyle} disabled={rows.length >= 100} onClick={() => setRows(current => [...current, emptyRow(nextKey.current++)])}><Plus size={16} />Add another device</button>
           <button type="button" className={buttonStyle} onClick={() => setRows(current => { const pending = current.filter(row => !isRegistered(row.result)); return pending.length ? pending : [emptyRow(nextKey.current++)]; })}>Clear registered rows</button></div>
-        <details className="rounded-xl border border-white/10 p-4"><summary className="cursor-pointer text-sm text-sky-300">Paste rows from Excel</summary><p className="mt-3 text-xs leading-5 text-slate-400">Three columns: Model, IMEI, SIM phone number. Tabs or commas, one device per line, no heading. Format IMEI and SIM columns as text to preserve digits.</p><textarea aria-label="Device rows from Excel" rows={4} maxLength={20000} className={inputStyle + " mt-3 font-mono"} value={paste} onChange={event => setPaste(event.target.value)} /><button type="button" className={buttonStyle + " mt-3"} disabled={!paste.trim()} onClick={importRows}>Add pasted rows</button></details>
+        <details className="rounded-xl border border-white/10 p-4"><summary className="cursor-pointer text-sm text-sky-300">Paste rows from Excel</summary><p className="mt-3 text-xs leading-5 text-slate-400">Columns: Model, IMEI, SIM phone number; optional fourth column: GX3 terminal ID. For GX3 with a confirmed terminal ID, leave IMEI blank. Tabs or commas, one device per line, no heading. Format all identifier columns as text to preserve digits.</p><textarea aria-label="Device rows from Excel" rows={4} maxLength={20000} className={inputStyle + " mt-3 font-mono"} value={paste} onChange={event => setPaste(event.target.value)} /><button type="button" className={buttonStyle + " mt-3"} disabled={!paste.trim()} onClick={importRows}>Add pasted rows</button></details>
       </fieldset>
       <div className="mt-5 flex flex-wrap items-center gap-4"><button type="button" disabled={saving || rows.every(row => isRegistered(row.result))} onClick={() => void register()} className={buttonStyle + " border-sky-400/40 bg-sky-500/20 text-sky-100"}>{saving ? "Registering..." : "Register devices"}</button><p role="status" className="text-sm text-slate-300">{registrationMessage}</p></div>
     </section>
     <section className="mb-6 rounded-2xl border border-white/10 bg-[#0a1525] p-4 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4"><div><h2 className="text-xl font-semibold">2. Select devices</h2><p className="mt-1 text-sm text-slate-400">Refreshes every 5 seconds. Connection and GPS updates are current for 10 minutes.</p><p className="mt-1 text-xs text-slate-400">Last checked: {lastSync ? new Date(lastSync).toLocaleTimeString() : "Waiting"}</p></div><button type="button" onClick={() => void refresh()} className={buttonStyle}><RefreshCw size={16} />Refresh</button></div>
       {error && <p role="alert" className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-200">{error} Status below is based on the last received data.</p>}
-      <label className="mt-5 block text-xs text-slate-400">Search devices<input className={inputStyle + " mt-2 max-w-lg"} value={query} onChange={event => setQuery(event.target.value)} placeholder="Model, IMEI, SIM or vehicle" /></label>
+      <label className="mt-5 block text-xs text-slate-400">Search devices<input className={inputStyle + " mt-2 max-w-lg"} value={query} onChange={event => setQuery(event.target.value)} placeholder="Model, IMEI, terminal ID, SIM or vehicle" /></label>
       <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[760px] text-left text-sm"><thead className="border-b border-white/10 text-xs text-slate-400"><tr><th className="p-3">Select</th><th className="p-3">Device</th><th className="p-3">SIM / vehicle</th><th className="p-3">Connection</th><th className="p-3">GPS</th></tr></thead><tbody>
-        {visible.map(device => { const progress = deviceProgress(device, now); return <tr key={device.id} className="border-b border-white/5"><td className="p-3"><input type="checkbox" aria-label={"Select device " + device.imei} checked={selected.includes(device.id)} onChange={event => {
+        {visible.map(device => { const progress = deviceProgress(device, now); return <tr key={device.id} className="border-b border-white/5"><td className="p-3"><input type="checkbox" aria-label={"Select device " + (device.imei || device.terminalId)} checked={selected.includes(device.id)} onChange={event => {
         const checked = event.target.checked;
         setSelected(current => checked ? (current.includes(device.id) ? current : [...current, device.id]) : current.filter(id => id !== device.id));
         if (!checked || selected.length !== 0) return;
@@ -187,7 +188,7 @@ function DeviceSetup() {
         setPort(preset?.port || DEFAULT_DEVICE_PORT);
         setApn(preset?.apn || "");
         setSmsCountryCode(preset?.smsCountryCode || "+91");
-      }} className="h-5 w-5 accent-sky-400" /></td><td className="p-3"><p className="font-medium">{device.model || "Unknown model"}</p><p className="mt-1 font-mono text-xs text-slate-400">{device.imei}</p><span className={"mt-2 inline-block rounded-full px-2 py-1 text-xs " + (progress.stage === "Live" ? "bg-emerald-500/15 text-emerald-300" : "bg-slate-700/50 text-slate-300")}>{progress.stage}</span></td><td className="p-3"><p className="font-mono text-xs">{device.simNumber || "Not provided"}</p><p className="mt-2 text-xs text-slate-400">{device.vehicle.vehicleNo}</p></td><td className="p-3"><p>{progress.connection}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.lastSeenAt)}</p></td><td className="p-3"><p>{progress.gps}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.vehicle.lastUpdate)}</p></td></tr>; })}
+      }} className="h-5 w-5 accent-sky-400" /></td><td className="p-3"><p className="font-medium">{device.model || "Unknown model"}</p><p className="mt-1 font-mono text-xs text-slate-400">{device.imei ? "IMEI: " + device.imei : "Terminal ID: " + device.terminalId}</p><span className={"mt-2 inline-block rounded-full px-2 py-1 text-xs " + (progress.stage === "Live" ? "bg-emerald-500/15 text-emerald-300" : "bg-slate-700/50 text-slate-300")}>{progress.stage}</span></td><td className="p-3"><p className="font-mono text-xs">{device.simNumber || "Not provided"}</p><p className="mt-2 text-xs text-slate-400">{device.vehicle.vehicleNo}</p></td><td className="p-3"><p>{progress.connection}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.lastSeenAt)}</p></td><td className="p-3"><p>{progress.gps}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.vehicle.lastUpdate)}</p></td></tr>; })}
       </tbody></table>{!visible.length && <p className="p-8 text-center text-sm text-slate-400">{loading ? "Loading devices..." : "No matching devices. Register a device or clear your search."}</p>}</div>
       <div className="mt-4 flex flex-wrap items-center gap-3"><button type="button" className={buttonStyle} onClick={() => setSelected(visible.map(device => device.id))}>Select shown devices ({visible.length})</button><button type="button" className={buttonStyle} onClick={() => setSelected([])}>Clear selection</button><p className="text-sm text-slate-400">{targets.length} selected, including devices outside the current search</p></div>
     </section>
@@ -214,7 +215,7 @@ function DeviceSetup() {
       {model && selectedCatalogEntry && <div className={"mt-4 rounded-xl border p-3 text-xs leading-5 " + (selectedCatalogEntry.status === "VERIFIED_COMMANDS" ? "border-emerald-400/20 bg-emerald-500/5 text-emerald-100" : "border-amber-400/20 bg-amber-500/5 text-amber-100")}><p><strong>{selectedCatalogEntry.model}</strong> · {selectedCatalogEntry.manufacturer} · {selectedCatalogEntry.network}</p><p>Catalog status: {selectedCatalogEntry.status.replaceAll("_", " ")}. Protocol: {selectedCatalogEntry.protocol}.</p>{selectedCatalogEntry.note && <p>{selectedCatalogEntry.note}</p>}{selectedCatalogEntry.status !== "VERIFIED_COMMANDS" && !getDeviceSetupPreset(model) && <p>No automatic command is enabled for this model until its exact supplier manual and firmware are confirmed.</p>}{getDeviceSetupPreset(model) && <p>This exact G17 / GT06 device entry uses the current GT06 setup sequence. Send each step separately and confirm the device reply before continuing.</p>}</div>}
       {selectedProfile && <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-500/5 p-3 text-xs leading-5 text-slate-300"><p>{selectedProfile.note}</p><p className="mt-1">Receiver protocol: {selectedProfile.protocol}. Source: <a className="text-sky-300 underline" href={selectedProfile.sourceUrl} target="_blank" rel="noreferrer">{selectedProfile.sourceLabel}</a>.</p>{selectedProfileCommand && <p className="mt-1">Required fields: {selectedProfileCommand.requires.length ? selectedProfileCommand.requires.join(", ") : "none"}.</p>}</div>}
       <label className="mt-4 block text-xs text-slate-400">Manufacturer’s SMS command<textarea rows={3} maxLength={500} className={inputStyle + " mt-2 font-mono"} value={template} onChange={event => setTemplate(event.target.value)} placeholder="Paste the exact command from the device manual" /></label>
-      <p className="mt-2 text-xs leading-5 text-slate-400">Optional placeholders: {"{IMEI}, {SIM}, {SERVER}, {PORT}, {APN}, {PASSWORD}"}. Prepare and send one command at a time in the manufacturer’s specified order.</p>
+      <p className="mt-2 text-xs leading-5 text-slate-400">Optional placeholders: {"{IMEI}, {TERMINAL_ID}, {SIM}, {SERVER}, {PORT}, {APN}, {PASSWORD}"}. Prepare and send one command at a time in the manufacturer’s specified order.</p>
       <p role="status" className="mt-4 text-sm text-sky-300">{notice}</p>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">{targets.map(device => {
         let prepared: ReturnType<typeof prepareCommand> | null = null; let problem = "";
@@ -222,7 +223,7 @@ function DeviceSetup() {
           if (targets.filter(target => target.simNumber === device.simNumber).length > 1) throw new Error("Multiple selected devices have this SIM number. Check the SIM assignments first.");
           prepared = prepareCommand(device, config);
         } catch (caught) { problem = caught instanceof Error ? caught.message : "Check command details."; }
-        return <article key={device.id} className="rounded-xl border border-white/10 bg-[#07111f] p-4"><p className="font-medium">{device.model} <span className="font-mono text-xs text-slate-400">{device.imei}</span></p><p className="mt-2 text-sm text-slate-400">To: {prepared?.recipient || device.simNumber || "SIM number missing"}</p>{prepared ? <><pre className="mt-4 whitespace-pre-wrap break-all rounded-lg bg-black/30 p-3 font-mono text-sm text-sky-200">{prepared.body}</pre><div className="mt-4 flex flex-wrap gap-3"><a className={buttonStyle} href={prepared.href} onClick={() => setNotice("SMS handoff requested. Review and send in your SMS app; if it does not open, use Copy command. Check the device connection above to confirm it comes online.")}>Open SMS</a><button type="button" className={buttonStyle} onClick={() => void copy(prepared!.body)}><Copy size={16} />Copy command</button></div></> : <p className="mt-4 text-sm text-amber-300">{problem}</p>}</article>;
+        return <article key={device.id} className="rounded-xl border border-white/10 bg-[#07111f] p-4"><p className="font-medium">{device.model} <span className="font-mono text-xs text-slate-400">{device.imei || ("Terminal ID: " + device.terminalId)}</span></p><p className="mt-2 text-sm text-slate-400">To: {prepared?.recipient || device.simNumber || "SIM number missing"}</p>{prepared ? <><pre className="mt-4 whitespace-pre-wrap break-all rounded-lg bg-black/30 p-3 font-mono text-sm text-sky-200">{prepared.body}</pre><div className="mt-4 flex flex-wrap gap-3"><a className={buttonStyle} href={prepared.href} onClick={() => setNotice("SMS handoff requested. Review and send in your SMS app; if it does not open, use Copy command. Check the device connection above to confirm it comes online.")}>Open SMS</a><button type="button" className={buttonStyle} onClick={() => void copy(prepared!.body)}><Copy size={16} />Copy command</button></div></> : <p className="mt-4 text-sm text-amber-300">{problem}</p>}</article>;
       })}</div>{!targets.length && <p className="mt-5 text-sm text-slate-400">Select registered devices above to prepare their commands.</p>}
     </section>
   </main>;
