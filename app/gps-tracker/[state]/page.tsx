@@ -1,6 +1,8 @@
 import { TrackingSolutionLinks } from "@/components/seo/TrackingSolutionLinks";
 import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
+import { existsSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, BellRing, CheckCircle2, MapPin, RadioTower, Route } from "lucide-react";
@@ -44,13 +46,19 @@ import { karnatakaCities, getKarnatakaCityPath } from "@/lib/seo/karnatakaCities
 import { tamilNaduCities, getTamilNaduCityPath } from "@/lib/seo/tamilNaduCities";
 import { uttarPradeshCities, getUttarPradeshCityPath } from "@/lib/seo/uttarPradeshCities";
 
-const staticCitySlugs = new Set(["chennai", "bengaluru", "hyderabad", "kochi", "coimbatore", "visakhapatnam", "pune", "mumbai", "ahmedabad", "kolkata", "bhubaneswar", "patna", "ranchi", "guwahati", "siliguri"]);
 const allCities = [...new Map([...priorityCities, ...westIndiaCities].map((city) => [city.slug, city])).values()];
 
 type PageProps = { params: Promise<{ state: string }> };
 
 export function generateStaticParams() {
-  return [...indiaStates.map((state) => ({ state: state.slug })), ...allCities.filter((city) => !staticCitySlugs.has(city.slug)).map((city) => ({ state: city.slug })), ...internationalCities.map((city) => ({ state: city.slug }))];
+  // Dedicated pages own their paths. Generating the same URL here can make a
+  // deployment serve the generic page's metadata instead of the dedicated page.
+  const routeRoot = join(process.cwd(), "app", "gps-tracker");
+  const dedicatedSlugs = new Set(readdirSync(routeRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith("[") && existsSync(join(routeRoot, entry.name, "page.tsx")))
+    .map((entry) => entry.name));
+  const slugs = new Set([...indiaStates.map((state) => state.slug), ...allCities.map((city) => city.slug), ...internationalCities.map((city) => city.slug)]);
+  return [...slugs].filter((slug) => !dedicatedSlugs.has(slug)).map((state) => ({ state }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
