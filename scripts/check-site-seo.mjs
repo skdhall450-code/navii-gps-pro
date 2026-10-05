@@ -1,4 +1,4 @@
-import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const origin = "https://naviigps.com";
@@ -19,6 +19,15 @@ const sitemap = readFileSync(join(root, "sitemap.xml.body"), "utf8");
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/gs)].map(([, value]) => decode(value.trim()));
 check(urls.length > 0, "Empty sitemap");
 check(new Set(urls).size === urls.length, "Duplicate sitemap URLs");
+
+// A build can have valid HTML while the prerender manifest assigns a dedicated
+// route to a dynamic fallback, causing deployment-specific metadata/content.
+const prerender = JSON.parse(readFileSync(".next/prerender-manifest.json", "utf8"));
+for (const entry of readdirSync("app/gps-tracker", { withFileTypes: true })) {
+  if (!entry.isDirectory() || entry.name.startsWith("[") || !existsSync(join("app/gps-tracker", entry.name, "page.tsx"))) continue;
+  const route = `/gps-tracker/${entry.name}`;
+  check(prerender.routes[route]?.srcRoute === route, `Dedicated GPS page claimed by another route: ${route} (${prerender.routes[route]?.srcRoute || "missing"})`);
+}
 
 for (const url of urls) {
   let parsed;
