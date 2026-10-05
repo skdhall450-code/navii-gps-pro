@@ -85,7 +85,8 @@ type Vehicle = {
 
   device?: {
     id: string;
-    imei: string;
+    imei: string | null;
+    terminalId?: string | null;
     model: string | null;
     simNumber: string | null;
     isActive: boolean;
@@ -94,7 +95,8 @@ type Vehicle = {
 
 type Device = {
   id: string;
-  imei: string;
+  imei: string | null;
+  terminalId?: string | null;
   model: string | null;
   simNumber: string | null;
   isActive: boolean;
@@ -127,6 +129,7 @@ type VehiclesResponse = {
 
 type DeviceForm = {
   imei: string;
+  terminalId: string;
   model: string;
   simNumber: string;
   vehicleId: string;
@@ -134,6 +137,7 @@ type DeviceForm = {
 
 const EMPTY_FORM: DeviceForm = {
   imei: "",
+  terminalId: "",
   model: "",
   simNumber: "",
   vehicleId: "",
@@ -491,7 +495,8 @@ function DevicesContent() {
 
     setForm({
       imei:
-        device.imei,
+        device.imei || "",
+      terminalId: device.terminalId || "",
 
       model:
         device.model ?? "",
@@ -515,9 +520,9 @@ function DevicesContent() {
   }
 
   async function createDevice() {
-    if (!form.imei.trim()) {
+    if (!form.imei.trim() && !(form.model.trim().toLowerCase() === "gx3" && /^\d{12}$/.test(form.terminalId.trim()))) {
       setError(
-        "IMEI is required.",
+        "Enter an IMEI or a confirmed 12-digit GX3 terminal ID.",
       );
       return;
     }
@@ -548,7 +553,8 @@ function DevicesContent() {
             body: JSON.stringify(
               {
                 imei:
-                  form.imei.trim(),
+                  form.imei.trim() || null,
+                terminalId: form.model.trim().toLowerCase() === "gx3" ? form.terminalId.trim() || null : null,
 
                 model:
                   form.model.trim() ||
@@ -618,9 +624,9 @@ function DevicesContent() {
       return;
     }
 
-    if (!form.imei.trim()) {
+    if (!form.imei.trim() && !(form.model.trim().toLowerCase() === "gx3" && /^\d{12}$/.test(form.terminalId.trim()))) {
       setError(
-        "IMEI cannot be empty.",
+        "Enter an IMEI or a confirmed 12-digit GX3 terminal ID.",
       );
       return;
     }
@@ -651,7 +657,8 @@ function DevicesContent() {
             body: JSON.stringify(
               {
                 imei:
-                  form.imei.trim(),
+                  form.imei.trim() || null,
+                terminalId: form.model.trim().toLowerCase() === "gx3" ? form.terminalId.trim() || null : null,
 
                 model:
                   form.model.trim() ||
@@ -789,7 +796,7 @@ function DevicesContent() {
   ) {
     const confirmed =
       window.confirm(
-        `Delete GPS device ${device.imei}?\n\nThe linked vehicle will NOT be deleted.`,
+        `Delete GPS device ${device.imei || device.terminalId}?\n\nThe linked vehicle will NOT be deleted.`,
       );
 
     if (!confirmed) {
@@ -883,6 +890,7 @@ function DevicesContent() {
 
           const searchable = [
             device.imei,
+            device.terminalId,
             device.model ?? "",
             device.simNumber ??
               "",
@@ -1093,7 +1101,7 @@ function DevicesContent() {
               </div>
 
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                <Field label="IMEI *">
+                <Field label={form.model.trim().toLowerCase() === "gx3" ? "IMEI (optional with terminal ID)" : "IMEI *"}>
                   <input
                     value={
                       form.imei
@@ -1131,6 +1139,9 @@ function DevicesContent() {
                   />
                 </Field>
 
+                {form.model.trim().toLowerCase() === "gx3" && <Field label="GX3 terminal ID">
+                  <input value={form.terminalId} onChange={event => updateForm("terminalId", event.target.value)} className="input-field" inputMode="numeric" maxLength={12} placeholder="12 confirmed digits including leading zeroes" />
+                </Field>}
                 <Field label="SIM Number">
                   <input
                     value={
@@ -1326,7 +1337,7 @@ function DevicesContent() {
                   </th>
 
                   <th className="p-4">
-                    IMEI
+                    IMEI / terminal ID
                   </th>
 
                   <th className="p-4">
@@ -1394,7 +1405,7 @@ function DevicesContent() {
 
                       <td className="p-4 font-mono text-xs text-slate-300">
                         {
-                          device.imei
+                          device.imei || ("Terminal ID: " + device.terminalId)
                         }
                       </td>
 

@@ -1,8 +1,8 @@
 export type SetupDevice = {
-  id: string; imei: string; model: string | null; simNumber: string | null; isActive: boolean; lastSeenAt: string | null;
+  id: string; imei: string | null; terminalId?: string | null; model: string | null; simNumber: string | null; isActive: boolean; lastSeenAt: string | null;
   vehicle: { id: string; companyId?: string; vehicleNo: string; lastUpdate: string | null; latitude: number | null; longitude: number | null };
 };
-export type RegistrationRow = { model: string; imei: string; simNumber: string };
+export type RegistrationRow = { model: string; imei: string; terminalId?: string; simNumber: string };
 export type RegistrationResult = { row: number; status: 'CREATED' | 'EXISTS' | 'INVALID' | 'DUPLICATE' | 'CONFLICT' | 'FAILED'; message: string; deviceId?: string };
 export const isRegistered = (result?: RegistrationResult) => result?.status === 'CREATED' || result?.status === 'EXISTS';
 export function parseDeviceRows(text: string): RegistrationRow[] {
@@ -10,8 +10,8 @@ export function parseDeviceRows(text: string): RegistrationRow[] {
   if (!lines.length || lines.length > 100) throw new Error('Paste between 1 and 100 rows.');
   return lines.map((line, index) => {
     const parts = line.split(line.includes('\t') ? '\t' : ',').map(value => value.trim());
-    if (parts.length !== 3 || parts.some(value => !value || value.includes('"'))) throw new Error('Row ' + (index + 1) + ': use Model, IMEI, SIM phone number, without a heading.');
-    return { model: parts[0], imei: parts[1], simNumber: parts[2] };
+    if (![3, 4].includes(parts.length) || parts.some(value => value.includes('"')) || !parts[0] || !parts[2] || (!parts[1] && !(parts[0].toLowerCase() === 'gx3' && /^\d{12}$/.test(parts[3] || '')))) throw new Error('Row ' + (index + 1) + ': use Model, IMEI, SIM phone number, optional GX3 terminal ID, without a heading.');
+    return { model: parts[0], imei: parts[1], simNumber: parts[2], ...(parts.length === 4 ? { terminalId: parts[3] } : {}) };
   });
 }
 function fresh(value: string | null, now: number) {
@@ -53,14 +53,17 @@ function resolveSmsRecipient(simNumber: string, countryCode?: string): string {
 export function prepareCommand(device: SetupDevice, config: CommandConfig): { body: string; href: string; recipient: string } {
   if (!device.isActive) throw new Error('Enable this device before preparing a command.');
   if (!config.model || device.model?.trim().toLowerCase() !== config.model.trim().toLowerCase()) throw new Error('The command model does not match this device.');
-  if (!/^\d{15}$/.test(device.imei)) throw new Error('Check the device IMEI.');
+  if (device.imei && !/^\d{15}$/.test(device.imei)) throw new Error('Check the device IMEI.');
+  if (!device.imei && !(device.model?.trim().toLowerCase() === 'gx3' && /^\d{12}$/.test(device.terminalId || ''))) throw new Error('Check the device IMEI or GX3 terminal ID.');
   if (!device.simNumber) throw new Error('Add a SIM phone number before preparing a command.');
   const recipient = resolveSmsRecipient(device.simNumber, config.smsCountryCode);
   const template = config.template.trim();
   if (!template) throw new Error('Enter the SMS command from the device manual.');
-  const values: Record<string, string> = { IMEI: device.imei, SIM: device.simNumber, SERVER: config.server.trim(), PORT: config.port.trim(), APN: config.apn.trim(), PASSWORD: config.password?.trim() || '' };
+  const values: Record<string, string> = { IMEI: device.imei || '', TERMINAL_ID: device.terminalId || '', SIM: device.simNumber, SERVER: config.server.trim(), PORT: config.port.trim(), APN: config.apn.trim(), PASSWORD: config.password?.trim() || '' };
   const body = template.replace(/\{([^{}]+)\}/g, (_match, key: string) => {
     if (!Object.hasOwn(values, key) || !values[key]) throw new Error('Fill in a value for {' + key + '} or correct the placeholder.');
+    if (key === 'IMEI' && !/^\d{15}$/.test(values[key])) throw new Error('This command requires the real 15-digit IMEI.');
+    if (key === 'TERMINAL_ID' && !/^\d{12}$/.test(values[key])) throw new Error('This command requires a confirmed 12-digit terminal ID.');
     if (key === 'SERVER' && !/^[a-zA-Z0-9.-]{1,253}$/.test(values[key])) throw new Error('Enter a server IP or hostname without a URL or port.');
     if (key === 'PORT' && (!/^\d{1,5}$/.test(values[key]) || Number(values[key]) < 1 || Number(values[key]) > 65535)) throw new Error('Enter a port between 1 and 65535.');
     if (key === 'APN' && !/^[a-zA-Z0-9.-]{1,100}$/.test(values[key])) throw new Error('Enter the APN supplied by the SIM operator.');
@@ -97,6 +100,7 @@ export async function registerDeviceBatch(
     if (results.length !== rows.length || results.some((item, index) => item.row !== index + 1)) throw new Error('Incomplete result. Refresh devices before retrying.');
     return results;
   }
+  if (rows.some(row => row.terminalId?.trim())) throw new RegistrationError('GX3 terminal registration requires the updated backend. Deploy it before retrying.', 404);
   const meResponse = await request(api + '/api/auth/me', { headers, signal, cache: 'no-store' });
   const me = await meResponse.json().catch(() => null);
   if (!meResponse.ok || !me?.success || !['ADMIN', 'SUPER_ADMIN'].includes(me.data?.role) || typeof me.data?.companyId !== 'string' || !me.data.companyId) throw new RegistrationError('Administrator sign-in is required.', meResponse.status === 401 ? 401 : 403);
@@ -104,7 +108,7 @@ export async function registerDeviceBatch(
   const listResponse = await request(api + '/api/gps/device-management', { headers, signal, cache: 'no-store' });
   const list = await listResponse.json().catch(() => null);
   if (!listResponse.ok || !list?.success || !Array.isArray(list.data)) throw new RegistrationError('Cannot check existing devices. Retry after refreshing.', listResponse.status);
-  const known = new Map<string, SetupDevice>(list.data.map((device: SetupDevice) => [device.imei, device]));
+  const known = new Map<string, SetupDevice>(list.data.filter((device: SetupDevice) => device.imei).map((device: SetupDevice) => [device.imei!, device]));
   const seen = new Set<string>();
   const results: RegistrationResult[] = [];
   for (const [index, input] of rows.entries()) {
