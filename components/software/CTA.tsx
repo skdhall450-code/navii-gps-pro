@@ -12,7 +12,7 @@ export default function CTA() {
           Tell us how many vehicles you need to monitor and which daily checks matter to your team. Request a demo of the relevant tracking, history, alerts and report screens, with a setup and subscription review.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-5">
-          <Link href="/contact" className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-4 font-semibold text-slate-950 transition hover:bg-cyan-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+          <Link href="/contact?intent=software-demo&source=software#contact-form" className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-4 font-semibold text-slate-950 transition hover:bg-cyan-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
             Request a software demo
             <ArrowRight size={18} aria-hidden="true" className="shrink-0" />
           </Link>

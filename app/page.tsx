@@ -22,7 +22,6 @@ import Software from "@/components/home/Software/Software";
 import Clients from "@/components/home/Clients/Clients";
 import CTA from "@/components/home/CTA/CTA";
 import FAQ from "@/components/home/FAQ/FAQ";
-import Testimonials from "@/components/home/Testimonials/Testimonials";
 import SolutionsShowcase from "@/components/home/SolutionsShowcase";
 
 const homeStructuredData = { "@context": "https://schema.org", "@graph": [
@@ -35,6 +34,6 @@ export default function HomePage() {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData).replace(/</g, "\\u003c") }} />
     <HeroV2 /><Stats /><ProductsSection /><WhyChoose /><Software />
     <SolutionsShowcase />
-    <Clients /><CTA /><FAQ /><Testimonials />
+    <Clients /><CTA /><FAQ />
   </main><Footer /></>);
 }

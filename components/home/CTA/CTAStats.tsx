@@ -5,26 +5,26 @@ import { motion } from "framer-motion";
 const stats = [
   {
     id: 1,
-    value: "25K+",
-    label: "Vehicles Online",
+    value: "Devices",
+    label: "GPS tracking hardware",
     icon: "🚗",
   },
   {
     id: 2,
-    value: "500+",
-    label: "Business Clients",
+    value: "Software",
+    label: "Fleet visibility dashboard",
     icon: "🏢",
   },
   {
     id: 3,
-    value: "98%",
-    label: "Customer Satisfaction",
-    icon: "⭐",
+    value: "Reports",
+    label: "Trips and vehicle activity",
+    icon: "📊",
   },
   {
     id: 4,
-    value: "24×7",
-    label: "Technical Support",
+    value: "Office Hours",
+    label: "Mon–Sat, 09:30–18:30 IST",
     icon: "🛠️",
   },
 ];
@@ -58,7 +58,7 @@ export default function CTAStats() {
             {item.icon}
           </div>
 
-          <h3 className="mt-5 bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-4xl font-extrabold text-transparent">
+          <h3 className="mt-5 bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-2xl font-extrabold text-transparent">
             {item.value}
           </h3>
 

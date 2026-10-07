@@ -139,15 +139,15 @@ const handleMouseLeave = () => {
         className="absolute left-6 top-20 z-30 rounded-2xl border border-white/20 bg-white/10 px-6 py-4 shadow-2xl backdrop-blur-xl"
       >
         <p className="text-sm text-cyan-300">
-          📍 Live Tracking
+          📍 Location
         </p>
 
         <h3 className="mt-1 text-3xl font-bold">
-          25K+
+          GPS
         </h3>
 
         <p className="text-xs text-blue-100">
-          Active Vehicles
+          Vehicle tracking
         </p>
 
       </motion.div>
@@ -160,20 +160,20 @@ const handleMouseLeave = () => {
         className="absolute bottom-4 right-2 z-30 rounded-2xl border border-white/20 bg-white/10 px-6 py-4 shadow-2xl backdrop-blur-xl"
       >
         <p className="text-sm text-cyan-300">
-          🚛 Fleet Online
+          🚛 Fleet Tools
         </p>
 
-        <h3 className="mt-1 text-3xl font-bold text-green-400">
-          98%
+        <h3 className="mt-1 text-3xl font-bold text-cyan-300">
+          Routes
         </h3>
 
         <p className="text-xs text-blue-100">
-          Connected
+          Journey history
         </p>
 
       </motion.div>
 
-      {/* Experience Card */}
+      {/* Platform Card */}
 
       <motion.div
         animate={{ y: [0, -8, 0] }}
@@ -181,15 +181,15 @@ const handleMouseLeave = () => {
         className="absolute right-16 top-0 z-30 rounded-2xl border border-white/20 bg-white/10 px-5 py-3 shadow-xl backdrop-blur-xl"
       >
         <p className="text-xs text-cyan-300">
-          ⭐ Experience
+          📱 Platform
         </p>
 
         <h3 className="mt-1 text-2xl font-bold">
-          10+
+          Web & App
         </h3>
 
         <p className="text-xs text-blue-100">
-          Years
+          Fleet visibility
         </p>
 
       </motion.div>
@@ -201,17 +201,21 @@ const handleMouseLeave = () => {
         transition={{ duration: 3.5, repeat: Infinity }}
         className="absolute -right-8 top-24 z-30 w-64 rounded-3xl border border-white/20 bg-white/10 p-5 shadow-2xl backdrop-blur-xl"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
 
           <span className="text-sm text-cyan-300">
-            Live Dashboard
+            Illustrative demo
           </span>
 
-          <span className="rounded-full bg-green-500 px-2 py-1 text-xs font-semibold">
-            Online
+          <span className="rounded-full bg-cyan-400/20 px-2 py-1 text-xs font-semibold text-cyan-200">
+            Sample data
           </span>
 
         </div>
+
+        <p className="mt-3 text-xs leading-5 text-blue-100">
+          Static dashboard preview. No live vehicle data.
+        </p>
 
         <div className="mt-5 space-y-3">
 
@@ -221,7 +225,7 @@ const handleMouseLeave = () => {
             </span>
 
             <span className="font-bold">
-              25,486
+              24
             </span>
           </div>
 
@@ -231,7 +235,7 @@ const handleMouseLeave = () => {
             </span>
 
             <span className="font-bold">
-              4,250
+              36
             </span>
           </div>
 
@@ -241,7 +245,7 @@ const handleMouseLeave = () => {
             </span>
 
             <span className="font-bold text-yellow-300">
-              18
+              3
             </span>
           </div>
 

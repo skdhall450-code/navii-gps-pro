@@ -1,6 +1,7 @@
+import { getTrackingDetails } from './tracking-state.ts';
 export type SetupDevice = {
   id: string; imei: string | null; terminalId?: string | null; model: string | null; simNumber: string | null; isActive: boolean; lastSeenAt: string | null;
-  vehicle: { id: string; companyId?: string; vehicleNo: string; lastUpdate: string | null; latitude: number | null; longitude: number | null };
+  vehicle: { id: string; companyId?: string; customerId?: string | null; dealerId?: string | null; vehicleNo: string; lastUpdate: string | null; latitude: number | null; longitude: number | null };
 };
 export type RegistrationRow = { model: string; imei: string; terminalId?: string; simNumber: string };
 export type RegistrationResult = { row: number; status: 'CREATED' | 'EXISTS' | 'INVALID' | 'DUPLICATE' | 'CONFLICT' | 'FAILED'; message: string; deviceId?: string };
@@ -14,20 +15,12 @@ export function parseDeviceRows(text: string): RegistrationRow[] {
     return { model: parts[0], imei: parts[1], simNumber: parts[2], ...(parts.length === 4 ? { terminalId: parts[3] } : {}) };
   });
 }
-function fresh(value: string | null, now: number) {
-  if (!value) return false;
-  const age = now - Date.parse(value);
-  return Number.isFinite(age) && age >= -60_000 && age <= 600_000;
-}
 export function deviceProgress(device: SetupDevice, now: number) {
-  const connected = device.isActive && fresh(device.lastSeenAt, now);
-  const { latitude, longitude, lastUpdate } = device.vehicle;
-  const hasFix = typeof latitude === 'number' && Number.isFinite(latitude) && Math.abs(latitude) <= 90 &&
-    typeof longitude === 'number' && Number.isFinite(longitude) && Math.abs(longitude) <= 180;
-  const gpsFresh = hasFix && fresh(lastUpdate, now);
+  const tracking = getTrackingDetails({ ...device.vehicle, device }, now);
+  const { connected, gpsFresh } = tracking;
   return { connected, gpsFresh,
-    connection: !device.isActive ? 'Disabled' : connected ? 'Connected' : !device.lastSeenAt ? 'Not yet connected' : 'Offline',
-    gps: !hasFix || !lastUpdate ? 'No GPS fix' : gpsFresh ? 'GPS current' : 'GPS stale',
+    connection: tracking.connection,
+    gps: tracking.gps === 'No fix' ? 'No GPS fix' : gpsFresh ? 'GPS current' : 'GPS stale',
     stage: !device.isActive ? 'Disabled' : connected && gpsFresh ? 'Live' : connected ? 'Awaiting GPS' : device.lastSeenAt ? 'Offline' : 'Registered',
   };
 }

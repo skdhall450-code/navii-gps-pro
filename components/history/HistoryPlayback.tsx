@@ -1,6 +1,10 @@
 "use client";
 
+import Link from "next/link";
+import { useVehicleSelection } from "@/hooks/use-vehicle-selection";
+import { vehicleTrackingHref } from "@/lib/vehicle-navigation";
 import {
+  useRef,
   useCallback,
   useEffect,
   useMemo,
@@ -38,7 +42,8 @@ import {
 } from "lucide-react";
 
 type Device = {
-  imei: string;
+  imei: string | null;
+  terminalId?: string | null;
   model: string | null;
 };
 
@@ -336,19 +341,19 @@ export default function HistoryPlayback() {
       [],
     );
 
-  const [
-    selectedVehicleId,
-    setSelectedVehicleId,
-  ] =
-    useState("");
+  const { selectedVehicleId, setSelectedVehicleId, selectionUnavailable } = useVehicleSelection(vehicles);
+  const historyRequest = useRef<AbortController | null>(null);
 
   const [
-    positions,
+    storedPositions,
     setPositions,
   ] =
     useState<Position[]>(
       [],
     );
+
+  const [positionsVehicleId, setPositionsVehicleId] = useState("");
+  const positions = useMemo(() => positionsVehicleId === selectedVehicleId ? storedPositions : [], [positionsVehicleId, selectedVehicleId, storedPositions]);
 
   const [
     loading,
@@ -561,27 +566,6 @@ export default function HistoryPlayback() {
           list,
         );
 
-        setSelectedVehicleId(
-          (current) => {
-            if (
-              current &&
-              list.some(
-                (
-                  vehicle,
-                ) =>
-                  vehicle.id ===
-                  current,
-              )
-            ) {
-              return current;
-            }
-
-            return (
-              list[0]?.id ??
-              ""
-            );
-          },
-        );
       } catch (err) {
         setError(
           err instanceof Error
@@ -590,9 +574,7 @@ export default function HistoryPlayback() {
         );
 
         setVehicles([]);
-        setSelectedVehicleId(
-          "",
-        );
+
       } finally {
         setVehiclesLoading(
           false,
@@ -604,6 +586,10 @@ export default function HistoryPlayback() {
 
   const loadHistory =
     useCallback(async () => {
+      historyRequest.current?.abort();
+      const controller = new AbortController();
+      historyRequest.current = controller;
+      setPositions([]);
       if (
         !selectedVehicleId
       ) {
@@ -669,8 +655,9 @@ export default function HistoryPlayback() {
 
         const response =
           await fetch(
-            `${API_BASE}/api/gps/history/${selectedVehicleId}?${params.toString()}`,
+            `${API_BASE}/api/gps/history/${encodeURIComponent(selectedVehicleId)}?${params.toString()}`,
             {
+              signal: controller.signal,
               method:
                 "GET",
 
@@ -731,10 +718,13 @@ export default function HistoryPlayback() {
               ),
           );
 
+        if (controller.signal.aborted) return;
+        setPositionsVehicleId(selectedVehicleId);
         setPositions(
           ordered,
         );
       } catch (err) {
+        if (controller.signal.aborted) return;
         setError(
           err instanceof Error
             ? err.message
@@ -743,7 +733,7 @@ export default function HistoryPlayback() {
 
         setPositions([]);
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     }, [
       selectedVehicleId,
@@ -757,6 +747,10 @@ export default function HistoryPlayback() {
   }, [loadVehicles]);
 
   useEffect(() => {
+    setPositions([]);
+    setPlaying(false);
+    setCurrentIndex(0);
+    setLoading(false);
     if (
       selectedVehicleId &&
       fromValue &&
@@ -764,6 +758,7 @@ export default function HistoryPlayback() {
     ) {
       void loadHistory();
     }
+    return () => historyRequest.current?.abort();
   }, [
     selectedVehicleId,
     fromValue,
@@ -1075,6 +1070,8 @@ export default function HistoryPlayback() {
       </header>
 
       <main className="mx-auto max-w-[1800px] p-5">
+        {!vehiclesLoading && selectionUnavailable && <p role="alert" className="mb-5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-200">Requested vehicle is unavailable for this account. Select an accessible vehicle.</p>}
+        {selectedVehicle && <div className="mb-5 flex flex-wrap gap-4 text-sm text-sky-300"><Link href={`/dashboard/vehicles/${encodeURIComponent(selectedVehicle.id)}`}>Vehicle details</Link><Link href={vehicleTrackingHref('live-tracking', selectedVehicle.id)}>Live map for {selectedVehicle.vehicleNo}</Link></div>}
         <div className="mb-5 rounded-2xl border border-white/10 bg-[#0a1426] p-5">
           <div className="grid gap-4 xl:grid-cols-5">
             <Field label="Vehicle">
@@ -1097,6 +1094,7 @@ export default function HistoryPlayback() {
                 }
                 className="field"
               >
+                {!selectedVehicleId && vehicles.length > 0 && <option value="">Choose an accessible vehicle</option>}
                 {vehicles.length ===
                   0 && (
                   <option value="">
@@ -1165,11 +1163,9 @@ export default function HistoryPlayback() {
               </div>
             </Field>
 
-            <Field label="IMEI">
+            <Field label={selectedVehicle?.device?.imei ? "IMEI" : "Terminal ID"}>
               <div className="field font-mono text-xs">
-                {selectedVehicle
-                  ?.device?.imei ??
-                  "—"}
+                {selectedVehicle?.device?.imei ?? selectedVehicle?.device?.terminalId ?? "—"}
               </div>
             </Field>
           </div>

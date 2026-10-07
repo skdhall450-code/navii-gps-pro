@@ -13,9 +13,22 @@ export default function MobileApps() {
             Web access and mobile setup
           </h2>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-            Use the web dashboard to review your assigned vehicles, history, geofences, alerts and reports. For mobile access, ask NAVII GPS for the currently supported app, installation route and sign-in instructions for your account.
+            Use the web dashboard to review your assigned vehicles, history, geofences, alerts and reports. Choose the Android app that matches your assigned NAVII GPS account role. Installing an app does not create an account or grant another role.
           </p>
-          <Link href="/contact" className="mt-8 inline-flex items-center gap-2 rounded-xl bg-cyan-700 px-6 py-4 font-semibold text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-700">
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            {[
+              { role: "Customer", id: "com.naviigps.customer", description: "For customers monitoring their assigned vehicles." },
+              { role: "Dealer", id: "com.naviigps.dealer", description: "For authorised dealer accounts." },
+              { role: "Admin", id: "com.naviigps.app", description: "For authorised administration accounts." },
+            ].map((app) => (
+              <a key={app.id} href={`https://play.google.com/store/apps/details?id=${app.id}`} target="_blank" rel="noopener noreferrer" data-ga-event="android_app_click" data-ga-channel="google_play" className="rounded-2xl border border-cyan-200 bg-white p-5 text-slate-800 transition hover:border-cyan-600 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-700">
+                <span className="block font-bold text-cyan-800">{app.role} Android app ↗</span>
+                <span className="mt-2 block text-sm leading-6">{app.description}</span>
+              </a>
+            ))}
+          </div>
+          <p className="mt-5 text-sm leading-6 text-slate-600">Using an older app or an iPhone? Ask us to confirm which app and sign-in route support your account before switching.</p>
+          <Link href="/contact?intent=mobile-access&source=software#contact-form" className="mt-8 inline-flex items-center gap-2 rounded-xl bg-cyan-700 px-6 py-4 font-semibold text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-700">
             Ask about mobile access
             <ArrowRight size={18} aria-hidden="true" className="shrink-0" />
           </Link>

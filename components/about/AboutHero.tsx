@@ -54,15 +54,15 @@ export default function AboutHero() {
           <div className="mt-12 flex flex-wrap justify-center gap-4">
 
             <div className="rounded-full border border-cyan-400/20 bg-white/5 px-6 py-3 text-cyan-300 backdrop-blur">
-              🚗 25K+ Vehicles
+              🚗 Vehicle Tracking
             </div>
 
             <div className="rounded-full border border-cyan-400/20 bg-white/5 px-6 py-3 text-cyan-300 backdrop-blur">
-              🏢 500+ Clients
+              🏢 Fleet Management
             </div>
 
             <div className="rounded-full border border-cyan-400/20 bg-white/5 px-6 py-3 text-cyan-300 backdrop-blur">
-              🇮🇳 PAN India Support
+              🛰️ GPS & IoT Solutions
             </div>
 
           </div>
