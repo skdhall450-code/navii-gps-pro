@@ -8,6 +8,7 @@ import { PageSchema } from "@/components/seo/PageSchema";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { products } from "@/components/products/data/productsData";
+import { formatInrPaise, getProductPriceBreakdown } from "@/lib/product-pricing";
 
 export const metadata: Metadata = {
   title: "Shop GPS Trackers Online | G17 Offer",
@@ -37,18 +38,10 @@ export default function ShopNowPage() {
   if (!product?.pricing) notFound();
 
   const pricing = product.pricing;
-  const gstRate = pricing.gstRatePercent / 100;
-  const deviceGst = pricing.deviceSaleInr * gstRate;
-  const simBeforeGst = pricing.airtelSimMonthlyInr * 12;
-  const simGst = simBeforeGst * gstRate;
-  const platformGst = pricing.platformAnnualInr * gstRate;
-  const deviceTotal = pricing.deviceSaleInr + deviceGst;
-  const simTotal = simBeforeGst + simGst;
-  const platformTotal = pricing.platformAnnualInr + platformGst;
-  const firstYearTotal = deviceTotal + simTotal + platformTotal;
-  const renewalTotal = simTotal + platformTotal;
+  const breakdown = getProductPriceBreakdown(pricing);
+  const firstYearTotal = breakdown.firstYearPaise / 100;
   const orderMessage = encodeURIComponent(
-    "Hello NAVII GPS, I would like to order the G17 GPS Tracker. Please confirm availability and the shipping charge from Dera Bassi for my delivery PIN code. I understand the first-year package is Rs 1,463.20 before shipping.",
+    `Hello NAVII GPS, I would like to order the G17 GPS Tracker first-year package at ${money(firstYearTotal)}, including ${pricing.gstRatePercent}% GST. Please confirm availability, shipping from Dera Bassi for my delivery PIN code, installation charges, final payable total and renewal terms.`,
   );
   const orderUrl = `https://wa.me/${product.whatsapp}?text=${orderMessage}`;
 
@@ -114,13 +107,12 @@ export default function ShopNowPage() {
                 <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-700">{product.category}</span>
                 <span className="rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800">{product.badge}</span>
               </div>
-              <h3 className="mt-6 text-xl font-extrabold text-slate-950">G17 device offer</h3>
+              <h3 className="mt-6 text-xl font-extrabold text-slate-950">G17 first-year package</h3>
               <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="text-4xl font-extrabold text-blue-700">{money(pricing.deviceSaleInr)}</span>
-                <span className="font-semibold text-slate-600">+ {pricing.gstRatePercent}% GST</span>
-                <span className="text-sm text-slate-500 line-through">MRP {money(pricing.deviceMrpInr)}</span>
+                <span className="text-4xl font-extrabold text-blue-700">{money(firstYearTotal)}</span>
+                <span className="font-semibold text-slate-600">including {pricing.gstRatePercent}% GST</span>
               </div>
-              <p className="mt-2 text-sm text-slate-500">Device price before GST; taxes are shown in the breakdown.</p>
+              <p className="mt-2 text-sm text-slate-500">G17 tracker + 12-month Airtel IoT SIM plan + 12-month NAVII GPS platform access. Shipping is additional.</p>
 
               <div className="mt-7 space-y-4">
                 {product.features.slice(0, 5).map((feature) => (
@@ -157,9 +149,12 @@ export default function ShopNowPage() {
               </div>
 
               <div className="mt-5 divide-y divide-slate-100">
-                <PriceRow label="G17 GPS tracker" detail={`${money(pricing.deviceSaleInr)} + ${money(deviceGst)} GST`} amount={deviceTotal} />
-                <PriceRow label="Airtel IoT SIM - 12 months" detail={`${money(simBeforeGst)} + ${money(simGst)} GST (${money(pricing.airtelSimMonthlyInr)} / month)`} amount={simTotal} />
-                <PriceRow label="NAVII GPS platform - 12 months" detail={`${money(pricing.platformAnnualInr)} + ${money(platformGst)} GST`} amount={platformTotal} />
+                <PriceRow label="G17 GPS tracker" detail="Before GST" amount={breakdown.devicePaise / 100} />
+                <PriceRow label="Airtel IoT SIM - 12 months" detail={`${money(pricing.airtelSimMonthlyInr)} / month, before GST`} amount={breakdown.simAnnualPaise / 100} />
+                <PriceRow label="NAVII GPS platform - 12 months" detail="Before GST" amount={breakdown.platformAnnualPaise / 100} />
+                <PriceRow label="Subtotal before GST" detail="Device + 12-month SIM + 12-month platform" amount={breakdown.subtotalPaise / 100} />
+                <PriceRow label={`GST (${pricing.gstRatePercent}%)`} detail="Included in the first-year package price" amount={breakdown.gstPaise / 100} />
+                <PriceRow label="First-year package total" detail="Including GST; shipping additional" amount={firstYearTotal} />
               </div>
 
               <div className="mt-6 grid gap-4 rounded-2xl bg-slate-950 p-5 text-white sm:grid-cols-2">
@@ -175,14 +170,14 @@ export default function ShopNowPage() {
                   <PackageCheck size={20} className="mt-0.5 shrink-0 text-cyan-300" />
                   <div>
                     <p className="font-bold">Annual renewal</p>
-                    <p className="mt-1 text-sm text-slate-300">From year two, SIM + platform: {money(renewalTotal)} / year.</p>
+                    <p className="mt-1 text-sm text-slate-300">At current SIM and platform rates: {formatInrPaise(breakdown.renewalAnnualPaise)} / year including GST. Confirm the applicable renewal price before ordering; future rates may change.</p>
                   </div>
                 </div>
               </div>
 
               <p className="mt-4 flex gap-2 text-sm leading-6 text-slate-500">
                 <MapPin size={17} className="mt-0.5 shrink-0 text-blue-600" />
-                Shipping distance is measured from Dera Bassi. Share your delivery PIN code on WhatsApp to confirm the distance and charge. The first-year total above includes 18% GST on the device, SIM and platform lines; shipping is additional.
+                Shipping distance is measured from Dera Bassi. Share your delivery PIN code on WhatsApp to confirm the distance and charge. The first-year total includes {formatInrPaise(breakdown.gstPaise)} GST at {pricing.gstRatePercent}%; shipping is additional. GST is calculated from the inclusive package price and rounded per package.
               </p>
 
               <div className="mt-6 border-t border-slate-200 pt-5">
