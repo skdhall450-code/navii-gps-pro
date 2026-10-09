@@ -1,6 +1,7 @@
 export interface ProductPricing {
   deviceMrpInr: number;
   deviceSaleInr: number;
+  firstYearTotalInr: number;
   gstRatePercent: number;
   airtelSimMonthlyInr: number;
   platformAnnualInr: number;
@@ -36,10 +37,11 @@ export const products: Product[] = [
     category: "Vehicle GPS",
     pricing: {
       deviceMrpInr: 2000,
-      deviceSaleInr: 700,
+      deviceSaleInr: 1124.92,
+      firstYearTotalInr: 2000,
       gstRatePercent: 18,
       airtelSimMonthlyInr: 35,
-      platformAnnualInr: 120,
+      platformAnnualInr: 150,
       shippingUpTo500KmInr: 100,
       shippingOver500KmInr: 150,
     },
