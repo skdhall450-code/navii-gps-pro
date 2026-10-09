@@ -69,6 +69,8 @@ const API_URL =
 
 const navigation: NavItem[] = [
   { name: "Device Setup", href: "/dashboard/device-setup", icon: Radio, roles: ["SUPER_ADMIN", "ADMIN", "DEALER"] },
+  { name: "Device Health Centre", href: "/dashboard/device-health", icon: Activity, roles: ["SUPER_ADMIN", "ADMIN", "DEALER"] },
+  { name: "Temporary Live Links", href: "/dashboard/live-links", icon: Map, roles: ["SUPER_ADMIN", "ADMIN", "DEALER", "CUSTOMER", "USER"] },
   {
     name: "Dashboard",
     href: "/dashboard",

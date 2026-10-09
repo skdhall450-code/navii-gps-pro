@@ -75,6 +75,15 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Config headers are applied before route responses. Keep the isolated
+        // capability viewer's stricter privacy policy after the global rule.
+        source: "/share",
+        headers: [
+          { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "X-Frame-Options", value: "DENY" },
+        ],
+      },
+      {
         source: "/dashboard/:path*",
         headers: noIndexHeaders,
       },
