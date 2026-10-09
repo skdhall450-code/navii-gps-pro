@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   CircleDot,
   Loader2,
+  Mail,
   RefreshCw,
   RotateCcw,
   Search,
@@ -18,10 +19,14 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
+import HandoverPanel from "@/components/dashboard/HandoverPanel";
+import { hasConfirmedDelivery } from "@/lib/customer-handover";
+import type { DeliveryContact } from "@/lib/customer-handover";
 
 type UserRole =
   | "SUPER_ADMIN"
@@ -53,7 +58,7 @@ type Dealer = {
   isActive: boolean;
 };
 
-type Customer = {
+type Customer = DeliveryContact & {
   id: string;
   name: string;
   code: string;
@@ -207,6 +212,9 @@ async function readJson<T>(
 }
 
 function AssignmentsPageContent() {
+  const [handoverVehicleId, setHandoverVehicleId] = useState<string | null>(null);
+  const mutationLock = useRef(false);
+
   const [
     vehicles,
     setVehicles,
@@ -778,6 +786,7 @@ function AssignmentsPageContent() {
   async function saveAssignment(
     vehicleId: string,
   ) {
+    if (mutationLock.current) return;
     const token =
       getAccessToken();
 
@@ -793,6 +802,7 @@ function AssignmentsPageContent() {
       return;
     }
 
+    mutationLock.current = true;
     setSavingVehicleId(
       vehicleId,
     );
@@ -910,6 +920,7 @@ function AssignmentsPageContent() {
       }
 
       await loadData();
+      setHandoverVehicleId(vehicleId);
 
       setSuccess(
         result.message ||
@@ -922,6 +933,7 @@ function AssignmentsPageContent() {
           : "Unable to update vehicle assignment",
       );
     } finally {
+      mutationLock.current = false;
       setSavingVehicleId(
         null,
       );
@@ -931,6 +943,7 @@ function AssignmentsPageContent() {
   async function unassignVehicle(
     vehicle: Vehicle,
   ) {
+    if (mutationLock.current) return;
     const token =
       getAccessToken();
 
@@ -953,6 +966,7 @@ function AssignmentsPageContent() {
       return;
     }
 
+    mutationLock.current = true;
     setSavingVehicleId(
       vehicle.id,
     );
@@ -1021,6 +1035,7 @@ function AssignmentsPageContent() {
           : "Unable to unassign vehicle",
       );
     } finally {
+      mutationLock.current = false;
       setSavingVehicleId(
         null,
       );
@@ -1084,7 +1099,7 @@ function AssignmentsPageContent() {
             <button
               type="button"
               disabled={
-                loading
+                loading || savingVehicleId !== null
               }
               onClick={() =>
                 void loadData()
@@ -1293,6 +1308,9 @@ function AssignmentsPageContent() {
                       vehicle.id
                     ] ?? "";
 
+                  const selectedDeliveryCustomer = customers.find((customer) => customer.id === customerValue);
+                  const mutationBusy = savingVehicleId !== null;
+
                   const availableCustomers =
                     getCustomersForDealer(
                       dealerValue,
@@ -1400,6 +1418,7 @@ function AssignmentsPageContent() {
                             </div>
                           ) : (
                             <select
+                              disabled={mutationBusy}
                               value={
                                 dealerValue
                               }
@@ -1460,6 +1479,7 @@ function AssignmentsPageContent() {
                           </label>
 
                           <select
+                            disabled={mutationBusy}
                             value={
                               customerValue
                             }
@@ -1516,7 +1536,7 @@ function AssignmentsPageContent() {
                             <button
                               type="button"
                               disabled={
-                                saving
+                                mutationBusy
                               }
                               onClick={() =>
                                 resetVehicleSelection(
@@ -1533,7 +1553,7 @@ function AssignmentsPageContent() {
                           <button
                             type="button"
                             disabled={
-                              saving ||
+                              mutationBusy ||
                               !dirty
                             }
                             onClick={() =>
@@ -1555,7 +1575,7 @@ function AssignmentsPageContent() {
                           <button
                             type="button"
                             disabled={
-                              saving ||
+                              mutationBusy ||
                               (
                                 isDealer
                                   ? !vehicle.customerId
@@ -1578,6 +1598,24 @@ function AssignmentsPageContent() {
 
                         </div>
                       </div>
+
+                      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-4">
+                        <p className="max-w-3xl text-xs leading-relaxed text-slate-400">
+                          {dirty && customerValue
+                            ? selectedDeliveryCustomer && hasConfirmedDelivery(selectedDeliveryCustomer)
+                              ? `Handover delivery address: ${selectedDeliveryCustomer.deliveryEmail}. Confirmed by operator; sending depends on delivery settings.`
+                              : "Handover email will be blocked until the customer's delivery address is confirmed in Customers."
+                            : "Handover files and email status are recorded separately from the vehicle assignment."}
+                        </p>
+                        <button type="button" aria-expanded={handoverVehicleId === vehicle.id} aria-controls={`handover-${vehicle.id}`}
+                          onClick={() => setHandoverVehicleId((current) => current === vehicle.id ? null : vehicle.id)}
+                          className="flex shrink-0 items-center gap-2 rounded-lg border border-sky-500/20 bg-sky-500/5 px-3 py-2 text-xs font-medium text-sky-300 hover:bg-sky-500/10">
+                          <Mail className="h-3.5 w-3.5" /> {handoverVehicleId === vehicle.id ? "Close handovers" : "View handovers"}
+                        </button>
+                      </div>
+                      {handoverVehicleId === vehicle.id && <div id={`handover-${vehicle.id}`} className="mt-4">
+                        <HandoverPanel key={`${vehicle.id}:${lastRefresh?.getTime() || 0}`} apiBase={API_BASE} vehicleId={vehicle.id} />
+                      </div>}
                     </div>
                   );
                 },

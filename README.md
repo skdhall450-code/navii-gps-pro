@@ -2,6 +2,37 @@
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Customer handover dashboard
+
+Customer create/edit has a separately captured delivery email and an explicit
+operator confirmation. The login email is never a delivery fallback. Changing
+the address clears confirmation; unchanged profile edits omit delivery fields
+to preserve the server-recorded actor/time. This is operator confirmation, not
+mailbox ownership verification. Saving the contact does not send an email.
+
+Open customer details or **View handovers** on Assignments to inspect records.
+The dashboard uses JWT-authenticated `/api/gps/handovers` APIs, with tenant and
+role checks enforced by the backend. PDF/PNG readiness and email state are
+separate. **Sent to provider** means provider acceptance, not inbox arrival.
+Delivery remains off until backend configuration and verification are complete;
+historical assignments are not backfilled. The dashboard exposes no delivery
+enable switch and never sends on page load.
+
+Downloads fetch authenticated blobs with the token in the Authorization header.
+Only backend-approved BLOCKED/FAILED records expose **Review retry**. The
+operator confirms the server-derived target; POST retry includes
+`expectedRecipientEmail` to reject a recipient change after review. Uncertain
+outcomes require refreshing; NEEDS_REVIEW records do not offer retry.
+
+Run dashboard regression tests with:
+
+```bash
+node --experimental-strip-types --test test/*.test.mjs
+npm run lint
+npx tsc --noEmit
+npm run build
+```
+
 ## Website enquiry delivery
 
 The `/contact` form succeeds only after at least one NAVII team notification
