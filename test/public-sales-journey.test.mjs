@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
 import { products } from '../components/products/data/productsData.ts';
+import { getProductPriceBreakdown } from '../lib/product-pricing.ts';
 const source = path => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('homepage and G17 have direct offer paths and product PDF is real', () => {
@@ -11,9 +12,12 @@ test('homepage and G17 have direct offer paths and product PDF is real', () => {
   const product = products.find(p => p.slug === 'g17-gps-tracker');
   assert.equal(product.brochure, '/catalogs/NAVII_GPS_G17_Product_Catalogue.pdf');
   assert.equal(fs.readFileSync(new URL(`../public${product.brochure}`, import.meta.url)).subarray(0, 5).toString(), '%PDF-');
-  const p = product.pricing;
-  assert.equal(Number(((p.deviceSaleInr + p.airtelSimMonthlyInr * 12 + p.platformAnnualInr) * (1 + p.gstRatePercent / 100)).toFixed(2)), 1463.20);
-  assert.equal(Number(((p.airtelSimMonthlyInr * 12 + p.platformAnnualInr) * (1 + p.gstRatePercent / 100)).toFixed(2)), 637.20);
+  const price = getProductPriceBreakdown(product.pricing);
+  assert.equal(price.firstYearPaise, 200000);
+  assert.equal(price.subtotalPaise, 169492);
+  assert.equal(price.gstPaise, 30508);
+  assert.equal(price.renewalAnnualPaise, 67260);
+  assert.equal(getProductPriceBreakdown(product.pricing, 2).firstYearPaise, 400000);
 });
 
 test('product/store footer has persistent legal links and no fake subscription form', () => {
