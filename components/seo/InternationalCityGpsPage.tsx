@@ -1,3 +1,4 @@
+import { TrackingSolutionLinks } from "@/components/seo/TrackingSolutionLinks";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -89,5 +90,5 @@ export function InternationalCityGpsPage({ city }: { city: InternationalCitySeo 
     <section className="bg-white py-20"><div className="mx-auto max-w-6xl px-6"><h2 className="text-center text-4xl font-extrabold text-slate-900">Other City Guides in {city.countryName}</h2><div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{siblingCities.map((sibling) => <Link key={sibling.slug} href={`/gps-tracker/${sibling.slug}`} className="rounded-2xl border border-slate-200 p-5 font-semibold text-blue-800 hover:border-cyan-500">GPS Tracker in {sibling.name}</Link>)}</div></div></section>
     <section className="bg-slate-50 py-20"><div className="mx-auto max-w-5xl px-6"><h2 className="text-center text-4xl font-extrabold text-slate-900">GPS Tracking in {city.name}: FAQs</h2><div className="mt-10 space-y-4">{faqs.map((faq) => <article key={faq.question} className="rounded-2xl border border-slate-200 bg-white p-6"><h3 className="text-lg font-bold text-slate-900">{faq.question}</h3><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></article>)}</div></div></section>
     <section className="bg-[#06142E] py-16 text-white"><div className="mx-auto max-w-5xl px-6 text-center"><h2 className="text-4xl font-extrabold">Plan a Compatible {city.name} Fleet Setup</h2><p className="mx-auto mt-4 max-w-3xl leading-7 text-slate-300">Share your fleet size, vehicle types, mobile-network requirements and operating routes for a compatibility review.</p><Link href="/contact" className="mt-7 inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-7 py-4 font-semibold">Contact NAVII GPS <ArrowRight size={19} /></Link></div></section>
-  </main><Footer /></>;
+  <TrackingSolutionLinks location={city.name} sectors={country.sectors} /><div className="mx-auto max-w-7xl px-6 pb-12"><Link href="/international-fleet-solutions" className="font-semibold text-blue-700 underline">International industry deployment guides</Link></div></main><Footer /></>;
 }

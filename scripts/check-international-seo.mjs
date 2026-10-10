@@ -149,9 +149,16 @@ const expectedCityCounts = {
   chile: 5,
   colombia: 5,
   peru: 5,
+  "south-africa": 5,
+  "egypt": 5,
+  "kenya": 5,
+  "nigeria": 5,
+  "morocco": 5,
+  "ghana": 5,
+
 };
 
-assert.equal(cities.length, 225, "Expected 225 priority international city records");
+assert.equal(cities.length, 255, "Expected 255 priority international city records");
 assert.equal(citySlugs.size, cities.length, "Duplicate international city slugs");
 assert.equal(
   new Set(cities.map((city) => city.planningNote)).size,
@@ -208,6 +215,16 @@ function extractTag(html, pattern, message) {
 
 const buildRoot = ".next/server/app";
 const sitemap = readFileSync(`${buildRoot}/sitemap.xml.body`, "utf8");
+const industrySource = readFileSync("lib/seo/internationalIndustries.ts", "utf8");
+const industrySlugs = [...industrySource.matchAll(/slug: "([^"]+)"/g)].map(match => match[1]);
+assert.equal(industrySlugs.length, 4, "Expected four international industry guides");
+for (const route of ["/international-fleet-solutions", ...industrySlugs.map(slug => `/international-fleet-solutions/${slug}`)]) {
+  const html = readFileSync(`${buildRoot}${route}.html`, "utf8");
+  const noindex = /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/.test(html);
+  assert.equal(noindex, !internationalSeoEnabled, `Industry robots disagree with shared switch: ${route}`);
+  assert.equal(sitemap.includes(`<loc>${baseUrl}${route}</loc>`), internationalSeoEnabled, `Industry sitemap membership disagrees with shared switch: ${route}`);
+}
+
 
 if (!internationalSeoEnabled) {
   const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);

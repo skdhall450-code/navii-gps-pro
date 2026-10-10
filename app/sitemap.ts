@@ -1,3 +1,4 @@
+import { internationalIndustries } from "@/lib/seo/internationalIndustries";
 import type { MetadataRoute } from "next";
 
 import { products } from "@/components/products/data/productsData";
@@ -68,6 +69,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const cityRoutes: MetadataRoute.Sitemap = cities.map((city) => ({ url: `${baseUrl}/gps-tracker/${city.slug}`, changeFrequency: "monthly", priority: 0.9 }));
   const internationalRoutes: MetadataRoute.Sitemap = internationalSeoEnabled
     ? [
+        ...internationalIndustries.map((item) => ({ url: `${baseUrl}/international-fleet-solutions/${item.slug}`, changeFrequency: "monthly" as const, priority: 0.8 })),
+        { url: `${baseUrl}/international-fleet-solutions`, changeFrequency: "monthly", priority: 0.8 },
         { url: `${baseUrl}/gps-tracker-international`, changeFrequency: "monthly", priority: 0.9 },
         ...internationalCountries.map((country) => ({ url: `${baseUrl}/gps-tracker/${country.slug}`, changeFrequency: "monthly" as const, priority: 0.9 })),
       ]
