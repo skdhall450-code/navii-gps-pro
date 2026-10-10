@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { enquirySourceKey } from "@/lib/enquiry-context";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
@@ -62,7 +63,7 @@ export default function Header() {
         {/* CTA Button */}
         <div className="flex items-center gap-3">
           <Link
-            href="/contact"
+            href={`/contact?intent=product-quote&source=${enquirySourceKey(pathname)}#contact-form`}
             className="hidden rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800 sm:inline-flex"
           >
             Get Quote

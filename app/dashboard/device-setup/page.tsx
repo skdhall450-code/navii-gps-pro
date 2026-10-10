@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Copy, Plus, RefreshCw, Trash2 } from "lucide-react";
+import CustomerReadiness from "@/components/tracking/CustomerReadiness";
+import { loadReadinessEvidence, UNKNOWN_READINESS, type ReadinessEvidence } from "@/lib/customer-readiness";
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
 import { DEVICE_CATALOG_CATEGORIES, DEVICE_MODEL_CATALOG, SAFE_SMS_PROFILES, catalogModelNames, findCatalogEntry, findSmsCommand, findSmsProfile, supportsSmsProfile } from "@/lib/device-command-profiles";
 import { DEFAULT_DEVICE_PORT, DEFAULT_DEVICE_SERVER, deviceProgress, getDeviceSetupPreset, isRegistered, registerDeviceBatch, RegistrationError, parseDeviceRows, prepareCommand, type RegistrationResult, type RegistrationRow, type SetupDevice } from "@/lib/device-setup";
@@ -25,6 +27,7 @@ export default function DeviceSetupPage() {
 
 function DeviceSetup() {
   const router = useRouter();
+  const [readiness, setReadiness] = useState<ReadinessEvidence>(UNKNOWN_READINESS);
   const [devices, setDevices] = useState<SetupDevice[]>([]);
   const [rows, setRows] = useState<Draft[]>([emptyRow(0)]);
   const nextKey = useRef(1);
@@ -66,13 +69,20 @@ function DeviceSetup() {
     try {
       const response = await fetch(API + "/api/gps/device-management", { headers: authorization(), cache: "no-store", signal: controller.signal });
       if (response.status === 401) { router.replace("/login"); throw new Error("Session expired. Please sign in again."); }
-      if (!response.ok) throw new Error("Cannot check devices (" + response.status + ").");
+      if (!response.ok) {
+        if (response.status === 403 && alive.current) { setDevices([]); setReadiness(UNKNOWN_READINESS); }
+        throw new Error("Cannot check devices (" + response.status + ").");
+      }
       const json = await response.json();
       if (!json.success || !Array.isArray(json.data)) throw new Error("Unexpected device list from the server.");
       if (alive.current && !controller.signal.aborted) { setDevices(json.data); setLastSync(Date.now()); setError(""); }
+      const evidence = await loadReadinessEvidence(API, authorization(), controller.signal);
+      if (alive.current && !controller.signal.aborted) setReadiness(evidence);
     } catch (caught) {
+      if (alive.current) setReadiness(UNKNOWN_READINESS);
       if (alive.current && (!controller.signal.aborted || timedOut)) setError(timedOut ? "Connection check timed out." : caught instanceof Error ? caught.message : "Connection check unavailable.");
     } finally {
+      if (timedOut && alive.current) setReadiness(UNKNOWN_READINESS);
       clearTimeout(timeout); fetchController.current = null;
       if (alive.current) setLoading(false);
     }
@@ -174,7 +184,7 @@ function DeviceSetup() {
       <div className="flex flex-wrap items-start justify-between gap-4"><div><h2 className="text-xl font-semibold">2. Select devices</h2><p className="mt-1 text-sm text-slate-400">Refreshes every 5 seconds. Connection and GPS updates are current for 10 minutes.</p><p className="mt-1 text-xs text-slate-400">Last checked: {lastSync ? new Date(lastSync).toLocaleTimeString() : "Waiting"}</p></div><button type="button" onClick={() => void refresh()} className={buttonStyle}><RefreshCw size={16} />Refresh</button></div>
       {error && <p role="alert" className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-200">{error} Status below is based on the last received data.</p>}
       <label className="mt-5 block text-xs text-slate-400">Search devices<input className={inputStyle + " mt-2 max-w-lg"} value={query} onChange={event => setQuery(event.target.value)} placeholder="Model, IMEI, terminal ID, SIM or vehicle" /></label>
-      <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[760px] text-left text-sm"><thead className="border-b border-white/10 text-xs text-slate-400"><tr><th className="p-3">Select</th><th className="p-3">Device</th><th className="p-3">SIM / vehicle</th><th className="p-3">Connection</th><th className="p-3">GPS</th></tr></thead><tbody>
+      <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[760px] text-left text-sm"><thead className="border-b border-white/10 text-xs text-slate-400"><tr><th className="p-3">Select</th><th className="p-3">Device</th><th className="p-3">SIM / vehicle</th><th className="p-3">Connection</th><th className="p-3">GPS</th><th className="p-3">Customer readiness</th></tr></thead><tbody>
         {visible.map(device => { const progress = deviceProgress(device, now); return <tr key={device.id} className="border-b border-white/5"><td className="p-3"><input type="checkbox" aria-label={"Select device " + (device.imei || device.terminalId)} checked={selected.includes(device.id)} onChange={event => {
         const checked = event.target.checked;
         setSelected(current => checked ? (current.includes(device.id) ? current : [...current, device.id]) : current.filter(id => id !== device.id));
@@ -188,7 +198,7 @@ function DeviceSetup() {
         setPort(preset?.port || DEFAULT_DEVICE_PORT);
         setApn(preset?.apn || "");
         setSmsCountryCode(preset?.smsCountryCode || "+91");
-      }} className="h-5 w-5 accent-sky-400" /></td><td className="p-3"><p className="font-medium">{device.model || "Unknown model"}</p><p className="mt-1 font-mono text-xs text-slate-400">{device.imei ? "IMEI: " + device.imei : "Terminal ID: " + device.terminalId}</p><span className={"mt-2 inline-block rounded-full px-2 py-1 text-xs " + (progress.stage === "Live" ? "bg-emerald-500/15 text-emerald-300" : "bg-slate-700/50 text-slate-300")}>{progress.stage}</span></td><td className="p-3"><p className="font-mono text-xs">{device.simNumber || "Not provided"}</p><p className="mt-2 text-xs text-slate-400">{device.vehicle.vehicleNo}</p></td><td className="p-3"><p>{progress.connection}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.lastSeenAt)}</p></td><td className="p-3"><p>{progress.gps}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.vehicle.lastUpdate)}</p></td></tr>; })}
+      }} className="h-5 w-5 accent-sky-400" /></td><td className="p-3"><p className="font-medium">{device.model || "Unknown model"}</p><p className="mt-1 font-mono text-xs text-slate-400">{device.imei ? "IMEI: " + device.imei : "Terminal ID: " + device.terminalId}</p><span className={"mt-2 inline-block rounded-full px-2 py-1 text-xs " + (progress.stage === "Live" ? "bg-emerald-500/15 text-emerald-300" : "bg-slate-700/50 text-slate-300")}>{progress.stage}</span></td><td className="p-3"><p className="font-mono text-xs">{device.simNumber || "Not provided"}</p><p className="mt-2 text-xs text-slate-400">{device.vehicle.vehicleNo}</p></td><td className="p-3"><p>{progress.connection}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.lastSeenAt)}</p></td><td className="p-3"><p>{progress.gps}</p><p className="mt-2 text-xs text-slate-400">{dateLabel(device.vehicle.lastUpdate)}</p></td><td className="p-3"><CustomerReadiness device={device} evidence={readiness} now={now} /></td></tr>; })}
       </tbody></table>{!visible.length && <p className="p-8 text-center text-sm text-slate-400">{loading ? "Loading devices..." : "No matching devices. Register a device or clear your search."}</p>}</div>
       <div className="mt-4 flex flex-wrap items-center gap-3"><button type="button" className={buttonStyle} onClick={() => setSelected(visible.map(device => device.id))}>Select shown devices ({visible.length})</button><button type="button" className={buttonStyle} onClick={() => setSelected([])}>Clear selection</button><p className="text-sm text-slate-400">{targets.length} selected, including devices outside the current search</p></div>
     </section>

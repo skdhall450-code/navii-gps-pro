@@ -85,6 +85,14 @@ export default function ProductHero({ product }: ProductHeroProps) {
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
+            {product.slug === "g17-gps-tracker" && product.pricing && (
+              <Link href="/shop-now#g17" data-ga-event="view_offer_click" data-ga-channel="website" className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-7 py-4 font-semibold text-white transition hover:bg-blue-500">
+                See Price & Order
+              </Link>
+            )}
+            <Link href={`/contact?intent=product-quote&source=products&product=${product.slug}#contact-form`} data-ga-event="get_quote_click" data-ga-channel="website" className="inline-flex items-center gap-2 rounded-xl border border-cyan-400/30 px-7 py-4 font-semibold text-white transition hover:bg-white/10">
+              Request a Quote
+            </Link>
             <a
               href={enquiryUrl}
               target="_blank"

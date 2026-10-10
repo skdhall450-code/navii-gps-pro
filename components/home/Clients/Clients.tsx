@@ -37,20 +37,20 @@ export default function Clients() {
         >
 
           <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-semibold text-cyan-300 backdrop-blur">
-            TRUSTED ACROSS INDUSTRIES
+            GPS TRACKING USE CASES
           </span>
 
           <h2 className="mt-6 text-4xl font-extrabold text-white md:text-5xl lg:text-6xl">
-            Industries We
+            Tracking Solutions
             <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
-              Empower Every Day
+              Across Industries
             </span>
           </h2>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-300">
-            NAVII GPS delivers advanced GPS tracking and fleet
-            management solutions across multiple industries
-            throughout India.
+            Explore GPS tracking and fleet management use cases
+            for different industries. Talk to our team about the
+            right setup for your operations.
           </p>
 
         </motion.div>

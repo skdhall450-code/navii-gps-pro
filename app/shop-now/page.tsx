@@ -9,6 +9,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { products } from "@/components/products/data/productsData";
 import { formatInrPaise, getProductPriceBreakdown } from "@/lib/product-pricing";
+import PurchaseChecks from "@/components/products/details/PurchaseChecks";
 
 export const metadata: Metadata = {
   title: "Shop GPS Trackers Online | G17 Offer",
@@ -41,7 +42,7 @@ export default function ShopNowPage() {
   const breakdown = getProductPriceBreakdown(pricing);
   const firstYearTotal = breakdown.firstYearPaise / 100;
   const orderMessage = encodeURIComponent(
-    `Hello NAVII GPS, I would like to order the G17 GPS Tracker first-year package at ${money(firstYearTotal)}, including ${pricing.gstRatePercent}% GST. Please confirm availability, shipping from Dera Bassi for my delivery PIN code, installation charges, final payable total and renewal terms.`,
+    `Hello NAVII GPS, I would like to order the G17 GPS Tracker first-year package at ${money(firstYearTotal)}, including ${pricing.gstRatePercent}% GST. Please confirm availability, final payable total, shipping and tax for my PIN code, installation arrangements and charges, delivery estimate, warranty, return terms and renewal price in a written quotation.`,
   );
   const orderUrl = `https://wa.me/${product.whatsapp}?text=${orderMessage}`;
 
@@ -89,7 +90,7 @@ export default function ShopNowPage() {
           </div>
         </section>
 
-        <section id="g17" className="mx-auto max-w-7xl px-6 py-14 md:py-20">
+        <section id="g17" className="scroll-mt-28 mx-auto max-w-7xl px-6 py-14 md:py-20">
           <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-700">Featured product</p>
@@ -124,10 +125,10 @@ export default function ShopNowPage() {
               </div>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={orderUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-5 py-3 font-bold text-white transition hover:bg-green-700">
+                <a href={orderUrl} target="_blank" rel="noopener noreferrer" data-ga-event="product_order_enquiry_click" data-ga-channel="whatsapp" className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-5 py-3 font-bold text-white transition hover:bg-green-700">
                   <MessageCircle size={18} /> Order on WhatsApp
                 </a>
-                <a href="/catalogs/NAVII_GPS_G17_Product_Catalogue.pdf" download className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-bold text-blue-800 transition hover:bg-blue-100">
+                <a href={product.brochure} download data-ga-event="brochure_download_click" data-ga-channel="download" className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 font-bold text-blue-800 transition hover:bg-blue-100">
                   <Download size={18} /> Product PDF
                 </a>
               </div>
@@ -187,13 +188,15 @@ export default function ShopNowPage() {
             </article>
           </div>
 
+          <div className="mt-8"><PurchaseChecks /></div>
+
           <div className="mt-12 rounded-3xl border border-blue-100 bg-gradient-to-r from-blue-50 to-cyan-50 p-7 md:flex md:items-center md:justify-between md:p-9">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-700">More models coming</p>
               <h3 className="mt-2 text-2xl font-extrabold text-slate-950">Model-wise offers will be added here</h3>
               <p className="mt-2 max-w-2xl text-slate-600">Each listing will show its own hardware price, annual SIM and platform charges, taxes, shipping and renewal details.</p>
             </div>
-            <Link href="/contact" className="mt-5 inline-flex shrink-0 items-center gap-2 rounded-xl bg-blue-700 px-5 py-3 font-bold text-white transition hover:bg-blue-800 md:mt-0">
+            <Link href="/contact?intent=product-quote&source=store#contact-form" className="mt-5 inline-flex shrink-0 items-center gap-2 rounded-xl bg-blue-700 px-5 py-3 font-bold text-white transition hover:bg-blue-800 md:mt-0">
               Ask NAVII GPS <ArrowRight size={18} />
             </Link>
           </div>

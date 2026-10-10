@@ -6,30 +6,30 @@ const features = [
   {
     id: 1,
     icon: "🚗",
-    title: "25K+ Vehicles",
+    title: "Vehicle Visibility",
     description:
-      "Trusted GPS tracking platform monitoring thousands of vehicles every day.",
+      "View live locations, route history and vehicle activity from your dashboard.",
   },
   {
     id: 2,
     icon: "🏢",
-    title: "500+ Business Clients",
+    title: "Fleet Management",
     description:
-      "Serving logistics, transport, schools, healthcare and enterprise customers.",
+      "Explore tracking workflows for logistics, transport and other fleet operations.",
   },
   {
     id: 3,
     icon: "🛠️",
-    title: "24×7 Technical Support",
+    title: "Office Hours",
     description:
-      "Dedicated support team available for installation, troubleshooting and assistance.",
+      "Published office hours are Monday to Saturday, 09:30–18:30 IST.",
   },
   {
     id: 4,
     icon: "🌍",
-    title: "PAN India Installation",
+    title: "Installation Guidance",
     description:
-      "Professional installation and service network across India.",
+      "Share your location and vehicle details to confirm installation arrangements.",
   },
   {
     id: 5,
@@ -40,10 +40,10 @@ const features = [
   },
   {
     id: 6,
-    icon: "🔒",
-    title: "Secure Cloud Platform",
+    icon: "☁️",
+    title: "Cloud Dashboard",
     description:
-      "Reliable infrastructure with secure access, real-time monitoring and business reports.",
+      "Access fleet monitoring, vehicle alerts and business reports through one platform.",
   },
 ];
 
@@ -89,8 +89,8 @@ export default function WhyNavii() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-300">
-            We combine innovative technology, nationwide support and reliable
-            service to help businesses manage fleets with confidence.
+            We bring GPS devices, tracking software and installation guidance
+            together to help businesses manage their fleets.
           </p>
         </motion.div>
 

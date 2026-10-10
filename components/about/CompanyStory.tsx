@@ -6,14 +6,14 @@ const highlights = [
   {
     id: 1,
     icon: "🚗",
-    title: "25K+ Vehicles",
-    description: "Successfully connected and monitored across India.",
+    title: "Vehicle Tracking",
+    description: "View vehicle locations, route history and alerts.",
   },
   {
     id: 2,
     icon: "🏢",
-    title: "500+ Clients",
-    description: "Trusted by businesses, schools and fleet operators.",
+    title: "Fleet Management",
+    description: "Bring vehicle information and reports into one dashboard.",
   },
   {
     id: 3,
@@ -23,9 +23,9 @@ const highlights = [
   },
   {
     id: 4,
-    icon: "🇮🇳",
-    title: "PAN India Support",
-    description: "Installation and technical support across India.",
+    icon: "🛠️",
+    title: "Installation Guidance",
+    description: "Discuss device fit and installation availability with our team.",
   },
 ];
 

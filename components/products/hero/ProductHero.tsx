@@ -106,7 +106,7 @@ export default function ProductHero({ searchQuery, onSearchChange }: ProductHero
 
               <ShieldCheck size={18} />
 
-              AIS 140 Certified
+              Explore AIS-140 Options
 
             </Link>
 
@@ -116,9 +116,9 @@ export default function ProductHero({ searchQuery, onSearchChange }: ProductHero
 
             {[
               [`${products.length}`, "Featured Products"],
-              ["500+", "Clients"],
-              ["25K+", "Vehicles"],
-              ["24×7", "Support"],
+              ["Cars", "Vehicle tracking"],
+              ["Fleets", "Connected visibility"],
+              ["Setup", "Confirm your requirements"],
             ].map(([value, label], index) => (
 
               <motion.div
@@ -199,11 +199,11 @@ export default function ProductHero({ searchQuery, onSearchChange }: ProductHero
           >
 
             <p className="text-3xl font-extrabold text-cyan-300">
-              AIS 140
+              G17
             </p>
 
             <p className="text-sm text-white">
-              Certified Device
+              Wired GPS Tracker
             </p>
 
           </motion.div>
@@ -222,11 +222,11 @@ export default function ProductHero({ searchQuery, onSearchChange }: ProductHero
           >
 
             <p className="text-3xl font-extrabold text-cyan-300">
-              4G
+              GPS
             </p>
 
             <p className="text-sm text-white">
-              LTE Tracking
+              Vehicle Tracking
             </p>
 
           </motion.div>

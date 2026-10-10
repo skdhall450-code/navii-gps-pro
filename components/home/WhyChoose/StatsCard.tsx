@@ -47,7 +47,7 @@ export default function StatsCard({
           {stat.icon}
         </div>
 
-        <h3 className="mt-6 text-4xl font-extrabold text-cyan-300">
+        <h3 className="mt-6 text-2xl font-extrabold text-cyan-300">
           {stat.value}
         </h3>
 

@@ -15,7 +15,7 @@ export const faqs = [
     id: 3,
     question: "Do you provide AIS-140 GPS devices?",
     answer:
-      "Yes. We provide AIS-140 compliant GPS tracking devices suitable for commercial vehicles, school buses and government applications.",
+      "Contact our team to discuss AIS-140 device options. Confirm the specific device certification, state approvals and fit for your vehicle or tender before ordering.",
   },
   {
     id: 4,
@@ -27,13 +27,13 @@ export const faqs = [
     id: 5,
     question: "Is there a mobile application?",
     answer:
-      "Yes. NAVII GPS offers Android and iOS applications along with a responsive web dashboard for complete fleet management.",
+      "NAVII GPS has Android apps for assigned customer, dealer and admin accounts, alongside a web dashboard. Ask our team which app matches your account and confirm current iOS availability and compatibility.",
   },
   {
     id: 6,
     question: "Do you provide installation across India?",
     answer:
-      "Yes. We provide professional installation and after-sales support through our nationwide service network.",
+      "Share your city, vehicle type and fleet size with our team so we can confirm installation availability, arrangements and pricing for your location.",
   },
   {
     id: 7,
@@ -43,8 +43,8 @@ export const faqs = [
   },
   {
     id: 8,
-    question: "Do you provide 24×7 technical support?",
+    question: "What are your office hours?",
     answer:
-      "Yes. Our technical support team is available to assist customers with installation, troubleshooting and platform support.",
+      "Published office hours are Monday to Saturday, 09:30–18:30 IST. Contact our team about installation, troubleshooting and platform support.",
   },
 ];

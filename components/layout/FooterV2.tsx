@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { Phone, Mail, MapPin, MessageCircle, ShieldCheck } from "lucide-react";
+import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 
 export default function FooterV2() {
   return (
@@ -40,7 +40,7 @@ export default function FooterV2() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              {["AIS 140", "ISO Certified", "MSME", "Startup India"].map(
+              {["GPS Trackers", "Fleet Software", "Vehicle Monitoring"].map(
                 (item) => (
                   <span
                     key={item}
@@ -104,6 +104,7 @@ export default function FooterV2() {
               >
                 Contact
               </Link>
+              <Link prefetch={false} href="/shop-now" className="block text-slate-300 transition hover:text-cyan-300">See G17 Price & Order</Link>
               <Link prefetch={false} href="/gps-tracker-india" className="block text-slate-300 transition hover:text-cyan-300">India coverage</Link>
             </div>
           </div>
@@ -260,10 +261,7 @@ export default function FooterV2() {
               Terms & Conditions
             </Link>
 
-            <div className="flex items-center gap-2 text-cyan-300">
-              <ShieldCheck size={16} />
-              Made in India 🇮🇳
-            </div>
+
           </div>
         </div>
       </div>

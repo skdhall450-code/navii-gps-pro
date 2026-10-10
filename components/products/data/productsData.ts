@@ -52,7 +52,7 @@ export const products: Product[] = [
     features: ["Real-Time Vehicle GPS Tracking", "GT06-Compatible Communication", "Ignition Status Monitoring", "Route History and Trip Playback", "Geofence and Overspeed Alerts", "NAVII GPS Mobile and Web Platform"],
     featureDescriptions: ["Monitor the latest reported GNSS location of cars and commercial vehicles through the NAVII GPS tracking platform.", "Designed to communicate with GPS tracking platforms that support the GT06 protocol family.", "Use configured ignition input data to distinguish vehicle-on and vehicle-off activity for operational monitoring.", "Review recorded journeys, trip playback and route history for supported vehicle tracking deployments.", "Configure geofence boundaries and overspeed alerts according to vehicle and fleet monitoring requirements.", "Monitor supported vehicles from the NAVII GPS web dashboard and mobile application for convenient fleet visibility."],
     specifications: [{ label: "Protocol", value: "GT06 compatible" }, { label: "Installation", value: "Wired vehicle installation" }, { label: "Tracking", value: "Real-time GNSS vehicle location" }, { label: "Application", value: "Cars, trucks, buses and commercial fleets" }, { label: "Platform", value: "NAVII GPS web and mobile tracking platform" }],
-    brochure: "", whatsapp: salesWhatsApp,
+    brochure: "/catalogs/NAVII_GPS_G17_Product_Catalogue.pdf", whatsapp: salesWhatsApp,
   },
   {
     id: 2,
