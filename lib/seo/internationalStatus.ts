@@ -1,8 +1,6 @@
-// International SEO remains preserved in source while India coverage is the active priority.
-// Keep these routes available in source for future expansion, but do not publish
-// international country/city guides to the sitemap or search index unless the
-// international program is deliberately re-enabled in code.
-export const internationalSeoEnabled = false;
+// International guides are enabled following the approved restart.
+// Change this shared switch to control robots and sitemap membership together.
+export const internationalSeoEnabled = true;
 
 export const internationalRobots = internationalSeoEnabled
   ? { index: true, follow: true }
