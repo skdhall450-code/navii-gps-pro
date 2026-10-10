@@ -10,6 +10,7 @@ export type IndiaStateSeo = {
 };
 
 export const indiaStates: IndiaStateSeo[] = [
+  { slug: "chandigarh", name: "Chandigarh", capital: "Chandigarh", cities: ["Chandigarh", "Manimajra", "Industrial Area"], sectors: ["employee transportation", "sector deliveries", "Tricity commercial fleets"], region: "North India", unionTerritory: true },
   { slug: "dadra-nagar-haveli-daman-diu", name: "Dadra and Nagar Haveli and Daman and Diu", capital: "Daman", cities: ["Daman", "Diu", "Silvassa", "Dadra"], sectors: ["industrial transport", "staff vehicles", "regional distribution"], region: "West India", unionTerritory: true },
   { slug: "andhra-pradesh", name: "Andhra Pradesh", capital: "Amaravati", cities: ["Visakhapatnam", "Vijayawada", "Guntur", "Tirupati", "Nellore"], sectors: ["port logistics", "aquaculture transport", "intercity passenger fleets"], region: "South India", southPriority: true },
   { slug: "karnataka", name: "Karnataka", capital: "Bengaluru", cities: ["Bengaluru", "Mysuru", "Mangaluru", "Hubballi", "Belagavi"], sectors: ["technology services fleets", "urban delivery", "interstate logistics"], region: "South India", southPriority: true },
