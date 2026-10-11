@@ -6,8 +6,10 @@ import { AlertTriangle, ArrowDownToLine, CalendarDays, FileBarChart, Loader2, Pr
 import { activityCsv, csvRows, durationLabel, formatReportTime, isActivityReport, presetRange, reportQuery, type ActivityReport, type ReportFilters, type ReportPreset, type ReportTimezone } from "@/lib/report-workspace";
 
 const API = (process.env.NEXT_PUBLIC_NAVII_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com").replace(/\/$/, "");
-const input = "mt-2 min-h-11 w-full rounded-xl border border-white/15 bg-[#091524] px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60 disabled:opacity-50";
-const button = "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm font-semibold text-slate-100 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 disabled:cursor-not-allowed disabled:opacity-40";
+const input = "[color-scheme:dark] mt-2 min-h-11 w-full rounded-xl border border-white/15 bg-[#091524] px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60 disabled:opacity-50";
+const buttonBase = "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 disabled:cursor-not-allowed disabled:opacity-40";
+const button = buttonBase + " border-white/15 text-slate-100 hover:bg-white/10";
+const primaryButton = buttonBase + " border-sky-400/50 bg-sky-500 text-slate-950 hover:bg-sky-400";
 type Vehicle = { id: string; vehicleNo: string; name?: string | null };
 type Alert = { id: string; type: string; message: string; isResolved: boolean; createdAt: string };
 type AlertReport = { definitionsVersion: string; data: Alert[]; period: { from: string; to: string }; coverage: { pointLimit: number; returnedCount: number; truncated: boolean; dataComplete: boolean; complete: boolean } };
@@ -125,7 +127,7 @@ export default function ReportsWorkspace() {
           <label className="text-sm font-medium text-slate-300">End date & time<input type="datetime-local" value={filters.toLocal} onChange={e => update({ toLocal: e.target.value, preset: "CUSTOM" })} className={input} required /></label>
         </div>
       </fieldset>
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-4"><p className="max-w-2xl text-xs leading-5 text-slate-400">Maximum 31 days. Start included; end excluded. Presets end at the next midnight. Unobserved time is shown separately.</p><div className="flex gap-2">{loading && <button type="button" className={button} onClick={cancel}>Cancel</button>}<button type="submit" disabled={loading || vehiclesLoading || !vehicles.length} className={button + " border-sky-400/50 bg-sky-500 text-slate-950 hover:bg-sky-400"}>{loading ? <Loader2 size={17} className="animate-spin" /> : <FileBarChart size={17} />}{loading ? "Generating…" : "Generate report"}</button></div></div>
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-4"><p className="max-w-2xl text-xs leading-5 text-slate-400">Maximum 31 days. Start included; end excluded. Presets end at the next midnight. Unobserved time is shown separately.</p><div className="flex gap-2">{loading && <button type="button" className={button} onClick={cancel}>Cancel</button>}<button type="submit" disabled={loading || vehiclesLoading || !vehicles.length} className={primaryButton}>{loading ? <Loader2 size={17} className="animate-spin" /> : <FileBarChart size={17} />}{loading ? "Generating…" : "Generate report"}</button></div></div>
     </form>
     {error && <div role="alert" className="mt-4 flex gap-3 rounded-xl border border-rose-400/30 bg-rose-500/10 p-4 text-sm leading-6 text-rose-200"><AlertTriangle size={20} className="mt-0.5 shrink-0" /><p>{error}{result ? " The earlier report remains below." : ""}</p></div>}
     {notice && <p role="status" className="mt-4 text-sm text-sky-200">{notice}</p>}

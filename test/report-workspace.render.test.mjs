@@ -28,3 +28,12 @@ test('changing filters preserves a visible snapshot and export warning',()=>{con
 test('loading exposes a cancel button and errors retain earlier report warning',()=>{assert.match(render({loading:true}),/Cancel/);assert.match(render({error:'Synthetic timeout',result:{filters,vehicle,createdAt:activity.period.to,activity}}),/earlier report remains below/);});
 
 test('future period explains why coverage cannot yet be complete without inventing gaps',()=>{const html=render({result:{filters,vehicle,createdAt:activity.period.from,activity}});assert.match(html,/This period includes future time/);assert.match(html,/0 telemetry gaps/);assert.doesNotMatch(render({result:{filters,vehicle,createdAt:activity.period.to,activity}}),/This period includes future time/);});
+
+test('primary report action has unambiguous hover contrast and dark native controls',()=>{
+  const html=render();
+  const submit=html.match(/<button[^>]*type="submit"[^>]*>/)?.[0];
+  assert.ok(submit);
+  assert.match(submit,/hover:bg-sky-400/);
+  assert.doesNotMatch(submit,/hover:bg-white\/10|text-slate-100/);
+  for(const control of html.matchAll(/<input[^>]*type="datetime-local"[^>]*>/g)) assert.match(control[0],/\[color-scheme:dark\]/);
+});

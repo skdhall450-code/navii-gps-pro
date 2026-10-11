@@ -276,7 +276,7 @@ export default function LoginPage() {
           </section>
 
           {/* Login side */}
-          <section className="flex min-h-screen items-center justify-center px-5 py-10 sm:px-8 lg:px-12">
+          <section className="flex min-h-screen items-center justify-center px-5 pt-10 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:px-8 lg:px-12 lg:py-10">
             <div className="w-full max-w-md">
               {/* Mobile branding */}
               <div className="mb-10 flex items-center gap-3 lg:hidden">

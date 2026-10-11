@@ -43,3 +43,7 @@ test('responsive branding and visible focus classes are present without changing
   assert.match(source, /role="alert"\s+tabIndex=\{-1\}/);
   assert.match(source, /errorRef.current\?\.focus\(\)/);
 });
+test('mobile legal links retain scroll clearance above floating controls and safe areas', () => {
+  assert.match(html, /pb-\[calc\(6rem\+env\(safe-area-inset-bottom\)\)\]/);
+  assert.match(html, /lg:py-10/);
+});
