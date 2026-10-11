@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import {
@@ -29,6 +29,7 @@ import {
   Store,
   UserRound,
   UsersRound,
+  Wrench,
 } from "lucide-react";
 
 type UserRole =
@@ -163,6 +164,7 @@ const navigation: NavItem[] = [
       "USER",
     ],
   },
+  { name: "Maintenance & Docs", href: "/dashboard/maintenance", icon: Wrench, roles: ["SUPER_ADMIN", "ADMIN", "DEALER", "CUSTOMER", "USER"] },
 ];
 
 const managementNavigation: NavItem[] = [
@@ -401,7 +403,7 @@ export default function DashboardLayout({
     <div className="min-h-screen bg-[#050b16] text-white">
       <div className="flex min-h-screen">
         {/* SIDEBAR */}
-        <aside className="hidden w-[270px] shrink-0 border-r border-white/10 bg-[#07101f] lg:flex lg:flex-col">
+        <aside className="print:hidden hidden w-[270px] shrink-0 border-r border-white/10 bg-[#07101f] lg:flex lg:flex-col">
           {/* BRAND */}
           <div className="border-b border-white/10 px-6 py-6">
             <Link
@@ -539,18 +541,18 @@ export default function DashboardLayout({
             <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/[0.06] p-4">
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2.5 w-2.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50" />
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50" />
 
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
                 </span>
 
                 <p className="text-xs font-semibold text-emerald-400">
-                  GPS SERVER ONLINE
+                  SIGNED-IN WORKSPACE
                 </p>
               </div>
 
               <p className="mt-2 text-[11px] text-slate-500">
-                NAVII GPS Platform
+                Check each vehicle for connection and GPS freshness.
               </p>
             </div>
 
@@ -568,7 +570,7 @@ export default function DashboardLayout({
         {/* MAIN AREA */}
         <div className="min-w-0 flex-1">
           {/* TOP BAR */}
-          <header className="sticky top-0 z-40 flex h-[78px] items-center justify-between border-b border-white/10 bg-[#050b16]/95 px-5 backdrop-blur-xl md:px-7">
+          <header className="print:hidden sticky top-0 z-40 flex h-[78px] items-center justify-between border-b border-white/10 bg-[#050b16]/95 px-5 backdrop-blur-xl md:px-7">
             <div>
               <p className="text-xs font-semibold tracking-[0.2em] text-sky-400">
                 NAVII GPS INDIA
@@ -609,7 +611,7 @@ export default function DashboardLayout({
           </header>
 
           {/* MOBILE NAVIGATION */}
-          <div className="border-b border-white/10 bg-[#07101f] px-4 py-3 lg:hidden">
+          <div className="print:hidden border-b border-white/10 bg-[#07101f] px-4 py-3 lg:hidden">
             <div className="flex gap-2 overflow-x-auto">
               {allMobileNavigation.map(
                 (item) => {
