@@ -27,10 +27,15 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
+import DeliveryEmailFields from "@/components/dashboard/DeliveryEmailFields";
+import HandoverPanel from "@/components/dashboard/HandoverPanel";
+import { deliveryContactUpdate, hasConfirmedDelivery } from "@/lib/customer-handover";
+import type { DeliveryContact } from "@/lib/customer-handover";
 
 type UserRole =
   | "SUPER_ADMIN"
@@ -82,7 +87,7 @@ type CustomerVehicle = {
   } | null;
 };
 
-type Customer = {
+type Customer = DeliveryContact & {
   id: string;
   name: string;
   email: string | null;
@@ -224,6 +229,14 @@ async function readJson<T>(
 }
 
 function CustomersPageContent() {
+  const [deliveryEmail, setDeliveryEmail] = useState("");
+  const [deliveryConfirmed, setDeliveryConfirmed] = useState(false);
+  const [savedDeliveryContact, setSavedDeliveryContact] = useState<DeliveryContact>();
+  const saveLock = useRef(false);
+  const detailController = useRef<AbortController | null>(null);
+
+  useEffect(() => () => { detailController.current?.abort(); }, []);
+
   const [
     customers,
     setCustomers,
@@ -571,6 +584,9 @@ function CustomersPageContent() {
     setName("");
     setCode("");
     setEmail("");
+    setDeliveryEmail("");
+    setDeliveryConfirmed(false);
+    setSavedDeliveryContact(undefined);
     setPhone("");
     setAddress("");
     setPassword("");
@@ -589,6 +605,10 @@ function CustomersPageContent() {
   function startEdit(
     customer: Customer,
   ) {
+    if (saveLock.current) return;
+    setDeliveryEmail(customer.deliveryEmail || "");
+    setDeliveryConfirmed(hasConfirmedDelivery(customer));
+    setSavedDeliveryContact(customer);
     setEditingId(
       customer.id,
     );
@@ -631,6 +651,15 @@ function CustomersPageContent() {
   }
 
   async function saveCustomer() {
+    if (saveLock.current) return;
+    let deliveryFields;
+    try {
+      deliveryFields = deliveryContactUpdate(deliveryEmail, deliveryConfirmed, savedDeliveryContact);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Check the delivery email.");
+      return;
+    }
+
     if (!name.trim()) {
       setError(
         "Customer name is required.",
@@ -707,6 +736,7 @@ function CustomersPageContent() {
       return;
     }
 
+    saveLock.current = true;
     setSaving(true);
     setError(null);
     setSuccess(null);
@@ -732,6 +762,7 @@ function CustomersPageContent() {
               JSON.stringify(
                 editingId
                   ? {
+                      ...deliveryFields,
                       name:
                         name.trim(),
 
@@ -757,6 +788,7 @@ function CustomersPageContent() {
                         effectiveDealerId,
                     }
                   : {
+                      ...deliveryFields,
                       name:
                         name.trim(),
 
@@ -873,6 +905,7 @@ function CustomersPageContent() {
           : "Unable to save customer",
       );
     } finally {
+      saveLock.current = false;
       setSaving(false);
     }
   }
@@ -980,6 +1013,10 @@ function CustomersPageContent() {
   async function viewCustomer(
     customer: Customer,
   ) {
+    detailController.current?.abort();
+    const controller = new AbortController();
+    detailController.current = controller;
+    setDetailCustomer(null);
     setDetailLoading(true);
     setError(null);
 
@@ -989,6 +1026,7 @@ function CustomersPageContent() {
           `${API_BASE}/api/gps/customers/${customer.id}`,
           {
             method: "GET",
+            signal: controller.signal,
 
             headers:
               getAuthHeaders(),
@@ -1030,17 +1068,16 @@ function CustomersPageContent() {
         );
       }
 
-      setDetailCustomer(
-        result.data,
-      );
+      if (!controller.signal.aborted) setDetailCustomer(result.data);
     } catch (err) {
+      if (controller.signal.aborted) return;
       setError(
         err instanceof Error
           ? err.message
           : "Unable to load customer details",
       );
     } finally {
-      setDetailLoading(false);
+      if (!controller.signal.aborted) setDetailLoading(false);
     }
   }
 
@@ -1397,6 +1434,7 @@ function CustomersPageContent() {
                 <button
                   type="button"
                   title="Cancel Edit"
+                  disabled={saving}
                   onClick={
                     resetForm
                   }
@@ -1407,7 +1445,7 @@ function CustomersPageContent() {
               )}
             </div>
 
-            <div className="space-y-4">
+            <fieldset disabled={saving} className="space-y-4 disabled:opacity-70">
               <Field label="Customer Name">
                 <input
                   value={
@@ -1517,6 +1555,14 @@ function CustomersPageContent() {
                   placeholder="customer@example.com"
                 />
               </Field>
+
+              <DeliveryEmailFields
+                email={deliveryEmail}
+                confirmed={deliveryConfirmed}
+                savedContact={savedDeliveryContact}
+                onEmailChange={setDeliveryEmail}
+                onConfirmedChange={setDeliveryConfirmed}
+              />
 
               {!editingId && (
                 <Field label="Login Password">
@@ -1635,7 +1681,7 @@ function CustomersPageContent() {
                   </>
                 )}
               </button>
-            </div>
+            </fieldset>
           </section>
 
           <section className="overflow-hidden rounded-2xl border border-white/10 bg-[#0a1426]">
@@ -1881,6 +1927,7 @@ function CustomersPageContent() {
                             )
                           }
                           title="Edit Customer"
+                          disabled={saving}
                           className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-2.5 text-amber-400 transition hover:bg-amber-500/20"
                         >
                           <Pencil className="h-4 w-4" />
@@ -1997,14 +2044,14 @@ function CustomersPageContent() {
 
         {detailCustomer && (
           <CustomerDetailModal
+            key={detailCustomer.id}
             customer={
               detailCustomer
             }
-            onClose={() =>
-              setDetailCustomer(
-                null,
-              )
-            }
+            onClose={() => {
+              detailController.current?.abort();
+              setDetailCustomer(null);
+            }}
           />
         )}
       </div>
@@ -2033,8 +2080,13 @@ function CustomerDetailModal({
   customer: CustomerDetail;
   onClose: () => void;
 }) {
+  useEffect(() => {
+    function closeOnEscape(event: KeyboardEvent) { if (event.key === "Escape") onClose(); }
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [onClose]);
   return (
-    <div className="fixed inset-0 z-[500] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+    <div role="dialog" aria-modal="true" aria-label={`Customer details: ${customer.name}`} className="fixed inset-0 z-[500] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
       <div className="max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl border border-white/10 bg-[#081221] shadow-2xl">
 
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-[#081221] p-5">
@@ -2050,6 +2102,7 @@ function CustomerDetailModal({
 
           <button
             type="button"
+            aria-label="Close customer details"
             onClick={
               onClose
             }
@@ -2099,7 +2152,7 @@ function CustomerDetailModal({
           <div className="rounded-xl border border-white/10 bg-white/[0.025] p-4 text-sm">
             <p>
               <span className="text-slate-500">
-                Email:
+                Login email:
               </span>{" "}
               {customer.email ??
                 "—"}
@@ -2137,6 +2190,19 @@ function CustomerDetailModal({
                 ?.code ?? "—"}
             </p>
           </div>
+
+          <div className="rounded-xl border border-white/10 bg-white/[0.025] p-4 text-sm">
+            <p className="text-xs text-slate-400">Handover delivery email</p>
+            <p className="mt-2 break-all font-medium">{customer.deliveryEmail || "Not provided"}</p>
+            <p className="mt-2 text-xs leading-relaxed text-slate-400">
+              {hasConfirmedDelivery(customer)
+                ? `Confirmed by operator on ${new Date(customer.deliveryEmailConfirmedAt!).toLocaleString()}.`
+                : "Delivery is blocked until an operator confirms the customer's intended reachable email."}
+            </p>
+            {customer.deliveryEmailConfirmedById && <p className="mt-1 break-all text-[11px] text-slate-500">Operator reference: {customer.deliveryEmailConfirmedById}</p>}
+          </div>
+
+          <HandoverPanel apiBase={API_BASE} customerId={customer.id} />
 
           <div>
             <div className="mb-3 flex items-center justify-between">
