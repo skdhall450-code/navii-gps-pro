@@ -153,7 +153,7 @@ const structuredData = {
       address: {
         "@type": "PostalAddress",
         streetAddress:
-          "SCO 46, 2nd Floor, GBP Business Square, Near GBP Rosewood Gate No. 1, Barwala Road",
+          "SCO 46, Barwala Road",
         addressLocality: "Dera Bassi",
         addressRegion: "Punjab",
         postalCode: "140507",

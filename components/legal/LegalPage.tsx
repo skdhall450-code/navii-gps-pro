@@ -195,10 +195,7 @@ export default function LegalPage({
                     className="shrink-0 text-cyan-600"
                   />
                   <span>
-                    SCO 46, 2nd Floor,
-                    GBP Business Square,
-                    Near GBP Rosewood Gate No. 1,
-                    Barwala Road, Dera Bassi,
+                    SCO 46, Barwala Road, Dera Bassi,
                     Punjab – 140507, India
                   </span>
                 </div>
