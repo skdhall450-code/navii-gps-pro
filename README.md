@@ -18,10 +18,10 @@ channel accepts the enquiry. Configure one or more of these production options:
 If every configured channel fails, the form shows a direct WhatsApp fallback
 instead of claiming that the enquiry was received.
 
-International SEO is held by default while India is the active priority.
-Country and international-city routes stay available but use `noindex, follow`
-and are excluded from the sitemap. Set `INTERNATIONAL_SEO_ENABLED=true` at
-build time to restore them to the public sitemap and search index.
+International SEO is enabled through `internationalSeoEnabled` in
+`lib/seo/internationalStatus.ts`. This single code setting controls the country,
+city, industry and hub robots directives and sitemap entries. Set it to `false`
+and rebuild to pause international indexing. There is no environment-variable override.
 
 ## Getting Started
 
