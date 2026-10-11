@@ -311,6 +311,10 @@ export default function DashboardLayout({
           setCheckingAuth(false);
         }
       } catch {
+        if (cancelled) {
+          return;
+        }
+
         localStorage.removeItem(
           "navii_access_token",
         );
