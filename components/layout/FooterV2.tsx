@@ -199,11 +199,9 @@ export default function FooterV2() {
                 <span>
                   NAVII GPS INDIA (OPC) PVT LTD
                   <br />
-                  SCO 46, 2nd Floor, GBP Business Square
+                  SCO 46, Barwala Road
                   <br />
-                  Near GBP Rosewood Gate No. 1, Barwala Road
-                  <br />
-                  Dera Bassi, Punjab - 140507, India
+                  Dera Bassi, Punjab – 140507, India
                 </span>
               </div>
             </div>

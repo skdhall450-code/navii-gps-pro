@@ -55,7 +55,7 @@ export function PunjabHaryanaCoverage({ coverage }: { coverage: Coverage }) {
         <aside className="rounded-3xl bg-[#06142E] p-8 text-white">
           <h2 className="text-2xl font-bold">Discuss your {coverage.name} fleet with NAVII GPS</h2>
           <p className="mt-5 leading-7 text-slate-300">Contact our Dera Bassi office for product and fleet enquiries. Tell us where the vehicle operates so installation arrangements and network requirements can be discussed for that location.</p>
-          <p className="mt-5 leading-7 text-slate-300">NAVII GPS INDIA (OPC) PRIVATE LIMITED<br />SCO 46, 2nd Floor, GBP Business Square,<br />Barwala Road, Dera Bassi, Punjab – 140507</p>
+          <p className="mt-5 leading-7 text-slate-300">NAVII GPS INDIA (OPC) PRIVATE LIMITED<br />SCO 46, Barwala Road,<br />Dera Bassi, Punjab – 140507, India</p>
           <a href="tel:+918899729705" className="mt-6 inline-block rounded-xl bg-cyan-500 px-5 py-3 font-semibold text-slate-950">Call +91 88997 29705</a>
           <div className="mt-5 flex flex-wrap gap-5 text-cyan-200"><Link href="/contact" className="underline">Request a quotation</Link><Link href={`/gps-tracker/${coverage.otherSlug}`} className="underline">GPS tracking in {coverage.otherName}</Link><Link href="/gps-tracker/chandigarh" className="underline">Chandigarh GPS tracker guide</Link><Link href="/gps-tracker/himachal-pradesh" className="underline">Himachal Pradesh fleet guide</Link></div>
         </aside>

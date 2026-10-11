@@ -23,7 +23,8 @@ export default function GoogleMap() {
 
         <div className="mt-16 overflow-hidden rounded-[32px] border border-slate-200 shadow-2xl">
           <iframe
-            src="https://www.google.com/maps?q=SCO%2046%2C%20GBP%20Business%20Square%2C%20Barwala%20Road%2C%20Dera%20Bassi%2C%20Punjab%20140507&output=embed"
+            src="https://www.google.com/maps?q=SCO%2046%2C%20Barwala%20Road%2C%20Dera%20Bassi%2C%20Punjab%20%E2%80%93%20140507%2C%20India&output=embed"
+            title="NAVII GPS office at SCO 46, Barwala Road, Dera Bassi, Punjab – 140507, India"
             width="100%"
             height="500"
             loading="lazy"
@@ -35,7 +36,7 @@ export default function GoogleMap() {
           <MapPinned size={22} />
 
           <span className="font-semibold">
-            NAVII GPS INDIA (OPC) PVT LTD • Dera Bassi, Punjab - 140507
+            NAVII GPS INDIA (OPC) PVT LTD • SCO 46, Barwala Road, Dera Bassi, Punjab – 140507, India
           </span>
         </div>
       </div>
