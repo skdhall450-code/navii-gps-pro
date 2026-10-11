@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { ENQUIRY_INTENTS, normalizeEnquiryContext, normalizeAttribution, type EnquiryContext, type CampaignAttribution } from "@/lib/enquiry-context";
 
 export const runtime = "nodejs";
 
@@ -10,6 +11,10 @@ type EnquiryPayload = {
   vehicles?: unknown;
   message?: unknown;
   website?: unknown;
+  intent?: unknown;
+  product?: unknown;
+  source?: unknown;
+  attribution?: unknown;
 };
 
 type Enquiry = {
@@ -19,6 +24,8 @@ type Enquiry = {
   phone: string;
   vehicles: string;
   message: string;
+  context: EnquiryContext;
+  attribution: CampaignAttribution;
 };
 
 type DeliveryResult = {
@@ -83,6 +90,8 @@ function validate(payload: EnquiryPayload): { enquiry?: Enquiry; error?: string 
     phone: normalizePhone(text(payload.phone, 24)),
     vehicles: text(payload.vehicles, 8),
     message: text(payload.message, 2000),
+    context: normalizeEnquiryContext(payload),
+    attribution: normalizeAttribution(payload.attribution),
   };
 
   if (enquiry.name.length < 2) return { error: "Please enter your full name." };
@@ -108,7 +117,11 @@ function createPlainMessage(enquiry: Enquiry) {
     `Email: ${enquiry.email}`,
     `Mobile: +${enquiry.phone}`,
     `Vehicles: ${enquiry.vehicles || "Not provided"}`,
+    `Enquiry type: ${ENQUIRY_INTENTS[enquiry.context.intent]}`,
+    `Product: ${enquiry.context.product || "Not selected"}`,
     `Requirement: ${enquiry.message || "Not provided"}`,
+    `Enquiry from: ${enquiry.context.source}`,
+    ...Object.entries(enquiry.attribution).map(([key, value]) => `${key}: ${value}`),
     "",
     "Source: https://naviigps.com/contact",
     `Received: ${new Date().toISOString()}`,
@@ -130,6 +143,10 @@ async function notifyByEmail(enquiry: Enquiry): Promise<DeliveryResult> {
     ["Mobile", `+${enquiry.phone}`],
     ["Vehicles", enquiry.vehicles || "Not provided"],
     ["Requirement", enquiry.message || "Not provided"],
+    ["Enquiry type", ENQUIRY_INTENTS[enquiry.context.intent]],
+    ["Product", enquiry.context.product || "Not selected"],
+    ["Enquiry from", enquiry.context.source],
+    ...Object.entries(enquiry.attribution),
   ];
 
   const response = await fetch("https://api.resend.com/emails", {
@@ -222,6 +239,10 @@ async function notifyByWeb3Forms(enquiry: Enquiry): Promise<DeliveryResult> {
       vehicles: enquiry.vehicles || "Not provided",
       message: enquiry.message || "Not provided",
       source: "https://naviigps.com/contact",
+      enquiry_intent: ENQUIRY_INTENTS[enquiry.context.intent],
+      product: enquiry.context.product || "Not selected",
+      source_page: enquiry.context.source,
+      ...enquiry.attribution,
     }),
   });
 

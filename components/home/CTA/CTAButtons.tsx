@@ -9,7 +9,7 @@ export default function CTAButtons() {
       {/* Get Demo */}
 
       <motion.a
-        href="/contact"
+        href="/contact?intent=software-demo&source=home#contact-form"
         whileHover={{
           scale: 1.05,
         }}

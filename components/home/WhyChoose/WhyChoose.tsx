@@ -39,7 +39,7 @@ export default function WhyChoose() {
           </span>
 
           <h2 className="mt-6 text-4xl font-extrabold text-white md:text-5xl lg:text-6xl">
-            Trusted GPS &
+            GPS Tracking &
             <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
               Fleet Management Partner
             </span>
@@ -48,8 +48,8 @@ export default function WhyChoose() {
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-300">
             NAVII GPS INDIA provides complete GPS Tracking,
             Fleet Management, AI Dashcam, Fuel Monitoring,
-            IoT Solutions and Cloud Software trusted by
-            businesses across India.
+            IoT Solutions and Cloud Software for
+            vehicle and fleet operations.
           </p>
 
         </motion.div>

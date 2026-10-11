@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTrackingNow } from "@/hooks/use-tracking-now";
 import {
   useParams,
   useRouter,
@@ -25,14 +26,20 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
+import { getTelemetry, hasCoordinates, TRACKING_LABELS } from "@/lib/tracking-state";
+import { getModelProtocol } from "@/lib/device-protocol";
+import { vehicleTrackingHref } from "@/lib/vehicle-navigation";
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
 
 type Device = {
   id: string;
-  imei: string;
+  imei: string | null;
+  terminalId?: string | null;
+  lastSeenAt: string | null;
   model: string | null;
   simNumber: string | null;
   isActive: boolean;
@@ -127,6 +134,8 @@ async function readJson<T>(
 }
 
 function VehicleDetailsContent() {
+  const now = useTrackingNow();
+  const requestRef = useRef<AbortController | null>(null);
   const params = useParams();
   const router = useRouter();
 
@@ -137,8 +146,10 @@ function VehicleDetailsContent() {
         ? params.id[0]
         : "";
 
-  const [vehicle, setVehicle] =
+  const [storedVehicle, setVehicle] =
     useState<Vehicle | null>(null);
+
+  const vehicle = storedVehicle?.id === vehicleId ? storedVehicle : null;
 
   const [history, setHistory] =
     useState<Position[]>([]);
@@ -186,6 +197,10 @@ function VehicleDetailsContent() {
         return;
       }
 
+      // Keep a slow same-vehicle poll alive; route cleanup still cancels it.
+      if (requestRef.current && !requestRef.current.signal.aborted) return;
+      const controller = new AbortController();
+      requestRef.current = controller;
       try {
         setRefreshing(true);
         setError(null);
@@ -195,6 +210,7 @@ function VehicleDetailsContent() {
             `${API_BASE}/api/gps/vehicles`,
             {
               method: "GET",
+              signal: controller.signal,
               headers:
                 getAuthHeaders(),
               cache: "no-store",
@@ -265,13 +281,15 @@ function VehicleDetailsContent() {
           );
         }
 
+        if (controller.signal.aborted) return;
         setVehicle(foundVehicle);
 
         const historyResponse =
           await fetch(
-            `${API_BASE}/api/gps/history/${vehicleId}?limit=20`,
+            `${API_BASE}/api/gps/history/${encodeURIComponent(vehicleId)}?limit=20`,
             {
               method: "GET",
+              signal: controller.signal,
               headers:
                 getAuthHeaders(),
               cache: "no-store",
@@ -309,6 +327,7 @@ function VehicleDetailsContent() {
           );
         }
 
+        if (controller.signal.aborted) return;
         setHistory(
           Array.isArray(
             historyResult.data,
@@ -321,14 +340,18 @@ function VehicleDetailsContent() {
           new Date(),
         );
       } catch (err) {
+        if (controller.signal.aborted) return;
         setError(
           err instanceof Error
             ? err.message
             : "Unable to load vehicle",
         );
       } finally {
-        setLoading(false);
-        setRefreshing(false);
+        if (requestRef.current === controller) requestRef.current = null;
+        if (!controller.signal.aborted) {
+          setLoading(false);
+          setRefreshing(false);
+        }
       }
     }, [
       vehicleId,
@@ -336,6 +359,9 @@ function VehicleDetailsContent() {
     ]);
 
   useEffect(() => {
+    setVehicle(null);
+    setHistory([]);
+    setLoading(true);
     void loadVehicle();
 
     const timer =
@@ -344,6 +370,8 @@ function VehicleDetailsContent() {
       }, 5000);
 
     return () => {
+      requestRef.current?.abort();
+      requestRef.current = null;
       window.clearInterval(
         timer,
       );
@@ -414,6 +442,8 @@ function VehicleDetailsContent() {
     );
   }
 
+  const telemetry = getTelemetry(vehicle, now);
+  const coordinatesValid = hasCoordinates(vehicle);
   return (
     <div className="min-h-[calc(100vh-78px)] p-6 text-white">
       <div className="mx-auto max-w-[1700px]">
@@ -470,7 +500,7 @@ function VehicleDetailsContent() {
             </button>
 
             <Link
-              href="/live-tracking"
+              href={vehicleTrackingHref("live-tracking", vehicle.id)}
               className="flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold transition hover:bg-sky-400"
             >
               <MapPin className="h-4 w-4" />
@@ -479,7 +509,7 @@ function VehicleDetailsContent() {
             </Link>
 
             <Link
-              href="/history"
+              href={vehicleTrackingHref("history", vehicle.id)}
               className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold transition hover:bg-white/[0.08]"
             >
               <History className="h-4 w-4" />
@@ -495,16 +525,20 @@ function VehicleDetailsContent() {
           </div>
         )}
 
+        <div className="mb-5 rounded-xl border border-white/10 bg-[#0a1426] p-4 text-sm">
+          <p>Connection: {telemetry.connection} · GPS: {telemetry.gps}</p>
+          {!telemetry.current && <p className="mt-2 text-amber-300">Current telemetry unavailable. A fresh heartbeat does not refresh GPS readings. Coordinates below are the last known location.</p>}
+        </div>
         <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <TelemetryCard
             label="Vehicle Status"
-            value={vehicle.status}
+            value={TRACKING_LABELS[telemetry.state]}
             icon={<RadioTower />}
             accent={
-              vehicle.status ===
+              telemetry.state ===
               "MOVING"
                 ? "green"
-                : vehicle.status ===
+                : telemetry.state ===
                     "IDLE"
                   ? "amber"
                   : "red"
@@ -513,22 +547,16 @@ function VehicleDetailsContent() {
 
           <TelemetryCard
             label="Speed"
-            value={`${Number(
-              vehicle.speed || 0,
-            ).toFixed(1)} km/h`}
+            value={telemetry.speed}
             icon={<Gauge />}
           />
 
           <TelemetryCard
             label="Ignition"
-            value={
-              vehicle.ignition
-                ? "ON"
-                : "OFF"
-            }
+            value={telemetry.ignition}
             icon={<Power />}
             accent={
-              vehicle.ignition
+              telemetry.current && vehicle.ignition
                 ? "green"
                 : "default"
             }
@@ -536,13 +564,7 @@ function VehicleDetailsContent() {
 
           <TelemetryCard
             label="Battery"
-            value={
-              vehicle.battery !== null
-                ? `${vehicle.battery.toFixed(
-                    3,
-                  )} V`
-                : "—"
-            }
+            value={telemetry.battery}
             icon={<Battery />}
           />
         </div>
@@ -583,39 +605,26 @@ function VehicleDetailsContent() {
 
               <InfoRow
                 label="Status"
-                value={
-                  vehicle.status
-                }
+                value={TRACKING_LABELS[telemetry.state]}
               />
 
               <InfoRow
                 label="Speed"
-                value={`${vehicle.speed} km/h`}
+                value={telemetry.speed}
               />
 
               <InfoRow
                 label="Ignition"
-                value={
-                  vehicle.ignition
-                    ? "ON"
-                    : "OFF"
-                }
+                value={telemetry.ignition}
               />
 
               <InfoRow
                 label="Battery"
-                value={
-                  vehicle.battery !==
-                  null
-                    ? `${vehicle.battery.toFixed(
-                        3,
-                      )} V`
-                    : "—"
-                }
+                value={telemetry.battery}
               />
 
               <InfoRow
-                label="Last Update"
+                label="Last GPS fix"
                 value={
                   vehicle.lastUpdate
                     ? new Date(
@@ -655,11 +664,8 @@ function VehicleDetailsContent() {
               />
 
               <InfoRow
-                label="IMEI"
-                value={
-                  vehicle.device
-                    ?.imei ?? "—"
-                }
+                label={vehicle.device?.imei ? "IMEI" : "Terminal ID"}
+                value={vehicle.device?.imei ?? vehicle.device?.terminalId ?? "—"}
               />
 
               <InfoRow
@@ -682,6 +688,7 @@ function VehicleDetailsContent() {
                 }
               />
 
+              <InfoRow label="Last communication" value={vehicle.device?.lastSeenAt ? new Date(vehicle.device.lastSeenAt).toLocaleString() : "Never"} />
               <InfoRow
                 label="Device ID"
                 value={
@@ -691,13 +698,13 @@ function VehicleDetailsContent() {
               />
 
               <InfoRow
-                label="Protocol"
-                value="NTCB / FLEX"
+                label="Model protocol (catalog)"
+                value={getModelProtocol(vehicle.device?.model)}
               />
 
               <InfoRow
-                label="TCP Server"
-                value="Port 5001"
+                label="Observed protocol / TCP port"
+                value="Not reported by device API"
               />
             </div>
           </section>
@@ -710,7 +717,7 @@ function VehicleDetailsContent() {
 
               <div>
                 <h2 className="text-lg font-semibold">
-                  Current Location
+                  Last Recorded Location
                 </h2>
 
                 <p className="text-xs text-slate-400">
@@ -724,7 +731,7 @@ function VehicleDetailsContent() {
               <LocationCard
                 label="Latitude"
                 value={
-                  vehicle.latitude !==
+                  coordinatesValid && vehicle.latitude !==
                   null
                     ? vehicle.latitude.toFixed(
                         6,
@@ -736,7 +743,7 @@ function VehicleDetailsContent() {
               <LocationCard
                 label="Longitude"
                 value={
-                  vehicle.longitude !==
+                  coordinatesValid && vehicle.longitude !==
                   null
                     ? vehicle.longitude.toFixed(
                         6,
@@ -756,18 +763,16 @@ function VehicleDetailsContent() {
                   </p>
 
                   <p className="mt-1 font-mono text-sm">
-                    {vehicle.latitude ??
-                      "—"}
+                    {coordinatesValid ? vehicle.latitude : "—"}
                     ,{" "}
-                    {vehicle.longitude ??
-                      "—"}
+                    {coordinatesValid ? vehicle.longitude : "—"}
                   </p>
                 </div>
               </div>
             </div>
 
             <Link
-              href="/live-tracking"
+              href={vehicleTrackingHref("live-tracking", vehicle.id)}
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-sky-500 py-3 text-sm font-semibold transition hover:bg-sky-400"
             >
               <MapPin className="h-4 w-4" />
@@ -893,7 +898,7 @@ function VehicleDetailsContent() {
             </div>
 
             <Link
-              href="/history"
+              href={vehicleTrackingHref("history", vehicle.id)}
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] py-3 text-sm font-semibold transition hover:bg-white/[0.08]"
             >
               <History className="h-4 w-4" />

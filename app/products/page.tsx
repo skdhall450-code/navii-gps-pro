@@ -43,6 +43,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 import ProductSection from "@/components/products/ProductSection";
+import ModelComparison from "@/components/products/ModelComparison";
 
 export default function ProductsPage() {
   return (
@@ -51,6 +52,8 @@ export default function ProductsPage() {
 
       <main>
         <ProductSection />
+
+        <ModelComparison />
 
         <section className="border-t border-slate-200 bg-slate-50 py-10">
           <div className="mx-auto max-w-5xl px-6 text-center">

@@ -5,10 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { Cookie, Settings2 } from "lucide-react";
+import { ANALYTICS_CONSENT_KEY, captureCampaignAttribution, clearCampaignAttribution, normalizeEnquiryContext } from "@/lib/enquiry-context";
 
 const GA_MEASUREMENT_ID = "G-XCKRML3X4X";
 
-const CONSENT_STORAGE_KEY = "navii_analytics_consent";
+const CONSENT_STORAGE_KEY = ANALYTICS_CONSENT_KEY;
 
 type ConsentChoice = "granted" | "denied" | null;
 
@@ -121,6 +122,11 @@ export default function GoogleAnalytics() {
   }, []);
 
   useEffect(() => {
+    if (consent === "granted") captureCampaignAttribution();
+    else if (consent === "denied") clearCampaignAttribution();
+  }, [consent, pathname]);
+
+  useEffect(() => {
     if (previousPathname.current === pathname) {
       return;
     }
@@ -192,7 +198,7 @@ export default function GoogleAnalytics() {
         eventName = "email_click";
         channel = "email";
       } else if (
-        /request demo|book demo|discuss your requirement/i.test(label)
+        /request (a )?(software )?demo|book demo|get free demo|discuss your requirement/i.test(label)
       ) {
         eventName = "demo_request_click";
         channel = "website";
@@ -215,17 +221,26 @@ export default function GoogleAnalytics() {
       });
     };
 
-    const handleSuccessfulLead = (): void => {
+    const handleSuccessfulLead = (event: Event): void => {
+      const detail = event instanceof CustomEvent && event.detail && typeof event.detail === "object"
+        ? event.detail : {};
+      const context = normalizeEnquiryContext(detail);
       sendGoogleAnalyticsEvent("contact_form_submit", {
         interaction_channel: "contact_form",
         page_path: pathname,
         form_name: "free_consultation",
+        enquiry_intent: context.intent,
+        product_slug: context.product,
+        source_page: context.source,
       });
 
       sendGoogleAnalyticsEvent("generate_lead", {
         interaction_channel: "contact_form",
         page_path: pathname,
         form_name: "free_consultation",
+        enquiry_intent: context.intent,
+        product_slug: context.product,
+        source_page: context.source,
         lead_type: "sales_enquiry",
       });
     };
@@ -255,6 +270,7 @@ export default function GoogleAnalytics() {
 
   const useNecessaryOnly = (): void => {
     updateGoogleConsent("denied");
+    clearCampaignAttribution();
 
     try {
       window.localStorage.setItem(CONSENT_STORAGE_KEY, "denied");
@@ -267,6 +283,7 @@ export default function GoogleAnalytics() {
 
   const reopenSettings = (): void => {
     updateGoogleConsent("denied");
+    clearCampaignAttribution();
 
     deleteAnalyticsCookies();
 

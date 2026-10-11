@@ -7,22 +7,22 @@ const faqs = [
   {
     question: "Do you provide GPS installation?",
     answer:
-      "Yes. We provide professional GPS tracker installation across India through our support network.",
+      "Share your vehicle and location so we can confirm installation availability, arrangements and any charges in your quotation.",
   },
   {
     question: "Do you provide AIS 140 GPS devices?",
     answer:
-      "Yes. NAVII GPS offers AIS 140 compliant GPS tracking devices for commercial vehicles.",
+      "Ask about device options and confirm model-specific certification, state approvals and fit for your vehicle before ordering.",
   },
   {
     question: "Can I monitor vehicles from mobile?",
     answer:
-      "Yes. Our Android, iOS and Web Platform allow real-time tracking from anywhere.",
+      "Use the Android app for your assigned customer, dealer or admin account, or the web dashboard. Ask NAVII GPS to confirm iPhone or older-app compatibility for your account.",
   },
   {
     question: "Do you provide fleet management software?",
     answer:
-      "Yes. We provide enterprise fleet management software with reports, geo-fencing, alerts and analytics.",
+      "The platform provides vehicle views, recorded history, configured geofence alerts and reports. Availability depends on hardware, subscription and account permissions.",
   },
 ];
 

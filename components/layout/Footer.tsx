@@ -125,40 +125,15 @@ export default function Footer() {
           </motion.div>
         </div>
 
-        {/* Newsletter */}
-
-        <div className="mt-16 rounded-3xl border border-cyan-400/20 bg-white/5 p-8 backdrop-blur-xl">
-          <div className="grid items-center gap-8 lg:grid-cols-2">
-            <div>
-              <h3 className="text-3xl font-bold text-white">Stay Updated</h3>
-
-              <p className="mt-3 text-slate-300">
-                Subscribe to receive product updates, offers and GPS technology
-                news.
-              </p>
-            </div>
-
-            <form className="flex flex-col gap-4 sm:flex-row">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 rounded-xl border border-cyan-400/20 bg-white/5 px-5 py-4 text-white outline-none placeholder:text-slate-400"
-              />
-
-              <button
-                type="submit"
-                className="rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-8 py-4 font-semibold text-white transition hover:scale-105"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div>
-
         {/* Bottom */}
 
         <div className="mt-12 border-t border-white/10 pt-8 text-center text-slate-400">
-          © 2026 NAVII GPS INDIA (OPC) PVT LTD. All Rights Reserved.
+          <p>© {new Date().getFullYear()} NAVII GPS INDIA (OPC) PVT LTD. All Rights Reserved.</p>
+          <nav aria-label="Legal information" className="mt-5 flex flex-wrap justify-center gap-6">
+            <Link href="/privacy-policy" className="hover:text-cyan-300">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-cyan-300">Terms & Conditions</Link>
+            <Link href="/account-deletion" className="hover:text-cyan-300">Delete account and data</Link>
+          </nav>
         </div>
       </div>
     </footer>

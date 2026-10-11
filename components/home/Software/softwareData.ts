@@ -11,7 +11,7 @@ export const softwareFeatures = [
     icon: "🚛",
     title: "Fleet Management",
     description:
-      "Manage unlimited vehicles, drivers and daily operations from one dashboard.",
+      "Manage vehicle, driver and daily operation information from one dashboard.",
   },
   {
     id: 3,
@@ -30,15 +30,15 @@ export const softwareFeatures = [
   {
     id: 5,
     icon: "🔔",
-    title: "Instant Alerts",
+    title: "Vehicle Alerts",
     description:
-      "Receive overspeed, geo-fence, ignition and SOS notifications instantly.",
+      "Configure overspeed, geo-fence, ignition and supported SOS notifications.",
   },
   {
     id: 6,
     icon: "📱",
     title: "Mobile App",
     description:
-      "Monitor your fleet anytime using Android, iPhone and Web Dashboard.",
+      "Access your fleet using the Android app assigned to your account or the web dashboard.",
   },
 ];

@@ -42,7 +42,7 @@ export default function DashboardCard() {
 
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
 
-          <div className="flex gap-2">
+          <div className="flex gap-2" aria-hidden="true">
 
             <div className="h-3 w-3 rounded-full bg-red-400" />
 
@@ -53,7 +53,7 @@ export default function DashboardCard() {
           </div>
 
           <span className="text-sm font-medium text-cyan-300">
-            NAVII Dashboard
+            Illustrative demo
           </span>
 
         </div>
@@ -62,7 +62,11 @@ export default function DashboardCard() {
 
         <div className="p-6">
 
-          {/* Live Counter */}
+          <p className="mb-5 text-sm leading-6 text-cyan-200">
+            Sample data for illustration. This preview is not connected to live vehicles.
+          </p>
+
+          {/* Sample Counter */}
 
           <div className="flex items-center justify-between rounded-2xl bg-cyan-500/10 p-5">
 
@@ -73,7 +77,7 @@ export default function DashboardCard() {
               </p>
 
               <h3 className="mt-2 text-4xl font-bold text-white">
-                25,486
+                24
               </h3>
 
             </div>
@@ -86,10 +90,11 @@ export default function DashboardCard() {
                 duration: 2,
                 repeat: Infinity,
               }}
-              className="flex h-16 w-16 items-center justify-center rounded-full bg-green-500/20"
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-cyan-500/20"
+              aria-hidden="true"
             >
 
-              <div className="h-5 w-5 rounded-full bg-green-400" />
+              <div className="h-5 w-5 rounded-full bg-cyan-400" />
 
             </motion.div>
 
@@ -100,7 +105,7 @@ export default function DashboardCard() {
           <div className="mt-8">
 
             <p className="mb-4 text-sm text-cyan-300">
-              Weekly Analytics
+              Sample Weekly Analytics
             </p>
 
             <div className="flex h-40 items-end gap-3">              {[45, 80, 60, 95, 75, 110, 90].map((height, i) => (
@@ -123,18 +128,18 @@ export default function DashboardCard() {
 
           </div>
 
-          {/* Live Map */}
+          {/* Illustrative Map */}
 
           <div className="mt-8 rounded-2xl border border-cyan-400/20 bg-white/5 p-5">
 
             <div className="mb-4 flex items-center justify-between">
 
               <span className="text-sm font-medium text-cyan-300">
-                Live GPS Tracking
+                GPS Tracking Preview
               </span>
 
-              <span className="rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white">
-                LIVE
+              <span className="rounded-full bg-cyan-400/20 px-3 py-1 text-xs font-semibold text-cyan-200">
+                DEMO
               </span>
 
             </div>
@@ -216,7 +221,7 @@ export default function DashboardCard() {
               </p>
 
               <h4 className="mt-2 text-2xl font-bold text-red-400">
-                18
+                3
               </h4>
             </div>
 
@@ -236,7 +241,7 @@ export default function DashboardCard() {
               </p>
 
               <h4 className="mt-2 text-2xl font-bold text-cyan-300">
-                542
+                12
               </h4>
             </div>
 

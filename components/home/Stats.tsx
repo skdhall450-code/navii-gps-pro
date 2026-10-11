@@ -1,19 +1,19 @@
 const stats = [
   {
-    number: "25K+",
-    title: "Active Vehicles",
+    feature: "Live Tracking",
+    title: "Vehicle location visibility",
   },
   {
-    number: "500+",
-    title: "Dealers Network",
+    feature: "Route History",
+    title: "Review vehicle journeys",
   },
   {
-    number: "10K+",
-    title: "Happy Customers",
+    feature: "Fleet Alerts",
+    title: "Monitor vehicle events",
   },
   {
-    number: "100+",
-    title: "Cities Covered",
+    feature: "Web & App",
+    title: "Access your fleet dashboard",
   },
 ];
 
@@ -29,8 +29,8 @@ export default function Stats() {
               key={item.title}
               className="rounded-2xl bg-white/10 p-8 backdrop-blur-sm"
             >
-              <h2 className="text-5xl font-extrabold">
-                {item.number}
+              <h2 className="text-3xl font-extrabold">
+                {item.feature}
               </h2>
 
               <p className="mt-4 text-xl text-blue-100">

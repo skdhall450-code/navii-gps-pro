@@ -11,7 +11,7 @@ export default function HeroContent() {
       {/* Badge */}
 
       <div className="inline-flex rounded-full border border-cyan-300/30 bg-white/10 px-5 py-2 backdrop-blur">
-        🚀 India&apos;s Trusted GPS Tracking Company
+        GPS TRACKERS & FLEET SOFTWARE
       </div>
 
       {/* Heading */}
@@ -36,15 +36,15 @@ export default function HeroContent() {
       <div className="mt-10 flex flex-wrap gap-5">
 
         <Link
-          href="/products"
+          href="/shop-now#g17"
           className="rounded-xl bg-white px-8 py-4 font-semibold text-blue-700 transition hover:scale-105"
         >
-          Explore Products
+          See G17 Price & Order
         </Link>
 
         <Link
-          href="/contact"
-          aria-label="Book a free NAVII GPS product and software demo"
+          href="/contact?intent=software-demo&source=home#contact-form"
+          aria-label="Request a NAVII GPS product and software demo"
           className="rounded-xl border border-white px-8 py-4 font-semibold transition hover:bg-white hover:text-blue-700"
         >
           Book Demo
@@ -52,40 +52,9 @@ export default function HeroContent() {
 
       </div>
 
-      {/* Statistics */}
-
-      <div className="mt-14 grid grid-cols-3 gap-6">
-
-        <div>
-          <h2 className="text-4xl font-bold text-cyan-300">
-            25K+
-          </h2>
-
-          <p className="mt-2 text-sm text-blue-100">
-            Vehicles Tracked
-          </p>
-        </div>
-
-        <div>
-          <h2 className="text-4xl font-bold text-cyan-300">
-            500+
-          </h2>
-
-          <p className="mt-2 text-sm text-blue-100">
-            Business Clients
-          </p>
-        </div>
-
-        <div>
-          <h2 className="text-4xl font-bold text-cyan-300">
-            98%
-          </h2>
-
-          <p className="mt-2 text-sm text-blue-100">
-            Satisfaction
-          </p>
-        </div>
-
+      <div className="mt-10 flex flex-wrap gap-5 text-sm">
+        <Link href="/products" className="font-semibold text-cyan-200 underline underline-offset-4">Compare GPS trackers</Link>
+        <Link href="/contact?intent=fleet-quote&source=home#contact-form" className="font-semibold text-cyan-200 underline underline-offset-4">Fleet or dealer? Request a quote</Link>
       </div>
 
       {/* Badges */}
@@ -93,11 +62,11 @@ export default function HeroContent() {
       <div className="mt-10 flex flex-wrap gap-3">
 
         <span className="rounded-full bg-white/10 px-4 py-2 text-sm backdrop-blur">
-          🇮🇳 Made in India
+          Vehicle GPS Trackers
         </span>
 
         <span className="rounded-full bg-white/10 px-4 py-2 text-sm backdrop-blur">
-          ✔ AIS-140 Certified
+          Model-specific Setup
         </span>
 
         <span className="rounded-full bg-white/10 px-4 py-2 text-sm backdrop-blur">

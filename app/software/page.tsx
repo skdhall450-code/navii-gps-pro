@@ -1,11 +1,24 @@
-import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
-import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
+import { PageSchema } from "@/components/seo/PageSchema";
+import Header from "@/components/layout/HeaderV2";
+import Footer from "@/components/layout/FooterV2";
+import SoftwareHero from "@/components/software/hero/SoftwareHero";
+import SoftwareFeatures from "@/components/software/features/SoftwareFeatures";
+import MobileApps from "@/components/software/apps/MobileApps";
+import CTA from "@/components/software/CTA";
+
+const pageTitle = "Fleet Management Software India";
+const fullTitle = `${pageTitle} | NAVII GPS INDIA`;
+const pageHeading = "Vehicle Tracking and Fleet Management Software in India";
+const pageDescription =
+  "View vehicle locations, route history, alerts and reports with NAVII GPS fleet management software in India. Request a demo for your fleet.";
+
 export const metadata: Metadata = {
-  title: "Fleet Management & GPS Software India",
-  description: "Track vehicles, trips, routes, geofences, alerts and reports with NAVII GPS fleet management software for commercial fleets across India.",
+  title: pageTitle,
+  description: pageDescription,
   keywords: uniqueKeywords([
     "fleet management software India",
     "GPS fleet management software",
@@ -23,71 +36,113 @@ export const metadata: Metadata = {
   ]),
   alternates: { canonical: "https://naviigps.com/software" },
   openGraph: {
-    title: "Fleet Management Software India | NAVII GPS",
-    description: "Manage vehicle fleets with real-time GPS tracking, route history, geofencing, alerts, reports and fleet visibility.",
+    title: fullTitle,
+    description: pageDescription,
     url: "https://naviigps.com/software",
     type: "website",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS fleet management software in India" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fleet Management Software India | NAVII GPS",
-    description: "Real-time fleet tracking, vehicle monitoring, alerts, reports and geofencing with NAVII GPS.",
+    title: fullTitle,
+    description: pageDescription,
     images: ["/og-image.jpg"],
   },
 };
 
-import Header from "@/components/layout/HeaderV2";
-import Footer from "@/components/layout/FooterV2";
+const setupChecks = [
+  {
+    title: "Hardware and connectivity",
+    description: "Share your tracker model, installation details and operating areas so NAVII GPS can check compatibility.",
+  },
+  {
+    title: "Access and subscription",
+    description: "Confirm the vehicles, account roles and active subscriptions needed for your team. Customer access does not include every administration function.",
+  },
+  {
+    title: "Optional requirements",
+    description: "Ask whether fuel monitoring or relay-based controls are supported for your proposed setup. Confirm equipment, installation, permissions and commercial terms before choosing these options.",
+  },
+];
 
-import SoftwareHero from "@/components/software/hero/SoftwareHero";
-import DashboardPreview from "@/components/software/dashboard/DashboardPreview";
-import SoftwareFeatures from "@/components/software/features/SoftwareFeatures";
-import SoftwareModules from "@/components/software/modules/SoftwareModules";
-import MobileApps from "@/components/software/apps/MobileApps";
-import IndustrySupport from "@/components/software/industries/IndustrySupport";
-import CTA from "@/components/software/CTA";
+const faqs = [
+  {
+    question: "Do I need a GPS device to use vehicle tracking software?",
+    answer: <>Yes. Vehicle tracking needs a compatible installed GPS device sending data to the platform. If you already have trackers, share their model details so NAVII GPS can check compatibility before you choose a setup.</>,
+  },
+  {
+    question: "Can I review route history and download reports?",
+    answer: <>You can review recorded vehicle history and playback, subject to your account access and active subscription. The web reports page supports CSV export of recorded trip data. Confirm the history period and report fields you need during your demo.</>,
+  },
+  {
+    question: "Can customer accounts create geofences?",
+    answer: <>Customer accounts can view configured geofences and their vehicle alerts. Geofence creation and changes are handled by authorised management roles. Ask how your team’s locations and access will be configured.</>,
+  },
+  {
+    question: "Are fuel monitoring and remote engine controls included?",
+    answer: <>Confirm these options separately for your proposed setup. Fuel monitoring needs a <Link href="/products/fuel-monitoring-sensor" className="font-semibold text-cyan-800 underline underline-offset-4 hover:text-cyan-900">compatible sensor and calibration</Link>; relay-based controls need suitable hardware and a safe, authorised setup. Ask NAVII GPS to confirm what is supported and included in your quotation.</>,
+  },
+  {
+    question: "How do I get a demo and a quote?",
+    answer: <>Send your vehicle count, tracker models if known, and the reports or alerts you need. Ask the team to demonstrate the relevant customer screens and confirm hardware, subscription, access and support arrangements before you proceed.</>,
+  },
+];
 
 export default function SoftwarePage() {
   return (
     <>
-      <PageSchema path="/software" name="GPS Tracking and Fleet Management Software" type="WebPage" description={metadata.description} /><Header />
+      <PageSchema path="/software" name={pageHeading} type="WebPage" description={pageDescription} />
+      <Header />
       <main>
         <SoftwareHero />
-        <DashboardPreview />
         <SoftwareFeatures />
-        <SoftwareModules />
-        <MobileApps />
-        <IndustrySupport />
 
-        <section className="bg-slate-50 py-16">
-          <div className="mx-auto max-w-6xl px-6">
-            <div className="text-center">
-              <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">Fleet Management Software in India</h2>
-              <p className="mx-auto mt-4 max-w-3xl text-lg leading-8 text-slate-600">
-                NAVII GPS provides fleet management software for businesses that need real-time visibility across cars, trucks, buses and commercial vehicles. Monitor vehicle activity, trips and fleet events from a connected GPS tracking platform.
-              </p>
-            </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-2xl border border-slate-200 bg-white p-6"><h3 className="font-bold text-slate-900">Live Vehicle Tracking</h3><p className="mt-2 text-sm leading-6 text-slate-600">View connected vehicles and fleet movement with real-time GPS visibility.</p></div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-6"><h3 className="font-bold text-slate-900">Routes & Trip History</h3><p className="mt-2 text-sm leading-6 text-slate-600">Review routes and completed trips to support transport operations.</p></div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-6"><h3 className="font-bold text-slate-900">Geofencing & Alerts</h3><p className="mt-2 text-sm leading-6 text-slate-600">Set location boundaries and monitor important fleet events with alerts.</p></div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-6"><h3 className="font-bold text-slate-900">Reports & Fleet Visibility</h3><p className="mt-2 text-sm leading-6 text-slate-600">Use vehicle and trip information to improve day-to-day fleet oversight.</p></div>
-            </div>
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Link href="/truck-gps" className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">Truck GPS Tracking</Link>
-              <Link href="/logistics-fleet-gps" className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">Logistics Fleet Tracking</Link>
-              <Link href="/commercial-vehicle-tracking" className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">Commercial Vehicle Tracking</Link>
-              <Link href="/4g-gps-tracker" className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">4G GPS Tracker</Link>
+        <section className="bg-slate-50 py-20 md:py-24">
+          <div className="mx-auto max-w-7xl px-6">
+            <h2 className="text-center text-3xl font-extrabold text-slate-900 md:text-4xl">
+              Check your software setup before you choose
+            </h2>
+            <div className="mt-12 grid gap-6 lg:grid-cols-3">
+              {setupChecks.map((check) => (
+                <div key={check.title} className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
+                  <h3 className="text-xl font-bold text-slate-900">{check.title}</h3>
+                  <p className="mt-4 leading-7 text-slate-600">{check.description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-white py-12">
+        <MobileApps />
+
+        <section className="bg-slate-50 py-20 md:py-24">
+          <div className="mx-auto max-w-5xl px-6">
+            <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">
+              Fleet management software questions
+            </h2>
+            <div className="mt-10 space-y-5">
+              {faqs.map((faq) => (
+                <div key={faq.question} className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
+                  <h3 className="text-xl font-bold text-slate-900">{faq.question}</h3>
+                  <p className="mt-3 leading-7 text-slate-600">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white py-16">
           <div className="mx-auto max-w-5xl px-6 text-center">
-            <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">GPS Fleet Management for Indian Transport Operations</h2>
-            <p className="mx-auto mt-3 max-w-3xl text-slate-600">Explore deployment-focused tracking for logistics, commercial transport, public transport and other multi-vehicle operations across India.</p>
-            <Link href="/ais-140-gps" className="mt-5 inline-flex rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800">Explore AIS-140 GPS Tracking</Link>
+            <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">
+              Explore vehicle specific tracking
+            </h2>
+            <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+              For hardware and operating requirements, see our{" "}
+              <Link href="/truck-gps" className="font-semibold text-cyan-800 underline underline-offset-4 hover:text-cyan-900">truck GPS tracking</Link>{" "}
+              and{" "}
+              <Link href="/logistics-fleet-gps" className="font-semibold text-cyan-800 underline underline-offset-4 hover:text-cyan-900">logistics fleet tracking</Link>{" "}
+              pages. Use this page to compare software workflows and account access.
+            </p>
           </div>
         </section>
 

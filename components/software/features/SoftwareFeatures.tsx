@@ -1,146 +1,66 @@
-"use client";
-
-import { motion } from "framer-motion";
-import {
-  MapPinned,
-  Route,
-  Fuel,
-  Bell,
-  ShieldCheck,
-  Smartphone,
-  BarChart3,
-  Users,
-  Lock,
-  Clock3,
-  Cloud,
-  Database,
-} from "lucide-react";
+import { MapPinned, Route, MapPin, Bell, BarChart3, FileDown } from "lucide-react";
 
 const features = [
   {
-    title: "Real-Time Tracking",
-    description: "Monitor every vehicle with live GPS location updates.",
+    title: "Live vehicle view",
+    description: "Locate connected vehicles on the map and check their latest reported status. Location freshness depends on the device and network connection.",
     icon: MapPinned,
   },
   {
-    title: "Trip Playback",
-    description: "Replay complete journey history with timeline.",
+    title: "Route history and playback",
+    description: "Select a vehicle and time period to review its recorded route. Replay available location records when checking a past journey.",
     icon: Route,
   },
   {
-    title: "Fuel Monitoring",
-    description: "Track fuel level, consumption and theft alerts.",
-    icon: Fuel,
+    title: "Geofence visibility",
+    description: "View configured location boundaries for your vehicles. Authorised management accounts handle geofence creation and changes.",
+    icon: MapPin,
   },
   {
-    title: "Instant Alerts",
-    description: "Overspeed, ACC, Power Cut, SOS and Geo Fence alerts.",
+    title: "Geofence event alerts",
+    description: "Review entry and exit alerts from configured geofences to see when a vehicle crossed a monitored boundary.",
     icon: Bell,
   },
   {
-    title: "Geo Fence",
-    description: "Create virtual boundaries and receive notifications.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Mobile Apps",
-    description: "Android & iOS apps for fleet monitoring anywhere.",
-    icon: Smartphone,
-  },
-  {
-    title: "Advanced Reports",
-    description: "Mileage, trips, idle time and driver reports.",
+    title: "Vehicle activity reports",
+    description: "Review recorded distance, speed, running time and ignition activity for a selected vehicle and period. Results depend on data received from the tracker.",
     icon: BarChart3,
   },
   {
-    title: "Multi User Access",
-    description: "Create unlimited users with different permissions.",
-    icon: Users,
-  },
-  {
-    title: "Remote Engine Lock",
-    description: "Immobilize vehicles remotely whenever required.",
-    icon: Lock,
-  },
-  {
-    title: "24×7 Monitoring",
-    description: "Continuous monitoring with cloud synchronization.",
-    icon: Clock3,
-  },
-  {
-    title: "Cloud Platform",
-    description: "Secure cloud-based infrastructure with fast access.",
-    icon: Cloud,
-  },
-  {
-    title: "API Integration",
-    description: "Integrate GPS data with ERP and third-party systems.",
-    icon: Database,
+    title: "CSV export from the web dashboard",
+    description: "Export recorded trip data, including location, speed and available ignition and battery fields, for review in a spreadsheet.",
+    icon: FileDown,
   },
 ];
 
 export default function SoftwareFeatures() {
   return (
-    <section className="bg-white py-24">
-
+    <section className="bg-white py-20 md:py-24">
       <div className="mx-auto max-w-7xl px-6">
-
         <div className="text-center">
-
-          <span className="rounded-full bg-cyan-100 px-5 py-2 text-sm font-semibold text-cyan-700">
-            SOFTWARE FEATURES
-          </span>
-
-          <h2 className="mt-6 text-4xl font-extrabold text-slate-900">
-            Everything You Need to Manage Your Fleet
+          <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">
+            Vehicle tracking tools for daily fleet checks
           </h2>
-
           <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-            NAVII GPS software combines intelligent vehicle tracking,
-            analytics, alerts and cloud technology into one platform.
+            Open a vehicle record to check its latest reported position, review a recorded journey or inspect available activity data. Use these tools for the vehicles assigned to your account.
           </p>
-
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-
-          {features.map((feature, index) => {
+        <div className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          {features.map((feature) => {
             const Icon = feature.icon;
-
             return (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.05,
-                }}
-                viewport={{ once: true }}
-                className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-cyan-400 hover:shadow-2xl"
-              >
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 transition group-hover:bg-cyan-600 group-hover:text-white">
-
-                  <Icon size={30} />
-
+              <div key={feature.title} className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-lg transition-colors hover:border-cyan-400 sm:p-8">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700">
+                  <Icon size={30} aria-hidden="true" />
                 </div>
-
-                <h3 className="mt-6 text-2xl font-bold text-slate-900">
-                  {feature.title}
-                </h3>
-
-                <p className="mt-4 leading-7 text-slate-600">
-                  {feature.description}
-                </p>
-
-              </motion.div>
+                <h3 className="mt-6 text-2xl font-bold text-slate-900">{feature.title}</h3>
+                <p className="mt-4 leading-7 text-slate-600">{feature.description}</p>
+              </div>
             );
           })}
-
         </div>
-
       </div>
-
     </section>
   );
 }

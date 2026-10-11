@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { enquirySourceKey } from "@/lib/enquiry-context";
 import { MessageCircle, Phone, ArrowRight } from "lucide-react";
 
 export default function HeaderActions() {
+  const source = enquirySourceKey(usePathname());
   return (
     <div className="hidden items-center gap-3 lg:flex">
 
@@ -29,7 +32,7 @@ export default function HeaderActions() {
 
       {/* Request Demo */}
       <Link
-        href="/contact"
+        href={`/contact?intent=software-demo&source=${source}#contact-form`}
         className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/30"
       >
         Request Demo

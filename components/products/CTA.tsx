@@ -43,7 +43,7 @@ export default function CTA() {
           <div className="mt-12 flex flex-wrap justify-center gap-5">
 
             <Link
-              href="/contact"
+              href="/contact?intent=product-quote&source=products#contact-form"
               className="flex items-center gap-2 rounded-xl bg-cyan-500 px-8 py-4 font-semibold text-white transition hover:bg-cyan-400"
             >
               Contact Us

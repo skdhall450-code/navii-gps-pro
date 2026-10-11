@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 
 import DirectorProfile from "./DirectorProfile";
 import DirectorContent from "./DirectorContent";
-import DirectorStats from "./DirectorStats";
 
 export default function DirectorMessage() {
   return (
@@ -67,14 +66,6 @@ export default function DirectorMessage() {
           {/* Right */}
 
           <DirectorContent />
-
-        </div>
-
-        {/* Stats */}
-
-        <div className="mt-20">
-
-          <DirectorStats />
 
         </div>
 

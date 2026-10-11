@@ -1,6 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { ENQUIRY_INTENTS, enquirySourceKey, normalizeEnquiryContext, readCampaignAttribution, type EnquiryContext, type EnquiryIntent } from "@/lib/enquiry-context";
 import { AlertCircle, CheckCircle2, MessageCircle } from "lucide-react";
 
 const whatsappNumber = "917717394007";
@@ -10,7 +12,22 @@ type FormStatus = {
   message: string;
 } | null;
 
+function EnquiryContextReader({ onChange }: { onChange: (context: EnquiryContext) => void }) {
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    onChange(normalizeEnquiryContext(Object.fromEntries(searchParams.entries())));
+  }, [searchParams, onChange]);
+  return null;
+}
+
 export default function ContactForm() {
+  const [context, setContext] = useState<EnquiryContext>(normalizeEnquiryContext({}));
+  const [intent, setIntent] = useState<EnquiryIntent>("consultation");
+  const submissionLock = useRef(false);
+  const handleContext = useCallback((next: EnquiryContext) => {
+    setContext(next);
+    setIntent(next.intent);
+  }, []);
   const [form, setForm] = useState({
     name: "",
     company: "",
@@ -31,11 +48,15 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (submissionLock.current) return;
+    submissionLock.current = true;
     setIsSubmitting(true);
     setStatus(null);
 
     try {
       const web3FormsAccessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+      const attribution = readCampaignAttribution();
+      const routing = { intent, product: context.product, source: enquirySourceKey(context.source) };
       const response = web3FormsAccessKey
         ? await fetch("https://api.web3forms.com/submit", {
             method: "POST",
@@ -54,13 +75,17 @@ export default function ContactForm() {
               vehicles: form.vehicles || "Not provided",
               message: form.message.trim() || "Not provided",
               source: "https://naviigps.com/contact",
+              enquiry_intent: ENQUIRY_INTENTS[intent],
+              product: context.product || "Not selected",
+              source_page: context.source,
+              ...attribution,
               botcheck: Boolean(form.website),
             }),
           })
         : await fetch("/api/enquiries", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(form),
+            body: JSON.stringify({ ...form, ...routing, attribution }),
           });
 
       const result = (await response.json()) as {
@@ -69,7 +94,7 @@ export default function ContactForm() {
         error?: string;
         message?: string;
       };
-      const delivered = web3FormsAccessKey ? result.success : result.ok;
+      const delivered = web3FormsAccessKey ? result.success === true : result.ok === true;
 
       if (!response.ok || !delivered) {
         throw new Error(
@@ -80,9 +105,9 @@ export default function ContactForm() {
       setStatus({
         kind: "success",
         message:
-          "Thank you. Your enquiry has reached the NAVII GPS team. We will contact you shortly.",
+          "Thank you. Your enquiry has reached the NAVII GPS team. Office hours: Monday–Saturday, 09:30–18:30 IST.",
       });
-      window.dispatchEvent(new Event("navii:lead-submitted"));
+      window.dispatchEvent(new CustomEvent("navii:lead-submitted", { detail: routing }));
       setForm({
         name: "",
         company: "",
@@ -101,6 +126,7 @@ export default function ContactForm() {
             : "Your enquiry could not be delivered. Please use WhatsApp below.",
       });
     } finally {
+      submissionLock.current = false;
       setIsSubmitting(false);
     }
   };
@@ -114,13 +140,16 @@ export default function ContactForm() {
       `Email: ${form.email.trim()}`,
       `Mobile: ${form.phone.trim()}`,
       `Number of vehicles: ${form.vehicles || "Not provided"}`,
+      `Enquiry: ${ENQUIRY_INTENTS[intent]}`,
+      ...(context.product ? [`Product: ${context.product}`] : []),
       `Requirement: ${form.message.trim() || "Not provided"}`,
     ].join("\n");
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(enquiryMessage)}`;
-  }, [form]);
+  }, [form, intent, context.product]);
 
   return (
-    <section id="contact-form" className="bg-slate-50 py-16 sm:py-24">
+    <section id="contact-form" className="scroll-mt-28 bg-slate-50 py-16 sm:py-24">
+      <Suspense fallback={null}><EnquiryContextReader onChange={handleContext} /></Suspense>
       <div className="mx-auto max-w-4xl px-6">
         <div className="mb-12 text-center">
           <span className="rounded-full bg-cyan-100 px-5 py-2 text-sm font-semibold text-cyan-700">
@@ -130,7 +159,7 @@ export default function ContactForm() {
             Request a Free Consultation
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
-            Fill in the details below and our team will contact you shortly.
+            Choose your enquiry type and share your requirements. Office hours: Monday–Saturday, 09:30–18:30 IST.
           </p>
         </div>
 
@@ -140,6 +169,13 @@ export default function ContactForm() {
           className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl sm:rounded-[32px] sm:p-10"
         >
           <div className="grid gap-6 md:grid-cols-2">
+            <label className="grid gap-2 text-sm font-semibold text-slate-700 md:col-span-2">
+              Enquiry type
+              <select name="intent" value={intent} onChange={(event) => setIntent(event.target.value as EnquiryIntent)} className="rounded-xl border border-slate-400 bg-white p-4 font-normal text-slate-900 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10">
+                {Object.entries(ENQUIRY_INTENTS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+              </select>
+            </label>
+            {context.product && <p className="rounded-xl bg-cyan-50 p-4 text-sm text-cyan-900 md:col-span-2">Selected product: {context.product.replaceAll("-", " ")}</p>}
             <label className="grid gap-2 text-sm font-semibold text-slate-700">
               Full Name <span className="sr-only">(required)</span>
               <input type="text" name="name" autoComplete="name" maxLength={80} placeholder="Your full name" value={form.name} onChange={handleChange} className="rounded-xl border border-slate-400 bg-white p-4 font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" required />
@@ -198,7 +234,10 @@ export default function ContactForm() {
           )}
 
           <p className="mt-4 text-sm text-slate-500">
-            By submitting, you agree that NAVII GPS may contact you about this enquiry. Prefer email? {" "}
+            If you accept optional analytics, limited campaign details from this browsing session may accompany your enquiry to help us understand which pages and offers are useful.
+          </p>
+          <p className="mt-3 text-sm text-slate-500">
+            By submitting, you agree that NAVII GPS may contact you about this enquiry. <a href="/privacy-policy" className="font-semibold text-cyan-700 hover:underline">Privacy Policy</a>. Prefer email? {" "}
             <a href="mailto:info@naviigps.com" className="font-semibold text-cyan-700 hover:underline">Write to info@naviigps.com</a>
           </p>
         </form>

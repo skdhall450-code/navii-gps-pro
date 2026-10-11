@@ -36,52 +36,6 @@ export default function DirectorProfile() {
 
       </div>
 
-      {/* Experience Card */}
-
-      <motion.div
-        animate={{
-          y: [0, -8, 0],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-        }}
-        className="absolute -left-6 top-8 hidden rounded-2xl border border-cyan-400/20 bg-[#0B1F42]/90 px-4 py-3 shadow-xl backdrop-blur-xl lg:block"
-      >
-
-        <div className="text-3xl font-extrabold text-cyan-300">
-          10+
-        </div>
-
-        <div className="mt-1 text-sm text-white">
-          Years Experience
-        </div>
-
-      </motion.div>
-
-      {/* Clients Card */}
-
-      <motion.div
-        animate={{
-          y: [0, 8, 0],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-        }}
-        className="absolute -right-6 bottom-10 hidden rounded-2xl border border-cyan-400/20 bg-[#0B1F42]/90 px-4 py-3 shadow-xl backdrop-blur-xl lg:block"
-      >
-
-        <div className="text-3xl font-extrabold text-cyan-300">
-          500+
-        </div>
-
-        <div className="mt-1 text-sm text-white">
-          Business Clients
-        </div>
-
-      </motion.div>
-
       {/* Bottom Badge */}
 
       <motion.div
@@ -94,7 +48,7 @@ export default function DirectorProfile() {
         <span className="text-xl">🇮🇳</span>
 
         <span className="text-sm font-medium text-white">
-          PAN India GPS & IoT Solutions
+          GPS & IoT Solutions
         </span>
 
       </motion.div>

@@ -31,7 +31,7 @@ const solutions: Solution[] = [
       "Explore deployment-focused AIS-140 GPS tracking solutions for buses and public transport fleets, including live visibility, routes, alerts and reports.",
     href: "/ais-140-gps",
     cta: "Explore AIS-140 Solutions",
-    badge: "Government compliant",
+    badge: "Public transport",
     icon: BusFront,
   },
   {
@@ -103,7 +103,7 @@ const solutions: Solution[] = [
       "Explore NAVII GPS vehicle tracking devices and fleet management solutions for cars, trucks, buses and commercial fleets across India.",
     href: "/gps-tracking-company-india",
     cta: "Explore NAVII GPS Solutions",
-    badge: "Trusted nationwide",
+    badge: "GPS & fleet solutions",
     icon: ShieldCheck,
   },
   {
@@ -112,7 +112,7 @@ const solutions: Solution[] = [
       "Explore state-wise GPS tracking solutions across India, with dedicated coverage for South India, North India, West India, East India, Central India and Northeast India.",
     href: "/gps-tracker-india",
     cta: "View India-wide Coverage",
-    badge: "Pan-India network",
+    badge: "Explore by location",
     icon: Globe2,
   },
 ];
