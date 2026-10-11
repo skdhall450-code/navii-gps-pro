@@ -6,9 +6,9 @@ import { Building2, Phone, Mail, Clock3, MessageCircle } from "lucide-react";
 const cards = [
   {
     title: "Corporate Office",
-    value: "Dera Bassi, Punjab - 140507",
+    value: "Dera Bassi, Punjab – 140507, India",
     description:
-      "SCO 46, 2nd Floor, GBP Business Square, Near GBP Rosewood Gate No. 1, Barwala Road",
+      "SCO 46, Barwala Road",
     icon: Building2,
   },
   {
