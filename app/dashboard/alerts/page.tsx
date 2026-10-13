@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import AlertPolicySettings from "@/components/alerts/AlertPolicySettings";
 
 import {
   AlertTriangle,
@@ -825,6 +826,8 @@ function AlertsPageContent() {
             {success}
           </div>
         )}
+
+        <AlertPolicySettings onUnauthorized={handleUnauthorized} />
 
         <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
           <StatCard

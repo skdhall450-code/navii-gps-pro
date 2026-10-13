@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Eye,
@@ -13,12 +14,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-type UserRole =
-  | "SUPER_ADMIN"
-  | "ADMIN"
-  | "DEALER"
-  | "CUSTOMER"
-  | "USER";
+type UserRole = "SUPER_ADMIN" | "ADMIN" | "DEALER" | "CUSTOMER" | "USER";
 
 type AuthUser = {
   id: string;
@@ -45,9 +41,7 @@ type MeResponse = {
   data?: AuthUser;
 };
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://api.naviigps.com";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com";
 
 function getDashboardPath(role: UserRole) {
   switch (role) {
@@ -70,44 +64,41 @@ function getDashboardPath(role: UserRole) {
 
 export default function LoginPage() {
   const router = useRouter();
+  const submitting = useRef(false);
+  const errorRef = useRef<HTMLDivElement>(null);
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] =
-    useState("");
+  const [password, setPassword] = useState("");
 
-  const [showPassword, setShowPassword] =
-    useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [error, setError] =
-    useState("");
+  const [error, setError] = useState("");
 
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>,
-  ) {
+  useEffect(() => {
+    if (error) errorRef.current?.focus();
+  }, [error]);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submitting.current) return;
 
     setError("");
 
-    const cleanEmail =
-      email.trim().toLowerCase();
+    const cleanEmail = email.trim().toLowerCase();
 
     if (!cleanEmail) {
-      setError(
-        "Please enter your email address.",
-      );
+      setError("Please enter your email address.");
       return;
     }
 
     if (!password) {
-      setError(
-        "Please enter your password.",
-      );
+      setError("Please enter your password.");
       return;
     }
 
+    submitting.current = true;
     setLoading(true);
 
     try {
@@ -115,40 +106,29 @@ export default function LoginPage() {
        * STEP 1
        * Login against real NestJS backend.
        */
-      const loginResponse = await fetch(
-        `${API_URL}/api/auth/login`,
-        {
-          method: "POST",
+      const loginResponse = await fetch(`${API_URL}/api/auth/login`, {
+        method: "POST",
 
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-
-          body: JSON.stringify({
-            email: cleanEmail,
-            password,
-          }),
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
 
-      const loginJson =
-        (await loginResponse.json()) as LoginResponse;
+        body: JSON.stringify({
+          email: cleanEmail,
+          password,
+        }),
+      });
+
+      const loginJson = (await loginResponse.json()) as LoginResponse;
 
       if (!loginResponse.ok) {
-        throw new Error(
-          loginJson.message ||
-            "Invalid email or password.",
-        );
+        throw new Error(loginJson.message || "Invalid email or password.");
       }
 
-      const token =
-        loginJson.data?.accessToken;
+      const token = loginJson.data?.accessToken;
 
       if (!token) {
-        throw new Error(
-          "Authentication token was not returned by the server.",
-        );
+        throw new Error("Authentication token was not returned by the server.");
       }
 
       /*
@@ -158,36 +138,26 @@ export default function LoginPage() {
        * Do not trust only the role returned
        * from the login response.
        */
-      const meResponse = await fetch(
-        `${API_URL}/api/auth/me`,
-        {
-          method: "GET",
+      const meResponse = await fetch(`${API_URL}/api/auth/me`, {
+        method: "GET",
 
-          headers: {
-            Authorization:
-              `Bearer ${token}`,
-          },
-
-          cache: "no-store",
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
 
-      const meJson =
-        (await meResponse.json()) as MeResponse;
+        cache: "no-store",
+      });
+
+      const meJson = (await meResponse.json()) as MeResponse;
 
       if (!meResponse.ok) {
-        throw new Error(
-          meJson.message ||
-            "Unable to verify login session.",
-        );
+        throw new Error(meJson.message || "Unable to verify login session.");
       }
 
       const user = meJson.data;
 
       if (!user) {
-        throw new Error(
-          "User profile was not returned by the server.",
-        );
+        throw new Error("User profile was not returned by the server.");
       }
 
       /*
@@ -199,54 +169,39 @@ export default function LoginPage() {
        * production auth to secure HttpOnly
        * cookies.
        */
-      localStorage.setItem(
-        "navii_access_token",
-        token,
-      );
+      localStorage.setItem("navii_access_token", token);
 
-      localStorage.setItem(
-        "navii_user",
-        JSON.stringify(user),
-      );
+      localStorage.setItem("navii_user", JSON.stringify(user));
 
       /*
        * STEP 4
        * Redirect according to role.
        */
-      router.replace(
-        getDashboardPath(user.role),
-      );
+      router.replace(getDashboardPath(user.role));
 
       router.refresh();
     } catch (err) {
-      localStorage.removeItem(
-        "navii_access_token",
-      );
+      localStorage.removeItem("navii_access_token");
 
-      localStorage.removeItem(
-        "navii_user",
-      );
+      localStorage.removeItem("navii_user");
 
       if (err instanceof TypeError) {
         setError(
           "Unable to connect to NAVII GPS server. Please check the API connection.",
         );
-      } else if (
-        err instanceof Error
-      ) {
+      } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError(
-          "Login failed. Please try again.",
-        );
+        setError("Login failed. Please try again.");
       }
     } finally {
+      submitting.current = false;
       setLoading(false);
     }
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen bg-[#050b16] text-white">
       <div className="relative flex min-h-screen overflow-hidden">
         {/* Background */}
         <div className="pointer-events-none absolute inset-0">
@@ -259,8 +214,7 @@ export default function LoginPage() {
             style={{
               backgroundImage:
                 "linear-gradient(rgba(255,255,255,.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.8) 1px, transparent 1px)",
-              backgroundSize:
-                "48px 48px",
+              backgroundSize: "48px 48px",
             }}
           />
         </div>
@@ -285,7 +239,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="mt-28 max-w-xl">
+              <div className="my-20 max-w-xl">
                 <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-300">
                   <ShieldCheck className="h-4 w-4" />
                   GPS Intelligence Platform
@@ -296,44 +250,33 @@ export default function LoginPage() {
                   <br />
                   Monitor.
                   <br />
-
                   <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
                     Control.
                   </span>
                 </h1>
 
                 <p className="mt-7 max-w-lg text-lg leading-8 text-slate-400">
-                  Secure access to your NAVII GPS
-                  fleet management and live vehicle
-                  tracking platform.
+                  Secure access to your NAVII GPS fleet management and live
+                  vehicle tracking platform.
                 </p>
 
                 <div className="mt-10 grid max-w-lg grid-cols-3 gap-4">
-                  <Feature
-                    title="Live"
-                    text="Tracking"
-                  />
+                  <Feature title="Live" text="Tracking" />
 
-                  <Feature
-                    title="Smart"
-                    text="Alerts"
-                  />
+                  <Feature title="Smart" text="Alerts" />
 
-                  <Feature
-                    title="Secure"
-                    text="Access"
-                  />
+                  <Feature title="Secure" text="Access" />
                 </div>
               </div>
             </div>
 
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-400">
               NAVII GPS INDIA (OPC) PVT. LTD.
             </p>
           </section>
 
           {/* Login side */}
-          <section className="flex min-h-screen items-center justify-center px-5 py-10 sm:px-8 lg:px-12">
+          <section className="flex min-h-screen items-center justify-center px-5 pt-10 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:px-8 lg:px-12 lg:py-10">
             <div className="w-full max-w-md">
               {/* Mobile branding */}
               <div className="mb-10 flex items-center gap-3 lg:hidden">
@@ -342,9 +285,7 @@ export default function LoginPage() {
                 </div>
 
                 <div>
-                  <div className="text-xl font-black">
-                    NAVII GPS
-                  </div>
+                  <div className="text-xl font-black">NAVII GPS</div>
 
                   <div className="text-[10px] uppercase tracking-[0.2em] text-blue-400">
                     India (OPC) Pvt. Ltd.
@@ -358,18 +299,19 @@ export default function LoginPage() {
                     <LockKeyhole className="h-6 w-6 text-blue-400" />
                   </div>
 
-                  <h2 className="text-3xl font-black">
+                  <h2 id="login-heading" className="text-3xl font-black">
                     Welcome back
                   </h2>
 
                   <p className="mt-2 text-sm leading-6 text-slate-400">
-                    Sign in to access your NAVII GPS
-                    dashboard.
+                    Sign in to access your NAVII GPS dashboard.
                   </p>
                 </div>
 
                 <form
                   onSubmit={handleSubmit}
+                  aria-labelledby="login-heading"
+                  aria-busy={loading}
                   className="space-y-5"
                 >
                   <div>
@@ -381,21 +323,22 @@ export default function LoginPage() {
                     </label>
 
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" />
+                      <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
 
                       <input
                         id="email"
                         type="email"
-                        autoComplete="email"
+                        autoComplete="username"
+                        inputMode="email"
+                        name="email"
+                        required
+                        aria-invalid={Boolean(error)}
+                        aria-describedby={error ? "login-error" : undefined}
                         value={email}
-                        onChange={(event) =>
-                          setEmail(
-                            event.target.value,
-                          )
-                        }
+                        onChange={(event) => setEmail(event.target.value)}
                         disabled={loading}
                         placeholder="name@naviigps.com"
-                        className="h-14 w-full rounded-xl border border-white/10 bg-slate-950/70 pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="h-14 w-full rounded-xl border border-white/10 bg-slate-950/70 pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 disabled:cursor-not-allowed disabled:opacity-60"
                       />
                     </div>
                   </div>
@@ -409,39 +352,32 @@ export default function LoginPage() {
                     </label>
 
                     <div className="relative">
-                      <LockKeyhole className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" />
+                      <LockKeyhole className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
 
                       <input
                         id="password"
-                        type={
-                          showPassword
-                            ? "text"
-                            : "password"
-                        }
+                        type={showPassword ? "text" : "password"}
                         autoComplete="current-password"
+                        name="password"
+                        required
+                        aria-invalid={Boolean(error)}
+                        aria-describedby={error ? "login-error" : undefined}
                         value={password}
-                        onChange={(event) =>
-                          setPassword(
-                            event.target.value,
-                          )
-                        }
+                        onChange={(event) => setPassword(event.target.value)}
                         disabled={loading}
                         placeholder="Enter password"
-                        className="h-14 w-full rounded-xl border border-white/10 bg-slate-950/70 pl-12 pr-12 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="h-14 w-full rounded-xl border border-white/10 bg-slate-950/70 pl-12 pr-12 text-sm text-white outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 disabled:cursor-not-allowed disabled:opacity-60"
                       />
 
                       <button
                         type="button"
-                        onClick={() =>
-                          setShowPassword(
-                            (value) => !value,
-                          )
-                        }
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 transition hover:text-white"
+                        onClick={() => setShowPassword((value) => !value)}
+                        disabled={loading}
+                        aria-pressed={showPassword}
+                        aria-controls="password"
+                        className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-lg text-slate-400 outline-none transition hover:text-white focus-visible:ring-2 focus-visible:ring-blue-400 disabled:opacity-50"
                         aria-label={
-                          showPassword
-                            ? "Hide password"
-                            : "Show password"
+                          showPassword ? "Hide password" : "Show password"
                         }
                       >
                         {showPassword ? (
@@ -454,7 +390,13 @@ export default function LoginPage() {
                   </div>
 
                   {error && (
-                    <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm leading-6 text-red-300">
+                    <div
+                      id="login-error"
+                      ref={errorRef}
+                      role="alert"
+                      tabIndex={-1}
+                      className="outline-none focus-visible:ring-2 focus-visible:ring-red-400 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm leading-6 text-red-300"
+                    >
                       {error}
                     </div>
                   )}
@@ -462,7 +404,7 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-blue-600 text-sm font-bold text-white shadow-lg shadow-blue-600/20 outline-none transition hover:bg-blue-500 focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {loading ? (
                       <>
@@ -478,22 +420,46 @@ export default function LoginPage() {
                   </button>
                 </form>
 
+                <p className="mt-6 text-center text-sm text-slate-400">
+                  Need access or help signing in?{" "}
+                  <Link
+                    href="/contact"
+                    className="rounded text-blue-300 underline decoration-blue-300/40 underline-offset-4 outline-none hover:text-blue-200 focus-visible:ring-2 focus-visible:ring-blue-400"
+                  >
+                    Contact NAVII
+                  </Link>
+                </p>
+
                 <div className="mt-7 border-t border-white/10 pt-6">
-                  <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+                  <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
                     <ShieldCheck className="h-4 w-4 text-emerald-400" />
 
-                    <span>
-                      Secure role-based access
-                    </span>
+                    <span>Secure role-based access</span>
                   </div>
                 </div>
               </div>
 
-              <p className="mt-6 text-center text-xs leading-5 text-slate-600">
-                Authorized users only. Access is
-                controlled according to your NAVII GPS
-                account role.
+              <p className="mt-6 text-center text-xs leading-5 text-slate-400">
+                Authorized users only. Access is controlled according to your
+                NAVII GPS account role.
               </p>
+              <nav
+                aria-label="Legal information"
+                className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-3 text-xs text-slate-400"
+              >
+                <Link
+                  href="/privacy-policy"
+                  className="rounded py-2 outline-none hover:text-white focus-visible:ring-2 focus-visible:ring-blue-400"
+                >
+                  Privacy policy
+                </Link>
+                <Link
+                  href="/terms"
+                  className="rounded py-2 outline-none hover:text-white focus-visible:ring-2 focus-visible:ring-blue-400"
+                >
+                  Terms &amp; conditions
+                </Link>
+              </nav>
             </div>
           </section>
         </div>
@@ -502,20 +468,12 @@ export default function LoginPage() {
   );
 }
 
-function Feature({
-  title,
-  text,
-}: {
-  title: string;
-  text: string;
-}) {
+function Feature({ title, text }: { title: string; text: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur">
-      <div className="text-lg font-black text-white">
-        {title}
-      </div>
+      <div className="text-lg font-black text-white">{title}</div>
 
-      <div className="mt-1 text-xs uppercase tracking-wider text-slate-500">
+      <div className="mt-1 text-xs uppercase tracking-wider text-slate-400">
         {text}
       </div>
     </div>
