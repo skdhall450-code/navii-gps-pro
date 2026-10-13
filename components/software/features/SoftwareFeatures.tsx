@@ -29,12 +29,12 @@ const features = [
   },
   {
     title: "Fuel Monitoring",
-    description: "Track fuel level, consumption and theft alerts.",
+    description: "Review supported fuel readings with a compatible sensor, device integration and calibrated installation.",
     icon: Fuel,
   },
   {
     title: "Instant Alerts",
-    description: "Overspeed, ACC, Power Cut, SOS and Geo Fence alerts.",
+    description: "Configure supported overspeed, ignition and geofence alerts. Other events depend on the installed device.",
     icon: Bell,
   },
   {
@@ -54,12 +54,12 @@ const features = [
   },
   {
     title: "Multi User Access",
-    description: "Create unlimited users with different permissions.",
+    description: "Plan authorized user roles and vehicle access for the people responsible for your fleet.",
     icon: Users,
   },
   {
     title: "Remote Engine Lock",
-    description: "Immobilize vehicles remotely whenever required.",
+    description: "Discuss supported relay controls, installation and authorized command access for a compatible device.",
     icon: Lock,
   },
   {
@@ -74,7 +74,7 @@ const features = [
   },
   {
     title: "API Integration",
-    description: "Integrate GPS data with ERP and third-party systems.",
+    description: "Discuss the required data, access permissions and integration scope before connecting another business system.",
     icon: Database,
   },
 ];

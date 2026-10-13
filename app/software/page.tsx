@@ -2,10 +2,14 @@ import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import { PageSchema } from "@/components/seo/PageSchema";
 import type { Metadata } from "next";
 import Link from "next/link";
+import FleetSoftwareGuide from "@/components/software/FleetSoftwareGuide";
+
+const pageTitle = "Fleet Management Software India | GPS Tracking & Reports";
+const pageDescription = "Manage fleet location, trip history, depot geofences and vehicle alerts with NAVII GPS. Explore web and mobile access and request a fleet software demo.";
 
 export const metadata: Metadata = {
-  title: "Fleet Management & GPS Software India",
-  description: "Track vehicles, trips, routes, geofences, alerts and reports with NAVII GPS fleet management software for commercial fleets across India.",
+  title: pageTitle,
+  description: pageDescription,
   keywords: uniqueKeywords([
     "fleet management software India",
     "GPS fleet management software",
@@ -23,16 +27,16 @@ export const metadata: Metadata = {
   ]),
   alternates: { canonical: "https://naviigps.com/software" },
   openGraph: {
-    title: "Fleet Management Software India | NAVII GPS",
-    description: "Manage vehicle fleets with real-time GPS tracking, route history, geofencing, alerts, reports and fleet visibility.",
+    title: `${pageTitle} | NAVII GPS INDIA`,
+    description: pageDescription,
     url: "https://naviigps.com/software",
     type: "website",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS fleet management software in India" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fleet Management Software India | NAVII GPS",
-    description: "Real-time fleet tracking, vehicle monitoring, alerts, reports and geofencing with NAVII GPS.",
+    title: `${pageTitle} | NAVII GPS INDIA`,
+    description: pageDescription,
     images: ["/og-image.jpg"],
   },
 };
@@ -54,6 +58,7 @@ export default function SoftwarePage() {
       <PageSchema path="/software" name="GPS Tracking and Fleet Management Software" type="WebPage" description={metadata.description} /><Header />
       <main>
         <SoftwareHero />
+        <FleetSoftwareGuide />
         <DashboardPreview />
         <SoftwareFeatures />
         <SoftwareModules />
