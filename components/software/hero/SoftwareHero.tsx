@@ -51,18 +51,19 @@ export default function SoftwareHero() {
 
           <h1 className="mt-8 text-5xl font-extrabold leading-tight text-white lg:text-6xl">
 
-            GPS Tracking &
+            GPS Tracking &amp;
             <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
-              Fleet Management Software
+              Fleet Management Software in India
             </span>
 
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg leading-9 text-slate-300">
 
-            Manage vehicles, drivers, assets and operations from one GPS
-            tracking platform with real-time monitoring, route history,
-            alerts, reports and fleet analytics.
+            Review connected vehicles, recorded trips and supported alerts
+            from the NAVII GPS web dashboard and mobile app. Give dispatchers
+            the vehicle information they need, and choose hardware and
+            reporting settings around your fleet&apos;s routes.
 
           </p>
 
@@ -90,9 +91,9 @@ export default function SoftwareHero() {
 
             {[
               ["Live", "Tracking"],
-              ["Fuel", "Reports"],
+              ["Trip", "History"],
               ["Geo", "Fence"],
-              ["24×7", "Support"],
+              ["Fleet", "Reports"],
             ].map(([value, label]) => (
 
               <div
