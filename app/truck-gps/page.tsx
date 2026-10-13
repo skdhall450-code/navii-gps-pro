@@ -14,10 +14,10 @@ import {
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
-const pageTitle = "GPS for Trucks in India | Live Tracking";
+const pageTitle = "Truck GPS Tracker in India | Live Fleet Tracking";
 const fullTitle = `${pageTitle} | NAVII GPS INDIA`;
 const pageDescription =
-  "GPS for trucks in India with live location, trip history and geofence alerts. Compare NAVII GPS devices and request a quote for your truck or fleet.";
+  "Choose GPS for your truck or fleet: live location, trip playback, depot geofences and alerts. Compare G17 and GS900 4G trackers with NAVII GPS software.";
 
 export const metadata: Metadata = {
   title: pageTitle,
@@ -98,7 +98,37 @@ const installationChecklist = [
   "If you need fuel monitoring, ask for a separate compatibility and installation review.",
 ];
 
+const truckWorkflows = [
+  {
+    title: "Dispatch from the depot",
+    description: "Check the latest location and report time before assigning a truck. Set a depot geofence and review supported exit alerts alongside your dispatch record. A stale position needs a connectivity check before it is used to make a dispatch decision.",
+  },
+  {
+    title: "Review a loading or delivery stop",
+    description: "Create a boundary around a warehouse or customer site and review recorded entry and exit events. Compare these times with your loading or delivery records to investigate a long stop. A geofence event records vehicle movement; delivery confirmation still comes from your operating process.",
+  },
+  {
+    title: "Check a completed truck journey",
+    description: "Use trip playback to compare the recorded route with the assigned journey. Review available movement, ignition and overspeed events with the driver or dispatcher, and check gaps in reporting before drawing conclusions about the trip.",
+  },
+];
+
+const deviceSelection = [
+  ["One truck or an existing wired setup", "Start with the G17", "Review the power supply, wiring, SIM and supported ignition inputs for that truck."],
+  ["A requirement for 4G connectivity", "Review the GS900 4G", "Check the supported network and route coverage, then demonstrate the required alerts and reports."],
+  ["Several trucks managed by a dispatcher", "Choose hardware and software together", "Agree on vehicle names, authorized users, depot boundaries and who responds to alerts."],
+  ["Fuel-level monitoring alongside tracking", "Request a compatible sensor setup", "Confirm sensor integration, tank suitability and calibration separately from the base GPS tracker."],
+];
+
 const faqs = [
+  {
+    question: "Which GPS tracker should I choose for a commercial truck?",
+    answer: "Choose around the truck's power supply, operating routes and monitoring needs. Review G17 for a wired tracking setup or GS900 where 4G connectivity is required. Confirm the exact hardware, SIM, installation and supported platform functions before ordering.",
+  },
+  {
+    question: "Can GPS help check truck stops at a depot or warehouse?",
+    answer: "Geofences and recorded trip events can help you review a truck's arrival, departure and route activity around a depot or warehouse. Check the location report time and network availability when reviewing events, and compare them with your dispatch or delivery records.",
+  },
   {
     question: "How much does GPS tracking for a truck cost?",
     answer: "Ask NAVII GPS for a quote based on your truck count, device and required functions. Confirm what the quote includes and whether installation, connectivity, platform access or optional equipment carry separate or recurring charges.",
@@ -140,6 +170,15 @@ export default function TruckGPSPage() {
         provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
         url: "https://naviigps.com/truck-gps",
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://naviigps.com/truck-gps#faq",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
       },
       {
         "@type": "BreadcrumbList",
@@ -198,12 +237,34 @@ export default function TruckGPSPage() {
           </div>
         </section>
 
+        <section className="bg-slate-50 py-20">
+          <div className="mx-auto max-w-7xl px-6">
+            <h2 className="text-4xl font-extrabold text-slate-900">How to use GPS for truck dispatch and trip review</h2>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Use reported vehicle data alongside the records your transport team already keeps. Start with these three daily workflows.</p>
+            <div className="mt-10 grid gap-6 lg:grid-cols-3">
+              {truckWorkflows.map((workflow) => (
+                <article key={workflow.title} className="rounded-3xl border border-slate-200 bg-white p-7">
+                  <h3 className="text-2xl font-bold text-slate-900">{workflow.title}</h3>
+                  <p className="mt-4 leading-8 text-slate-600">{workflow.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="bg-slate-50 py-24">
           <div className="mx-auto max-w-7xl px-6">
             <div className="max-w-3xl">
               <span className="text-sm font-semibold tracking-[0.2em] text-cyan-700">TRUCK GPS DEVICES</span>
               <h2 className="mt-5 text-4xl font-extrabold text-slate-900 md:text-5xl">Choose a GPS tracker for your trucks</h2>
               <p className="mt-5 text-lg leading-8 text-slate-600">Start with your vehicle type and the information you need to see each day. Check the device, installation and software configuration together before selecting a tracker.</p>
+            </div>
+            <div className="mt-12 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+              <table className="w-full min-w-[640px] text-left text-slate-700">
+                <caption className="px-6 py-5 text-left text-xl font-bold text-slate-900">Truck GPS selection guide</caption>
+                <thead className="bg-blue-50 text-slate-900"><tr>{["Your requirement", "Setup to discuss", "What to confirm"].map((heading) => <th key={heading} scope="col" className="px-6 py-4 font-semibold">{heading}</th>)}</tr></thead>
+                <tbody>{deviceSelection.map(([requirement, setup, checks]) => <tr key={requirement} className="border-t border-slate-200"><th scope="row" className="px-6 py-5 font-semibold">{requirement}</th><td className="px-6 py-5">{setup}</td><td className="px-6 py-5 leading-7">{checks}</td></tr>)}</tbody>
+              </table>
             </div>
             <div className="mt-12 grid gap-7 md:grid-cols-2">
               {devices.map((device) => (
