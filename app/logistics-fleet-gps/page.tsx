@@ -14,10 +14,53 @@ import {
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
+const pageTitle = "Logistics Fleet GPS Tracking India | Dispatch & Trips";
+const pageDescription = "Monitor logistics vehicles, depot geofences and recorded trips with NAVII GPS. Plan device compatibility, dispatch access and reports for your delivery fleet.";
+
+const workflows = [
+  ["Check vehicles before dispatch", "Review the assigned vehicle, latest location timestamp and connection status before using the map for dispatch decisions. Confirm the planned route and the team responsible for following up on delays."],
+  ["Review warehouse and customer stops", "Configure geofences around relevant depot, warehouse and customer locations. Compare recorded entry and exit events with loading appointments and driver updates to investigate waiting time."],
+  ["Reconcile the completed journey", "Review received trip data alongside dispatch records and delivery documents. Use unexplained route changes or reporting gaps as prompts for a follow-up with the operator."],
+];
+
+const rolloutChecks = [
+  "List vehicle types, owned and contracted vehicles, regular routes, depots and required reporting periods.",
+  "Confirm compatible GPS hardware, vehicle power, installation arrangements and connectivity along representative routes.",
+  "Assign authorised dispatch users, vehicle access, geofence boundaries and the people responsible for reviewing configured alerts.",
+  "Pilot a depot-to-customer journey, compare available trip and stop records with operating records, and agree support and renewal costs before adding more vehicles.",
+];
+
+const faqs = [
+  {
+    question: "How can GPS tracking help a logistics dispatch team?",
+    answer: "Dispatch staff can review the latest reported vehicle positions, recorded trips and configured alerts to support daily coordination. Check each location timestamp and confirm availability with the operating team before reassigning a vehicle or communicating a delivery update.",
+  },
+  {
+    question: "Can geofences help review warehouse waiting time?",
+    answer: "Configured entry and exit events can help identify a vehicle's reported presence around a warehouse or depot. Compare these events with appointment, gate and loading records. Reporting intervals and boundary placement affect the record, and time inside a geofence does not by itself explain the cause of a delay.",
+  },
+  {
+    question: "Does vehicle tracking provide proof of delivery?",
+    answer: "A vehicle position or geofence event shows reported vehicle activity; it does not confirm that goods were handed over or accepted. Keep the delivery document or other agreed confirmation process. If an electronic proof-of-delivery integration is needed, request a separate assessment of its availability and scope.",
+  },
+  {
+    question: "Can owned and contracted vehicles appear in the same fleet view?",
+    answer: "Compatible connected vehicles can be assessed for a shared fleet setup. Confirm the device model, operator authorisation, vehicle assignments and user permissions for each contracted vehicle. Existing third-party devices or feeds need a compatibility review before inclusion is promised.",
+  },
+  {
+    question: "Can NAVII GPS connect to our transport or warehouse software?",
+    answer: "Share the system name, required data fields, update frequency and access requirements for an integration assessment. Confirm the supported interfaces and responsibilities before rollout. A transport management or warehouse integration is a separate scope, rather than an assumed feature of every tracking subscription.",
+  },
+  {
+    question: "What should we include in a logistics fleet tracking enquiry?",
+    answer: "Provide fleet size, vehicle types, operating routes, depot locations, existing GPS hardware, required reports and dispatch user count. Request an itemised quote for devices, installation, connectivity, software renewals and any additional sensors or integrations, with support arrangements explained.",
+  },
+];
+
 export const metadata: Metadata = {
-  title: "Logistics Fleet Tracking System India",
+  title: pageTitle,
   description:
-    "Track logistics and delivery fleets with live vehicle location, route history, geofencing, alerts and reports using NAVII GPS across India.",
+    pageDescription,
   keywords: uniqueKeywords([
     "logistics fleet tracking system",
     "logistics GPS tracking system India",
@@ -36,9 +79,9 @@ export const metadata: Metadata = {
     canonical: "https://naviigps.com/logistics-fleet-gps",
   },
   openGraph: {
-    title: "Logistics Fleet Tracking System in India | NAVII GPS",
+    title: `${pageTitle} | NAVII GPS`,
     description:
-      "Track logistics and delivery fleets with live location, routes, geofencing, alerts and fleet reports through NAVII GPS.",
+      pageDescription,
     url: "https://naviigps.com/logistics-fleet-gps",
     type: "website",
     images: [
@@ -52,9 +95,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Logistics Fleet Tracking System | NAVII GPS INDIA",
+    title: `${pageTitle} | NAVII GPS`,
     description:
-      "Live logistics fleet tracking, route history, delivery visibility, geofencing and fleet alerts.",
+      pageDescription,
     images: ["/og-image.jpg"],
   },
 };
@@ -63,7 +106,7 @@ const features = [
   {
     title: "Live Fleet Visibility",
     description:
-      "View the latest location and operational status of connected trucks, delivery vehicles and commercial fleets.",
+      "View the latest reported location and connection information for connected vehicles. Check the timestamp before using a position for dispatch decisions.",
     icon: RadioTower,
   },
   {
@@ -79,9 +122,9 @@ const features = [
     icon: ShieldCheck,
   },
   {
-    title: "Delivery & Fleet Reports",
+    title: "Trip & Fleet Reports",
     description:
-      "Use trip records and fleet reports to improve visibility across deliveries, vehicle utilization and daily operations.",
+      "Review available trip and fleet reports alongside dispatch and delivery records. Confirm the report fields and retention period needed by your team.",
     icon: ChartNoAxesCombined,
   },
 ];
@@ -100,10 +143,18 @@ export default function LogisticsFleetGPSPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "FAQPage",
+        "@id": "https://naviigps.com/logistics-fleet-gps#faq",
+        mainEntity: faqs.map(({ question, answer }) => ({
+          "@type": "Question", name: question,
+          acceptedAnswer: { "@type": "Answer", text: answer },
+        })),
+      },
+      {
         "@type": "WebPage",
         "@id": "https://naviigps.com/logistics-fleet-gps#webpage",
         url: "https://naviigps.com/logistics-fleet-gps",
-        name: "Logistics Fleet Tracking System in India | NAVII GPS",
+        name: pageTitle,
         description: metadata.description,
         isPartOf: { "@id": "https://naviigps.com/#website" },
         inLanguage: "en-IN",
@@ -149,11 +200,11 @@ export default function LogisticsFleetGPSPage() {
               <h1 className="mt-7 text-5xl font-extrabold leading-tight md:text-6xl lg:text-7xl">
                 Logistics Fleet Tracking System
                 <span className="block bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">
-                  for Smarter Transport Operations
+                  for Dispatch Teams in India
                 </span>
               </h1>
               <p className="mt-7 max-w-3xl text-lg leading-8 text-slate-200 md:text-xl">
-                Track logistics, delivery and commercial fleets with live vehicle visibility, route history, geofencing, alerts and fleet reports through the NAVII GPS platform.
+                Review logistics vehicle locations, recorded routes and configured depot alerts through NAVII GPS. Connect suitable hardware and fleet software to support dispatch coordination, warehouse stop reviews and daily transport reporting.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
                 <Link href="/contact" className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-7 py-4 font-semibold text-white transition hover:bg-cyan-400">
@@ -188,6 +239,36 @@ export default function LogisticsFleetGPSPage() {
                 );
               })}
             </div>
+          </div>
+        </section>
+
+        <section className="bg-[#06142E] py-24 text-white">
+          <div className="mx-auto max-w-7xl px-6">
+            <h2 className="text-3xl font-extrabold md:text-4xl">From dispatch checks to trip reconciliation</h2>
+            <div className="mt-10 grid gap-6 lg:grid-cols-3">
+              {workflows.map(([title, description]) => (
+                <article key={title} className="rounded-3xl border border-white/15 bg-white/5 p-7">
+                  <h3 className="text-xl font-bold text-cyan-200">{title}</h3>
+                  <p className="mt-4 leading-8 text-slate-300">{description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white py-24">
+          <div className="mx-auto max-w-5xl px-6">
+            <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">Plan a logistics fleet tracking pilot</h2>
+            <p className="mt-5 text-lg leading-8 text-slate-600">Start with a representative route and agree which vehicle events your team will review. Validate the setup before expanding across depots or contractors.</p>
+            <ol className="mt-8 space-y-4">
+              {rolloutChecks.map((item, index) => (
+                <li key={item} className="flex gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-6">
+                  <span className="font-bold text-blue-700">{index + 1}.</span>
+                  <p className="leading-8 text-slate-700">{item}</p>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-8 leading-8 text-slate-600">Comparing setups for a mixed fleet? <Link href="/vehicle-tracking-system" className="font-semibold text-blue-700 underline underline-offset-4">Read the vehicle tracking selection guide</Link>. If tank-level data is required, <Link href="/fuel-monitoring-system" className="font-semibold text-blue-700 underline underline-offset-4">review fuel monitoring compatibility and calibration</Link>.</p>
           </div>
         </section>
 
@@ -233,6 +314,20 @@ export default function LogisticsFleetGPSPage() {
                 <Link href="/truck-gps" className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">Truck GPS Tracking</Link>
                 <Link href="/industries" className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">Industry Solutions</Link>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-slate-50 py-24">
+          <div className="mx-auto max-w-5xl px-6">
+            <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">Logistics fleet GPS questions</h2>
+            <div className="mt-10 space-y-6">
+              {faqs.map(({ question, answer }) => (
+                <article key={question} className="rounded-3xl border border-slate-200 bg-white p-7">
+                  <h3 className="text-xl font-bold text-slate-900">{question}</h3>
+                  <p className="mt-4 leading-8 text-slate-600">{answer}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
