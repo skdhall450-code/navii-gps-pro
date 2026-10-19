@@ -6,10 +6,57 @@ import { ArrowRight, CheckCircle2, MapPinned, RadioTower, Route, ShieldCheck, Sm
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
+const pageTitle = "4G GPS Tracker India | Vehicle Selection & Setup";
+const pageDescription = "Choose a 4G GPS tracker for cars, trucks and fleets with NAVII GPS. Review device compatibility, SIM plans, installation and a practical fleet pilot checklist.";
+
+const setupChecks = [
+  [
+    "Device and vehicle",
+    "Confirm the exact model, vehicle power requirements and installation arrangements. Record any existing sensors or accessories that need a compatibility review."
+  ],
+  [
+    "SIM and operating routes",
+    "Confirm supported networks, the proposed SIM plan and activation details. Include regular routes and depots in the pilot so the team can review reporting in its actual operating area."
+  ],
+  [
+    "Software and access",
+    "Confirm device-to-platform compatibility, vehicle assignment and authorised users. Agree the reports, alerts and history requirements that will be checked at handover."
+  ],
+  [
+    "Handover and renewal",
+    "Record the device identifier, vehicle assignment, support contact and subscription expiry. Ask for separate hardware, installation, connectivity and software renewal charges."
+  ]
+];
+const faqs = [
+  {
+    "question": "What should I confirm before choosing a 4G GPS tracker?",
+    "answer": "Ask for the exact hardware model and its supported mobile networks, vehicle power requirements, installation instructions and platform compatibility. Share the vehicle type and operating routes, and agree which reports and alerts will be included before ordering."
+  },
+  {
+    "question": "Is the SIM included with a 4G GPS tracking package?",
+    "answer": "Confirm the package contents in your quotation. Ask which SIM and data plan are supplied, the activation process, plan validity, renewal charges and support responsibility. Do not assume that every hardware-only purchase includes connectivity or a software subscription."
+  },
+  {
+    "question": "Can I replace an existing tracker with a 4G unit?",
+    "answer": "Arrange a review of the existing device, wiring and software setup before replacement. The installer should check the new model's power and connection requirements. Confirm how the vehicle assignment, user access and previous trip records will be handled during the change."
+  },
+  {
+    "question": "What should we check if a vehicle stops reporting?",
+    "answer": "Review the timestamp of the last received location and the connection status. Ask the support team to check device power, SIM activation, data-plan validity, network coverage and configuration. Treat the displayed position as the last reported location until fresh data is received."
+  },
+  {
+    "question": "Are fuel sensors and relay functions included with every 4G tracker?",
+    "answer": "Confirm each required function for the exact device and installation. Share the sensor or accessory model and ask for a compatibility assessment. Obtain an itemised quotation covering any additional hardware, installation and platform configuration instead of assuming these functions are included."
+  },
+  {
+    "question": "How should a fleet test a 4G tracking setup before rollout?",
+    "answer": "Start with representative vehicles and routes. Check that expected location reports reach the authorised account, review trip history and configured geofence events, and document any reporting gaps with the support team. Agree the acceptance checks, installation schedule and recurring charges before expanding."
+  }
+];
+
 export const metadata: Metadata = {
-  title: "4G GPS Tracker for Vehicles India",
-  description:
-    "4G GPS tracker for cars, trucks and fleets in India with live location, route history, geofencing and alerts. Explore the NAVII GS900 tracker.",
+  title: pageTitle,
+  description: pageDescription,
   keywords: uniqueKeywords([
     "4G GPS tracker for vehicle",
     "4G GPS tracker India",
@@ -26,16 +73,16 @@ export const metadata: Metadata = {
   ]),
   alternates: { canonical: "https://naviigps.com/4g-gps-tracker" },
   openGraph: {
-    title: "4G GPS Tracker for Vehicle in India | NAVII GPS",
-    description: "Connected 4G GPS tracking for cars, trucks and vehicle fleets with live monitoring, routes, geofences and alerts.",
+    title: `${pageTitle} | NAVII GPS`,
+    description: pageDescription,
     url: "https://naviigps.com/4g-gps-tracker",
     type: "website",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS 4G GPS tracker for vehicle" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "4G GPS Tracker for Vehicle | NAVII GPS INDIA",
-    description: "4G vehicle GPS tracking with live location, route history, geofencing and fleet alerts.",
+    title: `${pageTitle} | NAVII GPS`,
+    description: pageDescription,
     images: ["/og-image.jpg"],
   },
 };
@@ -61,10 +108,18 @@ export default function FourGGpsTrackerPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "FAQPage",
+        "@id": "https://naviigps.com/4g-gps-tracker#faq",
+        mainEntity: faqs.map(({ question, answer }) => ({
+          "@type": "Question", name: question,
+          acceptedAnswer: { "@type": "Answer", text: answer },
+        })),
+      },
+      {
         "@type": "WebPage",
         "@id": "https://naviigps.com/4g-gps-tracker#webpage",
         url: "https://naviigps.com/4g-gps-tracker",
-        name: "4G GPS Tracker for Vehicle in India | NAVII GPS",
+        name: pageTitle,
         description: metadata.description,
         isPartOf: { "@id": "https://naviigps.com/#website" },
         inLanguage: "en-IN",
@@ -151,6 +206,35 @@ export default function FourGGpsTrackerPage() {
             <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-600">The NAVII GS900 is listed as a 4G vehicle tracking solution for live monitoring, fleet history and configurable alerts. Hardware functions remain configuration dependent.</p>
             <div className="mt-8 flex flex-wrap justify-center gap-4"><Link href="/products/gs900-4g-gps-tracker" className="inline-flex items-center gap-2 rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800">View GS900 Product <ArrowRight size={18} /></Link><Link href="/software" className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">GPS Tracking Software</Link><Link href="/products" className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">All GPS Trackers</Link></div>
           </div></div>
+        </section>
+
+        <section className="bg-[#06142E] py-24 text-white">
+          <div className="mx-auto max-w-7xl px-6">
+            <h2 className="text-3xl font-extrabold md:text-4xl">Four checks before a 4G tracker rollout</h2>
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              {setupChecks.map(([title, description]) => (
+                <article key={title} className="rounded-3xl border border-white/15 bg-white/5 p-7">
+                  <h3 className="text-xl font-bold text-cyan-200">{title}</h3>
+                  <p className="mt-4 leading-8 text-slate-300">{description}</p>
+                </article>
+              ))}
+            </div>
+            <p className="mt-8 leading-8 text-slate-300">For a broader comparison, read the <Link href="/vehicle-tracking-system" className="font-semibold text-cyan-200 underline underline-offset-4">vehicle tracking selection guide</Link>. Planning several vehicle types? Review the <Link href="/commercial-vehicle-tracking" className="font-semibold text-cyan-200 underline underline-offset-4">mixed commercial fleet setup guide</Link>.</p>
+          </div>
+        </section>
+
+        <section className="bg-slate-50 py-24">
+          <div className="mx-auto max-w-5xl px-6">
+            <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">4G GPS tracker questions</h2>
+            <div className="mt-10 space-y-6">
+              {faqs.map(({ question, answer }) => (
+                <article key={question} className="rounded-3xl border border-slate-200 bg-white p-7">
+                  <h3 className="text-xl font-bold text-slate-900">{question}</h3>
+                  <p className="mt-4 leading-8 text-slate-600">{answer}</p>
+                </article>
+              ))}
+            </div>
+          </div>
         </section>
 
         <section className="bg-white py-16"><div className="mx-auto max-w-6xl px-6"><div className="rounded-[32px] bg-gradient-to-r from-cyan-500 to-blue-700 p-10 text-center text-white md:p-14"><h2 className="text-4xl font-extrabold">Need a 4G GPS Tracker for Your Vehicle?</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-cyan-50">Share your vehicle type, operating area and tracking requirements with NAVII GPS so the appropriate hardware and software configuration can be evaluated.</p><Link href="/contact" className="mt-9 inline-flex items-center gap-2 rounded-xl bg-white px-7 py-4 font-semibold text-blue-700 transition hover:bg-slate-100">Contact NAVII GPS <ArrowRight size={19} /></Link></div></div></section>
