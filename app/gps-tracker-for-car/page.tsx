@@ -14,10 +14,29 @@ import {
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
+const pageTitle = "GPS Tracker for Car India | Selection & Setup";
+const pageDescription =
+  "Choose a car GPS tracker with NAVII GPS. Review vehicle compatibility, installation, subscription questions, live location, trip history and alerts.";
+
+const setupSteps = [
+  { title: "Match the tracker to your car", description: "Share your car make, model, year and whether it is a personal, company or taxi vehicle. Confirm the proposed device, power connection and required features before ordering." },
+  { title: "Confirm the complete package", description: "Ask for device, installation, connectivity and software charges separately. Confirm the included service period, renewal process and support arrangements in the quote." },
+  { title: "Check installation and handover", description: "Arrange installation with a qualified technician familiar with your vehicle. Before handover, check the car in your account, the latest location timestamp, a sample trip and the alerts included in your package." },
+  { title: "Set up everyday access", description: "Decide which authorized users need access, configure useful boundaries such as home or office, and review notification settings. Keep renewal and support details available for future changes." },
+];
+
+const faqs = [
+  { question: "How do I choose a GPS tracker for my car?", answer: "Start with your car model and the tasks you need to manage, such as checking location, reviewing trips or receiving boundary alerts. Ask NAVII GPS to confirm device compatibility, connectivity, installation requirements and the software features included in the proposed package." },
+  { question: "What should I check before car GPS tracker installation?", answer: "Confirm the installation method and power requirements for your exact vehicle with a qualified technician. Ask how the installation will be checked and request a handover demonstration of location updates, trip history and any configured alerts." },
+  { question: "Does a car GPS tracker have subscription or renewal charges?", answer: "Request a written breakdown of the device price, installation, SIM or data service, software access and renewals. Included services and renewal periods depend on the selected package, so confirm them before purchase." },
+  { question: "What should I check if my car location is not updating?", answer: "Check the time of the last location update and whether the account shows the device as connected. Review service validity and contact support with the vehicle and device details. Ask the installer to investigate power or installation issues instead of changing vehicle wiring yourself." },
+  { question: "Can family members or staff access the car tracking account?", answer: "Discuss the required authorized users during setup and confirm which account access options the chosen software supports. Agree who needs vehicle visibility and keep access details under the vehicle owner or business administrator's control." },
+  { question: "Can I move the GPS tracker to another car?", answer: "Ask NAVII GPS to check compatibility with the replacement car and confirm any removal, reinstallation or account update charges. Have a qualified technician handle the transfer and verify the new vehicle details, location updates and alerts afterward." },
+];
+
 export const metadata: Metadata = {
-  title: "GPS Tracker for Cars India",
-  description:
-    "GPS tracker for cars with live location, route history, geofencing and vehicle alerts through NAVII GPS tracking solutions across India.",
+  title: pageTitle,
+  description: pageDescription,
   keywords: uniqueKeywords([
     "GPS tracker for car",
     "GPS tracker for car India",
@@ -36,9 +55,8 @@ export const metadata: Metadata = {
     canonical: "https://naviigps.com/gps-tracker-for-car",
   },
   openGraph: {
-    title: "GPS Tracker for Car in India | NAVII GPS",
-    description:
-      "Track cars with live location, route history, geofencing and vehicle alerts using NAVII GPS tracking solutions.",
+    title: pageTitle,
+    description: pageDescription,
     url: "https://naviigps.com/gps-tracker-for-car",
     type: "website",
     images: [
@@ -52,9 +70,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GPS Tracker for Car | NAVII GPS INDIA",
-    description:
-      "Car GPS tracking with live location, route history, geofencing and vehicle alerts.",
+    title: pageTitle,
+    description: pageDescription,
     images: ["/og-image.jpg"],
   },
 };
@@ -100,10 +117,18 @@ export default function GPSCarPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      },
+      {
         "@type": "WebPage",
         "@id": "https://naviigps.com/gps-tracker-for-car#webpage",
         url: "https://naviigps.com/gps-tracker-for-car",
-        name: "GPS Tracker for Car in India | NAVII GPS",
+        name: pageTitle,
         description: metadata.description,
         isPartOf: { "@id": "https://naviigps.com/#website" },
         inLanguage: "en-IN",
@@ -233,6 +258,40 @@ export default function GPSCarPage() {
                 <Link href="/products" className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">View GPS Trackers</Link>
                 <Link href="/software" className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 transition hover:bg-slate-100">GPS Tracking Software</Link>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-[#06142E] py-20 text-white">
+          <div className="mx-auto max-w-7xl px-6">
+            <h2 className="text-3xl font-extrabold md:text-4xl">Car GPS Tracker Selection and Setup</h2>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">Use these checks to prepare for a personal car installation or a company vehicle handover.</p>
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              {setupSteps.map((step, index) => (
+                <article key={step.title} className="rounded-3xl border border-white/15 bg-white/5 p-7">
+                  <p className="text-sm font-semibold text-cyan-300">STEP {index + 1}</p>
+                  <h3 className="mt-3 text-xl font-bold">{step.title}</h3>
+                  <p className="mt-4 leading-7 text-slate-300">{step.description}</p>
+                </article>
+              ))}
+            </div>
+            <div className="mt-9 flex flex-wrap gap-6">
+              <Link href="/4g-gps-tracker" className="font-semibold text-cyan-300 underline underline-offset-4">Compare 4G GPS tracking requirements</Link>
+              <Link href="/vehicle-tracking-system" className="font-semibold text-cyan-300 underline underline-offset-4">Explore vehicle tracking systems</Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-slate-50 py-20">
+          <div className="mx-auto max-w-6xl px-6">
+            <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">Car GPS Tracker Questions</h2>
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              {faqs.map((faq) => (
+                <article key={faq.question} className="rounded-3xl border border-slate-200 bg-white p-7">
+                  <h3 className="text-xl font-bold text-slate-900">{faq.question}</h3>
+                  <p className="mt-4 leading-7 text-slate-600">{faq.answer}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
