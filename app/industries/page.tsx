@@ -26,10 +26,68 @@ import {
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
+const pageTitle = "Industry GPS Tracking Solutions India | Fleet Use Cases";
+const pageDescription = "Compare GPS tracking workflows for logistics, school transport, company cars and mixed fleets. Plan devices, user access, reports and a NAVII GPS pilot.";
+const workflowGuide = [
+  {
+    "title": "Logistics and delivery vehicles",
+    "task": "Review depot departures, warehouse stops and completed journeys alongside dispatch records.",
+    "checks": "Confirm report times, depot boundaries and the records needed to investigate a delayed stop.",
+    "href": "/logistics-fleet-gps",
+    "label": "Logistics fleet guide"
+  },
+  {
+    "title": "School and institutional transport",
+    "task": "Help the transport team review bus movement, route history and configured boundary events.",
+    "checks": "Agree authorised access, route changes and who follows up on alerts with the transport office.",
+    "href": "/school-bus-gps",
+    "label": "School bus tracking guide"
+  },
+  {
+    "title": "Company cars and cab fleets",
+    "task": "Review vehicle locations and recorded trips for assigned business journeys.",
+    "checks": "Confirm vehicle assignments, permitted users, installation and the history required for trip reviews.",
+    "href": "/gps-tracker-for-car",
+    "label": "Car tracker setup guide"
+  },
+  {
+    "title": "Mixed commercial operations",
+    "task": "Bring suitable connected vehicles into a shared operational view.",
+    "checks": "Match hardware to each vehicle type and agree reports and user access before expanding the fleet.",
+    "href": "/commercial-vehicle-tracking",
+    "label": "Commercial fleet guide"
+  }
+];
+const faqs = [
+  {
+    "question": "How do we choose GPS tracking for our industry?",
+    "answer": "Start with the decisions your team needs to make, such as reviewing depot departures, school bus routes or business journeys. List the vehicle types, routes, required reports and authorised users, then assess the device and software setup against those tasks."
+  },
+  {
+    "question": "Can the same GPS tracking setup be used for every vehicle?",
+    "answer": "A shared platform may support several compatible vehicle types, but device choice, power requirements and installation must be assessed for each one. Include any hired vehicles or equipment with different power arrangements in the review."
+  },
+  {
+    "question": "What should an industry fleet pilot include?",
+    "answer": "Choose representative vehicles and operating routes. Agree how to check location timestamps, recorded trips, configured alerts and user access. Compare the available data with normal operating records and resolve reporting gaps before a wider rollout."
+  },
+  {
+    "question": "Does vehicle tracking confirm that a delivery or pickup is complete?",
+    "answer": "A recorded location or geofence event helps review vehicle movement around a site. Use delivery records, pickup confirmations or the relevant operating process to establish that the task was completed."
+  },
+  {
+    "question": "Is fuel monitoring included in an industry GPS tracking package?",
+    "answer": "Confirm fuel monitoring separately in the proposed scope. It requires a compatible fuel-data source and any necessary sensor installation, tank calibration and software integration. Ask which readings and reports will be available for the actual vehicle setup."
+  },
+  {
+    "question": "What details are needed for an industry fleet quote?",
+    "answer": "Share fleet size, vehicle types, operating locations, existing hardware, required users and the tasks or reports you need. Ask for hardware, installation, connectivity, software, renewals and optional equipment to be itemised, with support and handover arrangements confirmed."
+  }
+];
+
 export const metadata: Metadata = {
-  title: "GPS Tracking Solutions for Industries",
-  description:
-    "GPS tracking and fleet management solutions for logistics, schools, transport, healthcare, manufacturing, agriculture and commercial fleets in India.",
+  title: pageTitle,
+  description: pageDescription,
   keywords: uniqueKeywords([
     "GPS tracking for industries",
     "fleet tracking solutions India",
@@ -45,9 +103,8 @@ export const metadata: Metadata = {
     canonical: "https://naviigps.com/industries",
   },
   openGraph: {
-    title: "GPS & Fleet Tracking Solutions for Industries | NAVII GPS INDIA",
-    description:
-      "Smart GPS tracking and fleet management solutions for businesses and transport operations across India.",
+    title: `${pageTitle} | NAVII GPS INDIA`,
+    description: pageDescription,
     url: "https://naviigps.com/industries",
     type: "website",
     images: [
@@ -61,9 +118,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GPS & Fleet Tracking Solutions for Industries | NAVII GPS INDIA",
-    description:
-      "GPS tracking and fleet management solutions for businesses and transport operations across India.",
+    title: `${pageTitle} | NAVII GPS INDIA`,
+    description: pageDescription,
     images: ["/og-image.jpg"],
   },
 };
@@ -89,7 +145,7 @@ const industries = [
   },
   {
     title: "Hospitals & Ambulances",
-    description: "Monitor ambulances and emergency fleets for faster operational coordination.",
+    description: "Review reported ambulance locations and trip records to support fleet coordination.",
     icon: Hospital,
     highlights: ["Live ambulance location", "Trip history", "Fleet availability"],
   },
@@ -137,7 +193,7 @@ const industries = [
   },
   {
     title: "Emergency Services",
-    description: "Support rescue and response fleets with dependable real-time vehicle visibility.",
+    description: "Review the latest reported vehicle locations alongside existing response coordination procedures.",
     icon: Siren,
     highlights: ["Rapid fleet location", "Status monitoring", "Response history"],
   },
@@ -166,6 +222,7 @@ export default function IndustriesPage() {
     <>
       <PageSchema path="/industries" name="GPS and Fleet Solutions for Industries" type="CollectionPage" description={metadata.description} /><Header />
       <main>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", "@id": "https://naviigps.com/industries#faq", mainEntity: faqs.map(({ question, answer }) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) }).replace(/</g, "\\u003c") }} />
         <section className="relative overflow-clip bg-gradient-to-br from-[#041225] via-[#08224A] to-[#103B82] py-24 text-white md:py-32">
           <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-cyan-400/15 blur-[120px]" />
           <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-blue-500/20 blur-[120px]" />
@@ -174,7 +231,7 @@ export default function IndustriesPage() {
               <span className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-5 py-2 text-sm font-semibold tracking-[0.18em] text-cyan-200">INDUSTRY SOLUTIONS</span>
               <h1 className="mt-7 text-5xl font-extrabold leading-tight md:text-6xl lg:text-7xl">
                 GPS & Fleet Solutions
-                <span className="block bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">Built for Every Industry</span>
+                <span className="block bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">for Different Fleet Operations</span>
               </h1>
               <p className="mt-7 max-w-3xl text-lg leading-8 text-slate-200 md:text-xl">NAVII GPS helps organizations monitor vehicles, improve operational visibility and manage connected fleets through one secure platform.</p>
               <div className="mt-10 flex flex-wrap gap-4">
@@ -242,6 +299,37 @@ export default function IndustriesPage() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white py-20">
+          <div className="mx-auto max-w-7xl px-6">
+            <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">Match GPS tracking to your daily workflow</h2>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Use your operating tasks to define the tracking requirement. Review the available data alongside the records your team already keeps.</p>
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              {workflowGuide.map((workflow) => (
+                <article key={workflow.title} className="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+                  <h3 className="text-xl font-bold text-slate-900">{workflow.title}</h3>
+                  <p className="mt-4 leading-7 text-slate-600">{workflow.task}</p>
+                  <p className="mt-4 leading-7 text-slate-600"><span className="font-semibold text-slate-900">Before rollout: </span>{workflow.checks}</p>
+                  <Link href={workflow.href} className="mt-6 inline-flex items-center gap-2 font-semibold text-blue-700 underline underline-offset-4">{workflow.label}<ArrowRight size={17} aria-hidden="true" /></Link>
+                </article>
+              ))}
+            </div>
+            <p className="mt-8 leading-8 text-slate-600">Need more than location data? <Link href="/fuel-monitoring-system" className="font-semibold text-blue-700 underline underline-offset-4">Review fuel monitoring requirements</Link> and confirm the reports you need in a <Link href="/software" className="font-semibold text-blue-700 underline underline-offset-4">fleet software demonstration</Link>.</p>
+          </div>
+        </section>
+        <section className="bg-slate-50 py-20">
+          <div className="mx-auto max-w-5xl px-6">
+            <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">Industry fleet tracking questions</h2>
+            <div className="mt-10 space-y-6">
+              {faqs.map(({ question, answer }) => (
+                <article key={question} className="rounded-3xl border border-slate-200 bg-white p-7">
+                  <h3 className="text-xl font-bold text-slate-900">{question}</h3>
+                  <p className="mt-4 leading-8 text-slate-600">{answer}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
