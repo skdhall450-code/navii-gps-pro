@@ -20,6 +20,18 @@ const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/gs)].map(([, value]) => dec
 check(urls.length > 0, "Empty sitemap");
 check(new Set(urls).size === urls.length, "Duplicate sitemap URLs");
 
+// lastmod is optional: accept only reviewed content dates, never build timestamps.
+const revisions = JSON.parse(readFileSync("lib/seo/contentRevisions.json", "utf8"));
+for (const [, block] of sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+  const url = decode(block.match(/<loc>(.*?)<\/loc>/s)?.[1] || "");
+  let pathname;
+  try { pathname = new URL(url).pathname; } catch { continue; }
+  const lastmod = block.match(/<lastmod>(.*?)<\/lastmod>/)?.[1];
+  const revision = revisions[pathname];
+  check(revision ? lastmod === revision.lastModified : !lastmod, `Unverified or missing lastmod: ${pathname}`);
+}
+for (const pathname of Object.keys(revisions)) check(urls.includes(`${origin}${pathname}`), `Reviewed lastmod route missing from sitemap: ${pathname}`);
+
 // A build can have valid HTML while the prerender manifest assigns a dedicated
 // route to a dynamic fallback, causing deployment-specific metadata/content.
 const prerender = JSON.parse(readFileSync(".next/prerender-manifest.json", "utf8"));

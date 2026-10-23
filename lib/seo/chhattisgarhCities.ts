@@ -24,7 +24,6 @@ function slugify(value: string) {
 export const chhattisgarhCities: ChhattisgarhCitySeo[] = chhattisgarhDistricts.flatMap((district) =>
   district.cities.filter((name) => slugify(name) !== district.slug).slice(0, 2).map((name) => {
     const slug = slugify(name);
-    const focus = `${name} and ${district.name} district commercial, agricultural, industrial, passenger and regional fleet operations coordinated through verified vehicle assignments, planned route windows and completed delivery or journey records`;
     return {
       slug,
       name,
@@ -32,9 +31,9 @@ export const chhattisgarhCities: ChhattisgarhCitySeo[] = chhattisgarhDistricts.f
       districtName: district.name,
       nearbyLocations: district.cities.filter((location) => location !== name),
       sectors: district.sectors,
-      focus,
+      focus: `${name} fleet assignments, route testing and journey review`,
       sourceUrl: district.sourceUrl,
-      localContext: `For vehicle operations in ${name}, plan ${focus}. Record the responsible driver, vehicle, route, authorised contact and actual operational outcome. GPS reports support journey review, while job records and signed handovers remain the evidence for the underlying task.`,
+      localContext: `For fleets based in ${name}, list the vehicles, responsible drivers and planned stops in ${district.name} district and on onward routes. Match each trip to its job record and authorised contact. GPS reports support journey review; delivery receipts and signed handovers confirm the underlying work.`,
       routeChecks: [
         `Confirm the ${name} assignment, responsible driver and authorised contact before dispatch.`,
         `Test device reporting on the actual ${name} route and record network gaps separately from operational delays.`,
@@ -59,7 +58,7 @@ export function getChhattisgarhCityPath(city: Pick<ChhattisgarhCitySeo, "distric
 export function generateChhattisgarhCityMetadata(city: ChhattisgarhCitySeo): Metadata {
   const url = `https://naviigps.com${getChhattisgarhCityPath(city)}`;
   const title = `GPS Tracker in ${city.name}, ${city.districtName}`;
-  const description = `GPS tracking in ${city.name}, ${city.districtName}: ${city.focus}. Compare devices, fleet software and installation needs.`;
+  const description = `Compare GPS trackers for ${city.name}, ${city.districtName}. Plan vehicle fitting, route tests, fleet reports and ongoing costs.`;
   return {
     title,
     description,
