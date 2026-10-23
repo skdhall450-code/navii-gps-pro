@@ -16,6 +16,7 @@ import {
   Bell,
   Car,
   CalendarCheck2,
+  CalendarClock,
   ChartNoAxesCombined,
   CreditCard,
   ReceiptIndianRupee,
@@ -69,6 +70,8 @@ const API_URL =
   "https://api.naviigps.com";
 
 const navigation: NavItem[] = [
+  { name: "Renewal worklist", href: "/dashboard/renewals", icon: CalendarClock, roles: ["SUPER_ADMIN", "ADMIN", "DEALER", "CUSTOMER"] },
+  { name: "Device Health Centre", href: "/dashboard/device-health", icon: Activity, roles: ["SUPER_ADMIN", "ADMIN", "DEALER"] },
   { name: "Device Setup", href: "/dashboard/device-setup", icon: Radio, roles: ["SUPER_ADMIN", "ADMIN", "DEALER"] },
   {
     name: "Dashboard",
