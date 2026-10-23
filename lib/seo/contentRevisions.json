@@ -1,0 +1,62 @@
+{
+  "/industries": {
+    "lastModified": "2026-10-21T21:24:08+05:30",
+    "sourceCommit": "2b6808a3fe2b8d40a1b17ba6d1e05702a02b2be0",
+    "sourcePath": "app/industries/page.tsx",
+    "sourceSha256": "39aa8cad1482432f593d1891d8c70fb1da5cfda8040bacd28a4d422d5733b6d6"
+  },
+  "/gps-tracking-company-india": {
+    "lastModified": "2026-10-20T23:27:45+05:30",
+    "sourceCommit": "43da0541a804d0e5f732447d7071c74acc0e6bf0",
+    "sourcePath": "app/gps-tracking-company-india/page.tsx",
+    "sourceSha256": "507fdd533a09b91ec6eae5de1b00da36224bf60a0979b6234b2e39235964795e"
+  },
+  "/gps-tracker-for-car": {
+    "lastModified": "2026-10-20T23:18:43+05:30",
+    "sourceCommit": "6eb2fcdbff72b69d69508e95a32c277128b8ccfd",
+    "sourcePath": "app/gps-tracker-for-car/page.tsx",
+    "sourceSha256": "68a1b43ce7d85e9399da993bb77c5e4d1cfdaa28750e58f80590c9eab2f7456c"
+  },
+  "/4g-gps-tracker": {
+    "lastModified": "2026-10-19T11:14:28+05:30",
+    "sourceCommit": "46a189151f7bc4f10076a52d00f811d9951c49f9",
+    "sourcePath": "app/4g-gps-tracker/page.tsx",
+    "sourceSha256": "62f216e3ac26f589329f46197effa9966e0c5599a19e59a676d5c4318b34a32a"
+  },
+  "/commercial-vehicle-tracking": {
+    "lastModified": "2026-10-17T19:16:17+05:30",
+    "sourceCommit": "19a187c1544e947101fe5c97aaebb7928fd41d2e",
+    "sourcePath": "app/commercial-vehicle-tracking/page.tsx",
+    "sourceSha256": "8102d7b8ff16616f02365e1dedbda645aee4488725199e69a2ed6599d6b0d56e"
+  },
+  "/logistics-fleet-gps": {
+    "lastModified": "2026-10-14T01:07:47+05:30",
+    "sourceCommit": "2da729c9ac0c13a949262f749f468a9eb3e33932",
+    "sourcePath": "app/logistics-fleet-gps/page.tsx",
+    "sourceSha256": "b9cb96096ecda22d9ed875b126d6264c62e88e514a7e7ccd9bc96663467de0f8"
+  },
+  "/vehicle-tracking-system": {
+    "lastModified": "2026-10-14T00:27:51+05:30",
+    "sourceCommit": "46236810d07f3fe9ccdb335a710fdb1740c62276",
+    "sourcePath": "app/vehicle-tracking-system/page.tsx",
+    "sourceSha256": "ffbd1176bc405435c937a21eb4cb4d478e6738e41f713528157c5f6461dd9f0d"
+  },
+  "/school-bus-gps": {
+    "lastModified": "2026-10-13T23:21:23+05:30",
+    "sourceCommit": "422e61cebb3f0d8a72b25f1999da73e0dee0bfd1",
+    "sourcePath": "app/school-bus-gps/page.tsx",
+    "sourceSha256": "2fa9b24903e8068a39fecf78ab129107c091f33d36a8c66d8de1234a6c69a858"
+  },
+  "/fuel-monitoring-system": {
+    "lastModified": "2026-10-13T22:38:02+05:30",
+    "sourceCommit": "cd15cf7488cddc0099c0e650a225b22eb3936118",
+    "sourcePath": "app/fuel-monitoring-system/page.tsx",
+    "sourceSha256": "34a902434e8896cd68dfce90c83330b69e2b11bcdafab930dab684923a7202ac"
+  },
+  "/truck-gps": {
+    "lastModified": "2026-10-13T19:44:39+05:30",
+    "sourceCommit": "41b57fe9a3a857e6336c81bebd5e6886fb945f4f",
+    "sourcePath": "app/truck-gps/page.tsx",
+    "sourceSha256": "78bb30767de739bb22614ef5f58fec45dbe3e2659ad192e8675684bbd232f782"
+  }
+}

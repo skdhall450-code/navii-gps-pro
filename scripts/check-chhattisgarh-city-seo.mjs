@@ -38,6 +38,8 @@ assert.ok(routeSource.includes("ChhattisgarhCityGpsPage"), "Chhattisgarh town pa
 assert.ok(districtPageSource.includes("cityGuides.map"), "Chhattisgarh district-to-town links are missing");
 assert.ok(hubSource.includes("chhattisgarhCities.map"), "Chhattisgarh state-to-town links are missing");
 assert.ok(sitemapSource.includes("chhattisgarhCityRoutes"), "Chhattisgarh town sitemap routes are missing");
+assert.ok(!citySource.includes("fleet operations coordinated through verified vehicle assignments"), "Repeated generic operational copy returned");
+assert.ok(!pageSource.includes("city.focus"), "A repeated focus field must not be reused across headings and paragraphs");
 assert.ok(citySource.includes("वाहन GPS ट्रैकर"), "Hindi-intent town keyword generation is missing");
 assert.ok(pageSource.includes('"@type": "FAQPage"'), "Chhattisgarh town FAQ schema is missing");
 assert.ok(pageSource.includes('"@type": "Place"'), "Chhattisgarh town Service place schema is missing");
@@ -69,6 +71,13 @@ for (const [districtSlug, slug, name, districtName] of citySeeds) {
   assert.ok(districtHtml.includes(`href="${route}"`), `Chhattisgarh town orphaned from district: ${route}`);
   const sibling = citySeeds.find(([entryDistrict, entrySlug]) => entryDistrict === districtSlug && entrySlug !== slug);
   assert.ok(html.includes(`href="/gps-tracker/chhattisgarh/${districtSlug}/${sibling[1]}"`), `Chhattisgarh town missing paired-town link: ${route}`);
+  const visibleMarkup = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
+  assert.ok(!visibleMarkup.includes("fleet operations coordinated through verified vehicle assignments"), `Repeated generic operational copy: ${route}`);
+  const workflowHeading = "Connect each trip to a clear job record";
+  assert.equal(visibleMarkup.split(workflowHeading).length - 1, 1, `Expected one concise workflow heading: ${route}`);
+  const description = visibleMarkup.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  assert.ok(description, `Missing Chhattisgarh town description: ${route}`);
+  assert.ok(description.length <= 200, `Overlong Chhattisgarh town description: ${route}`);
   const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
   assert.ok(schemas.some((schema) => schema["@graph"]?.some((item) => item["@type"] === "Service" && item.url === canonical && item.areaServed?.["@type"] === "Place")), `Missing Chhattisgarh town Service schema: ${route}`);
   assert.ok(schemas.some((schema) => schema["@graph"]?.some((item) => item["@type"] === "FAQPage")), `Missing Chhattisgarh town FAQ schema: ${route}`);

@@ -1,5 +1,6 @@
 import { internationalIndustries } from "@/lib/seo/internationalIndustries";
 import type { MetadataRoute } from "next";
+import contentRevisions from "@/lib/seo/contentRevisions.json";
 
 import { products } from "@/components/products/data/productsData";
 import { indiaStates } from "@/lib/seo/indiaStates";
@@ -106,5 +107,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const madhyaPradeshCityRoutes: MetadataRoute.Sitemap = madhyaPradeshCities.map((city) => ({ url: `${baseUrl}${getMadhyaPradeshCityPath(city)}`, changeFrequency: "monthly", priority: 0.84 }));
   const chhattisgarhDistrictRoutes: MetadataRoute.Sitemap = chhattisgarhDistricts.map((district) => ({ url: `${baseUrl}/gps-tracker/chhattisgarh/${district.slug}`, changeFrequency: "monthly", priority: 0.88 }));
   const chhattisgarhCityRoutes: MetadataRoute.Sitemap = chhattisgarhCities.map((city) => ({ url: `${baseUrl}${getChhattisgarhCityPath(city)}`, changeFrequency: "monthly", priority: 0.84 }));
-  return [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...haryanaCityRoutes, ...punjabDistrictRoutes, ...punjabCityRoutes, ...delhiDistrictRoutes, ...delhiAreaRoutes, ...uttarPradeshDistrictRoutes, ...uttarPradeshCityRoutes, ...tamilNaduDistrictRoutes, ...tamilNaduCityRoutes, ...karnatakaDistrictRoutes, ...karnatakaCityRoutes, ...andhraPradeshDistrictRoutes, ...andhraPradeshCityRoutes, ...telanganaDistrictRoutes, ...telanganaCityRoutes, ...keralaDistrictRoutes, ...keralaCityRoutes, ...maharashtraDistrictRoutes, ...maharashtraCityRoutes, ...gujaratDistrictRoutes, ...gujaratCityRoutes, ...rajasthanDistrictRoutes, ...rajasthanCityRoutes, ...madhyaPradeshDistrictRoutes, ...madhyaPradeshCityRoutes, ...chhattisgarhDistrictRoutes, ...chhattisgarhCityRoutes, ...productRoutes];
+  const routes: MetadataRoute.Sitemap = [...staticRoutes, ...stateRoutes, ...cityRoutes, ...internationalRoutes, ...internationalCityRoutes, ...haryanaDistrictRoutes, ...haryanaCityRoutes, ...punjabDistrictRoutes, ...punjabCityRoutes, ...delhiDistrictRoutes, ...delhiAreaRoutes, ...uttarPradeshDistrictRoutes, ...uttarPradeshCityRoutes, ...tamilNaduDistrictRoutes, ...tamilNaduCityRoutes, ...karnatakaDistrictRoutes, ...karnatakaCityRoutes, ...andhraPradeshDistrictRoutes, ...andhraPradeshCityRoutes, ...telanganaDistrictRoutes, ...telanganaCityRoutes, ...keralaDistrictRoutes, ...keralaCityRoutes, ...maharashtraDistrictRoutes, ...maharashtraCityRoutes, ...gujaratDistrictRoutes, ...gujaratCityRoutes, ...rajasthanDistrictRoutes, ...rajasthanCityRoutes, ...madhyaPradeshDistrictRoutes, ...madhyaPradeshCityRoutes, ...chhattisgarhDistrictRoutes, ...chhattisgarhCityRoutes, ...productRoutes];
+  // Only reviewed, substantive content edits supply dates. Unknown dates stay omitted.
+  // Do not replace these with the build time or a site-wide latest commit date.
+  const revisions: Record<string, { lastModified: string; sourceCommit: string }> = contentRevisions;
+  return routes.map((route) => {
+    const revision = revisions[new URL(route.url).pathname];
+    return revision ? { ...route, lastModified: revision.lastModified } : route;
+  });
 }
