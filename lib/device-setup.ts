@@ -1,6 +1,6 @@
 export type SetupDevice = {
   id: string; imei: string | null; terminalId?: string | null; model: string | null; simNumber: string | null; isActive: boolean; lastSeenAt: string | null;
-  vehicle: { id: string; companyId?: string; vehicleNo: string; lastUpdate: string | null; latitude: number | null; longitude: number | null };
+  vehicle: { id: string; companyId?: string; customerId?: string | null; dealerId?: string | null; vehicleNo: string; lastUpdate: string | null; latitude: number | null; longitude: number | null };
 };
 export type RegistrationRow = { model: string; imei: string; terminalId?: string; simNumber: string };
 export type RegistrationResult = { row: number; status: 'CREATED' | 'EXISTS' | 'INVALID' | 'DUPLICATE' | 'CONFLICT' | 'FAILED'; message: string; deviceId?: string };
