@@ -14,10 +14,10 @@ import {
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/FooterV2";
 
-const pageTitle = "Truck GPS Tracker in India | Live Fleet Tracking";
+const pageTitle = "GPS for Trucks in India: Compare Trackers";
 const fullTitle = `${pageTitle} | NAVII GPS INDIA`;
 const pageDescription =
-  "Choose GPS for your truck or fleet: live location, trip playback, depot geofences and alerts. Compare G17 and GS900 4G trackers with NAVII GPS software.";
+  "Compare G17 and GS900 4G options for truck tracking. Check live location, trip history and depot alerts, and request an itemised installation quote.";
 
 export const metadata: Metadata = {
   title: pageTitle,
