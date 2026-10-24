@@ -48,7 +48,7 @@ function vehicle(){return {id:'test-vehicle',vehicleNo:'SYNTHETIC-QA',vehicleTyp
   for(const path of routes){
    scenario='stale';outage=false;await page.clock.setSystemTime(now);
    await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:60000});
-   await page.getByText('Awaiting GPS',{exact:true}).first().waitFor({timeout:30000});
+   await page.getByText('Awaiting GPS',{exact:true}).filter({visible:true}).first().waitFor({timeout:30000});
    const text=await page.locator('body').innerText();
    assert.match(text,/Unavailable/); assert.doesNotMatch(text,/35\.0 km\/h|12\.300 V/);
    if(path.endsWith('/test-vehicle')||path.endsWith('/live-tracking')){
@@ -69,7 +69,7 @@ function vehicle(){return {id:'test-vehicle',vehicleNo:'SYNTHETIC-QA',vehicleTyp
   }
   outage=true;
   await page.clock.fastForward(130000);
-  await page.getByText('Awaiting GPS',{exact:true}).first().waitFor({timeout:15000});
+  await page.getByText('Awaiting GPS',{exact:true}).filter({visible:true}).first().waitFor({timeout:15000});
   assert.doesNotMatch(await page.locator('body').innerText(),/35\.0 km\/h|12\.300 V/);
   console.log('PASS cached GPS expires during API outage');
   assert.deepEqual(unexpected,[]);
