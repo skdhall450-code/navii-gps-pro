@@ -1,5 +1,8 @@
 "use client";
 
+import { useTrackingNow } from "@/hooks/use-tracking-now";
+import { getTelemetry, getTrackingDetails, TRACKING_LABELS, type TrackingState } from "@/lib/tracking-state";
+
 import { useRouter } from "next/navigation";
 import {
   useCallback,
@@ -27,6 +30,7 @@ type Device = {
   model: string | null;
   simNumber: string | null;
   isActive: boolean;
+  lastSeenAt?: string | null;
 };
 
 type Vehicle = {
@@ -95,6 +99,7 @@ async function readJson<T>(
 }
 
 function DashboardContent() {
+  const now = useTrackingNow();
   const router = useRouter();
 
   const [vehicles, setVehicles] =
@@ -224,21 +229,21 @@ function DashboardContent() {
     const moving =
       vehicles.filter(
         (vehicle) =>
-          vehicle.status ===
+          getTrackingDetails(vehicle, now).state ===
           "MOVING",
       ).length;
 
     const idle =
       vehicles.filter(
         (vehicle) =>
-          vehicle.status ===
+          getTrackingDetails(vehicle, now).state ===
           "IDLE",
       ).length;
 
     const offline =
       vehicles.filter(
         (vehicle) =>
-          vehicle.status ===
+          getTrackingDetails(vehicle, now).state ===
           "OFFLINE",
       ).length;
 
@@ -256,6 +261,7 @@ function DashboardContent() {
     const batteryOk =
       vehicles.filter(
         (vehicle) =>
+          getTelemetry(vehicle, now).current &&
           vehicle.battery !==
             null &&
           vehicle.battery >=
@@ -271,7 +277,7 @@ function DashboardContent() {
       devices,
       batteryOk,
     };
-  }, [vehicles]);
+  }, [vehicles, now]);
 
   const cards = [
     {
@@ -486,42 +492,27 @@ function DashboardContent() {
 
                         <td className="p-4">
                           <StatusBadge
-                            status={
-                              vehicle.status
-                            }
+                            status={getTrackingDetails(vehicle, now).state}
                           />
                         </td>
 
                         <td className="p-4">
-                          {Number(
-                            vehicle.speed ||
-                              0,
-                          ).toFixed(
-                            1,
-                          )}{" "}
-                          km/h
+                          {getTelemetry(vehicle, now).speed}
                         </td>
 
                         <td className="p-4">
-                          {vehicle.battery !==
-                          null
-                            ? `${vehicle.battery.toFixed(
-                                2,
-                              )} V`
-                            : "—"}
+                          {getTelemetry(vehicle, now).battery}
                         </td>
 
                         <td className="p-4">
                           <span
                             className={
-                              vehicle.ignition
+                              getTelemetry(vehicle, now).current && vehicle.ignition
                                 ? "text-emerald-400"
                                 : "text-slate-400"
                             }
                           >
-                            {vehicle.ignition
-                              ? "ON"
-                              : "OFF"}
+                            {getTelemetry(vehicle, now).ignition}
                           </span>
                         </td>
                       </tr>
@@ -631,7 +622,7 @@ export default function DashboardPage() {
 function StatusBadge({
   status,
 }: {
-  status: Vehicle["status"];
+  status: TrackingState;
 }) {
   const styles = {
     MOVING:
@@ -640,6 +631,7 @@ function StatusBadge({
     IDLE:
       "bg-amber-500/10 text-amber-400",
 
+    GPS_STALE: "bg-orange-500/10 text-orange-400",
     OFFLINE:
       "bg-red-500/10 text-red-400",
   };
@@ -648,7 +640,7 @@ function StatusBadge({
     <span
       className={`rounded-full px-3 py-1 text-xs font-semibold ${styles[status]}`}
     >
-      {status}
+      {TRACKING_LABELS[status]}
     </span>
   );
 }

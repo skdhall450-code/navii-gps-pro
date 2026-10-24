@@ -1,5 +1,8 @@
 "use client";
 
+import { useTrackingNow } from "@/hooks/use-tracking-now";
+import { getTelemetry, getTrackingDetails, hasCoordinates, TRACKING_LABELS } from "@/lib/tracking-state";
+
 import { VehicleTypeIcon } from "@/components/tracking/VehicleTypeIcon";
 import { formatSimNumber, getVehicleIconSvg, getVehicleTypeLabel } from "@/lib/vehicle-presentation";
 
@@ -100,12 +103,6 @@ const API_BASE =
   process.env.NEXT_PUBLIC_API_URL ||
   "https://api.naviigps.com";
 
-const LIVE_TIMEOUT_MS =
-  2 * 60 * 1000;
-
-const OFFLINE_TIMEOUT_MS =
-  10 * 60 * 1000;
-
 function getAccessToken() {
   if (
     typeof window ===
@@ -154,50 +151,13 @@ async function readJson<T>(
   }
 }
 
-function getCommunicationTimestamp(
-  vehicle: Vehicle,
-): string | null {
-  return (
-    vehicle.device?.lastSeenAt ??
-    vehicle.lastUpdate
-  );
+function getCommunicationTimestamp(vehicle: Vehicle): string | null {
+  return vehicle.device?.lastSeenAt ?? null;
 }
 
-function getCommunicationState(
-  lastUpdate: string | null,
-): CommunicationState {
-  if (!lastUpdate) {
-    return "OFFLINE";
-  }
-
-  const timestamp =
-    new Date(
-      lastUpdate,
-    ).getTime();
-
-  if (
-    Number.isNaN(timestamp)
-  ) {
-    return "OFFLINE";
-  }
-
-  const age =
-    Date.now() - timestamp;
-
-  if (
-    age <= LIVE_TIMEOUT_MS
-  ) {
-    return "LIVE";
-  }
-
-  if (
-    age <=
-    OFFLINE_TIMEOUT_MS
-  ) {
-    return "STALE";
-  }
-
-  return "OFFLINE";
+function getCommunicationState(vehicle: Vehicle, now: number): CommunicationState {
+  const tracking = getTrackingDetails(vehicle, now);
+  return !tracking.connected ? "OFFLINE" : tracking.current ? "LIVE" : "STALE";
 }
 
 function formatLastSeen(
@@ -265,11 +225,10 @@ function formatLastSeen(
 function createVehicleIcon(
   vehicle: Vehicle,
   selected: boolean,
+  now: number,
 ) {
   const communication =
-    getCommunicationState(
-      getCommunicationTimestamp(vehicle),
-    );
+    getCommunicationState(vehicle, now);
 
   let border =
     "#64748b";
@@ -282,7 +241,7 @@ function createVehicleIcon(
     "LIVE"
   ) {
     if (
-      vehicle.status ===
+      getTrackingDetails(vehicle, now).state ===
       "MOVING"
     ) {
       border =
@@ -395,6 +354,7 @@ function MapUpdater({
 }
 
 export default function LiveTrackingMap() {
+  const now = useTrackingNow();
   const [
     vehicles,
     setVehicles,
@@ -833,24 +793,7 @@ export default function LiveTrackingMap() {
       search,
     ]);
 
-  const validVehicles =
-    useMemo(() => {
-      return vehicles.filter(
-        (vehicle) =>
-          typeof
-            vehicle.latitude ===
-            "number" &&
-          Number.isFinite(
-            vehicle.latitude,
-          ) &&
-          typeof
-            vehicle.longitude ===
-            "number" &&
-          Number.isFinite(
-            vehicle.longitude,
-          ),
-      );
-    }, [vehicles]);
+  const validVehicles = useMemo(() => vehicles.filter(hasCoordinates), [vehicles]);
 
   const routeCoordinates =
     useMemo(() => {
@@ -871,10 +814,10 @@ export default function LiveTrackingMap() {
       () =>
         vehicles.filter(
           (vehicle) =>
-            vehicle.status ===
+            getTrackingDetails(vehicle, now).state ===
             "MOVING",
         ).length,
-      [vehicles],
+      [vehicles, now],
     );
 
   const idleCount =
@@ -882,10 +825,10 @@ export default function LiveTrackingMap() {
       () =>
         vehicles.filter(
           (vehicle) =>
-            vehicle.status ===
+            getTrackingDetails(vehicle, now).state ===
             "IDLE",
         ).length,
-      [vehicles],
+      [vehicles, now],
     );
 
   const offlineCount =
@@ -893,30 +836,21 @@ export default function LiveTrackingMap() {
       () =>
         vehicles.filter(
           (vehicle) =>
-            getCommunicationState(
-              getCommunicationTimestamp(vehicle),
-            ) ===
+            getCommunicationState(vehicle, now) ===
             "OFFLINE",
         ).length,
-      [vehicles],
+      [vehicles, now],
     );
 
-  const defaultLatitude =
-    selectedVehicle
-      ?.latitude ??
-    30.6043;
-
-  const defaultLongitude =
-    selectedVehicle
-      ?.longitude ??
-    76.86310166666667;
+  const defaultLatitude = selectedVehicle && hasCoordinates(selectedVehicle) ? selectedVehicle.latitude! : 30.6043;
+  const defaultLongitude = selectedVehicle && hasCoordinates(selectedVehicle) ? selectedVehicle.longitude! : 76.86310166666667;
 
   const selectedCommunication =
     selectedVehicle
-      ? getCommunicationState(
-          getCommunicationTimestamp(selectedVehicle),
-        )
+      ? getCommunicationState(selectedVehicle, now)
       : "OFFLINE";
+
+  const selectedTelemetry = selectedVehicle ? getTelemetry(selectedVehicle, now) : null;
 
   if (loading) {
     return (
@@ -1049,9 +983,7 @@ export default function LiveTrackingMap() {
                       vehicle.id;
 
                     const communication =
-                      getCommunicationState(
-                        getCommunicationTimestamp(vehicle),
-                      );
+                      getCommunicationState(vehicle, now);
 
                     return (
                       <button
@@ -1115,18 +1047,13 @@ export default function LiveTrackingMap() {
                           <p>IMEI: {vehicle.device?.imei ?? "Not assigned"}</p>
                           <p>SIM: {formatSimNumber(vehicle.device?.simNumber)}</p>
                           <p>{getVehicleTypeLabel(vehicle.vehicleType)}</p>
+                          <p>{getTrackingDetails(vehicle, now).gps}</p>
                         </div>
 
                         <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-400">
                           <span>
                             Speed{" "}
-                            {Number(
-                              vehicle.speed ??
-                                0,
-                            ).toFixed(
-                              1,
-                            )}{" "}
-                            km/h
+                            {getTelemetry(vehicle, now).speed}
                           </span>
 
                           <span>
@@ -1169,18 +1096,14 @@ export default function LiveTrackingMap() {
                 />
               </div>
 
+              {!selectedTelemetry?.current && <p className="mb-4 text-sm text-amber-300">Current telemetry unavailable. Waiting for a fresh GPS reading.</p>}
               <div className="grid grid-cols-2 gap-3">
                 <TelemetryCard
                   icon={
                     <Gauge />
                   }
                   label="Speed"
-                  value={`${Number(
-                    selectedVehicle.speed ??
-                      0,
-                  ).toFixed(
-                    1,
-                  )} km/h`}
+                  value={selectedTelemetry?.speed ?? "Unavailable"}
                 />
 
                 <TelemetryCard
@@ -1188,11 +1111,7 @@ export default function LiveTrackingMap() {
                     <Power />
                   }
                   label="Ignition"
-                  value={
-                    selectedVehicle.ignition
-                      ? "ON"
-                      : "OFF"
-                  }
+                  value={selectedTelemetry?.ignition ?? "Unavailable"}
                 />
 
                 <TelemetryCard
@@ -1200,14 +1119,7 @@ export default function LiveTrackingMap() {
                     <Battery />
                   }
                   label="Battery"
-                  value={
-                    selectedVehicle.battery !=
-                    null
-                      ? `${selectedVehicle.battery.toFixed(
-                          2,
-                        )} V`
-                      : "—"
-                  }
+                  value={selectedTelemetry?.battery ?? "Unavailable"}
                 />
 
                 <TelemetryCard
@@ -1215,13 +1127,13 @@ export default function LiveTrackingMap() {
                     <CircleDot />
                   }
                   label="GPS Status"
-                  value={
-                    selectedVehicle.status
-                  }
+                  value={selectedTelemetry ? TRACKING_LABELS[selectedTelemetry.state] : "Unavailable"}
                 />
               </div>
 
               <div className="mt-5 space-y-3 border-t border-white/10 pt-5 text-sm">
+                <InfoLine label="Connection" value={selectedTelemetry?.connection ?? "Unavailable"} />
+                <InfoLine label="GPS location" value={selectedTelemetry?.gps ?? "No fix"} />
                 <InfoLine label="Vehicle Type" value={getVehicleTypeLabel(selectedVehicle.vehicleType)} />
                 <InfoLine
                   label="IMEI"
@@ -1243,7 +1155,7 @@ export default function LiveTrackingMap() {
                 <InfoLine
                   label="Latitude"
                   value={
-                    selectedVehicle.latitude !=
+                    hasCoordinates(selectedVehicle) && selectedVehicle.latitude !=
                     null
                       ? selectedVehicle.latitude.toFixed(
                           6,
@@ -1255,7 +1167,7 @@ export default function LiveTrackingMap() {
                 <InfoLine
                   label="Longitude"
                   value={
-                    selectedVehicle.longitude !=
+                    hasCoordinates(selectedVehicle) && selectedVehicle.longitude !=
                     null
                       ? selectedVehicle.longitude.toFixed(
                           6,
@@ -1265,14 +1177,14 @@ export default function LiveTrackingMap() {
                 />
 
                 <InfoLine
-                  label="Last Seen"
+                  label="Last communication"
                   value={formatLastSeen(
                     getCommunicationTimestamp(selectedVehicle),
                   )}
                 />
 
                 <InfoLine
-                  label="Last Update"
+                  label="Last GPS fix"
                   value={
                     selectedVehicle.lastUpdate
                       ? new Date(
@@ -1488,6 +1400,7 @@ export default function LiveTrackingMap() {
                         icon={createVehicleIcon(
                           vehicle,
                           selected,
+                          now,
                         )}
                         eventHandlers={{
                           click:
@@ -1524,35 +1437,25 @@ export default function LiveTrackingMap() {
                             <br />
 
                             Speed:{" "}
-                            {Number(
-                              vehicle.speed ??
-                                0,
-                            ).toFixed(
-                              1,
-                            )}{" "}
-                            km/h
+                            {getTelemetry(vehicle, now).speed}
 
                             <br />
 
                             Ignition:{" "}
-                            {vehicle.ignition
-                              ? "ON"
-                              : "OFF"}
+                            {getTelemetry(vehicle, now).ignition}
 
                             <br />
 
                             Battery:{" "}
-                            {vehicle.battery !=
-                            null
-                              ? vehicle.battery.toFixed(
-                                  2,
-                                )
-                              : "—"}{" "}
-                            V
+                            {getTelemetry(vehicle, now).battery}
 
                             <br />
 
-                            Last seen:{" "}
+                            GPS: {getTrackingDetails(vehicle, now).gps}
+                            <br />
+                            Last GPS fix: {vehicle.lastUpdate ? new Date(vehicle.lastUpdate).toLocaleString() : "Never"}
+                            <br />
+                            Last communication:{" "}
                             {formatLastSeen(
                               getCommunicationTimestamp(vehicle),
                             )}
@@ -1653,7 +1556,7 @@ function CommunicationBadge({
         <WifiOff className="h-3 w-3" />
       )}
 
-      {state}
+      {state === "STALE" ? "Awaiting GPS" : state}
     </span>
   );
 }
