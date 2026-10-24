@@ -1,5 +1,8 @@
 "use client";
 
+import { useTrackingNow } from "@/hooks/use-tracking-now";
+import { getTelemetry, getTrackingDetails, TRACKING_LABELS, type TrackingState } from "@/lib/tracking-state";
+
 import { VEHICLE_TYPE_OPTIONS, normalizeVehicleType, type VehicleType } from "@/lib/vehicle-presentation";
 import { VehicleTypeIcon } from "@/components/tracking/VehicleTypeIcon";
 
@@ -82,6 +85,7 @@ type Device = {
   model: string | null;
   simNumber: string | null;
   isActive: boolean;
+  lastSeenAt?: string | null;
 };
 
 type Vehicle = {
@@ -132,9 +136,7 @@ type CustomersResponse = {
   message?: string;
 };
 
-type StatusFilter =
-  | "ALL"
-  | VehicleStatus;
+type StatusFilter = "ALL" | TrackingState;
 
 type VehicleForm = {
   vehicleNo: string;
@@ -242,6 +244,7 @@ async function readJson<T>(
 }
 
 function VehiclesPageContent() {
+  const now = useTrackingNow();
   const [vehicles, setVehicles] =
     useState<Vehicle[]>([]);
 
@@ -974,7 +977,7 @@ function VehiclesPageContent() {
           const matchesStatus =
             statusFilter ===
               "ALL" ||
-            vehicle.status ===
+            getTrackingDetails(vehicle, now).state ===
               statusFilter;
 
           const searchText = [
@@ -1011,6 +1014,7 @@ function VehiclesPageContent() {
       vehicles,
       search,
       statusFilter,
+      now,
     ]);
 
   const counts =
@@ -1022,25 +1026,25 @@ function VehiclesPageContent() {
         moving:
           vehicles.filter(
             (vehicle) =>
-              vehicle.status ===
+              getTrackingDetails(vehicle, now).state ===
               "MOVING",
           ).length,
 
         idle:
           vehicles.filter(
             (vehicle) =>
-              vehicle.status ===
+              getTrackingDetails(vehicle, now).state ===
               "IDLE",
           ).length,
 
         offline:
           vehicles.filter(
             (vehicle) =>
-              vehicle.status ===
+              getTrackingDetails(vehicle, now).state ===
               "OFFLINE",
           ).length,
       }),
-      [vehicles],
+      [vehicles, now],
     );
 
   return (
@@ -1472,6 +1476,7 @@ function VehiclesPageContent() {
                   Idle
                 </option>
 
+                <option value="GPS_STALE">Awaiting GPS</option>
                 <option value="OFFLINE">
                   Offline
                 </option>
@@ -1615,31 +1620,23 @@ function VehiclesPageContent() {
 
                       <td className="p-4">
                         <StatusBadge
-                          status={
-                            vehicle.status
-                          }
+                          status={getTrackingDetails(vehicle, now).state}
                         />
                       </td>
 
                       <td className="p-4">
-                        {Number(
-                          vehicle.speed ||
-                            0,
-                        ).toFixed(1)}{" "}
-                        km/h
+                        {getTelemetry(vehicle, now).speed}
                       </td>
 
                       <td className="p-4">
                         <span
                           className={
-                            vehicle.ignition
+                            getTelemetry(vehicle, now).current && vehicle.ignition
                               ? "text-emerald-400"
                               : "text-slate-400"
                           }
                         >
-                          {vehicle.ignition
-                            ? "ON"
-                            : "OFF"}
+                          {getTelemetry(vehicle, now).ignition}
                         </span>
                       </td>
 
@@ -1647,12 +1644,7 @@ function VehiclesPageContent() {
                         <div className="flex items-center gap-2">
                           <Battery className="h-4 w-4 text-sky-400" />
 
-                          {vehicle.battery !==
-                          null
-                            ? `${vehicle.battery.toFixed(
-                                2,
-                              )} V`
-                            : "—"}
+                          {getTelemetry(vehicle, now).battery}
                         </div>
                       </td>
 
@@ -1942,10 +1934,10 @@ function StatCard({
 function StatusBadge({
   status,
 }: {
-  status: VehicleStatus;
+  status: TrackingState;
 }) {
   const styles: Record<
-    VehicleStatus,
+    TrackingState,
     string
   > = {
     MOVING:
@@ -1954,6 +1946,7 @@ function StatusBadge({
     IDLE:
       "bg-amber-500/10 text-amber-400",
 
+    GPS_STALE: "bg-orange-500/10 text-orange-400",
     OFFLINE:
       "bg-red-500/10 text-red-400",
   };
@@ -1962,7 +1955,7 @@ function StatusBadge({
     <span
       className={`rounded-full px-3 py-1 text-xs font-semibold ${styles[status]}`}
     >
-      {status}
+      {TRACKING_LABELS[status]}
     </span>
   );
 }

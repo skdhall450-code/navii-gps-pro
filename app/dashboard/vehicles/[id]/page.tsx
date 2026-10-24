@@ -1,5 +1,8 @@
 "use client";
 
+import { useTrackingNow } from "@/hooks/use-tracking-now";
+import { getTelemetry, TRACKING_LABELS } from "@/lib/tracking-state";
+
 import Link from "next/link";
 import {
   useParams,
@@ -36,6 +39,7 @@ type Device = {
   model: string | null;
   simNumber: string | null;
   isActive: boolean;
+  lastSeenAt?: string | null;
   vehicleId: string;
   createdAt?: string;
   updatedAt?: string;
@@ -127,6 +131,7 @@ async function readJson<T>(
 }
 
 function VehicleDetailsContent() {
+  const now = useTrackingNow();
   const params = useParams();
   const router = useRouter();
 
@@ -414,6 +419,8 @@ function VehicleDetailsContent() {
     );
   }
 
+  const telemetry = getTelemetry(vehicle, now);
+
   return (
     <div className="min-h-[calc(100vh-78px)] p-6 text-white">
       <div className="mx-auto max-w-[1700px]">
@@ -495,16 +502,20 @@ function VehicleDetailsContent() {
           </div>
         )}
 
+        <div className="mb-5 rounded-xl border border-white/10 bg-[#0a1426] p-4 text-sm">
+          <p>Connection: {telemetry.connection} · GPS: {telemetry.gps}</p>
+          {!telemetry.current && <p className="mt-2 text-amber-300">Current telemetry unavailable. Waiting for a fresh GPS reading.</p>}
+        </div>
         <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <TelemetryCard
             label="Vehicle Status"
-            value={vehicle.status}
+            value={TRACKING_LABELS[telemetry.state]}
             icon={<RadioTower />}
             accent={
-              vehicle.status ===
+              telemetry.state ===
               "MOVING"
                 ? "green"
-                : vehicle.status ===
+                : telemetry.state ===
                     "IDLE"
                   ? "amber"
                   : "red"
@@ -513,22 +524,16 @@ function VehicleDetailsContent() {
 
           <TelemetryCard
             label="Speed"
-            value={`${Number(
-              vehicle.speed || 0,
-            ).toFixed(1)} km/h`}
+            value={telemetry.speed}
             icon={<Gauge />}
           />
 
           <TelemetryCard
             label="Ignition"
-            value={
-              vehicle.ignition
-                ? "ON"
-                : "OFF"
-            }
+            value={telemetry.ignition}
             icon={<Power />}
             accent={
-              vehicle.ignition
+              telemetry.current && vehicle.ignition
                 ? "green"
                 : "default"
             }
@@ -536,13 +541,7 @@ function VehicleDetailsContent() {
 
           <TelemetryCard
             label="Battery"
-            value={
-              vehicle.battery !== null
-                ? `${vehicle.battery.toFixed(
-                    3,
-                  )} V`
-                : "—"
-            }
+            value={telemetry.battery}
             icon={<Battery />}
           />
         </div>
@@ -583,39 +582,27 @@ function VehicleDetailsContent() {
 
               <InfoRow
                 label="Status"
-                value={
-                  vehicle.status
-                }
+                value={TRACKING_LABELS[telemetry.state]}
               />
 
               <InfoRow
                 label="Speed"
-                value={`${vehicle.speed} km/h`}
+                value={telemetry.speed}
               />
 
               <InfoRow
                 label="Ignition"
-                value={
-                  vehicle.ignition
-                    ? "ON"
-                    : "OFF"
-                }
+                value={telemetry.ignition}
               />
 
               <InfoRow
                 label="Battery"
-                value={
-                  vehicle.battery !==
-                  null
-                    ? `${vehicle.battery.toFixed(
-                        3,
-                      )} V`
-                    : "—"
-                }
+                value={telemetry.battery}
               />
 
+              <InfoRow label="Last communication" value={vehicle.device?.lastSeenAt ? new Date(vehicle.device.lastSeenAt).toLocaleString() : "Never"} />
               <InfoRow
-                label="Last Update"
+                label="Last GPS fix"
                 value={
                   vehicle.lastUpdate
                     ? new Date(
