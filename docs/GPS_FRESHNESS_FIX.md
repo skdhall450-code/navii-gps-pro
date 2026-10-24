@@ -30,8 +30,16 @@ PR #44 used a shared ten-minute GPS/communication window.
 - Run `npm run lint`, `npx tsc --noEmit`,
   `node --experimental-strip-types --test test/*.test.mjs test/*.test.cjs`, and
   `npm run build`. The normal PR workflow also checks rendered SEO output.
-- Confirm the actual customer panel deployment and perform authenticated browser
-  checks against a stale vehicle and a device sending fresh GPS before release.
+- The workflow also runs `node test/browser/gps-freshness.mjs` against the actual
+  production Next.js build in Chromium. API and session responses are synthetic;
+  no production account, device, or database is contacted. All four screens must
+  suppress stale speed while retaining measured zero and fresh moving speed. The
+  map must expire cached telemetry during a simulated API outage.
+- The customer-facing login at `https://naviigps.com/login` matches this project.
+  Live-account verification is pending because the available sign-in attempt was
+  rejected. The software release can be checked with isolated browser fixtures;
+  an authenticated check of actual vehicle readings remains a follow-up and must
+  not be reported as complete. Physical device accuracy is a separate field test.
 
 This is a display correction. It does not repair old database snapshots, alter
 device settings, improve a device's GPS fix, or prove physical location/speed
