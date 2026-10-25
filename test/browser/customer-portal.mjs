@@ -59,7 +59,7 @@ async function createFixture(browser, options = {}) {
   }, fixtureUser(options.storedRole || state.role));
   const page = await context.newPage();
   const errors = [];
-  page.on('pageerror', error => errors.push(error.message));
+  page.on('pageerror', error => errors.push(error.stack || error.message));
   return { context, page, state, errors };
 }
 async function noOverflow(page) {
@@ -87,6 +87,38 @@ try {
   assert.ok(ready, 'Local Next readiness timeout: ' + serverLog);
   browser = await chromium.launch({ headless: true, chromiumSandbox: true, ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : process.env.CI ? { channel: "chrome" } : {}) });
   await mkdir(output, { recursive: true });
+  const f = await createFixture(browser);
+  await f.page.goto(base + '/login');
+  await fillLogin(f.page);
+  await f.page.getByRole('button', { name: 'Show password', exact: true }).click();
+  assert.equal(await f.page.getByLabel('Password', { exact: true }).getAttribute('type'), 'text');
+  await f.page.getByRole('button', { name: 'Hide password', exact: true }).click();
+  f.state.login = 'failure';
+  await f.page.getByRole('button', { name: 'Sign In', exact: true }).click();
+  await f.page.getByRole('alert').waitFor();
+  await emptySession(f.page);
+  await f.page.waitForFunction(() => document.activeElement?.id === "login-error", null, { timeout: 5000 });
+  assert.equal(await f.page.evaluate(() => document.activeElement?.id), "login-error");
+  f.state.login = 'success'; f.state.profile = 'failure';
+  await f.page.getByRole('button', { name: 'Sign In', exact: true }).click();
+  await f.page.getByRole('button', { name: 'Sign In', exact: true }).waitFor();
+  await emptySession(f.page);
+  f.state.login = 'offline'; f.state.profile = 'success';
+  await f.page.getByRole('button', { name: 'Sign In', exact: true }).click();
+  await f.page.getByRole('alert').filter({ hasText: 'Unable to connect' }).waitFor();
+  await emptySession(f.page);
+  await noOverflow(f.page);
+  await f.page.screenshot({ path: `${output}/login-recoverable-error.png`, fullPage: true });
+  f.state.login = 'success'; f.state.delay = 500;
+  const before = f.state.loginCount;
+  await f.page.locator('form').evaluate(form => { form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
+  await f.page.getByTestId('customer-home').waitFor();
+  assert.equal(f.state.loginCount, before + 1, 'Repeated submit while pending sends exactly one login POST');
+  assert.equal(f.state.writes.at(-1).email, 'qa@example.invalid');
+  assert.equal(JSON.parse(await f.page.evaluate(() => localStorage.getItem('navii_user'))).role, 'CUSTOMER', 'Verified profile role wins over login payload');
+  assert.deepEqual(f.errors, []);
+  await f.context.close();
+  console.log('PASS login failure, profile rejection, network interruption, retry, normalized email, duplicate submit guard');
   for (const [name, viewport] of [['desktop', { width: 1440, height: 1000 }], ['mobile', { width: 390, height: 844 }], ['small-mobile', { width: 320, height: 740 }]]) {
     const f = await createFixture(browser, { session: true, viewport });
     await f.page.goto(base + '/dashboard');
@@ -111,6 +143,11 @@ try {
     await f.page.getByRole('button', { name: 'Recenter', exact: true }).click();
     const consent = f.page.getByRole("button", { name: "Necessary Only", exact: true });
     if (await consent.isVisible()) await consent.click();
+    if (viewport.width <= 800) {
+      const cookieBox = await f.page.getByRole("button", {name: "Open analytics cookie settings", exact: true}).boundingBox();
+      const dockBox = await f.page.getByRole("navigation", {name: "Quick navigation", exact: true}).boundingBox();
+      assert.ok(cookieBox && dockBox && cookieBox.y + cookieBox.height <= dockBox.y, "Cookie preferences stay accessible above the dock");
+    }
     await f.page.locator("h1").click();
     await f.page.screenshot({ path: `${output}/${name}.png`, fullPage: true });
     await f.page.getByLabel('Vehicle', { exact: true }).selectOption('qa-scooter');
@@ -135,38 +172,6 @@ try {
     await f.context.close();
     console.log('PASS verified role boundary:', role);
   }
-  const f = await createFixture(browser);
-  await f.page.goto(base + '/login');
-  await fillLogin(f.page);
-  await f.page.getByRole('button', { name: 'Show password', exact: true }).click();
-  assert.equal(await f.page.getByLabel('Password', { exact: true }).getAttribute('type'), 'text');
-  await f.page.getByRole('button', { name: 'Hide password', exact: true }).click();
-  f.state.login = 'failure';
-  await f.page.getByRole('button', { name: 'Sign In', exact: true }).click();
-  await f.page.getByRole('alert').waitFor();
-  await emptySession(f.page);
-  await f.page.waitForFunction(() => document.activeElement?.id === "login-error", { timeout: 5000 });
-  assert.equal(await f.page.evaluate(() => document.activeElement?.id), "login-error");
-  f.state.login = 'success'; f.state.profile = 'failure';
-  await f.page.getByRole('button', { name: 'Sign In', exact: true }).click();
-  await f.page.getByRole('button', { name: 'Sign In', exact: true }).waitFor();
-  await emptySession(f.page);
-  f.state.login = 'offline'; f.state.profile = 'success';
-  await f.page.getByRole('button', { name: 'Sign In', exact: true }).click();
-  await f.page.getByRole('alert').filter({ hasText: 'Unable to connect' }).waitFor();
-  await emptySession(f.page);
-  await noOverflow(f.page);
-  await f.page.screenshot({ path: `${output}/login-recoverable-error.png`, fullPage: true });
-  f.state.login = 'success'; f.state.delay = 500;
-  const before = f.state.loginCount;
-  await f.page.locator('form').evaluate(form => { form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
-  await f.page.getByTestId('customer-home').waitFor();
-  assert.equal(f.state.loginCount, before + 1, 'Repeated submit while pending sends exactly one login POST');
-  assert.equal(f.state.writes.at(-1).email, 'qa@example.invalid');
-  assert.equal(JSON.parse(await f.page.evaluate(() => localStorage.getItem('navii_user'))).role, 'CUSTOMER', 'Verified profile role wins over login payload');
-  assert.deepEqual(f.errors, []);
-  await f.context.close();
-  console.log('PASS login failure, profile rejection, network interruption, retry, normalized email, duplicate submit guard');
   console.log('PASS synthetic-only customer portal browser QA');
 } finally {
   if (browser) await browser.close();
