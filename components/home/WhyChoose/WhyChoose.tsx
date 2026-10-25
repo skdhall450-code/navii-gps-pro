@@ -1,19 +1,21 @@
 "use client";
 
-import { motion } from "framer-motion";
+import PremiumReveal from "../PremiumReveal";
+import styles from "../sections-premium.module.css";
+
 import FeatureCard from "./FeatureCard";
 import StatsCard from "./StatsCard";
 import { features, stats } from "./featuresData";
 
 export default function WhyChoose() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#07152E] via-[#081C3D] to-[#06142E] py-28">
+    <section className={`${styles.section} relative overflow-hidden py-20 sm:py-24`}>
 
       {/* Background Glow */}
 
-      <div className="absolute left-0 top-0 h-[500px] w-[500px] rounded-full bg-cyan-500/10 blur-[140px]" />
+      <div className="absolute left-0 top-0 h-[500px] w-[500px] rounded-full bg-cyan-500/10 blur-[100px]" />
 
-      <div className="absolute bottom-0 right-0 h-[500px] w-[500px] rounded-full bg-blue-600/10 blur-[140px]" />
+      <div className="absolute bottom-0 right-0 h-[500px] w-[500px] rounded-full bg-blue-600/10 blur-[100px]" />
 
       {/* Grid Overlay */}
 
@@ -28,19 +30,15 @@ export default function WhyChoose() {
 
       <div className="relative mx-auto max-w-7xl px-6">
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: .8 }}
-          viewport={{ once: true }}
+        <PremiumReveal
           className="text-center"
-        >          <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-semibold text-cyan-300 backdrop-blur">
+        >          <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-semibold text-blue-300 backdrop-blur">
             WHY CHOOSE NAVII GPS
           </span>
 
-          <h2 className="mt-6 text-4xl font-extrabold text-white md:text-5xl lg:text-6xl">
+          <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Trusted GPS &
-            <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
+            <span className="block text-blue-300">
               Fleet Management Partner
             </span>
           </h2>
@@ -52,11 +50,11 @@ export default function WhyChoose() {
             businesses across India.
           </p>
 
-        </motion.div>
+        </PremiumReveal>
 
         {/* Main Layout */}
 
-        <div className="mt-20 grid gap-16 lg:grid-cols-2">
+        <div className="mt-12 sm:mt-16 grid gap-10 lg:grid-cols-2 lg:gap-14">
 
           {/* Left Side */}
 
@@ -80,7 +78,7 @@ export default function WhyChoose() {
 
           {/* Right Side */}
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6">
 
             {stats.map((item, index) => (
 

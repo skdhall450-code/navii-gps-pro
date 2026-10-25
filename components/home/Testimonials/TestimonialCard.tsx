@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import styles from "../sections-premium.module.css";
+import PremiumReveal from "../PremiumReveal";
+
 
 type Testimonial = {
   id: number;
@@ -18,32 +20,14 @@ type Props = {
 
 export default function TestimonialCard({
   testimonial,
-  index,
 }: Props) {
   return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        y: 40,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.15,
-      }}
-      viewport={{ once: true }}
-      whileHover={{
-        y: -10,
-        scale: 1.03,
-      }}
-      className="group relative overflow-hidden rounded-3xl border border-cyan-400/20 bg-white/5 p-8 backdrop-blur-xl transition-all duration-500 hover:border-cyan-400/40"
+    <PremiumReveal
+      className={`${styles.card} group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8  transition-all duration-500 hover:border-cyan-400/40`}
     >
       {/* Glow */}
 
-      <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-cyan-500/20 blur-[80px]" />
+      <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-blue-500/10 blur-[80px]" />
 
       <div className="relative z-10">
 
@@ -51,7 +35,7 @@ export default function TestimonialCard({
 
         <div className="flex items-center gap-4">
 
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 text-2xl font-bold text-white">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 text-xl font-semibold text-white">
             {testimonial.name.charAt(0)}
           </div>
 
@@ -61,7 +45,7 @@ export default function TestimonialCard({
               {testimonial.name}
             </h3>
 
-            <p className="text-cyan-300">
+            <p className="text-blue-300">
               {testimonial.company}
             </p>
 
@@ -93,6 +77,6 @@ export default function TestimonialCard({
 
       <div className="pointer-events-none absolute inset-0 rounded-3xl border border-transparent transition-all duration-500 group-hover:border-cyan-400/40" />
 
-    </motion.div>
+    </PremiumReveal>
   );
 }

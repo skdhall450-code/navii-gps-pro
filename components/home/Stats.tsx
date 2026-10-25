@@ -1,3 +1,5 @@
+import styles from "./premium-home.module.css";
+import PremiumReveal from "./PremiumReveal";
 const stats = [
   {
     number: "25K+",
@@ -19,24 +21,24 @@ const stats = [
 
 export default function Stats() {
   return (
-    <section className="bg-blue-700 py-20 text-white">
+    <section className={styles.statsBand}>
       <div className="mx-auto max-w-7xl px-6">
 
-        <div className="grid gap-8 text-center md:grid-cols-2 lg:grid-cols-4">
+        <div className={styles.statsGrid}>
 
           {stats.map((item) => (
-            <div
+            <PremiumReveal
               key={item.title}
-              className="rounded-2xl bg-white/10 p-8 backdrop-blur-sm"
+              className={styles.statTile}
             >
-              <h2 className="text-5xl font-extrabold">
+              <h2 className={styles.statNumber}>
                 {item.number}
               </h2>
 
-              <p className="mt-4 text-xl text-blue-100">
+              <p className={styles.statLabel}>
                 {item.title}
               </p>
-            </div>
+            </PremiumReveal>
           ))}
 
         </div>
