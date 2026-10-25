@@ -43,15 +43,16 @@ export default function Header() {
         </Link>
 
         {/* Desktop Menu */}
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav aria-label="Main navigation" className="hidden items-center gap-4 xl:flex">
           {menu.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`font-medium transition ${
-                pathname === item.href
-                  ? "text-blue-700"
-                  : "text-slate-700 hover:text-blue-700"
+              aria-current={pathname === item.href ? "page" : undefined}
+              className={`whitespace-nowrap rounded-lg px-1 py-2 font-medium transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 ${
+                item.href === "/shop-now"
+                  ? pathname === item.href ? "bg-blue-700 px-3 text-white" : "bg-blue-50 px-3 text-blue-700 hover:bg-blue-100"
+                  : pathname === item.href ? "text-blue-700" : "text-slate-700 hover:text-blue-700"
               }`}
             >
               {item.name}

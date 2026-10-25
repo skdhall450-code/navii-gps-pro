@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,6 +21,10 @@ export default function MobileNav() {
   const pathname = usePathname();
 
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => { setOpen(false); }, [pathname]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -33,10 +37,20 @@ export default function MobileNav() {
     }
 
     const previousOverflow = document.body.style.overflow;
+    const trigger = triggerRef.current;
 
     document.body.style.overflow = "hidden";
 
+    const focusTimer = window.setTimeout(() => drawerRef.current?.querySelector<HTMLButtonElement>('button')?.focus(), 0);
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Tab") {
+        const focusable = drawerRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+        if (focusable?.length) {
+          const first = focusable[0], last = focusable[focusable.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+      }
       if (event.key === "Escape") {
         setOpen(false);
       }
@@ -45,7 +59,9 @@ export default function MobileNav() {
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
+      window.clearTimeout(focusTimer);
       document.body.style.overflow = previousOverflow;
+      trigger?.focus();
 
       document.removeEventListener("keydown", handleKeyDown);
 
@@ -77,6 +93,7 @@ export default function MobileNav() {
           />
 
           <motion.aside
+            ref={drawerRef}
             id="mobile-navigation-drawer"
             role="dialog"
             aria-modal="true"
@@ -108,18 +125,19 @@ export default function MobileNav() {
               </button>
             </div>
 
-            <nav className="flex-1 bg-white p-6">
+            <nav aria-label="Mobile main navigation" className="flex-1 bg-white p-6">
               <div className="space-y-2">
                 {menu.map((item) => (
                   <Link
                     prefetch={false}
                     key={item.href}
                     href={item.href}
+                    aria-current={pathname === item.href ? "page" : undefined}
                     onClick={closeMenu}
-                    className={`block rounded-xl px-4 py-3 font-semibold transition ${
-                      pathname === item.href
-                        ? "bg-cyan-100 text-cyan-700"
-                        : "text-slate-800 hover:bg-slate-100"
+                    className={`block rounded-xl px-4 py-3 font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
+                      item.href === "/shop-now"
+                        ? pathname === item.href ? "bg-blue-700 text-white" : "bg-blue-50 text-blue-700 hover:bg-blue-100"
+                        : pathname === item.href ? "bg-cyan-100 text-cyan-700" : "text-slate-800 hover:bg-slate-100"
                     }`}
                   >
                     {item.name}
@@ -148,12 +166,13 @@ export default function MobileNav() {
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open navigation menu"
         aria-expanded={open}
         aria-controls="mobile-navigation-drawer"
-        className="rounded-xl p-2 transition hover:bg-slate-100 lg:hidden"
+        className="rounded-xl p-2 transition hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-blue-600 xl:hidden"
       >
         <Menu size={28} />
       </button>

@@ -35,13 +35,106 @@ try {
   }
   await page.getByRole('link',{name:'View BT-50 GPS specifications'}).click();await page.waitForURL('**/products/bt50-vehicle-gps-tracker');await page.goBack({waitUntil:'networkidle'});
   await mkdir('test-results/shop-browser',{recursive:true});
-  for(const width of [1440,768,390,320]){
+  // Both shared header implementations must expose Shop Now as a direct route.
+  // Keep all requests loopback-only: no WhatsApp enquiry or external action is sent.
+  for(const width of [320,390,768,1024,1440]){
+    await page.setViewportSize({width,height:1000});
+    for(const route of ['/', '/software', '/products', '/shop-now', '/about', '/contact']){
+      await page.goto(base+route,{waitUntil:'networkidle'});
+      await page.evaluate(()=>window.scrollTo(0,0));
+      const header=page.locator('header');
+      assert.equal(await header.count(),1,`One shared header on ${route}`);
+      const trigger=header.getByRole('button',{name:'Open navigation menu',exact:true});
+      const desktopShop=header.getByRole('link',{name:'Shop Now',exact:true});
+      const tag=route==='/'?'home':route.slice(1);
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Page contained ${route} at ${width}`);
+      const assertContained=async locator=>{
+        const box=await locator.boundingBox();
+        assert.ok(box&&box.x>=0&&box.x+box.width<=width,`Navigation contained ${route} at ${width}`);
+      };
+      if(width>=1280){
+        assert.equal(await trigger.isVisible(),false,`Desktop hides burger ${route}`);
+        assert.equal(await desktopShop.count(),1,`One top-level desktop Shop Now ${route}`);
+        assert.equal(await desktopShop.isVisible(),true);
+        assert.equal(await desktopShop.getAttribute('href'),'/shop-now');
+        assert.equal(await desktopShop.getAttribute('aria-current'),route==='/shop-now'?'page':null);
+        await assertContained(desktopShop);
+        // Reach the actual link by keyboard rather than programmatic focus.
+        await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0);});
+        let reached=false;
+        for(let tab=0;tab<35;tab++){
+          await page.keyboard.press('Tab');
+          if(await desktopShop.evaluate(el=>el===document.activeElement)){reached=true;break;}
+        }
+        assert.ok(reached,`Keyboard reaches direct Shop Now ${route}`);
+        assert.ok(await desktopShop.evaluate(el=>{
+          const css=getComputedStyle(el);
+          return (css.outlineStyle!=='none'&&parseFloat(css.outlineWidth)>0)||css.boxShadow!=='none';
+        }),`Visible keyboard focus ${route}`);
+        await page.screenshot({path:`test-results/shop-browser/header-${tag}-${width}.png`});
+        if(route!=='/shop-now'){
+          await page.keyboard.press('Enter');
+          await page.waitForURL(base+'/shop-now');
+          await page.goBack({waitUntil:'networkidle'});
+          assert.equal(new URL(page.url()).pathname,route,`Back restores ${route}`);
+        }
+      }else{
+        assert.equal(await trigger.isVisible(),true,`Mobile/tablet burger ${route} at ${width}`);
+        assert.equal(await desktopShop.isVisible(),false,`No crowded desktop nav ${route} at ${width}`);
+        await assertContained(trigger);
+        await page.screenshot({path:`test-results/shop-browser/header-${tag}-${width}.png`});
+        await trigger.click();
+        const drawer=page.getByRole('dialog',{name:'Mobile navigation',exact:true});
+        await drawer.waitFor({state:'visible'});
+        const mobileShop=drawer.getByRole('link',{name:'Shop Now',exact:true});
+        assert.equal(await mobileShop.count(),1);
+        assert.equal(await mobileShop.isVisible(),true);
+        assert.equal(await mobileShop.getAttribute('href'),'/shop-now');
+        assert.equal(await mobileShop.getAttribute('aria-current'),route==='/shop-now'?'page':null);
+        assert.equal(await trigger.getAttribute('aria-expanded'),'true');
+        await page.waitForFunction(()=>document.querySelector('[role="dialog"]')?.contains(document.activeElement));
+        // Cycle past both focus boundaries; focus must never escape the modal.
+        const focusCount=await drawer.locator('a[href],button:not([disabled])').count();
+        for(const key of ['Tab','Shift+Tab'])for(let step=0;step<focusCount+1;step++){
+          await page.keyboard.press(key);
+          assert.ok(await drawer.evaluate(el=>el.contains(document.activeElement)),`Focus trapped ${key} ${route} at ${width}`);
+        }
+        await mobileShop.scrollIntoViewIfNeeded();
+        await page.screenshot({path:`test-results/shop-browser/menu-${tag}-${width}.png`});
+        await page.keyboard.press('Escape');
+        await drawer.waitFor({state:'detached'});
+        assert.equal(await trigger.getAttribute('aria-expanded'),'false');
+        assert.ok(await trigger.evaluate(el=>el===document.activeElement),'Escape restores menu-trigger focus');
+        assert.notEqual(await page.evaluate(()=>document.body.style.overflow),'hidden','Escape restores body scroll');
+        // Repeated open/close and navigation must not leave a stale modal behind.
+        await trigger.click();
+        await drawer.waitFor({state:'visible'});
+        await drawer.getByRole('button',{name:'Close navigation menu',exact:true}).click();
+        await drawer.waitFor({state:'detached'});
+        await trigger.click();
+        await drawer.waitFor({state:'visible'});
+        await drawer.getByRole('link',{name:'Shop Now',exact:true}).click();
+        await page.waitForURL(base+'/shop-now');
+        await page.getByRole('dialog',{name:'Mobile navigation',exact:true}).waitFor({state:'detached'});
+        assert.notEqual(await page.evaluate(()=>document.body.style.overflow),'hidden','Route navigation restores body scroll');
+        if(route!=='/shop-now'){
+          await page.goBack({waitUntil:'networkidle'});
+          assert.equal(new URL(page.url()).pathname,route,`Mobile Back restores ${route}`);
+          assert.equal(await page.getByRole('dialog',{name:'Mobile navigation',exact:true}).count(),0,'Back does not reopen menu');
+        }
+      }
+    }
+  }
+  await page.goto(base+'/shop-now',{waitUntil:'networkidle'});
+  for(const width of [1440,1024,768,390,320]){
     await page.setViewportSize({width,height:1000});
     for(const image of await page.locator('main img').all()){await image.scrollIntoViewIfNeeded();await image.evaluate(image=>image.decode());}
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`No overflow ${width}`);
     for(const card of await page.locator('[data-offer]').all()){
       const bounds=await card.boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=width,`Card contained ${width}`);
     }
+    await page.evaluate(()=>window.scrollTo(0,0));
+    await page.screenshot({path:`test-results/shop-browser/hero-${width}.png`});
     await page.locator('#device-offers').scrollIntoViewIfNeeded();
     await page.screenshot({path:`test-results/shop-browser/offers-${width}.png`});
     await page.locator('[data-offer="ais140"]').scrollIntoViewIfNeeded();
@@ -49,5 +142,5 @@ try {
   }
   assert.deepEqual(errors,[]);
   const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});await nojs.route('**/*',r=>new URL(r.request().url()).origin===base?r.continue():r.abort());const staticPage=await nojs.newPage();await staticPage.goto(base+'/shop-now');assert.equal(await staticPage.locator('[data-offer]').count(),6);assert.ok((await staticPage.locator('[data-offer="bt50"]').innerText()).includes('₹2,525.20'));await nojs.close();
-  console.log('Shop pricing: seven options, arithmetic, links, responsive cards and no-JS PASS. No WhatsApp message sent.');
+  console.log('Shop pricing: seven options, arithmetic, links, responsive cards, both shared headers, keyboard/mobile navigation and no-JS PASS. No WhatsApp message sent.');
 }finally{if(browser)await browser.close();server.kill('SIGTERM');}

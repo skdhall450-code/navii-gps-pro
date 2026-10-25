@@ -21,6 +21,7 @@ export default function DesktopNav() {
       href: "/products",
       mega: true,
     },
+    { title: "Shop Now", href: "/shop-now" },
     {
       title: "Software",
       href: "/software",
@@ -36,7 +37,7 @@ export default function DesktopNav() {
   ];
 
   return (
-    <nav className="hidden items-center gap-8 lg:flex">
+    <nav aria-label="Main navigation" className="hidden items-center gap-4 xl:flex">
 
       {menu.map((item) => (
 
@@ -48,10 +49,11 @@ export default function DesktopNav() {
           <Link
             prefetch={false}
             href={item.href}
-            className={`flex items-center gap-1 font-semibold transition-all duration-300 ${
-              pathname === item.href
-                ? "text-cyan-600"
-                : "text-slate-700 hover:text-cyan-600"
+            aria-current={pathname === item.href ? "page" : undefined}
+            className={`flex items-center gap-1 whitespace-nowrap rounded-lg px-1 py-2 font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 ${
+              item.href === "/shop-now"
+                ? pathname === item.href ? "bg-blue-700 px-3 text-white" : "bg-blue-50 px-3 text-blue-700 hover:bg-blue-100"
+                : pathname === item.href ? "text-cyan-600" : "text-slate-700 hover:text-cyan-600"
             }`}
           >
 
