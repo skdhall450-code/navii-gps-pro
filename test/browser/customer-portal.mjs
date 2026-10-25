@@ -111,6 +111,7 @@ try {
     await f.page.getByRole('button', { name: 'Recenter', exact: true }).click();
     const consent = f.page.getByRole("button", { name: "Necessary Only", exact: true });
     if (await consent.isVisible()) await consent.click();
+    await f.page.locator("h1").click();
     await f.page.screenshot({ path: `${output}/${name}.png`, fullPage: true });
     await f.page.getByLabel('Vehicle', { exact: true }).selectOption('qa-scooter');
     await f.page.getByText('0.0 km/h', { exact: true }).first().waitFor();
@@ -144,7 +145,8 @@ try {
   await f.page.getByRole('button', { name: 'Sign In', exact: true }).click();
   await f.page.getByRole('alert').waitFor();
   await emptySession(f.page);
-  assert.equal(await f.page.evaluate(() => document.activeElement?.id), 'login-error');
+  await f.page.waitForFunction(() => document.activeElement?.id === "login-error", { timeout: 5000 });
+  assert.equal(await f.page.evaluate(() => document.activeElement?.id), "login-error");
   f.state.login = 'success'; f.state.profile = 'failure';
   await f.page.getByRole('button', { name: 'Sign In', exact: true }).click();
   await f.page.getByRole('button', { name: 'Sign In', exact: true }).waitFor();

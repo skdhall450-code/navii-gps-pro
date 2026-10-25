@@ -8,3 +8,5 @@
 :global(body):has(.portal) :global([data-public-widget]){display:none!important}
 
 .tileError{position:absolute;left:12px;right:12px;bottom:30px;z-index:900;background:#fff;color:#24374c;border:1px solid #a8bacb;padding:12px;border-radius:10px;font-size:12px;box-shadow:0 4px 16px #0002}.tileError button{display:block;margin-top:8px;text-decoration:underline;font-weight:700}
+
+@media(max-width:800px){.vehiclePanel{grid-template-columns:1fr}.vehicleHero img{height:130px;max-width:300px;margin:12px auto}.telemetry strong{font-size:15px;overflow-wrap:normal}.telemetry>div{padding:16px 12px}}

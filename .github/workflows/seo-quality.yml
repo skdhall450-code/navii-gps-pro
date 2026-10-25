@@ -45,6 +45,7 @@ jobs:
           PYTHONPATH=/tmp/navii-qr-check python3 test/verify-app-qr.py
 
       - name: Build production website
+        id: build
         run: npm run build
 
       - name: Install Chromium for GPS display checks
@@ -123,6 +124,7 @@ jobs:
           retention-days: 7
 
       - name: Check customer alert settings in Chromium
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: node test/browser/customer-settings.mjs
 
       - name: Upload customer settings browser checks
