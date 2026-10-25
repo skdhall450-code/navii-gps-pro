@@ -92,18 +92,26 @@ try {
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
     await page.screenshot({ path: `${output}/hero-${width}.png` });
     const signs = hero.locator('[data-hero-feature]');
-    assert.equal(await signs.count(), 2);
+    assert.equal(await signs.count(), 4);
+    assert.ok(await hero.getByText('Illustrative data, not live telemetry', { exact: true }).isVisible());
     await heroImage.scrollIntoViewIfNeeded();
     for (const sign of await signs.all()) {
       assert.ok(await sign.isVisible(), 'Floating feature sign visible');
-      assert.equal(await sign.locator('svg').count(), 1, 'Feature has an actual SVG icon');
+      if (await sign.getAttribute('data-hero-feature') !== 'dashboard') assert.equal(await sign.locator('svg').count(), 1, 'Feature has an actual SVG icon');
       assert.ok(await sign.evaluate(element => {
         const box = element.getBoundingClientRect();
         const parent = element.parentElement.getBoundingClientRect();
         return box.width > 0 && box.height > 0 && box.left >= parent.left && box.right <= parent.right && box.top >= parent.top && box.bottom <= parent.bottom && getComputedStyle(element).animationName === 'none';
       }), 'Reduced-motion floating sign stays visible within stage');
     }
-    if ([390, 1440].includes(width)) await page.screenshot({ path: `${output}/hero-device-${width}.png` });
+    const boxes = await signs.evaluateAll(elements => elements.map(element => {
+      const { left, right, top, bottom } = element.getBoundingClientRect();
+      return { left, right, top, bottom };
+    }));
+    for (let a = 0; a < boxes.length; a++) for (let b = a + 1; b < boxes.length; b++) {
+      assert.ok(boxes[a].right <= boxes[b].left || boxes[b].right <= boxes[a].left || boxes[a].bottom <= boxes[b].top || boxes[b].bottom <= boxes[a].top, `Glass cards do not overlap at ${width}`);
+    }
+    if ([320, 390, 1440].includes(width)) await page.screenshot({ path: `${output}/hero-device-${width}.png` });
     for (const [name, pattern] of Object.entries(headings)) {
       const heading = page.getByRole('heading', { name: pattern });
       assert.ok(await heading.isVisible(), `${name} visible at ${width}`);
@@ -130,7 +138,7 @@ try {
   const staticPage = await noJS.newPage();
   await staticPage.goto(base, { waitUntil: 'networkidle' });
   assert.ok(await staticPage.locator('#home-hero-title').isVisible(), 'Hero available without JavaScript');
-  assert.equal(await staticPage.locator('[data-hero-feature] svg').count(), 2, 'Floating icons present in server HTML');
+  assert.equal(await staticPage.locator('[data-hero-feature] svg').count(), 3, 'Floating icons present in server HTML');
   for (const pattern of Object.values(headings)) {
     const heading = staticPage.getByRole('heading', { name: pattern });
     assert.ok(await heading.isVisible(), 'Section heading available without JavaScript');

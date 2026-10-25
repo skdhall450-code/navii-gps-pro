@@ -42,12 +42,50 @@
 @media (max-width: 639px) { .heroGrid { padding: 36px 20px 40px; gap: 34px; } .eyebrow { font-size: 10px; padding: 9px 11px; } .heroDescription { font-size: 15px; } .heroActions > a { flex: 1 1 auto; padding: 13px 16px; } .visual { max-width: 380px; border-radius: 22px; } .device { max-height: 380px; } .visualLabel,.visualFooter { padding: 16px 20px; } .statsBand { padding: 22px 0; } .solutions { padding: 56px 0; } }
 @media (prefers-reduced-motion: reduce) { .primaryButton,.secondaryButton,.solutionCard { transition: none; } .primaryButton:hover,.secondaryButton:hover,.solutionCard:hover { transform: none; } .solutions * { animation: none !important; transition: none !important; } }
 
-/* Floating feature signs stay in reserved image-stage corners, not over the device. */
+/* Reference-style glass cards frame the original device without hiding it. */
+.deviceStage { min-height: 590px; background: radial-gradient(ellipse at 48% 56%, #17639566, transparent 70%); }
+.device { height: 590px; max-height: none; }
 .floatingFeatures { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
-.floatingSign { position: absolute; display: flex; align-items: center; gap: 9px; max-width: calc(100% - 32px); padding: 12px 14px; border: 1px solid #4774aa; border-radius: 14px; background: #12243eee; color: #dceaff; box-shadow: 0 12px 28px #0004; font-size: 11px; font-weight: 600; }
-.floatingSign svg { color: #8dbaff; flex-shrink: 0; }
-.floatingSign:first-child { top: 18px; left: 16px; }
-.floatingSign:last-child { bottom: 16px; right: 16px; }
-@media (prefers-reduced-motion: no-preference) { .floatingSign { animation: feature-float 4s ease-in-out 1; } .floatingSign:last-child { animation-delay: .2s; } }
+.floatingCard { position: absolute; border: 1px solid #9dc3ef55; border-radius: 18px; padding: 15px 17px; background: linear-gradient(135deg,#365d90dd,#234e7bdd); color: #f5f9ff; box-shadow: 0 16px 32px #0003; backdrop-filter: blur(14px); }
+.cardLabel { display: flex; align-items: center; gap: 5px; color: #b9f0ff; font-size: 11px; line-height: 1.4; }
+.cardLabel svg { flex-shrink: 0; }
+.cardValue { display: block; margin-top: 5px; font-size: 28px; line-height: 1.1; letter-spacing: -.04em; }
+.cardCaption { display: block; margin-top: 6px; color: #e1edff; font-size: 10px; line-height: 1.4; }
+.trackingCard { top: 88px; left: 12px; }
+.experienceCard { top: 16px; right: 30px; }
+.experienceCard svg { color: #ffda75; }
+.experienceValue { display: block; font-size: 18px; margin-top: 5px; }
+.dashboardCard { top: 166px; right: 10px; width: 184px; padding: 16px 12px; border-radius: 22px; }
+.dashboardHeading { display: flex; align-items: center; justify-content: space-between; gap: 5px; color: #b9f0ff; font-size: 10px; }
+.demoBadge { border: 1px solid #9ee6c3; background: #135b45; color: #e4fff3; padding: 3px 6px; border-radius: 99px; font-size: 8px; font-weight: 700; }
+.sampleNote { font-size: 9px; color: #e1edff; margin-top: 9px; line-height: 1.5; }
+.dashboardRows { display: grid; gap: 13px; margin-top: 15px; font-size: 10px; }
+.dashboardRows > div { display: flex; justify-content: space-between; gap: 8px; }
+.dashboardRows dd { font-weight: 750; }
+.alertValue { color: #ffe285; }
+.fleetCard { bottom: 16px; right: 18px; }
+.connectedValue { color: #78f5bf; }
+@media (prefers-reduced-motion: no-preference) {
+  .floatingCard { animation: feature-float 4s ease-in-out 1; }
+  .experienceCard { animation-delay: .15s; }
+  .dashboardCard { animation-delay: .3s; }
+  .fleetCard { animation-delay: .45s; }
+}
 @keyframes feature-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-@media (max-width: 639px) { .floatingSign { padding: 9px 11px; font-size: 10px; gap: 7px; border-radius: 11px; } .floatingSign svg { width: 17px; height: 17px; } .floatingSign:first-child { top: 12px; left: 12px; } .floatingSign:last-child { bottom: 12px; right: 12px; } }
+@media (max-width: 639px) {
+  .deviceStage { min-height: 580px; }
+  .device { height: 400px; max-height: none; margin-top: 65px; }
+  .floatingCard { border-radius: 14px; padding: 11px 12px; }
+  .trackingCard { top: 12px; left: 10px; }
+  .experienceCard { top: 12px; right: 10px; }
+  .cardLabel { font-size: 10px; }
+  .cardValue { font-size: 24px; }
+  .cardCaption { font-size: 9px; }
+  .experienceValue { font-size: 16px; }
+  .dashboardCard { top: auto; bottom: 12px; right: 10px; width: 52%; max-width: 156px; padding: 12px 10px; }
+  .dashboardHeading { font-size: 9px; }
+  .dashboardRows { font-size: 9px; gap: 10px; margin-top: 12px; }
+  .sampleNote { font-size: 8px; }
+  .fleetCard { bottom: 30px; left: 10px; right: auto; width: 96px; padding: 11px 9px; }
+  .fleetCard .cardLabel { font-size: 9px; }
+}
