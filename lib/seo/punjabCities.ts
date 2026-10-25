@@ -12,6 +12,7 @@ export type PunjabCitySeo = {
   sectors: string[];
   localContext: string;
   planningNote: string;
+  guide?: { description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 };
 
 const operatingProfiles = [
@@ -31,6 +32,63 @@ export function toPunjabCitySlug(name: string) {
     .replace(/^-|-$/g, "");
 }
 
+const priorityGuides: Record<string, NonNullable<PunjabCitySeo["guide"]>> = {
+  "dera-bassi": {
+    "description": "Plan GPS tracking in Dera Bassi for dispatch vehicles and commercial fleets. Review installation enquiries, depot geofences and connected Tricity journeys.",
+    "cases": [
+      {
+        "title": "Prepare a Dera Bassi installation enquiry",
+        "text": "Contact NAVII GPS at SCO 46, 2nd Floor, GBP Business Square, Barwala Road, Dera Bassi, Punjab – 140507. Share the vehicle model, power supply, parking location and available fitting time. Confirm the appointment, installation arrangements and itemised quotation before bringing a vehicle or booking a visit."
+      },
+      {
+        "title": "Separate depot waiting from the delivery journey",
+        "text": "For a Dera Bassi dispatch vehicle, record the loading location, planned customer stops and return point. Place geofences around agreed premises rather than the whole town. Compare departure and return times with trip history; confirm loading delays with the dispatch team instead of treating every long stop as idle time."
+      },
+      {
+        "title": "Test a connected Tricity route",
+        "text": "If your vehicles travel from Dera Bassi to Zirakpur, Chandigarh or Mohali, pilot one representative journey before rolling out to the fleet. Check location timestamps at stops and compare the recorded route after the trip. Agree who follows up on missing updates and which dispatcher can view each vehicle."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Where can I enquire about a GPS tracker in Dera Bassi?",
+        "answer": "The NAVII GPS office is at SCO 46, 2nd Floor, GBP Business Square, Barwala Road, Dera Bassi, Punjab – 140507. Contact the team before visiting to confirm availability, device suitability and installation arrangements."
+      },
+      {
+        "question": "What should I test after fitting a Dera Bassi fleet tracker?",
+        "answer": "Test a real departure, customer stop and return journey. Review the latest location time, trip history, authorised account access and supported geofence alerts. Confirm any accessory functions separately with the installer before accepting the setup."
+      }
+    ]
+  },
+  "mohali": {
+    "description": "Plan GPS tracking in Mohali for employee transport and service fleets. Compare pickup geofences, dispatcher access, reporting checks and installation requirements.",
+    "cases": [
+      {
+        "title": "Plan employee pickup and shift handover",
+        "text": "For Mohali employee transport, keep pickup stops separate from the office arrival geofence. Give the dispatcher a planned stop sequence and shift window, then review recorded journeys against that plan. Limit access to the vehicles each coordinator manages and confirm who handles a missed pickup report."
+      },
+      {
+        "title": "Review multi-stop service visits",
+        "text": "For a service vehicle working around Mohali, record the customer appointment order and expected return point before dispatch. Use trip history to investigate route changes and prolonged stops with the driver. A geofence event indicates a reported boundary crossing; it does not establish that the customer visit or service job was completed."
+      },
+      {
+        "title": "Check journeys beyond Mohali",
+        "text": "For fleets with stops in Kharar, Zirakpur or Chandigarh, test reporting on the actual working route. Compare the last location timestamp with the current time before interpreting a stationary marker. Include shift changes and return journeys in the pilot so the next dispatcher knows which updates need follow-up."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Does the Mohali guide describe a separate NAVII GPS office?",
+        "answer": "No separate Mohali office is listed in this guide. Contact the NAVII GPS team in Dera Bassi with your Mohali vehicle location to confirm installation arrangements, appointment availability and the quotation."
+      },
+      {
+        "question": "What should a Mohali employee transport pilot include?",
+        "answer": "Choose a representative pickup route and agree its stops, shift window and authorised dispatcher. Test location reporting, trip history and supported geofence alerts, then review missing updates and alert responsibilities before adding more vehicles."
+      }
+    ]
+  }
+};
+
 export const punjabCities: PunjabCitySeo[] = punjabDistricts.flatMap(
   (district, districtIndex) => district.cities.map((name, cityIndex) => {
     const nearbyLocations = district.cities.filter((city) => city !== name);
@@ -38,6 +96,7 @@ export const punjabCities: PunjabCitySeo[] = punjabDistricts.flatMap(
 
     return {
       slug: toPunjabCitySlug(name),
+      guide: district.slug === "sahibzada-ajit-singh-nagar" ? priorityGuides[toPunjabCitySlug(name)] : undefined,
       name,
       districtSlug: district.slug,
       districtName: district.name,
@@ -79,7 +138,7 @@ export function generatePunjabCityKeywords(city: PunjabCitySeo) {
 
 export function generatePunjabCityMetadata(city: PunjabCitySeo): Metadata {
   const url = `https://naviigps.com/gps-tracker/punjab/${city.districtSlug}/${city.slug}`;
-  const description = `GPS trackers and fleet management software in ${city.name}, ${city.districtName} district, Punjab, for cars, trucks, buses and commercial vehicles.`;
+  const description = city.guide?.description ?? `GPS trackers and fleet management software in ${city.name}, ${city.districtName} district, Punjab, for cars, trucks, buses and commercial vehicles.`;
 
   return {
     title: `GPS Tracker in ${city.name}, ${city.districtName}`,

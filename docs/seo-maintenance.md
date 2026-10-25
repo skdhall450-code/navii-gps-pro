@@ -95,3 +95,26 @@ The audit covered 851 public sitemap URLs. It found 452 repeated-brand titles, 1
 [Chhattisgarh Phase 1](chhattisgarh-phase-1.md) provides district-level GPS tracking guides for all 33 current districts. Automated checks lock the current government inventory and validate Hindi and English intent keywords, unique route context, canonical URLs, structured data, sitemap inclusion and Chhattisgarh hub links.
 
 [Chhattisgarh Phase 2](chhattisgarh-phase-2.md) adds 66 curated priority city and town guides—two in every district. The reviewed selection is derived from the locked Phase 1 district inventory, and every rendered page must link to the Chhattisgarh hub, its parent district and paired location. English and Hindi-intent keywords are generated automatically.
+
+## Daily northern city coverage ledger
+
+Resume this ledger and inspect open PRs before choosing a batch. Publishing a guide does not establish Google indexing. Retain existing canonical URLs and do not create pages that merely swap locality names.
+
+| Priority | Coverage | Next action |
+| --- | --- | --- |
+| Chandigarh | Existing authored guide at /gps-tracker/chandigarh | Preserve sector, Industrial Area and Manimajra sections; improve only where a substantive gap is found |
+| Dera Bassi | 2026-10-25 batch: installation enquiry, dispatch review and Tricity pilot guidance; two additional shared visible/schema FAQs | Verify merged deployment before marking live |
+| Mohali | 2026-10-25 batch: staff pickup, service visits and route pilot guidance; two additional shared visible/schema FAQs | Verify merged deployment before marking live |
+| Punjab | Existing 104 city/town records plus district hubs | Next: review Zirakpur and Kharar for useful authored content on their current URLs |
+| Himachal Pradesh | Existing state route; detailed inventory not yet reviewed in this batch | Inventory district/town coverage and research useful missing routes |
+| Haryana | Existing district/city routes | Inventory gaps after priority Punjab/Himachal batches |
+| Delhi | Existing district and area routes | Inventory remaining useful locality gaps; retain current canonicals |
+
+### 2026-10-25 batch record
+
+- Existing Dera Bassi URL: /gps-tracker/punjab/sahibzada-ajit-singh-nagar/dera-bassi.
+- Existing Mohali URL: /gps-tracker/punjab/sahibzada-ajit-singh-nagar/mohali.
+- Added separate authored operational sections, specific descriptions and Chandigarh navigation. No new routes or sitemap entries needed; existing city registry continues to generate both sitemap URLs.
+- Geography checked against https://sasnagar.nic.in/administrative-setup/ and https://sasnagar.nic.in/subdivisions-blocks/. Office address supplied by owner; no new local branches or installation guarantees.
+- Branch: seo/dera-bassi-mohali-20261025. Required validation: source SEO, lint, build, rendered SEO and existing CI regressions. Consult branch/PR checks for actual results; this record does not pre-claim success.
+- No existing open PR covered this city-content batch. Do not merge unrelated panel or sales-journey PRs.
