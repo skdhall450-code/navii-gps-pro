@@ -5,7 +5,7 @@ import { MessageCircle, Phone, ArrowRight } from "lucide-react";
 
 export default function HeaderActions() {
   return (
-    <div className="hidden items-center gap-3 lg:flex">
+    <div className="hidden items-center gap-2 xl:flex">
 
       {/* WhatsApp */}
       <a
@@ -30,7 +30,7 @@ export default function HeaderActions() {
       {/* Request Demo */}
       <Link
         href="/contact"
-        className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/30"
+        className="flex items-center gap-2 whitespace-nowrap rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/30"
       >
         Request Demo
         <ArrowRight size={18} />

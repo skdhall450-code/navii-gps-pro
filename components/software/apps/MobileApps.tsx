@@ -7,11 +7,12 @@ import {
   Monitor,
   Download,
   QrCode,
+  LogIn,
 } from "lucide-react";
 
 export default function MobileApps() {
   return (
-    <section className="bg-white py-24">
+    <section id="app-access" aria-labelledby="app-access-title" className="overflow-hidden bg-white py-24">
 
       <div className="mx-auto max-w-7xl px-6">
 
@@ -23,13 +24,13 @@ export default function MobileApps() {
             MOBILE APPLICATIONS
           </span>
 
-          <h2 className="mt-6 text-4xl font-extrabold text-slate-900">
+          <h2 id="app-access-title" className="mt-6 text-4xl font-extrabold text-slate-900">
             Access Your Fleet Anywhere
           </h2>
 
           <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-            Monitor your vehicles from Android, iPhone or Desktop using
-            the NAVII GPS Fleet Management Platform.
+            Access NAVII GPS from your web browser or download the customer app
+            for Android from Google Play.
           </p>
 
         </div>
@@ -38,12 +39,7 @@ export default function MobileApps() {
 
           {/* Left */}
 
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
+          <div>
 
             <div className="space-y-6">
 
@@ -56,7 +52,7 @@ export default function MobileApps() {
                 <div>
 
                   <h3 className="text-xl font-bold">
-                    Android & iOS App
+                    Android Customer App
                   </h3>
 
                   <p className="mt-2 text-slate-600">
@@ -91,27 +87,29 @@ export default function MobileApps() {
 
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-4">
-
-              <button className="flex items-center gap-2 rounded-xl bg-cyan-600 px-7 py-4 font-semibold text-white transition hover:bg-cyan-700">
-
-                <Download size={18} />
-
-                Download App
-
-              </button>
-
-              <button className="flex items-center gap-2 rounded-xl border border-cyan-300 px-7 py-4 font-semibold text-cyan-700 transition hover:bg-cyan-50">
-
-                <QrCode size={18} />
-
-                Scan QR
-
-              </button>
-
+            <div className="mt-10 flex flex-wrap gap-3">
+              <a href="https://naviigps.com/login" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-blue-700 px-6 py-3 font-semibold text-white transition hover:bg-blue-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
+                <LogIn size={18} aria-hidden="true" /> Web Login
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.naviigps.customer" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-cyan-700 px-6 py-3 font-semibold text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-700">
+                <Download size={18} aria-hidden="true" /> Download App
+              </a>
+              <a href="#navii-app-qr" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-cyan-300 px-6 py-3 font-semibold text-cyan-800 transition hover:bg-cyan-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-700">
+                <QrCode size={18} aria-hidden="true" /> Scan QR
+              </a>
             </div>
+            <p className="mt-3 text-sm leading-6 text-slate-600">Download App opens Google Play in a new tab. An authorized NAVII account and active services may be required.</p>
 
-          </motion.div>
+            <figure id="navii-app-qr" className="mt-8 scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-center">
+              <a href="https://play.google.com/store/apps/details?id=com.naviigps.customer" target="_blank" rel="noopener noreferrer" aria-label="Download NAVII GPS: Vehicle Tracking from Google Play (opens in new tab)" className="inline-block rounded-xl bg-white p-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
+                <Image src="/assets/software/mobile/navii-gps-customer-qr.svg" alt="Scan to open NAVII GPS customer app on Google Play" width={360} height={360} unoptimized className="h-auto w-[224px] max-w-full" />
+              </a>
+              <figcaption className="mt-3">
+                <p className="font-bold text-slate-900">NAVII GPS: Vehicle Tracking</p>
+                <p className="mt-1 text-sm text-slate-600">Android customer app · Scan to download</p>
+              </figcaption>
+            </figure>
+          </div>
 
           {/* Right */}
 
