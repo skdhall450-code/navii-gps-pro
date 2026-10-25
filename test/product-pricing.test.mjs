@@ -34,7 +34,7 @@ test('current-rate renewal is separately derived and is not a locked future comm
   assert.equal(breakdown.renewalSubtotalPaise, 57000);
   assert.equal(breakdown.renewalGstPaise, 10260);
   assert.equal(breakdown.renewalAnnualPaise, 67260);
-  assert.match(source('app/shop-now/page.tsx'), /future rates may change/);
+
 });
 
 test('invalid quantities or inconsistent bundle quotes fail instead of silently charging differently', () => {
@@ -46,12 +46,11 @@ test('invalid quantities or inconsistent bundle quotes fail instead of silently 
   }
 });
 
-test('store headline and WhatsApp enquiry share the bundle amount and no device-MRP comparison', () => {
-  const page = source('app/shop-now/page.tsx');
-  assert.match(page, /getProductPriceBreakdown\(pricing\)/);
-  assert.match(page, /G17 first-year package/);
-  assert.match(page, /first-year package at \$\{money\(firstYearTotal\)\}/);
-  assert.doesNotMatch(page, /1,463\.20|1463\.20|637\.20|deviceMrpInr|deviceGst|simGst|platformGst/);
+test('legacy G17 pricing data is retained without advertising the stale offer on Shop Now', () => {
   assert.equal(g17.pricing.deviceMrpInr, 2000);
+  assert.equal(g17.pricing.firstYearTotalInr, 2000);
   assert.deepEqual(products.filter(product => product.pricing).map(product => product.slug), ['g17-gps-tracker']);
+  const page = source('app/shop-now/page.tsx');
+  assert.match(page, /Request the current G17 quote/);
+  assert.doesNotMatch(page, /G17 first-year package|Offer_Status_Poster|G17_Product_Catalogue|shippingUpTo500KmInr/);
 });

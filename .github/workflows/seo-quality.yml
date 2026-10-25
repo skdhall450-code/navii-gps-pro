@@ -92,3 +92,15 @@ jobs:
           path: test-results/home-browser
           if-no-files-found: ignore
           retention-days: 7
+
+      - name: Check Shop Now pricing in Chromium
+        run: node test/browser/shop-pricing.mjs
+
+      - name: Upload shop browser checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shop-browser-${{ github.sha }}
+          path: test-results/shop-browser
+          if-no-files-found: ignore
+          retention-days: 7
