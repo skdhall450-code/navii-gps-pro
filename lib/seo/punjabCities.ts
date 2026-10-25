@@ -33,6 +33,60 @@ export function toPunjabCitySlug(name: string) {
 }
 
 const priorityGuides: Record<string, NonNullable<PunjabCitySeo["guide"]>> = {
+"zirakpur": {
+  "description": "GPS tracking in Zirakpur for delivery fleets and shared vehicles. Plan customer stops, driver handovers and reporting checks on connected Tricity trips.",
+  "cases": [
+    {
+      "title": "Separate local deliveries from through journeys",
+      "text": "For a vehicle serving Zirakpur and continuing to Dera Bassi, Chandigarh or Mohali, record which stops are actual customer appointments. Review the local delivery leg separately from the onward journey. A passing vehicle can cross a geofence without completing a delivery, so reconcile trip history with the driver's delivery record."
+    },
+    {
+      "title": "Choose the correct entrance for each stop",
+      "text": "When a Zirakpur delivery address has more than one entrance or a separate loading point, agree the usable entry with the customer before setting the stop boundary. Pilot arrival and departure alerts at that point. Review repeated boundary events with the dispatcher before changing a geofence or assuming multiple visits."
+    },
+    {
+      "title": "Keep shared-vehicle handovers clear",
+      "text": "For a Zirakpur vehicle used by more than one driver, record the vehicle, driver assignment and handover time in the operating log. Compare trip timestamps with the relevant shift when investigating a route change. Confirm tracker power, SIM plan, reporting settings and authorised account access before starting regular use."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "How can I review Zirakpur deliveries and onward trips separately?",
+      "answer": "Agree the delivery stops and onward destination before dispatch, then review each leg in trip history. Check geofence timestamps against the driver's delivery record; a reported arrival alone does not confirm that goods were handed over."
+    },
+    {
+      "question": "How do I arrange installation for a vehicle based in Zirakpur?",
+      "answer": "Contact the NAVII GPS team in Dera Bassi with the vehicle model, parking location and preferred fitting time. Confirm installation arrangements, compatible hardware and the full device, SIM, platform and renewal quotation before booking."
+    }
+  ]
+},
+"kharar": {
+  "description": "GPS tracking in Kharar for service vehicles and scheduled pickups. Plan repeat visits, route changes and reporting checks for Mohali and Kurali journeys.",
+  "cases": [
+    {
+      "title": "Organise repeat service rounds in Kharar",
+      "text": "For a Kharar service vehicle visiting several customers, list the appointments in order and identify any sites that need repeat visits. Compare the recorded stop sequence with the day's work log. Keep customer completion notes separately so a short stop or nearby road movement is not mistaken for a completed job."
+    },
+    {
+      "title": "Record changes to scheduled pickup routes",
+      "text": "For scheduled pickups around Kharar, agree the approved stops, pickup windows and dispatcher responsible for changes. When a stop is temporarily moved, update the operating plan and review the relevant geofence before the next trip. Confirm supported alert behaviour with a pilot; do not infer passenger boarding from the vehicle's position."
+    },
+    {
+      "title": "Check the return leg from Mohali or Kurali",
+      "text": "If a Kharar-based vehicle also works in Mohali or Kurali, include the return journey in your installation trial. Check the latest reported time at the destination and again on return. Review gaps with the installer or dispatcher, and agree how to follow up when a vehicle has not sent a fresh update."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can GPS records confirm a Kharar customer visit was completed?",
+      "answer": "Trip history and supported geofence events can help review the vehicle's reported movements. Confirm job completion with the customer or service record; location data alone does not establish that work was performed."
+    },
+    {
+      "question": "What information is needed for a Kharar fleet quotation?",
+      "answer": "Share vehicle models, fleet size, usual stops, parking location and reporting needs with NAVII GPS. Ask for hardware, SIM, platform, installation and renewal charges, and confirm fitting arrangements for your Kharar location before booking."
+    }
+  ]
+},
   "dera-bassi": {
     "description": "Plan GPS tracking in Dera Bassi for dispatch vehicles and commercial fleets. Review installation enquiries, depot geofences and connected Tricity journeys.",
     "cases": [
