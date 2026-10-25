@@ -103,9 +103,9 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 | Priority | Coverage | Next action |
 | --- | --- | --- |
 | Chandigarh | Existing authored guide at /gps-tracker/chandigarh | Preserve sector, Industrial Area and Manimajra sections; improve only where a substantive gap is found |
-| Dera Bassi | 2026-10-25 batch: installation enquiry, dispatch review and Tricity pilot guidance; two additional shared visible/schema FAQs | Verify merged deployment before marking live |
-| Mohali | 2026-10-25 batch: staff pickup, service visits and route pilot guidance; two additional shared visible/schema FAQs | Verify merged deployment before marking live |
-| Punjab | Existing 104 city/town records plus district hubs | Next: review Zirakpur and Kharar for useful authored content on their current URLs |
+| Dera Bassi | 2026-10-25 batch: installation enquiry, dispatch review and Tricity pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
+| Mohali | 2026-10-25 batch: staff pickup, service visits and route pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
+| Punjab | Existing 104 city/town records plus district hubs | Zirakpur/Kharar authored batch prepared 2026-10-25; next review Kurali, then Himachal coverage |
 | Himachal Pradesh | Existing state route; detailed inventory not yet reviewed in this batch | Inventory district/town coverage and research useful missing routes |
 | Haryana | Existing district/city routes | Inventory gaps after priority Punjab/Himachal batches |
 | Delhi | Existing district and area routes | Inventory remaining useful locality gaps; retain current canonicals |
@@ -118,3 +118,13 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - Geography checked against https://sasnagar.nic.in/administrative-setup/ and https://sasnagar.nic.in/subdivisions-blocks/. Office address supplied by owner; no new local branches or installation guarantees.
 - Branch: seo/dera-bassi-mohali-20261025. Required validation: source SEO, lint, build, rendered SEO and existing CI regressions. Consult branch/PR checks for actual results; this record does not pre-claim success.
 - No existing open PR covered this city-content batch. Do not merge unrelated panel or sales-journey PRs.
+
+### 2026-10-25 Zirakpur and Kharar batch
+
+- Existing URLs: /gps-tracker/punjab/sahibzada-ajit-singh-nagar/zirakpur and /gps-tracker/punjab/sahibzada-ajit-singh-nagar/kharar. No alternate routes or extra sitemap entries.
+- Zirakpur: delivery legs versus through trips, correct stop entrances, shared-driver handovers and two additional FAQs.
+- Kharar: repeat service rounds, pickup route changes, return-leg reporting and two additional FAQs.
+- Unique descriptions feed page and social metadata; existing component renders the new checklists and shares FAQs with JSON-LD. Existing district, sibling and Chandigarh navigation retained.
+- Geographic inventory verified against https://sasnagar.nic.in/public-utility-category/municipality/ (Kharar and Zirakpur listed by the district administration). Operational examples are planning guidance, not local service guarantees.
+- Branch: seo/zirakpur-kharar-20261025. Check PR/CI and live deployment before marking this batch published.
+- Prior PR #70 verified live with HTTP 200, one H1, self canonical, five matching visible/schema FAQs per page, successful Vercel and main CI 40158459254, IndexNow 40158619794. Google indexing remains unverified.
