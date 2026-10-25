@@ -148,6 +148,50 @@ try {
     await page.locator('[data-offer="ais140"]').scrollIntoViewIfNeeded();
     await page.screenshot({path:`test-results/shop-browser/ais140-${width}.png`});
   }
+  // Verify published app-access destinations without visiting external services.
+  await page.goto(base+'/software',{waitUntil:'networkidle'});
+  const apps=page.locator('#app-access');
+  assert.equal(await apps.count(),1);
+  for(const [name,href] of [
+    ['Web Login','https://naviigps.com/login'],
+    ['Download App','https://play.google.com/store/apps/details?id=com.naviigps.customer'],
+  ]){
+    const link=apps.getByRole('link',{name,exact:true});
+    assert.equal(await link.count(),1,`${name} is a real anchor`);
+    assert.equal(await link.getAttribute('href'),href);
+    if(await link.getAttribute('target')==='_blank'){
+      const rel=(await link.getAttribute('rel')??'').split(/\s+/);
+      assert.ok(rel.includes('noopener')&&rel.includes('noreferrer'),`${name} safely opens a new tab`);
+    }
+  }
+  assert.equal(await apps.getByRole('button',{name:/Download App|Scan QR|Web Login/}).count(),0,'App actions are not inert buttons');
+  assert.doesNotMatch(await apps.innerText(),/iPhone|iOS|App Store/i,'Do not advertise an unverified iOS app');
+  const scan=apps.getByRole('link',{name:'Scan QR',exact:true});
+  assert.equal(await scan.getAttribute('href'),'#navii-app-qr');
+  const qr=apps.locator('#navii-app-qr img');
+  assert.equal(await qr.count(),1,'A real QR image is rendered');
+  assert.ok((await qr.getAttribute('src')).includes('navii-gps-customer-qr.svg'));
+  assert.ok((await qr.getAttribute('alt')??'').trim().length>0,'QR has descriptive alt text');
+  for(const width of [320,390,768,1440]){
+    await page.setViewportSize({width,height:1000});
+    await apps.scrollIntoViewIfNeeded();
+    for(const img of await apps.locator('img').all()){
+      await img.scrollIntoViewIfNeeded();
+      await img.evaluate(el=>el.decode());
+      assert.ok(await img.evaluate(el=>el.complete&&el.naturalWidth>0),'App-access image loaded');
+    }
+    await scan.click();
+    assert.equal(new URL(page.url()).hash,'#navii-app-qr');
+    assert.equal(await qr.isVisible(),true);
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`App access does not overflow ${width}`);
+    for(const locator of [apps,qr,apps.getByRole('link',{name:'Web Login',exact:true}),apps.getByRole('link',{name:'Download App',exact:true})]){
+      const box=await locator.boundingBox();
+      assert.ok(box&&box.x>=0&&box.x+box.width<=width,`App access element contained at ${width}`);
+    }
+    const qrBox=await qr.boundingBox();
+    assert.ok(qrBox.width>=180&&Math.abs(qrBox.width-qrBox.height)<1,`QR stays legible and square at ${width}`);
+    await apps.screenshot({path:`test-results/shop-browser/apps-${width}.png`});
+  }
   assert.deepEqual(errors,[]);
   const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});await nojs.route('**/*',r=>new URL(r.request().url()).origin===base?r.continue():r.abort());const staticPage=await nojs.newPage();await staticPage.goto(base+'/shop-now');assert.equal(await staticPage.locator('[data-offer]').count(),9);assert.ok((await staticPage.locator('[data-offer="bt50"]').innerText()).includes('₹2,525.20'));await nojs.close();
   console.log('Shop pricing: ten options, arithmetic, links, responsive cards, both shared headers, keyboard/mobile navigation and no-JS PASS. No WhatsApp message sent.');
