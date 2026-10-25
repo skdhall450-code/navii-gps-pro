@@ -6,10 +6,11 @@ const byId = id => shopOffers.find(offer => offer.id === id);
 
 test('owner device prices are ex-GST, with exact 18% totals', () => {
   assert.equal(SHOP_GST_PERCENT, 18);
-  for (const [id, base, gst, total] of [['bt50',1200,216,1416],['gx03',1500,270,1770],['gs900',1500,270,1770],['s15',3000,540,3540]]) {
+  for (const [id, base, gst, total] of [['g17',1200,216,1416],['bt50',1200,216,1416],['gx03',1500,270,1770],['gs900',1500,270,1770],['s15',3000,540,3540]]) {
     assert.equal(byId(id).variants[0].baseInr, base);
     assert.deepEqual(getShopOfferPrice(base), {basePaise:base*100,gstPaise:gst*100,totalPaise:total*100});
   }
+  assert.equal(byId('g17').mrpInr,2500);
   assert.equal(byId('bt50').mrpInr,3000);
   assert.equal(byId('gx03').mrpInr,3500);
   assert.equal(byId('gs900').mrpInr,3500);
@@ -45,11 +46,10 @@ test('each WhatsApp enquiry uses its exact model, variant and correct GST total'
 test('invalid price inputs fail safely', () => {
   for (const amount of [-1,NaN,Infinity,Number.MAX_VALUE]) assert.throws(()=>getShopOfferPrice(amount),RangeError);
 });
-test('shop composition separates new device offers from unchanged G17 package downloads', () => {
+test('Shop Now uses canonical model prices without stale G17 package downloads', () => {
   const page=fs.readFileSync('app/shop-now/page.tsx','utf8');
   assert.match(page,/<ShopOffers \/>/);
-  assert.match(page,/section id="g17"/);
-  assert.match(page,/Request the current G17 quote/);
+  assert.doesNotMatch(page,/Request the current G17 quote|G17 first-year package/);
   assert.doesNotMatch(page,/More models coming/);
   const cards=fs.readFileSync('components/shop/ShopOffers.tsx','utf8');
   assert.doesNotMatch(cards,/G17_Product_Catalogue|Offer_Status_Poster|<del|<s>/);
@@ -75,4 +75,20 @@ test('two-year AIS validity does not silently double the 12-month SIM or platfor
   const cards=fs.readFileSync('components/shop/ShopOffers.tsx','utf8');
   assert.match(cards,/SIM shown covers 12 months only/);
   assert.match(cards,/Confirm platform coverage/);
+});
+
+test('final payable rounds to nearest rupee without altering GST or components', () => {
+  for(const [base,rounded] of [[1200,252500],[1500,287900],[3000,464900],[5000,700900],[6500,877900]]){
+    const price=getCompleteShopPrice(base);
+    assert.equal(price.payablePaise,rounded);
+    assert.equal(price.roundOffPaise,-20);
+    assert.equal(price.basePaise+price.gstPaise+price.roundOffPaise,price.payablePaise);
+    assert.equal(price.device.gstPaise,Math.round(base*100*.18));
+  }
+  for(const offer of shopOffers)for(const variant of offer.variants){
+    const price=getCompleteShopPrice(variant.baseInr);
+    const text=new URL(getShopEnquiryUrl(offer,variant)).searchParams.get('text');
+    assert.ok(text.includes(`Final payable: INR ${(price.payablePaise/100).toFixed(2)}`));
+    assert.ok(text.includes('Round-off: -INR 0.20'));
+  }
 });

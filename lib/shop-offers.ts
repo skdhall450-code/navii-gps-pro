@@ -11,6 +11,11 @@ export type ShopOffer = {
 
 export const shopOffers: ShopOffer[] = [
   {
+    id: "g17", name: "G17 GPS", category: "GPS device", mrpInr: 2500,
+    image: "/assets/products/g17/main.png", productHref: "/products/g17-gps-tracker",
+    variants: [{ id: "device", label: "Device price", baseInr: 1200 }],
+  },
+  {
     id: "bt50", name: "BT-50 GPS", category: "GPS device", mrpInr: 3000,
     image: "/assets/products/bt50/main.png", productHref: "/products/bt50-vehicle-gps-tracker",
     variants: [{ id: "device", label: "Device price", baseInr: 1200 }],
@@ -55,7 +60,7 @@ export function getShopEnquiryUrl(offer: ShopOffer, variant: ShopOffer["variants
   const price = getCompleteShopPrice(variant.baseInr);
   const money = (paise: number) => `INR ${(paise / 100).toFixed(2)}`;
   const chargeSummary = price.charges.map(charge => `${charge.label}: ${money(charge.basePaise)} + GST ${money(charge.gstPaise)}`).join("; ");
-  const message = `Hello NAVII GPS, I am interested in ${offer.name} (${variant.label}). Device: ${money(price.device.basePaise)} + GST ${money(price.device.gstPaise)}. ${chargeSummary}. Total including 18% GST and these charges: ${money(price.totalPaise)}. Please confirm availability, exact service/validity inclusions, installation charges and final order details. No payment has been made.`;
+  const message = `Hello NAVII GPS, I am interested in ${offer.name} (${variant.label}). Device: ${money(price.device.basePaise)} + GST ${money(price.device.gstPaise)}. ${chargeSummary}. Total including 18% GST and these charges: ${money(price.totalPaise)}. Round-off: ${price.roundOffPaise < 0 ? "-" : "+"}${money(Math.abs(price.roundOffPaise))}. Final payable: ${money(price.payablePaise)}. Please confirm availability, exact service/validity inclusions, installation charges and final order details. No payment has been made.`;
 
   return `https://wa.me/${SHOP_WHATSAPP}?text=${encodeURIComponent(message)}`;
 }
@@ -75,5 +80,8 @@ export function getCompleteShopPrice(deviceBaseInr: number) {
   const gstPaise = device.gstPaise + extraGstPaise;
   const totalPaise = basePaise + gstPaise;
   if (!Number.isSafeInteger(totalPaise)) throw new RangeError("Price exceeds supported precision.");
-  return { device, charges, extraBasePaise, extraGstPaise, extraTotalPaise: extraBasePaise + extraGstPaise, basePaise, gstPaise, totalPaise };
+  const payablePaise = Math.round(totalPaise / 100) * 100;
+  if (!Number.isSafeInteger(payablePaise)) throw new RangeError("Rounded price exceeds supported precision.");
+  const roundOffPaise = payablePaise - totalPaise;
+  return { device, charges, extraBasePaise, extraGstPaise, extraTotalPaise: extraBasePaise + extraGstPaise, basePaise, gstPaise, totalPaise, roundOffPaise, payablePaise };
 }

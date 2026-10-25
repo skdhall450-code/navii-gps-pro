@@ -2,55 +2,28 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
 import { products } from '../components/products/data/productsData.ts';
-import { formatInrPaise, getProductPriceBreakdown } from '../lib/product-pricing.ts';
+import { formatInrPaise } from '../lib/product-pricing.ts';
+import { shopOffers, getCompleteShopPrice } from '../lib/shop-offers.ts';
 
-const g17 = products.find(product => product.slug === 'g17-gps-tracker');
-const source = path => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
-
-test('approved G17 first-year GST-inclusive bundle matches all quoted figures', () => {
-  const breakdown = getProductPriceBreakdown(g17.pricing);
-  assert.equal(breakdown.devicePaise, 112492);
-  assert.equal(breakdown.simAnnualPaise, 42000);
-  assert.equal(breakdown.platformAnnualPaise, 15000);
-  assert.equal(breakdown.subtotalPaise, 169492);
-  assert.equal(breakdown.gstPaise, 30508);
-  assert.equal(breakdown.firstYearPaise, 200000);
-  assert.equal(breakdown.subtotalPaise + breakdown.gstPaise, breakdown.firstYearPaise);
-  assert.equal(formatInrPaise(breakdown.firstYearPaise), '₹2,000.00');
+test('currency formatting uses exact validated integer paise', () => {
+  assert.equal(formatInrPaise(252520),'₹2,525.20');
+  assert.equal(formatInrPaise(0),'₹0.00');
+  for(const invalid of [-1,NaN,Infinity,1.5,Number.MAX_VALUE])assert.throws(()=>formatInrPaise(invalid),RangeError);
 });
-
-test('quantities multiply the rounded bundle, never aggregate-round a different total', () => {
-  for (const quantity of [1, 2, 3, 10, 100, 1000]) {
-    const breakdown = getProductPriceBreakdown(g17.pricing, quantity);
-    assert.equal(breakdown.firstYearPaise, 200000 * quantity);
-    assert.equal(breakdown.subtotalPaise, 169492 * quantity);
-    assert.equal(breakdown.gstPaise, 30508 * quantity);
-    assert.equal(breakdown.subtotalPaise + breakdown.gstPaise, breakdown.firstYearPaise);
-  }
+test('G17 identity is unchanged but new approved pricing has one canonical source', () => {
+  const product=products.find(product=>product.slug==='g17-gps-tracker');
+  const offer=shopOffers.find(offer=>offer.id==='g17');
+  assert.equal(product.id,1);
+  assert.equal(offer.image,product.image);
+  assert.equal(offer.productHref,`/products/${product.slug}`);
+  assert.equal(offer.mrpInr,2500);
+  assert.equal(offer.variants[0].baseInr,1200);
+  assert.equal(getCompleteShopPrice(1200).totalPaise,252520);
+  assert.equal(product.pricing,undefined,'obsolete inclusive bundle fields removed');
 });
-
-test('current-rate renewal is separately derived and is not a locked future commitment', () => {
-  const breakdown = getProductPriceBreakdown(g17.pricing);
-  assert.equal(breakdown.renewalSubtotalPaise, 57000);
-  assert.equal(breakdown.renewalGstPaise, 10260);
-  assert.equal(breakdown.renewalAnnualPaise, 67260);
-
-});
-
-test('invalid quantities or inconsistent bundle quotes fail instead of silently charging differently', () => {
-  for (const quantity of [0, -1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER]) {
-    assert.throws(() => getProductPriceBreakdown(g17.pricing, quantity), RangeError);
-  }
-  for (const patch of [{ firstYearTotalInr: 2001 }, { deviceSaleInr: 700 }, { deviceSaleInr: -1 }, { gstRatePercent: -1 }]) {
-    assert.throws(() => getProductPriceBreakdown({ ...g17.pricing, ...patch }), RangeError);
-  }
-});
-
-test('legacy G17 pricing data is retained without advertising the stale offer on Shop Now', () => {
-  assert.equal(g17.pricing.deviceMrpInr, 2000);
-  assert.equal(g17.pricing.firstYearTotalInr, 2000);
-  assert.deepEqual(products.filter(product => product.pricing).map(product => product.slug), ['g17-gps-tracker']);
-  const page = source('app/shop-now/page.tsx');
-  assert.match(page, /Request the current G17 quote/);
-  assert.doesNotMatch(page, /G17 first-year package|Offer_Status_Poster|G17_Product_Catalogue|shippingUpTo500KmInr/);
+test('obsolete G17 posters and distance-based prices are not advertised on Shop Now', () => {
+  const page=fs.readFileSync('app/shop-now/page.tsx','utf8');
+  assert.doesNotMatch(page,/G17 first-year package|Offer_Status_Poster|G17_Product_Catalogue|shippingUpTo500KmInr|2,000/);
+  const cards=fs.readFileSync('components/shop/ShopOffers.tsx','utf8');
+  assert.doesNotMatch(cards,/500 km|Offer_Status_Poster|G17_Product_Catalogue/);
 });

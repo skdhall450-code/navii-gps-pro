@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { PageSchema } from "@/components/seo/PageSchema";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ShopOffers from "@/components/shop/ShopOffers";
-import { SHOP_WHATSAPP } from "@/lib/shop-offers";
 
 export const metadata: Metadata = {
   title: "Shop GPS Devices | Model-wise Prices",
@@ -14,14 +12,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://naviigps.com/shop-now" },
   openGraph: {
     title: "Shop NAVII GPS Devices | Model-wise Prices",
-    description: "Compare BT-50, GX03, GS900 and S-15 prices and AIS 140 validity options with clear GST and service-charge breakdowns.",
+    description: "Compare G17, BT-50, GX03, GS900 and S-15 prices and AIS 140 validity options with clear GST and service-charge breakdowns.",
     url: "https://naviigps.com/shop-now",
     type: "website",
   },
 };
 
 export default function ShopNowPage() {
-  const g17Enquiry = `https://wa.me/${SHOP_WHATSAPP}?text=${encodeURIComponent("Hello NAVII GPS, please share the current G17 device price, GST, Airtel SIM, software platform, shipping/handling and installation charges, with the final payable total and package inclusions.")}`;
   return (
     <>
       <PageSchema path="/shop-now" name="Shop NAVII GPS Devices" type="CollectionPage" description={metadata.description ?? ""} />
@@ -43,17 +40,7 @@ export default function ShopNowPage() {
           </div>
         </section>
         <ShopOffers />
-        <section id="g17" className="mx-auto max-w-7xl px-6 pb-16 text-white">
-          <div className="rounded-3xl border border-slate-600 bg-[#122138] p-7 md:flex md:items-center md:justify-between md:gap-8 md:p-9">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[.18em] text-blue-300">G17 GPS Tracker</p>
-              <h2 className="mt-3 text-2xl font-extrabold">Request the current G17 quote</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300">G17 package pricing is being updated. Confirm the current device price, service inclusions, GST and final total with NAVII GPS before ordering.</p>
-              <Link href="/products/g17-gps-tracker" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-200 hover:text-white">G17 product specifications <ArrowRight size={16} /></Link>
-            </div>
-            <a href={g17Enquiry} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white hover:bg-blue-500 md:mt-0"><MessageCircle size={18} /> Request G17 quote</a>
-          </div>
-        </section>
+
       </main>
       <Footer />
     </>

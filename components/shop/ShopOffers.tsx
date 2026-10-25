@@ -18,7 +18,7 @@ export default function ShopOffers() {
         </div>
         <div className={styles.grid}>
           {shopOffers.map((offer) => (
-            <article key={offer.id} data-offer={offer.id} className={styles.card}>
+            <article key={offer.id} id={offer.id} data-offer={offer.id} className={styles.card}>
               <div className={styles.stage}>
                 {offer.image ? (
                   <Image src={offer.image} alt={`${offer.name} device`} width={440} height={330} sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw" className={styles.image} />
@@ -47,7 +47,9 @@ export default function ShopOffers() {
                         <dl className={styles.breakdown}>
                           <div><dt>Device GST ({SHOP_GST_PERCENT}%)</dt><dd>{formatInrPaise(price.device.gstPaise)}</dd></div>
                           {price.charges.map(charge => <div key={charge.id}><dt>{charge.label}<small className={styles.feeTax}>{formatInrPaise(charge.basePaise)} + GST {formatInrPaise(charge.gstPaise)}</small></dt><dd>{formatInrPaise(charge.totalPaise)}</dd></div>)}
-                          <div className={styles.total}><dt>Total incl. GST & charges</dt><dd>{formatInrPaise(price.totalPaise)}</dd></div>
+                          <div><dt>Total incl. GST & charges</dt><dd>{formatInrPaise(price.totalPaise)}</dd></div>
+                          <div><dt>Round-off</dt><dd>{price.roundOffPaise < 0 ? "−" : "+"}{formatInrPaise(Math.abs(price.roundOffPaise))}</dd></div>
+                          <div className={styles.total}><dt>Final payable</dt><dd>{formatInrPaise(price.payablePaise)}</dd></div>
                         </dl>
                         <a href={getShopEnquiryUrl(offer, variant)} target="_blank" rel="noopener noreferrer" className={styles.enquire} aria-label={`Enquire about ${offer.name}, ${variant.label}`}><MessageCircle size={17} aria-hidden="true" /> Enquire on WhatsApp <ArrowUpRight size={16} aria-hidden="true" /></a>
                       </div>
@@ -60,7 +62,7 @@ export default function ShopOffers() {
         </div>
         <div className={styles.note}>
           <Package size={22} aria-hidden="true" />
-          <p>Totals above include 18% GST, Airtel SIM at ₹45 × 12 months, a ₹150 software platform fee and ₹250 shipping/handling (both before GST). Installation is not included; confirm charges before ordering. AIS 140 validity is the selected device/service offer, while the SIM shown covers 12 months only. Confirm platform coverage, activation requirements and renewal terms before ordering.</p>
+          <p>Final payable is rounded to the nearest rupee, with the adjustment shown separately. Totals above include 18% GST, Airtel SIM at ₹45 × 12 months, a ₹150 software platform fee and ₹250 shipping/handling (both before GST). Installation is not included; confirm charges before ordering. AIS 140 validity is the selected device/service offer, while the SIM shown covers 12 months only. Confirm platform coverage, activation requirements and renewal terms before ordering.</p>
         </div>
       </div>
     </section>
