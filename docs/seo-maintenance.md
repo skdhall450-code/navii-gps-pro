@@ -105,8 +105,8 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 | Chandigarh | Existing authored guide at /gps-tracker/chandigarh | Preserve sector, Industrial Area and Manimajra sections; improve only where a substantive gap is found |
 | Dera Bassi | 2026-10-25 batch: installation enquiry, dispatch review and Tricity pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
 | Mohali | 2026-10-25 batch: staff pickup, service visits and route pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
-| Punjab | Existing 104 city/town records plus district hubs | Zirakpur/Kharar authored batch prepared 2026-10-25; next review Kurali, then Himachal coverage |
-| Himachal Pradesh | Existing state route; detailed inventory not yet reviewed in this batch | Inventory district/town coverage and research useful missing routes |
+| Punjab | Existing 104 city/town records plus district hubs | Zirakpur/Kharar live verified via PR #71; Kurali authored batch prepared; next Himachal expansion |
+| Himachal Pradesh | State guide covers 12 district notes; current sitemap has only the state URL for Himachal | Next: research and implement a substantive Baddi/Solan guide with state-hub navigation; no new route published yet |
 | Haryana | Existing district/city routes | Inventory gaps after priority Punjab/Himachal batches |
 | Delhi | Existing district and area routes | Inventory remaining useful locality gaps; retain current canonicals |
 
@@ -128,3 +128,12 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - Geographic inventory verified against https://sasnagar.nic.in/public-utility-category/municipality/ (Kharar and Zirakpur listed by the district administration). Operational examples are planning guidance, not local service guarantees.
 - Branch: seo/zirakpur-kharar-20261025. Check PR/CI and live deployment before marking this batch published.
 - Prior PR #70 verified live with HTTP 200, one H1, self canonical, five matching visible/schema FAQs per page, successful Vercel and main CI 40158459254, IndexNow 40158619794. Google indexing remains unverified.
+
+### 2026-10-25 Kurali batch and Himachal inventory
+
+- Kurali keeps /gps-tracker/punjab/sahibzada-ajit-singh-nagar/kurali. Added collection-round planning, repeated depot visits, full-day pilot checks, tailored description and two additional visible/schema FAQs through the existing shared component.
+- Kurali municipality verified at https://sasnagar.nic.in/public-utility-category/municipality/ (district administration). No installation guarantee or new branch claim.
+- Branch: seo/kurali-guide-20261025. Required SEO source, lint, regression, build and rendered checks run in CI; verify checks and live deployment before treating this batch as published.
+- Prior PR #71 verified live: Zirakpur and Kharar both HTTP 200, self canonical, one H1, five matching visible/schema FAQs and Chandigarh link. Main CI 40166272982 and IndexNow 40166417164 successful.
+- Himachal inventory: current repository tree contains app/gps-tracker/himachal-pradesh/page.tsx; live sitemap has /gps-tracker/himachal-pradesh and no URLs containing baddi, solan, shimla or kangra. The existing state guide has useful BBN, Solan/Shimla, Kangra and Mandi/Kullu sections and 12 district notes. These notes are not dedicated district/city pages.
+- Next focused batch: research Baddi/Solan geography and existing dynamic-route registries before adding a substantial guide, source checks, sitemap entry and state-hub link. Do not claim full Himachal locality coverage from the state guide.

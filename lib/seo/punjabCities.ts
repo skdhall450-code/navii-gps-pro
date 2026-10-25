@@ -33,6 +33,33 @@ export function toPunjabCitySlug(name: string) {
 }
 
 const priorityGuides: Record<string, NonNullable<PunjabCitySeo["guide"]>> = {
+"kurali": {
+  "description": "GPS tracking in Kurali for collection rounds and service fleets. Plan repeat depot visits, route records and installation checks for Kharar and Mohali trips.",
+  "cases": [
+    {
+      "title": "Keep collection and return stops separate",
+      "text": "For a Kurali-based vehicle collecting goods from several suppliers, record the pickup sequence, expected loads and final return depot before departure. Review outward collection stops separately from the return journey. Use a collection register to confirm what was loaded; a map position or geofence event cannot identify the goods on board."
+    },
+    {
+      "title": "Review multiple visits to the same depot",
+      "text": "A vehicle making several Kurali delivery rounds may enter the same depot more than once in a day. Compare each departure and return timestamp with the dispatch record instead of counting one long daily trip. Agree how the team records loading breaks and driver changes so a repeated visit is not confused with a tracking fault."
+    },
+    {
+      "title": "Check the complete working day before rollout",
+      "text": "If your Kurali vehicles also visit Kharar or Mohali, test a representative working day with local stops, an onward trip and the final return. Review fresh location timestamps, available trip history and supported alerts with the dispatcher. Confirm installation access, vehicle power compatibility and renewal costs with NAVII GPS before adding the rest of the fleet."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "How can I review several Kurali collection rounds in one day?",
+      "answer": "Record the planned supplier stops and depot returns for each round. Compare them with available trip history and geofence timestamps, then use the collection register to confirm goods received. Tracking events alone do not establish the load or quantity collected."
+    },
+    {
+      "question": "What should I share when requesting GPS installation in Kurali?",
+      "answer": "Provide vehicle models, fleet size, usual routes, parking location and a suitable fitting window. Contact the NAVII GPS team in Dera Bassi to confirm installation arrangements, compatible hardware and the device, SIM, platform and renewal quotation."
+    }
+  ]
+},
 "zirakpur": {
   "description": "GPS tracking in Zirakpur for delivery fleets and shared vehicles. Plan customer stops, driver handovers and reporting checks on connected Tricity trips.",
   "cases": [
