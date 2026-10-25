@@ -41,3 +41,13 @@
 @media (min-width: 1024px) { .heroGrid { grid-template-columns: 1.1fr 1fr; gap: 54px; padding: 68px 32px 76px; } .solutionsGrid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
 @media (max-width: 639px) { .heroGrid { padding: 36px 20px 40px; gap: 34px; } .eyebrow { font-size: 10px; padding: 9px 11px; } .heroDescription { font-size: 15px; } .heroActions > a { flex: 1 1 auto; padding: 13px 16px; } .visual { max-width: 380px; border-radius: 22px; } .device { max-height: 380px; } .visualLabel,.visualFooter { padding: 16px 20px; } .statsBand { padding: 22px 0; } .solutions { padding: 56px 0; } }
 @media (prefers-reduced-motion: reduce) { .primaryButton,.secondaryButton,.solutionCard { transition: none; } .primaryButton:hover,.secondaryButton:hover,.solutionCard:hover { transform: none; } .solutions * { animation: none !important; transition: none !important; } }
+
+/* Floating feature signs stay in reserved image-stage corners, not over the device. */
+.floatingFeatures { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.floatingSign { position: absolute; display: flex; align-items: center; gap: 9px; max-width: calc(100% - 32px); padding: 12px 14px; border: 1px solid #4774aa; border-radius: 14px; background: #12243eee; color: #dceaff; box-shadow: 0 12px 28px #0004; font-size: 11px; font-weight: 600; }
+.floatingSign svg { color: #8dbaff; flex-shrink: 0; }
+.floatingSign:first-child { top: 18px; left: 16px; }
+.floatingSign:last-child { bottom: 16px; right: 16px; }
+@media (prefers-reduced-motion: no-preference) { .floatingSign { animation: feature-float 4s ease-in-out 1; } .floatingSign:last-child { animation-delay: .2s; } }
+@keyframes feature-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@media (max-width: 639px) { .floatingSign { padding: 9px 11px; font-size: 10px; gap: 7px; border-radius: 11px; } .floatingSign svg { width: 17px; height: 17px; } .floatingSign:first-child { top: 12px; left: 12px; } .floatingSign:last-child { bottom: 12px; right: 12px; } }

@@ -91,6 +91,19 @@ try {
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `No Home overflow at ${width}`);
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
     await page.screenshot({ path: `${output}/hero-${width}.png` });
+    const signs = hero.locator('[data-hero-feature]');
+    assert.equal(await signs.count(), 2);
+    await heroImage.scrollIntoViewIfNeeded();
+    for (const sign of await signs.all()) {
+      assert.ok(await sign.isVisible(), 'Floating feature sign visible');
+      assert.equal(await sign.locator('svg').count(), 1, 'Feature has an actual SVG icon');
+      assert.ok(await sign.evaluate(element => {
+        const box = element.getBoundingClientRect();
+        const parent = element.parentElement.getBoundingClientRect();
+        return box.width > 0 && box.height > 0 && box.left >= parent.left && box.right <= parent.right && box.top >= parent.top && box.bottom <= parent.bottom && getComputedStyle(element).animationName === 'none';
+      }), 'Reduced-motion floating sign stays visible within stage');
+    }
+    if ([390, 1440].includes(width)) await page.screenshot({ path: `${output}/hero-device-${width}.png` });
     for (const [name, pattern] of Object.entries(headings)) {
       const heading = page.getByRole('heading', { name: pattern });
       assert.ok(await heading.isVisible(), `${name} visible at ${width}`);
@@ -117,6 +130,7 @@ try {
   const staticPage = await noJS.newPage();
   await staticPage.goto(base, { waitUntil: 'networkidle' });
   assert.ok(await staticPage.locator('#home-hero-title').isVisible(), 'Hero available without JavaScript');
+  assert.equal(await staticPage.locator('[data-hero-feature] svg').count(), 2, 'Floating icons present in server HTML');
   for (const pattern of Object.values(headings)) {
     const heading = staticPage.getByRole('heading', { name: pattern });
     assert.ok(await heading.isVisible(), 'Section heading available without JavaScript');
