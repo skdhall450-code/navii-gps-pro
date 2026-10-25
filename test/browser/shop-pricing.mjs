@@ -41,7 +41,7 @@ try {
     const url=new URL(await link.getAttribute('href'));assert.equal(url.pathname,'/917717394007');
     assert.ok(url.searchParams.get('text').includes('Shipping & handling: INR 250.00 + GST INR 45.00'));
   }
-  await page.getByRole('link',{name:'View BT-50 GPS specifications'}).click();await page.waitForURL('**/products/bt50-vehicle-gps-tracker');await page.goBack({waitUntil:'networkidle'});
+  await page.getByRole('link',{name:'View BT-50 GPS specifications'}).click();await page.waitForURL('**/products/bt50-vehicle-gps-tracker');await page.goBack({waitUntil:'domcontentloaded'});
   await mkdir('test-results/shop-browser',{recursive:true});
   // Both shared header implementations must expose Shop Now as a direct route.
   // Keep all requests loopback-only: no WhatsApp enquiry or external action is sent.
@@ -83,7 +83,7 @@ try {
         if(route!=='/shop-now'){
           await page.keyboard.press('Enter');
           await page.waitForURL(base+'/shop-now');
-          await page.goBack({waitUntil:'networkidle'});
+          await page.goBack({waitUntil:'domcontentloaded'});
           assert.equal(new URL(page.url()).pathname,route,`Back restores ${route}`);
         }
       }else{
@@ -126,7 +126,7 @@ try {
         await page.getByRole('dialog',{name:'Mobile navigation',exact:true}).waitFor({state:'detached'});
         assert.notEqual(await page.evaluate(()=>document.body.style.overflow),'hidden','Route navigation restores body scroll');
         if(route!=='/shop-now'){
-          await page.goBack({waitUntil:'networkidle'});
+          await page.goBack({waitUntil:'domcontentloaded'});
           assert.equal(new URL(page.url()).pathname,route,`Mobile Back restores ${route}`);
           assert.equal(await page.getByRole('dialog',{name:'Mobile navigation',exact:true}).count(),0,'Back does not reopen menu');
         }
