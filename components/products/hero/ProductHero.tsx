@@ -2,239 +2,37 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Search,
-  ShieldCheck,
-  Package,
-} from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { products } from "../data/productsData";
+import styles from "../product-showcase.module.css";
 
-type ProductHeroProps = {
-  searchQuery: string;
-  onSearchChange: (value: string) => void;
-};
+type ProductHeroProps = { searchQuery: string; onSearchChange: (value: string) => void };
 
 export default function ProductHero({ searchQuery, onSearchChange }: ProductHeroProps) {
-  return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#06142E] via-[#081C3D] to-[#0B254F] py-24">
-
-      {/* Background Glow */}
-
-      <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-cyan-500/20 blur-[120px]" />
-
-      <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-blue-600/20 blur-[120px]" />
-
-      {/* Grid Pattern */}
-
-      <div
-        className="absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
-
-      <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 lg:grid-cols-2">
-
-        {/* LEFT */}
-
-        <motion.div
-        >
-
-          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-5 py-2 text-sm font-semibold text-cyan-300">
-
-            <Package size={16} />
-
-            NAVII GPS PRODUCT RANGE
-
-          </span>
-
-          <h1 className="mt-8 text-5xl font-extrabold leading-tight text-white lg:text-6xl">
-
-            GPS Tracking Devices
-
-            <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
-              for Cars & Fleets
-            </span>
-
-          </h1>
-
-          <p className="mt-8 max-w-2xl text-lg leading-9 text-slate-300">
-
-            Explore GPS trackers for cars and commercial vehicles,
-            plus AI dash cameras, fuel sensors, smart e-locks and
-            connected IoT solutions for intelligent fleet management.
-
-          </p>
-
-          {/* Search */}
-
-          <div className="mt-10 flex max-w-xl items-center rounded-2xl border border-cyan-400/20 bg-white/5 px-5 py-4 backdrop-blur-xl">
-
-            <Search
-              size={22}
-              className="text-cyan-300"
-            />
-
-            <input
-              type="text"
-              aria-label="Search NAVII GPS products"
-              placeholder="Search GPS products..."
-              value={searchQuery}
-              onChange={(event) => onSearchChange(event.target.value)}
-              className="ml-4 w-full bg-transparent text-white outline-none placeholder:text-slate-400"
-            />
-
-          </div>
-
-          {/* Buttons */}
-
-          <div className="mt-10 flex flex-wrap gap-5">
-
-            <a href="#product-catalog" className="flex items-center gap-2 rounded-xl bg-cyan-500 px-8 py-4 font-semibold text-white transition hover:bg-cyan-400">
-
-              Browse Products
-
-              <ArrowRight size={18} />
-
-            </a>
-
-            <Link href="/ais-140-gps" className="flex items-center gap-2 rounded-xl border border-cyan-400/20 px-8 py-4 font-semibold text-white hover:bg-white/10">
-
-              <ShieldCheck size={18} />
-
-              AIS 140 Certified
-
-            </Link>
-
-          </div>          {/* Hero Stats */}
-
-          <div className="mt-14 grid grid-cols-2 gap-5 md:grid-cols-4">
-
-            {[
-              [`${products.length}`, "Featured Products"],
-              ["500+", "Clients"],
-              ["25K+", "Vehicles"],
-              ["24×7", "Support"],
-            ].map(([value, label], index) => (
-
-              <motion.div
-                key={label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: index * 0.15,
-                }}
-                className="rounded-2xl border border-cyan-400/20 bg-white/5 p-5 backdrop-blur-xl"
-              >
-
-                <h3 className="text-3xl font-extrabold text-cyan-300">
-                  {value}
-                </h3>
-
-                <p className="mt-2 text-sm text-slate-300">
-                  {label}
-                </p>
-
-              </motion.div>
-
-            ))}
-
-          </div>
-
-        </motion.div>
-
-        {/* RIGHT */}
-
-        <motion.div
-          className="relative flex justify-center"
-        >
-
-          {/* Glow */}
-
-          <div className="absolute h-[430px] w-[430px] rounded-full bg-cyan-500/20 blur-[120px]" />
-
-          {/* Ring */}
-
-          <div className="absolute h-[380px] w-[380px] rounded-full border border-cyan-400/20" />
-
-          {/* Product Card */}
-
-          <motion.div
-            animate={{
-              y: [0, -12, 0],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-            }}
-            className="relative z-10 rounded-[40px] border border-cyan-400/20 bg-white/5 p-8 backdrop-blur-xl"
-          >
-
-            <Image
-              src="/assets/products/g17/main.png"
-              alt="G17 GPS Tracker"
-              width={500}
-              height={500}
-              priority
-              className="h-auto w-[360px] object-contain"
-            />
-
-          </motion.div>
-
-          {/* Floating Badge */}
-
-          <motion.div
-            animate={{
-              y: [0, -10, 0],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-            }}
-            className="absolute left-0 top-10 hidden rounded-2xl border border-cyan-400/20 bg-[#0B1F42]/90 px-5 py-4 shadow-xl backdrop-blur-xl lg:block"
-          >
-
-            <p className="text-3xl font-extrabold text-cyan-300">
-              AIS 140
-            </p>
-
-            <p className="text-sm text-white">
-              Certified Device
-            </p>
-
-          </motion.div>
-
-          {/* Floating Card */}
-
-          <motion.div
-            animate={{
-              y: [0, 10, 0],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-            }}
-            className="absolute bottom-10 right-0 hidden rounded-2xl border border-cyan-400/20 bg-[#0B1F42]/90 px-5 py-4 shadow-xl backdrop-blur-xl lg:block"
-          >
-
-            <p className="text-3xl font-extrabold text-cyan-300">
-              4G
-            </p>
-
-            <p className="text-sm text-white">
-              LTE Tracking
-            </p>
-
-          </motion.div>
-
-        </motion.div>
-
+  const featured = products.find(product => product.slug === "g17-gps-tracker")!;
+  return <section className={styles.section}>
+    <div className={`${styles.container} ${styles.heroGrid}`}>
+      <div>
+        <span className={styles.eyebrow}>NAVII GPS PRODUCT RANGE</span>
+        <h1 className={styles.heading}>GPS Tracking Devices<br /><span>for Cars &amp; Fleets</span></h1>
+        <p className={styles.intro}>Explore GPS trackers for cars and commercial vehicles, plus AI dash cameras, fuel sensors, smart e-locks and connected IoT solutions for intelligent fleet management.</p>
+        <div className={styles.search}>
+          <Search size={20} aria-hidden="true" />
+          <input type="search" aria-label="Search NAVII GPS products" placeholder="Find your tracking solution..." value={searchQuery} onChange={event => onSearchChange(event.target.value)} aria-controls="product-catalog" />
+        </div>
+        <div className={styles.heroButtons}>
+          <a href="#product-catalog" className={styles.primary}>Browse Products <ArrowRight size={16} aria-hidden="true" /></a>
+          <Link href="/ais-140-gps" className={styles.secondary}>AIS-140 GPS Solutions <ArrowRight size={15} aria-hidden="true" /></Link>
+        </div>
+        <div className={styles.stats}>{[[`${products.length}`, "Featured Products"], ["500+", "Clients"], ["25K+", "Vehicles"], ["24×7", "Support"]].map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       </div>
-
-    </section>
-  );
+      <div className={styles.heroStage}>
+        <div className={styles.heroStageInner}>
+          <span className={styles.number}>THE COLLECTION / 01</span>
+          <Image src={featured.image} alt={featured.name} fill priority sizes="(max-width: 639px) 90vw, (max-width: 1279px) 45vw, 500px" />
+        </div>
+        <div className={styles.heroCaption}><div><span className={styles.category}>VEHICLE GPS</span><h2 className={styles.title}>G17 GPS Tracker</h2><p>GT06-compatible wired tracking</p></div><Link href={`/products/${featured.slug}`} className={styles.primary} aria-label="Explore G17 GPS Tracker"><ArrowRight size={20} aria-hidden="true" /></Link></div>
+      </div>
+    </div>
+  </section>;
 }

@@ -6,6 +6,7 @@ import ProductCard from "../cards/ProductCard";
 import ProductFilters from "../filters/ProductFilters";
 
 import { products } from "../data/productsData";
+import styles from "../product-showcase.module.css";
 
 export default function ProductGrid({ searchQuery }: { searchQuery: string }) {
   const [activeCategory, setActiveCategory] =
@@ -30,52 +31,18 @@ export default function ProductGrid({ searchQuery }: { searchQuery: string }) {
   }, [activeCategory, searchQuery]);
 
   return (
-    <section id="product-catalog" className="scroll-mt-28 bg-white py-20">
-
-      {/* Filters */}
-
-      <ProductFilters
-        activeCategory={activeCategory}
-        onCategoryChange={setActiveCategory}
-      />
-
-      {/* Products Grid */}
-
-      <div className="mx-auto mt-14 max-w-7xl px-6">
-
+    <section id="product-catalog" className={`${styles.section} scroll-mt-24`} aria-label="Product catalogue">
+      <div className={styles.container}>
+        <div className={styles.catalogTop}>
+          <ProductFilters activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+          <p className={styles.count} role="status" aria-live="polite">{filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}</p>
+        </div>
         {filteredProducts.length > 0 ? (
-
-          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-
-            {filteredProducts.map((product) => (
-
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
-
-            ))}
-
-          </div>
-
+          <div className={styles.grid}>{filteredProducts.map(product => <ProductCard key={product.id} product={product} />)}</div>
         ) : (
-
-          <div className="rounded-3xl border border-cyan-200 bg-cyan-50 py-20 text-center">
-
-            <h3 className="text-3xl font-bold text-slate-800">
-              No Products Found
-            </h3>
-
-            <p className="mt-4 text-slate-600">
-              Please try another product name or category.
-            </p>
-
-          </div>
-
+          <div className={styles.empty}><h3>No Products Found</h3><p>Please try another product name or category.</p></div>
         )}
-
       </div>
-
     </section>
   );
 }

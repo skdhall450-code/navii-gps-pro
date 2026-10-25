@@ -1,79 +1,22 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
-
+import { ArrowRight } from "lucide-react";
 import ProductCard from "./ProductCard";
 import { products } from "./productsData";
+import styles from "@/components/products/product-showcase.module.css";
 
 export default function ProductsSection() {
-  return (
-    <section className="relative overflow-hidden bg-[#06142E] py-28">
-      <div className="absolute left-0 top-0 h-96 w-96 rounded-full bg-cyan-500/10 blur-[120px]" />
-
-      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-blue-600/10 blur-[120px]" />
-
-      <div className="relative mx-auto max-w-7xl px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-medium text-cyan-300 backdrop-blur">
-            OUR PRODUCTS
-          </span>
-
-          <h2 className="mt-6 text-4xl font-extrabold text-white md:text-5xl lg:text-6xl">
-            GPS Tracking Devices &
-            <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
-              IoT Solutions
-            </span>
-          </h2>
-
-          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-300">
-            Explore GPS tracking devices for cars, trucks, buses and commercial
-            fleets, plus fleet management software, video telematics, fuel
-            monitoring and connected security solutions.
-          </p>
-
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-slate-400">
-            Looking for complete vehicle tracking and fleet management?{" "}
-            <Link
-              href="/software"
-              className="font-semibold text-cyan-300 underline decoration-cyan-400/40 underline-offset-4 hover:text-cyan-200"
-            >
-              Explore our GPS fleet management software
-            </Link>{" "}
-            or browse all{" "}
-            <Link
-              href="/products"
-              className="font-semibold text-cyan-300 underline decoration-cyan-400/40 underline-offset-4 hover:text-cyan-200"
-            >
-              vehicle GPS tracking devices
-            </Link>
-            .
-          </p>
-        </motion.div>
-
-        <div className="mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
-          ))}
+  return <section className={styles.section} aria-labelledby="home-products-heading">
+    <div className={styles.container}>
+      <div className={styles.topline}>
+        <div>
+          <span className={styles.eyebrow}>Our products</span>
+          <h2 id="home-products-heading" className={styles.heading}>GPS Tracking Devices &amp;<br /><span>IoT Solutions</span></h2>
+          <p className={styles.intro}>Explore GPS tracking devices for cars, trucks, buses and commercial fleets, plus fleet management software, video telematics, fuel monitoring and connected security solutions.</p>
         </div>
-
-        <div className="mt-16 flex justify-center">
-          <motion.a
-            href="/products"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="rounded-2xl bg-cyan-500 px-10 py-4 font-semibold text-white shadow-[0_0_30px_rgba(6,182,212,.35)] transition hover:bg-cyan-400"
-          >
-            View All GPS Tracking Products &rarr;
-          </motion.a>
-        </div>
+        <Link href="/products" className={styles.primary}>Explore the collection <ArrowRight size={16} aria-hidden="true" /></Link>
       </div>
-    </section>
-  );
+      <div className={styles.grid}>{products.map((product, index) => <ProductCard key={product.id} product={product} index={index} />)}</div>
+      <p className={styles.links}>Looking for complete vehicle tracking and fleet management? <Link href="/software">Explore our GPS fleet management software</Link> or browse all <Link href="/products">vehicle GPS tracking devices</Link>.</p>
+    </div>
+  </section>;
 }
