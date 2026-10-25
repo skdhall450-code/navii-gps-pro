@@ -1,173 +1,39 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Download,
-  FileText,
-  MessageCircle,
-  ShieldCheck,
-} from "lucide-react";
-
+import { ArrowRight, Download, FileText, MessageCircle } from "lucide-react";
 import type { Product } from "../data/productsData";
+import styles from "../product-showcase.module.css";
 
-interface ProductCardProps {
-  product: Product;
-}
-
-export default function ProductCard({ product }: ProductCardProps) {
-  const enquiryMessage = encodeURIComponent(
-    `Hello NAVII GPS, I am interested in ${product.name}. Please share price, availability and installation details.`,
-  );
-
-  const brochureMessage = encodeURIComponent(
-    `Hello NAVII GPS, please share the latest brochure and specifications for ${product.name}.`,
-  );
-
-  const enquiryUrl = `https://wa.me/${product.whatsapp}?text=${enquiryMessage}`;
-
-  const brochureRequestUrl = `https://wa.me/${product.whatsapp}?text=${brochureMessage}`;
-
+export default function ProductCard({ product }: { product: Product }) {
+  const enquiryUrl = `https://wa.me/${product.whatsapp}?text=${encodeURIComponent(`Hello NAVII GPS, I am interested in ${product.name}. Please share price, availability and installation details.`)}`;
+  const brochureRequestUrl = `https://wa.me/${product.whatsapp}?text=${encodeURIComponent(`Hello NAVII GPS, please share the latest brochure and specifications for ${product.name}.`)}`;
   return (
-    <motion.article
-      whileHover={{
-        y: -8,
-      }}
-      transition={{
-        duration: 0.3,
-      }}
-      className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl transition-all duration-300 hover:border-cyan-400 hover:shadow-2xl"
-    >
-      <div className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white p-8">
-        {product.badge && (
-          <span className="absolute left-5 top-5 z-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-2 text-xs font-bold tracking-wide text-white shadow-lg">
-            {product.badge}
-          </span>
-        )}
-
-        <motion.div
-          whileHover={{
-            scale: 1.08,
-          }}
-          transition={{
-            duration: 0.35,
-          }}
-        >
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={420}
-            height={420}
-            className="mx-auto h-64 w-auto object-contain"
-          />
-        </motion.div>
+    <article className={styles.card}>
+      <div className={styles.stage}>
+        <span className={styles.number} aria-hidden="true">{String(product.id).padStart(2, "0")}</span>
+        {product.badge && <span className={styles.badge}>{product.badge}</span>}
+        <Image src={product.image} alt={product.name} width={420} height={420} sizes="(max-width: 639px) 90vw, (max-width: 1279px) 45vw, 390px" />
       </div>
-
-      <div className="p-7">
-        <div className="mb-3 flex items-center justify-between">
-          <span className="rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-cyan-700">
-            {product.category}
-          </span>
-
-          <ShieldCheck size={20} className="text-cyan-600" />
-        </div>
-
-        <h3 className="text-2xl font-bold text-slate-900">{product.name}</h3>
-
-        <p className="mt-4 text-[15px] leading-7 text-slate-600">
-          {product.shortDescription}
-        </p>
-
-        <div className="mt-6 space-y-3">
-          {product.features.slice(0, 4).map((feature) => (
-            <div key={feature} className="flex items-center gap-3">
-              <span className="h-2.5 w-2.5 rounded-full bg-cyan-500" />
-
-              <span className="text-sm text-slate-700">{feature}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 grid grid-cols-2 gap-3">
-          {product.specifications.slice(0, 4).map((item) => (
-            <div key={item.label} className="rounded-xl bg-slate-50 p-3">
-              <p className="text-xs font-semibold uppercase text-slate-500">
-                {item.label}
-              </p>
-
-              <p className="mt-1 text-sm font-bold text-slate-900">
-                {item.value}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 grid grid-cols-3 gap-3">
-          <Link
-            href={`/products/${product.slug}`}
-            className="col-span-3 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-3 font-semibold text-white transition-all duration-300 hover:from-cyan-600 hover:to-blue-700"
-          >
-            View Details
-            <ArrowRight size={18} />
-          </Link>
-
-          <a
-            href={enquiryUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Enquire about ${product.name} on WhatsApp`}
-            title="WhatsApp enquiry"
-            className="flex items-center justify-center rounded-xl border border-green-300 bg-green-50 py-3 text-green-700 transition-all duration-300 hover:bg-green-100"
-          >
-            <MessageCircle size={20} />
-          </a>
-
-          {product.brochure ? (
-            <a
-              href={product.brochure}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Download ${product.name} brochure`}
-              title="Download brochure"
-              className="flex items-center justify-center rounded-xl border border-blue-200 bg-blue-50 py-3 text-blue-700 transition-all duration-300 hover:bg-blue-100"
-            >
-              <Download size={20} />
+      <div className={styles.body}>
+        <span className={styles.category}>{product.category}</span>
+        <h3 className={styles.title}>{product.name}</h3>
+        <p className={styles.description}>{product.shortDescription}</p>
+        <ul className={styles.features}>{product.features.slice(0, 4).map(feature => <li key={feature}>{feature}</li>)}</ul>
+        <details className={styles.specs}>
+          <summary>Technical overview</summary>
+          <dl>{product.specifications.slice(0, 4).map(item => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
+        </details>
+        <div className={styles.actions}>
+          <Link href={`/products/${product.slug}`} className={`${styles.primary} ${styles.full}`}>View Details <ArrowRight size={16} aria-hidden="true" /></Link>
+          <div className={styles.secondaryRow}>
+            <a href={enquiryUrl} target="_blank" rel="noopener noreferrer" aria-label={`Enquire about ${product.name} on WhatsApp`} className={styles.secondary}><MessageCircle size={15} aria-hidden="true" />Enquire</a>
+            <a href={product.brochure || brochureRequestUrl} target="_blank" rel="noopener noreferrer" aria-label={`${product.brochure ? "Download" : "Request"} ${product.name} brochure`} className={styles.secondary}>
+              {product.brochure ? <Download size={15} aria-hidden="true" /> : <FileText size={15} aria-hidden="true" />}{product.brochure ? "Brochure" : "Request brochure"}
             </a>
-          ) : (
-            <a
-              href={brochureRequestUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Request ${product.name} brochure`}
-              title="Request brochure"
-              className="flex items-center justify-center rounded-xl border border-blue-200 bg-blue-50 py-3 text-blue-700 transition-all duration-300 hover:bg-blue-100"
-            >
-              <FileText size={20} />
-            </a>
-          )}
-
-          <div
-            title="NAVII GPS product support"
-            className="flex items-center justify-center rounded-xl border border-cyan-200 bg-cyan-50 py-3"
-          >
-            <ShieldCheck size={20} className="text-cyan-600" />
           </div>
         </div>
-
-        <div className="mt-8 flex items-center justify-between border-t border-slate-200 pt-5">
-          <span className="text-sm font-medium text-slate-500">
-            NAVII GPS INDIA
-          </span>
-
-          <span className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-700">
-            Product Support
-          </span>
-        </div>
+        <div className={styles.footer}><span>NAVII GPS INDIA</span><span>PRODUCT SUPPORT</span></div>
       </div>
-
-      <div className="pointer-events-none absolute inset-0 rounded-3xl border-2 border-transparent transition-all duration-300 group-hover:border-cyan-400/40" />
-    </motion.article>
+    </article>
   );
 }

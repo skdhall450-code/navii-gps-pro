@@ -70,3 +70,13 @@ jobs:
             .next/seo-audit.md
           if-no-files-found: ignore
           retention-days: 30
+
+      - name: Check premium product collection in Chromium
+        run: node test/browser/product-showcase.mjs
+
+      - name: Upload product browser checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: product-browser-${{ github.sha }}
+          path: test-results/product-browser
