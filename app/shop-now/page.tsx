@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     description: "Compare G17, BT-50, GX03, GS900 and S-15 prices and AIS 140 validity options with clear GST and service-charge breakdowns.",
     url: "https://naviigps.com/shop-now",
     type: "website",
+    images: [{ url: "/assets/products/bt50/main.png", alt: "NAVII BT-50 GPS device" }],
   },
 };
 
