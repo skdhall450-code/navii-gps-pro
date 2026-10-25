@@ -12,7 +12,7 @@ export default function ScrollProgress() {
   });
 
   return (
-    <motion.div
+    <motion.div data-public-widget
       style={{ scaleX }}
       className="fixed left-0 top-0 z-[99999] h-1 w-full origin-left bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 shadow-lg shadow-cyan-500/50"
     />
