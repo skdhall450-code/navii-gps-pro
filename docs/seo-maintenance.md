@@ -137,3 +137,13 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - Prior PR #71 verified live: Zirakpur and Kharar both HTTP 200, self canonical, one H1, five matching visible/schema FAQs and Chandigarh link. Main CI 40166272982 and IndexNow 40166417164 successful.
 - Himachal inventory: current repository tree contains app/gps-tracker/himachal-pradesh/page.tsx; live sitemap has /gps-tracker/himachal-pradesh and no URLs containing baddi, solan, shimla or kangra. The existing state guide has useful BBN, Solan/Shimla, Kangra and Mandi/Kullu sections and 12 district notes. These notes are not dedicated district/city pages.
 - Next focused batch: research Baddi/Solan geography and existing dynamic-route registries before adding a substantial guide, source checks, sitemap entry and state-hub link. Do not claim full Himachal locality coverage from the state guide.
+
+### 2026-10-25 Baddi and Solan expansion
+
+- New dedicated guides: /gps-tracker/himachal-pradesh/baddi and /gps-tracker/himachal-pradesh/solan. Solan page focuses on town operations rather than claiming district-wide local branches.
+- Four distinct workflows and three shared visible/schema FAQs per guide; self-canonical and social metadata, WebPage, Service and Breadcrumb schema.
+- Both URLs added to sitemap and linked from Himachal state hub and each other. No alternate Baddi/Solan routes were found in existing city registries.
+- Geography sources: https://hpsolan.nic.in/baddi-barotiwala-nalagarh-development-authority/ and https://hpsolan.nic.in/about-district/. No unverified coverage, pricing, cargo-sensor or continuous-reporting guarantees.
+- Branch seo/baddi-solan-guides-20261025; consult PR checks/deployment before marking live. Required existing CI covers source SEO, lint, regressions, build, browser checks and the rendered sitemap/link audit.
+- Prior Kurali PR #74 verified live with five matching FAQs, HTTP 200, self canonical, one H1, successful main CI 40179504360 and IndexNow 40179695525.
+- Next: review Nalagarh/Parwanoo for distinct useful guides and then Shimla; retain district inventory backlog rather than claiming all Himachal localities complete.
