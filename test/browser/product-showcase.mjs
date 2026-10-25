@@ -26,6 +26,8 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   await mkdir('test-results/product-browser', { recursive: true });
   await page.goto(base + '/products', { waitUntil: 'networkidle' });
+  const consent = page.getByRole('button', { name: 'Necessary Only', exact: true });
+  if (await consent.isVisible()) await consent.click();
   const originalCount = await page.locator('#product-catalog article').count();
   assert.equal(originalCount, 7);
   assert.equal(await page.locator('h1').count(), 1);
@@ -34,7 +36,8 @@ try {
     await image.scrollIntoViewIfNeeded();
     await image.evaluate(image => image.decode());
   }
-  await page.getByRole('heading', { level: 1 }).scrollIntoViewIfNeeded();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: 'test-results/product-browser/catalog-desktop-top.png' });
   await page.screenshot({ path: 'test-results/product-browser/catalog-desktop.png', fullPage: true });
   await page.getByRole('button', { name: 'AI Dashcam', exact: true }).click();
   assert.equal(await page.locator('#product-catalog article').count(), 1);
@@ -62,7 +65,13 @@ try {
     }
     const images = await page.locator('#product-catalog img').evaluateAll(images => images.map(image => ({ width: image.naturalWidth, height: image.naturalHeight })));
     assert.ok(images.every(image => image.width > 0 && image.height > 0), 'All product assets load');
+    await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: `test-results/product-browser/catalog-${width}.png`, fullPage: true });
+    if (width === 390) {
+      await page.screenshot({ path: 'test-results/product-browser/catalog-mobile-top.png' });
+      await page.evaluate(() => window.scrollTo(0, document.getElementById('product-catalog').offsetTop - 90));
+      await page.screenshot({ path: 'test-results/product-browser/catalog-mobile-card.png' });
+    }
   }
   await page.goto(base, { waitUntil: 'networkidle' });
   const home = page.locator('[aria-labelledby="home-products-heading"]');
@@ -73,7 +82,10 @@ try {
   }
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
+    await page.evaluate(() => window.scrollTo(0, 0));
     await home.screenshot({ path: `test-results/product-browser/home-${width}.png` });
+    await page.evaluate(() => window.scrollTo(0, document.querySelector('[aria-labelledby="home-products-heading"]').offsetTop - 85));
+    await page.screenshot({ path: `test-results/product-browser/home-${width}-top.png` });
     assert.ok(await home.evaluate(element => element.scrollWidth <= element.clientWidth), `No product section overflow at ${width}`);
   }
   assert.deepEqual(errors, []);
