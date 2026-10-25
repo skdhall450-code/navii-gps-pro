@@ -149,6 +149,7 @@ try {
       assert.ok(cookieBox && dockBox && cookieBox.y + cookieBox.height <= dockBox.y, "Cookie preferences stay accessible above the dock");
     }
     await f.page.locator("h1").click();
+    await f.page.evaluate(() => window.scrollTo(0, 0));
     await f.page.screenshot({ path: `${output}/${name}.png`, fullPage: true });
     await f.page.getByLabel('Vehicle', { exact: true }).selectOption('qa-scooter');
     await f.page.getByText('0.0 km/h', { exact: true }).first().waitFor();
