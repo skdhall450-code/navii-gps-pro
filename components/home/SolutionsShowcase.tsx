@@ -1,3 +1,5 @@
+import PremiumReveal from "./PremiumReveal";
+import styles from "./premium-home.module.css";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
@@ -119,7 +121,7 @@ const solutions: Solution[] = [
 
 export default function SolutionsShowcase() {
   return (
-    <section className="relative isolate overflow-hidden bg-[#06142e] py-20 sm:py-24">
+    <section className={styles.solutions}>
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_15%_15%,rgba(6,182,212,0.18),transparent_31%),radial-gradient(circle_at_85%_75%,rgba(37,99,235,0.22),transparent_34%)]" />
       <div className="absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.12)_1px,transparent_1px)] [background-size:48px_48px]" />
 
@@ -145,7 +147,7 @@ export default function SolutionsShowcase() {
             </Link>
             <Link
               href="/software"
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3.5 font-semibold text-white shadow-lg shadow-blue-950/30 transition hover:from-cyan-400 hover:to-blue-500"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#245dd2] px-6 py-3.5 font-semibold text-white shadow-lg shadow-blue-950/30 transition hover:bg-[#2f6de0]"
             >
               GPS Fleet Management Software
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
@@ -153,15 +155,12 @@ export default function SolutionsShowcase() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className={styles.solutionsGrid}>
           {solutions.map((solution) => {
             const Icon = solution.icon;
 
             return (
-              <article
-                key={solution.href}
-                className="group relative flex min-h-[300px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.065] p-6 shadow-2xl shadow-slate-950/10 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-cyan-400/35 hover:bg-white/[0.095] sm:p-7"
-              >
+              <PremiumReveal key={solution.href} className={styles.solutionCard}>
                 <div className="absolute -right-12 -top-12 h-36 w-36 rounded-full bg-blue-500/10 blur-2xl transition group-hover:bg-cyan-400/20" />
                 <div className="relative flex items-start justify-between gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-cyan-300 shadow-inner shadow-white/5">
@@ -185,7 +184,7 @@ export default function SolutionsShowcase() {
                   {solution.cta}
                   <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </Link>
-              </article>
+              </PremiumReveal>
             );
           })}
         </div>

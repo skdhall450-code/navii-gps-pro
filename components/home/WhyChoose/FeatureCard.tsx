@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import styles from "../sections-premium.module.css";
+import PremiumReveal from "../PremiumReveal";
+
 
 type Feature = {
   id: number;
@@ -16,27 +18,10 @@ type Props = {
 
 export default function FeatureCard({
   feature,
-  index,
 }: Props) {
   return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        y: 30,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      transition={{
-        duration: 0.5,
-        delay: index * 0.08,
-      }}
-      viewport={{ once: true }}
-      whileHover={{
-        y: -8,
-      }}
-      className="group relative overflow-hidden rounded-3xl border border-cyan-400/20 bg-white/5 p-7 backdrop-blur-xl"
+    <PremiumReveal
+      className={`${styles.card} group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-7 `}
     >
       {/* Glow */}
 
@@ -44,11 +29,11 @@ export default function FeatureCard({
 
       <div className="relative">
 
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-500/20 text-3xl">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-500/10 text-3xl">
           {feature.icon}
         </div>
 
-        <h3 className="mt-6 text-2xl font-bold text-white">
+        <h3 className="mt-6 text-xl font-semibold text-white">
           {feature.title}
         </h3>
 
@@ -60,6 +45,6 @@ export default function FeatureCard({
 
       <div className="pointer-events-none absolute inset-0 rounded-3xl border border-transparent transition duration-500 group-hover:border-cyan-400/40" />
 
-    </motion.div>
+    </PremiumReveal>
   );
 }

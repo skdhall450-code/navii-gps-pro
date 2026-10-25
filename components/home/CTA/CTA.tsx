@@ -1,18 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
+import styles from "../sections-premium.module.css";
+
 import CTAButtons from "./CTAButtons";
 import CTAStats from "./CTAStats";
 
 export default function CTA() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#06142E] via-[#0B2452] to-[#07152E] py-28">
+    <section className={`${styles.section} relative overflow-hidden py-20 sm:py-24`}>
 
       {/* Background Glow */}
 
-      <div className="absolute -left-32 top-10 h-[450px] w-[450px] rounded-full bg-cyan-500/15 blur-[140px]" />
+      <div className="absolute -left-32 top-10 h-[450px] w-[450px] rounded-full bg-blue-500/5 blur-[100px]" />
 
-      <div className="absolute -right-32 bottom-0 h-[450px] w-[450px] rounded-full bg-blue-600/15 blur-[140px]" />
+      <div className="absolute -right-32 bottom-0 h-[450px] w-[450px] rounded-full bg-blue-600/5 blur-[100px]" />
 
       {/* Grid */}
 
@@ -27,21 +28,17 @@ export default function CTA() {
 
       <div className="relative mx-auto max-w-7xl px-6">
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="overflow-hidden rounded-[40px] border border-cyan-400/20 bg-white/5 p-12 backdrop-blur-2xl"
+        <div
+          className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-6 sm:p-10 lg:p-14 "
         >
 
-          <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-semibold text-cyan-300">
+          <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-semibold text-blue-300">
             READY TO GROW?
           </span>
 
-          <h2 className="mt-6 text-4xl font-extrabold text-white md:text-5xl lg:text-6xl">
+          <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Transform Your Fleet With
-            <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
+            <span className="block text-blue-300">
               NAVII GPS Platform
             </span>
           </h2>
@@ -62,7 +59,7 @@ export default function CTA() {
             <CTAStats />
           </div>
 
-        </motion.div>
+        </div>
 
       </div>
 

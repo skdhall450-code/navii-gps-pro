@@ -80,3 +80,15 @@ jobs:
         with:
           name: product-browser-${{ github.sha }}
           path: test-results/product-browser
+
+      - name: Check premium Home in Chromium
+        run: node test/browser/home-premium.mjs
+
+      - name: Upload Home browser checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: home-browser-${{ github.sha }}
+          path: test-results/home-browser
+          if-no-files-found: ignore
+          retention-days: 7

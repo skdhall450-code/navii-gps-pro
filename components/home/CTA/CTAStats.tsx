@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 
 const stats = [
   {
@@ -32,29 +31,12 @@ const stats = [
 export default function CTAStats() {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {stats.map((item, index) => (
-        <motion.div
+      {stats.map((item) => (
+        <div
           key={item.id}
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.6,
-            delay: index * 0.15,
-          }}
-          viewport={{ once: true }}
-          whileHover={{
-            y: -8,
-            scale: 1.03,
-          }}
-          className="group rounded-2xl border border-cyan-400/20 bg-white/5 p-6 text-center backdrop-blur-xl transition-all duration-300 hover:border-cyan-400/40"
+          className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center  transition-all duration-300 hover:border-cyan-400/40"
         >
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-500/20 text-3xl">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-500/10 text-3xl">
             {item.icon}
           </div>
 
@@ -65,7 +47,7 @@ export default function CTAStats() {
           <p className="mt-3 text-sm text-slate-300">
             {item.label}
           </p>
-        </motion.div>
+        </div>
       ))}
     </div>
   );

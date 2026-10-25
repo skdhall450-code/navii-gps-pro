@@ -1,24 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import PremiumReveal from "../PremiumReveal";
+import styles from "../sections-premium.module.css";
+
 import FAQItem from "./FAQItem";
 import { faqs } from "./faqData";
 
 export default function FAQ() {
-  const [openId, setOpenId] = useState<number | null>(1);
-
-  const toggleFAQ = (id: number) => {
-    setOpenId((prev) => (prev === id ? null : id));
-  };
-
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#07152E] via-[#081C3D] to-[#06142E] py-28">
+    <section className={`${styles.section} relative overflow-hidden py-20 sm:py-24`}>
       {/* Background Glow */}
 
-      <div className="absolute -left-40 top-0 h-[500px] w-[500px] rounded-full bg-cyan-500/15 blur-[140px]" />
+      <div className="absolute -left-40 top-0 h-[500px] w-[500px] rounded-full bg-blue-500/5 blur-[100px]" />
 
-      <div className="absolute -right-40 bottom-0 h-[500px] w-[500px] rounded-full bg-blue-600/15 blur-[140px]" />
+      <div className="absolute -right-40 bottom-0 h-[500px] w-[500px] rounded-full bg-blue-600/5 blur-[100px]" />
 
       {/* Grid */}
 
@@ -34,20 +29,16 @@ export default function FAQ() {
       <div className="relative mx-auto max-w-5xl px-6">
         {/* Heading */}
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+        <PremiumReveal
           className="text-center"
         >
-          <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-semibold text-cyan-300 backdrop-blur">
+          <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-sm font-semibold text-blue-300 backdrop-blur">
             FREQUENTLY ASKED QUESTIONS
           </span>
 
-          <h2 className="mt-6 text-4xl font-extrabold text-white md:text-5xl lg:text-6xl">
+          <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Got Questions?
-            <span className="block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
+            <span className="block text-blue-300">
               {"We've Got Answers"}
             </span>
           </h2>
@@ -57,7 +48,7 @@ export default function FAQ() {
             vehicle tracking, fleet management and our
             intelligent IoT solutions.
           </p>
-        </motion.div>
+        </PremiumReveal>
 
         {/* FAQ List */}
 
@@ -66,8 +57,6 @@ export default function FAQ() {
             <FAQItem
               key={faq.id}
               faq={faq}
-              isOpen={openId === faq.id}
-              onToggle={() => toggleFAQ(faq.id)}
             />
           ))}
         </div>

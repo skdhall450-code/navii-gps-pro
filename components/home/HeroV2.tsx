@@ -1,36 +1,12 @@
-"use client";
-
 import HeroContent from "./HeroContent";
 import HeroVisual from "./HeroVisual";
+import styles from "./premium-home.module.css";
 
 export default function HeroV2() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#061642] via-[#0B2D7A] to-[#0A8ACF] text-white">
-
-      {/* Background Glow */}
-
-      <div className="absolute inset-0 overflow-hidden">
-
-        <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-cyan-400/20 blur-[120px]" />
-
-        <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-blue-500/20 blur-[150px]" />
-
-      </div>
-
-      {/* Main Hero */}
-
-      <div className="relative mx-auto grid min-h-[calc(100svh-7.5rem)] max-w-7xl items-center gap-12 px-6 py-14 sm:py-16 lg:grid-cols-2 lg:gap-10 lg:py-12">
-
-        <HeroContent />
-
-        <HeroVisual />
-
-      </div>
-
-      {/* Bottom Divider */}
-
-      <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-40" />
-
+    <section className={styles.hero} aria-labelledby="home-hero-title">
+      <div className={styles.heroGrid}><HeroContent /><HeroVisual /></div>
+      <div className={styles.heroLine} aria-hidden="true" />
     </section>
   );
 }
