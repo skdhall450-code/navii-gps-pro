@@ -17,16 +17,24 @@ try {
   const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.goto(base+'/shop-now',{waitUntil:'networkidle'});
   const consent=page.getByRole('button',{name:'Necessary Only',exact:true});if(await consent.isVisible())await consent.click();
-  assert.equal(await page.locator('[data-offer]').count(),6);
-  assert.equal(await page.locator('[data-variant]').count(),7);
+  assert.equal(await page.locator('[data-offer]').count(),9);
+  assert.equal(await page.locator('[data-variant]').count(),10);
   assert.equal(await page.locator('h1').count(),1);
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://naviigps.com/shop-now');
-  for(const [id,amount] of [['g17','₹2,525.00'],['bt50','₹2,525.00'],['gx03','₹2,879.00'],['gs900','₹2,879.00'],['s15','₹4,649.00']])assert.ok((await page.locator(`[data-offer="${id}"]`).innerText()).includes(amount));
+  for(const [id,amount] of [['g17','₹2,525.00'],['bt50','₹2,525.00'],['gx03','₹2,879.00'],['gs900','₹2,879.00'],['s15','₹4,649.00'],['obd','₹3,469.00'],['ai-dashcam','₹8,555.00'],['non-ai-dashcam','₹6,195.00']])assert.ok((await page.locator(`[data-offer="${id}"]`).innerText()).includes(amount));
   assert.ok((await page.locator('[data-offer="ais140"]').innerText()).includes('₹7,009.00'));
   assert.ok((await page.locator('[data-offer="ais140"]').innerText()).includes('₹8,779.00'));
   assert.ok(!(await page.locator('[data-offer="ais140"]').innerText()).includes('MRP'));
-  assert.equal(await page.getByText('−₹0.20',{exact:true}).count(),7);
-  assert.equal(await page.getByText('Product photo coming soon',{exact:true}).count(),3);
+  assert.equal(await page.getByText('−₹0.20',{exact:true}).count(),8);
+  assert.equal(await page.getByText('Product photo coming soon',{exact:true}).count(),6);
+  for(const id of ['ai-dashcam','non-ai-dashcam']){
+    const card=page.locator(`[data-offer="${id}"]`);
+    assert.doesNotMatch(await card.innerText(),/Airtel SIM|Software platform fee/);
+    assert.match(await card.innerText(),/Shipping & handling/);
+    const enquiry=new URL(await card.locator('a[href^="https://wa.me/"]').getAttribute('href')).searchParams.get('text');
+    assert.doesNotMatch(enquiry,/Airtel SIM|Software platform fee/);
+  }
+  assert.equal(await page.getByText('+₹0.00',{exact:true}).count(),2);
   assert.ok((await page.locator('#g17').innerText()).includes('₹2,500.00'));
   assert.ok(!(await page.locator('main').innerText()).includes('500 km'));
   for(const link of await page.locator('#device-offers a[href^="https://wa.me/"]').all()){
@@ -141,6 +149,6 @@ try {
     await page.screenshot({path:`test-results/shop-browser/ais140-${width}.png`});
   }
   assert.deepEqual(errors,[]);
-  const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});await nojs.route('**/*',r=>new URL(r.request().url()).origin===base?r.continue():r.abort());const staticPage=await nojs.newPage();await staticPage.goto(base+'/shop-now');assert.equal(await staticPage.locator('[data-offer]').count(),6);assert.ok((await staticPage.locator('[data-offer="bt50"]').innerText()).includes('₹2,525.20'));await nojs.close();
-  console.log('Shop pricing: seven options, arithmetic, links, responsive cards, both shared headers, keyboard/mobile navigation and no-JS PASS. No WhatsApp message sent.');
+  const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});await nojs.route('**/*',r=>new URL(r.request().url()).origin===base?r.continue():r.abort());const staticPage=await nojs.newPage();await staticPage.goto(base+'/shop-now');assert.equal(await staticPage.locator('[data-offer]').count(),9);assert.ok((await staticPage.locator('[data-offer="bt50"]').innerText()).includes('₹2,525.20'));await nojs.close();
+  console.log('Shop pricing: ten options, arithmetic, links, responsive cards, both shared headers, keyboard/mobile navigation and no-JS PASS. No WhatsApp message sent.');
 }finally{if(browser)await browser.close();server.kill('SIGTERM');}

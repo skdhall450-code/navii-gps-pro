@@ -14,7 +14,7 @@ export default function ShopOffers() {
             <p className={styles.eyebrow}>THE NAVII COLLECTION</p>
             <h2 id="device-offers-title">Your device. Clear pricing.</h2>
           </div>
-          <p>Choose your model below. See the device sale price, 18% GST, 12-month Airtel SIM, platform fee and shipping/handling in one clear breakdown.</p>
+          <p>Choose your model below. See device prices, 18% GST and shipping/handling clearly. GPS, OBD and AIS offers also include the listed SIM and platform charges; dash cam offers add shipping/handling only.</p>
         </div>
         <div className={styles.grid}>
           {shopOffers.map((offer) => (
@@ -39,7 +39,7 @@ export default function ShopOffers() {
                 {offer.mrpInr !== undefined && <p className={styles.mrp}>MRP <strong>{formatInrPaise(offer.mrpInr * 100)}</strong></p>}
                 <div className={styles.variants}>
                   {offer.variants.map((variant) => {
-                    const price = getCompleteShopPrice(variant.baseInr);
+                    const price = getCompleteShopPrice(variant.baseInr, offer.chargePolicy);
                     return (
                       <div key={variant.id} data-variant={variant.id} className={styles.variant}>
                         <p className={styles.variantLabel}>{variant.label}</p>
@@ -62,7 +62,7 @@ export default function ShopOffers() {
         </div>
         <div className={styles.note}>
           <Package size={22} aria-hidden="true" />
-          <p>Final payable is rounded to the nearest rupee, with the adjustment shown separately. Totals above include 18% GST, Airtel SIM at ₹45 × 12 months, a ₹150 software platform fee and ₹250 shipping/handling (both before GST). Installation is not included; confirm charges before ordering. AIS 140 validity is the selected device/service offer, while the SIM shown covers 12 months only. Confirm platform coverage, activation requirements and renewal terms before ordering.</p>
+          <p>Final payable is rounded to the nearest rupee, with the adjustment shown separately. All offers include 18% GST and ₹250 shipping/handling before GST. GPS, OBD and AIS offers also include Airtel SIM at ₹45 × 12 months and a ₹150 software platform fee before GST. Dash cam prices do not include any SIM or platform charge. Installation is not included; confirm charges before ordering. AIS 140 validity is the selected device/service offer, while the SIM shown covers 12 months only. Confirm platform coverage, activation requirements and renewal terms before ordering.</p>
         </div>
       </div>
     </section>
