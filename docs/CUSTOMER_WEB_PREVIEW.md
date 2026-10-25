@@ -36,3 +36,7 @@ This is a review draft. Do not merge or deploy without review, supported browser
 ## Conservative write recovery
 
 A pending customer write is stored per verified customer in sessionStorage, without a token. Session identity is pinned to the layout's verified profile/token. Circle creates use the backend's stable UUID idempotency contract; a generic successful GET never proves a timed-out write completed. Readback must match the operation and revision/key. DELETE absence additionally requires complete reads and continued vehicle eligibility. An uncommitted uncertain operation stays blocked; safe same-key retry/support recovery is a release follow-up, not a new-key automatic retry.
+
+### CI browser compatibility
+
+CI's bundled headless shell failed before page load with “No usable sandbox” under Ubuntu AppArmor. Customer tests keep `chromiumSandbox: true` and select the runner's preinstalled stable Chrome channel in CI. No security profile/kernel setting is weakened. Chromium documents Ubuntu's stable Chrome profile at https://chromium.googlesource.com/chromium/src/+/main/docs/security/apparmor-userns-restrictions.md ; runner software inventory: https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md .

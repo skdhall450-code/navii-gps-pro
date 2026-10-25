@@ -85,7 +85,7 @@ try {
     await sleep(500);
   }
   assert.ok(ready, 'Local Next readiness timeout: ' + serverLog);
-  browser = await chromium.launch({ headless: true, chromiumSandbox: true, ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {}) });
+  browser = await chromium.launch({ headless: true, chromiumSandbox: true, ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : process.env.CI ? { channel: "chrome" } : {}) });
   await mkdir(output, { recursive: true });
   for (const [name, viewport] of [['desktop', { width: 1440, height: 1000 }], ['mobile', { width: 390, height: 844 }], ['small-mobile', { width: 320, height: 740 }]]) {
     const f = await createFixture(browser, { session: true, viewport });
@@ -109,6 +109,8 @@ try {
     assert.ok(!f.state.zooms.includes(15), 'Tracking refresh must not reset user zoom');
     await f.page.locator('.leaflet-control-zoom-out').click();
     await f.page.getByRole('button', { name: 'Recenter', exact: true }).click();
+    const consent = f.page.getByRole("button", { name: "Necessary Only", exact: true });
+    if (await consent.isVisible()) await consent.click();
     await f.page.screenshot({ path: `${output}/${name}.png`, fullPage: true });
     await f.page.getByLabel('Vehicle', { exact: true }).selectOption('qa-scooter');
     await f.page.getByText('0.0 km/h', { exact: true }).first().waitFor();
