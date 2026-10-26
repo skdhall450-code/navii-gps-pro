@@ -105,8 +105,8 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 | Chandigarh | Existing authored guide at /gps-tracker/chandigarh | Preserve sector, Industrial Area and Manimajra sections; improve only where a substantive gap is found |
 | Dera Bassi | 2026-10-25 batch: installation enquiry, dispatch review and Tricity pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
 | Mohali | 2026-10-25 batch: staff pickup, service visits and route pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
-| Punjab | Existing 104 city/town records plus district hubs | Zirakpur/Kharar live verified via PR #71; Kurali authored batch prepared; next Himachal expansion |
-| Himachal Pradesh | State guide covers 12 district notes; current sitemap has only the state URL for Himachal | Next: research and implement a substantive Baddi/Solan guide with state-hub navigation; no new route published yet |
+| Punjab | Existing 104 city/town records plus district hubs | Zirakpur/Kharar live verified via PR #71; Kurali live verified via PR #74; continue substantive gaps |
+| Himachal Pradesh | State hub plus dedicated Baddi and Solan guides (PR #76 live verified); Nalagarh/Parwanoo covered as substantive hub sections | Next: Shimla needs assessment; district/locality coverage remains partial |
 | Haryana | Existing district/city routes | Inventory gaps after priority Punjab/Himachal batches |
 | Delhi | Existing district and area routes | Inventory remaining useful locality gaps; retain current canonicals |
 
@@ -147,3 +147,13 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - Branch seo/baddi-solan-guides-20261025; consult PR checks/deployment before marking live. Required existing CI covers source SEO, lint, regressions, build, browser checks and the rendered sitemap/link audit.
 - Prior Kurali PR #74 verified live with five matching FAQs, HTTP 200, self canonical, one H1, successful main CI 40179504360 and IndexNow 40179695525.
 - Next: review Nalagarh/Parwanoo for distinct useful guides and then Shimla; retain district inventory backlog rather than claiming all Himachal localities complete.
+
+### 2026-10-26 Nalagarh / Parwanoo hub improvements
+
+- Kept existing canonical /gps-tracker/himachal-pradesh and its sitemap entry. Added #nalagarh and #parwanoo navigation anchors, not alternate indexable city URLs. Dedicated pages are deferred to avoid overlapping Baddi/Solan intent without sufficient distinct content.
+- Nalagarh: multi-premise collections, repeat visits, skipped stops, return-load reconciliation and report acceptance trial. Parwanoo: receiving point, delivery acknowledgement, onward leg and stale-update follow-up.
+- Added two FAQs from the same visible/schema source; updated shared description, retained title, self canonical, social metadata, one H1 and State Service schema. Linked each section to its relevant existing Baddi/Solan guide and installation checklist.
+- Sources verified 2026-10-26: https://hpsolan.nic.in/public-utility-category/municipality/ ; https://hpsolan.nic.in/baddi-barotiwala-nalagarh-development-authority/ ; https://hpsamb.org/apmc/solan/About . These support geography only; operating checklists are planning advice, not coverage or feature guarantees.
+- Prior PR #76: main SEO/build run 40195946158 and IndexNow run 40196306623 succeeded. Baddi/Solan live checks were HTTP 200, self canonical, one H1, three matching FAQs and sitemap/hub links. Submission is not Google indexing evidence.
+- Branch seo/nalagarh-parwanoo-hub-20261026. Require source SEO, lint, regression, build, browser and rendered checks plus post-deployment verification. Consult PR status before marking this batch published.
+- Next: assess a distinct Shimla guide, then Kangra/Dharamshala; keep Punjab, Haryana and Delhi gap review in backlog. Do not count hub notes as complete district or locality coverage.
