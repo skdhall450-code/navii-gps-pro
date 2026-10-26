@@ -1,5 +1,6 @@
 "use client";
 
+import { useVisiblePoll } from "@/hooks/use-visible-poll";
 import { useTrackingNow } from "@/hooks/use-tracking-now";
 import { getTelemetry, getTrackingDetails, hasCoordinates, TRACKING_LABELS } from "@/lib/tracking-state";
 
@@ -371,31 +372,10 @@ export default function LiveTrackingMap() {
       string | null
     >(null);
 
-  const [
-    history,
-    setHistory,
-  ] =
-    useState<Position[]>(
-      [],
-    );
-
-  const [
-    loading,
-    setLoading,
-  ] =
-    useState(true);
-
-  const [
-    refreshing,
-    setRefreshing,
-  ] =
-    useState(false);
-
-  const [
-    historyLoading,
-    setHistoryLoading,
-  ] =
-    useState(false);
+  const [historyResult, setHistoryResult] = useState<{ vehicleId: string; points: Position[] } | null>(null);
+  const history = useMemo(() => historyResult?.vehicleId === selectedVehicleId
+    ? historyResult.points : [], [historyResult, selectedVehicleId]);
+  const [historyError, setHistoryError] = useState<{ vehicleId: string; message: string } | null>(null);
 
   const [
     lastRefresh,
@@ -465,297 +445,83 @@ export default function LiveTrackingMap() {
         "/login";
     }, []);
 
-  const loadVehicles =
-    useCallback(
-      async (
-        manual = false,
-      ) => {
-        const token =
-          getAccessToken();
-
-        if (!token) {
-          handleUnauthorized();
-          return;
-        }
-
-        if (manual) {
-          setRefreshing(
-            true,
-          );
-        }
-
-        try {
-          const response =
-            await fetch(
-              `${API_BASE}/api/gps/latest`,
-              {
-                method:
-                  "GET",
-
-                headers:
-                  getAuthHeaders(),
-
-                cache:
-                  "no-store",
-              },
-            );
-
-          if (
-            response.status ===
-            401
-          ) {
-            handleUnauthorized();
-            return;
-          }
-
-          if (
-            response.status ===
-            403
-          ) {
-            throw new Error(
-              "You do not have permission to access live GPS tracking.",
-            );
-          }
-
-          const result =
-            await readJson<VehiclesResponse>(
-              response,
-            );
-
-          if (
-            !response.ok
-          ) {
-            throw new Error(
-              result.message ||
-                `GPS API returned ${response.status}`,
-            );
-          }
-
-          if (
-            !result.success
-          ) {
-            throw new Error(
-              result.message ||
-                "GPS API returned an unsuccessful response.",
-            );
-          }
-
-          const list =
-            Array.isArray(
-              result.data,
-            )
-              ? result.data
-              : [];
-
-          setVehicles(
-            list,
-          );
-
-          setSelectedVehicleId(
-            (current) => {
-              if (
-                current &&
-                list.some(
-                  (
-                    vehicle,
-                  ) =>
-                    vehicle.id ===
-                    current,
-                )
-              ) {
-                return current;
-              }
-
-              return (
-                list[0]
-                  ?.id ??
-                null
-              );
-            },
-          );
-
-          setServerLive(
-            true,
-          );
-
-          setLastRefresh(
-            new Date(),
-          );
-
-          setError(
-            null,
-          );
-        } catch (err) {
-          setServerLive(
-            false,
-          );
-
-          setError(
-            err instanceof
-              Error
-              ? err.message
-              : "Unable to load GPS data",
-          );
-        } finally {
-          setLoading(
-            false,
-          );
-
-          setRefreshing(
-            false,
-          );
-        }
-      },
-      [
-        handleUnauthorized,
-      ],
-    );
-
-  const loadHistory =
-    useCallback(
-      async (
-        vehicleId: string,
-      ) => {
-        const token =
-          getAccessToken();
-
-        if (!token) {
-          handleUnauthorized();
-          return;
-        }
-
-        try {
-          setHistoryLoading(
-            true,
-          );
-
-          const response =
-            await fetch(
-              `${API_BASE}/api/gps/history/${vehicleId}?limit=100`,
-              {
-                method:
-                  "GET",
-
-                headers:
-                  getAuthHeaders(),
-
-                cache:
-                  "no-store",
-              },
-            );
-
-          if (
-            response.status ===
-            401
-          ) {
-            handleUnauthorized();
-            return;
-          }
-
-          if (
-            response.status ===
-            403
-          ) {
-            setHistory(
-              [],
-            );
-
-            throw new Error(
-              "You do not have permission to view this vehicle history.",
-            );
-          }
-
-          const result =
-            await readJson<HistoryResponse>(
-              response,
-            );
-
-          if (
-            !response.ok
-          ) {
-            throw new Error(
-              result.message ||
-                `History API returned ${response.status}`,
-            );
-          }
-
-          const list =
-            Array.isArray(
-              result.data,
-            )
-              ? result.data
-              : [];
-
-          setHistory(
-            [...list]
-              .reverse()
-              .filter(
-                (
-                  position,
-                ) =>
-                  Number.isFinite(
-                    position.latitude,
-                  ) &&
-                  Number.isFinite(
-                    position.longitude,
-                  ),
-              ),
-          );
-        } catch (err) {
-          setHistory(
-            [],
-          );
-
-          setError(
-            err instanceof
-              Error
-              ? err.message
-              : "Unable to load vehicle history",
-          );
-        } finally {
-          setHistoryLoading(
-            false,
-          );
-        }
-      },
-      [
-        handleUnauthorized,
-      ],
-    );
-
-  useEffect(() => {
-    void loadVehicles();
-
-    const interval =
-      window.setInterval(
-        () => {
-          void loadVehicles();
-        },
-        5000,
-      );
-
-    return () => {
-      window.clearInterval(
-        interval,
-      );
-    };
-  }, [loadVehicles]);
-
-  useEffect(() => {
-    if (
-      !selectedVehicleId
-    ) {
-      setHistory([]);
-      return;
+  const requestVehicles = useCallback(async (signal: AbortSignal) => {
+    if (!getAccessToken()) {
+      handleUnauthorized();
+      throw new Error("Please sign in to view tracking.");
     }
+    const response = await fetch(`${API_BASE}/api/gps/latest`, {
+      method: "GET", headers: getAuthHeaders(), cache: "no-store", signal,
+    });
+    signal.throwIfAborted();
+    if (response.status === 401) {
+      handleUnauthorized();
+      throw new Error("Please sign in to view tracking.");
+    }
+    if (response.status === 403) {
+      throw new Error("You do not have permission to access live GPS tracking.");
+    }
+    const result = await readJson<VehiclesResponse>(response);
+    if (!response.ok || !result.success || !Array.isArray(result.data)) {
+      throw new Error(result.message || `GPS API returned an invalid response (${response.status})`);
+    }
+    return result.data;
+  }, [handleUnauthorized]);
 
-    void loadHistory(
-      selectedVehicleId,
-    );
-  }, [
-    selectedVehicleId,
-    loadHistory,
-  ]);
+  const receiveVehicles = useCallback((list: Vehicle[]) => {
+    setVehicles(list);
+    setSelectedVehicleId(current => current && list.some(vehicle => vehicle.id === current)
+      ? current : list[0]?.id ?? null);
+    setServerLive(true);
+    setLastRefresh(new Date());
+    setError(null);
+  }, []);
+  const failVehicles = useCallback((err: Error) => {
+    setServerLive(false);
+    setError(err.message);
+  }, []);
+  const { refresh: refreshVehicles, pending: refreshing, initialLoading: loading } = useVisiblePoll({
+    request: requestVehicles, onSuccess: receiveVehicles, onError: failVehicles, intervalMs: 5000,
+  });
+
+  const requestHistory = useCallback(async (signal: AbortSignal) => {
+    if (!getAccessToken()) {
+      handleUnauthorized();
+      throw new Error("Please sign in to view tracking.");
+    }
+    const response = await fetch(`${API_BASE}/api/gps/history/${encodeURIComponent(selectedVehicleId!)}?limit=100`, {
+      method: "GET", headers: getAuthHeaders(), cache: "no-store", signal,
+    });
+    signal.throwIfAborted();
+    if (response.status === 401) {
+      handleUnauthorized();
+      throw new Error("Please sign in to view tracking.");
+    }
+    if (response.status === 403) {
+      throw new Error("You do not have permission to view this vehicle history.");
+    }
+    const result = await readJson<HistoryResponse>(response);
+    if (!response.ok || !result.success || !Array.isArray(result.data)) {
+      throw new Error(result.message || `History API returned an invalid response (${response.status})`);
+    }
+    return {
+      vehicleId: selectedVehicleId!,
+      points: [...result.data].reverse().filter(position =>
+        Number.isFinite(position.latitude) && Number.isFinite(position.longitude)),
+    };
+  }, [handleUnauthorized, selectedVehicleId]);
+  const receiveHistory = useCallback((result: { vehicleId: string; points: Position[] }) => {
+    setHistoryResult(result);
+    setHistoryError(null);
+  }, []);
+  const failHistory = useCallback((err: Error) => {
+    setHistoryResult(null);
+    setHistoryError(selectedVehicleId ? { vehicleId: selectedVehicleId, message: err.message } : null);
+  }, [selectedVehicleId]);
+  const { refresh: refreshHistory, pending: historyLoading } = useVisiblePoll({
+    enabled: Boolean(selectedVehicleId), request: requestHistory,
+    onSuccess: receiveHistory, onError: failHistory, intervalMs: 15000,
+  });
 
   const filteredVehicles =
     useMemo(() => {
@@ -890,11 +656,10 @@ export default function LiveTrackingMap() {
           <div className="flex flex-wrap items-center gap-3">
             <button
               type="button"
-              onClick={() =>
-                void loadVehicles(
-                  true,
-                )
-              }
+              onClick={() => {
+                refreshVehicles();
+                refreshHistory();
+              }}
               disabled={
                 refreshing
               }
@@ -1204,6 +969,11 @@ export default function LiveTrackingMap() {
               API Error: {error}
             </div>
           )}
+          {historyError?.vehicleId === selectedVehicleId && (
+            <div role="status" className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-300">
+              History Error: {historyError.message}
+            </div>
+          )}
 
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
             <SummaryCard
@@ -1263,8 +1033,7 @@ export default function LiveTrackingMap() {
                 </h2>
 
                 <p className="text-xs text-slate-400">
-                  Auto refresh every
-                  5 seconds
+                  Live data refreshes every 5 seconds while this tab is visible
                 </p>
               </div>
 
@@ -1487,7 +1256,7 @@ export default function LiveTrackingMap() {
                     }{" "}
                     GPS points loaded
                     for selected
-                    vehicle
+                    vehicle · refreshes every 15 seconds
                   </p>
                 </div>
               </div>
@@ -1498,15 +1267,7 @@ export default function LiveTrackingMap() {
                   !selectedVehicleId ||
                   historyLoading
                 }
-                onClick={() => {
-                  if (
-                    selectedVehicleId
-                  ) {
-                    void loadHistory(
-                      selectedVehicleId,
-                    );
-                  }
-                }}
+                onClick={refreshHistory}
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm transition hover:bg-white/[0.08] disabled:opacity-40"
               >
                 <RefreshCw
