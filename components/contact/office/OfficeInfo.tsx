@@ -13,7 +13,7 @@ const cards = [
   },
   {
     title: "Sales Enquiries",
-    value: "+91 88997 29705",
+    value: "+91 77173 94007",
     description: "Call us for product consultation",
     icon: Phone,
   },
@@ -96,7 +96,7 @@ export default function OfficeInfo() {
 
         <div className="mt-16 flex justify-center">
           <a
-            href="https://wa.me/917717394007"
+            href="https://wa.me/918899729705"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 rounded-2xl bg-green-600 px-8 py-4 text-lg font-semibold text-white transition hover:bg-green-700"

@@ -176,12 +176,12 @@ export default function FooterV2() {
 
             <div className="space-y-5">
               <a
-                href="tel:+918899729705"
+                href="tel:+917717394007"
                 className="flex items-start gap-3 text-slate-300 transition hover:text-cyan-300"
               >
                 <Phone size={20} className="mt-1 text-cyan-400" />
 
-                <span>Sales: +91 88997 29705</span>
+                <span>Sales: +91 77173 94007</span>
               </a>
 
               <a
@@ -209,14 +209,14 @@ export default function FooterV2() {
             {/* Verified contact channel */}
 
             <a
-              href="https://wa.me/917717394007"
+              href="https://wa.me/918899729705"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Contact NAVII GPS on WhatsApp"
               className="mt-8 inline-flex items-center gap-3 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-5 py-3 font-semibold text-emerald-300 transition-all duration-300 hover:scale-105 hover:bg-emerald-500 hover:text-white"
             >
               <MessageCircle size={19} />
-              Support WhatsApp: +91 77173 94007
+              Support WhatsApp: +91 88997 29705
             </a>
           </div>
         </div>

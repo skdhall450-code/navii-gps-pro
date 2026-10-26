@@ -56,7 +56,7 @@ export const shopOffers: ShopOffer[] = [
 ];
 
 export const SHOP_GST_PERCENT = 18;
-export const SHOP_WHATSAPP = "917717394007";
+export const SHOP_WHATSAPP = "918899729705";
 
 export function getShopOfferPrice(baseInr: number) {
   const basePaise = Math.round(baseInr * 100);
