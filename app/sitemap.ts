@@ -41,6 +41,8 @@ import { internationalSeoEnabled } from "@/lib/seo/internationalStatus";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://naviigps.com";
   const staticRoutes: MetadataRoute.Sitemap = [
+    { url: `${baseUrl}/gps-tracker/himachal-pradesh/baddi`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/gps-tracker/himachal-pradesh/solan`, changeFrequency: "monthly", priority: 0.8 },
     { url: baseUrl, changeFrequency: "weekly", priority: 1 },
     { url: `${baseUrl}/about`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/products`, changeFrequency: "weekly", priority: 0.9 },

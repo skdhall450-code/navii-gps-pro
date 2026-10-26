@@ -7,7 +7,7 @@ import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 
 const url = "https://naviigps.com/gps-tracker/himachal-pradesh";
 const title = "GPS Tracker in Himachal Pradesh | Hill & Industrial Fleets";
-const description = "Plan vehicle GPS tracking across Himachal Pradesh's 12 districts, from Baddi industrial dispatches to Shimla, Kangra and hill-route fleets. Discuss setup with NAVII GPS.";
+const description = "Plan vehicle GPS tracking across Himachal Pradesh's 12 districts, including Nalagarh collection rounds, Parwanoo deliveries and hill-route fleets. Discuss setup with NAVII GPS.";
 const sectors = ["industrial logistics", "tourism transport", "commercial delivery", "school transport"];
 const social = { title, description, images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS vehicle tracking in Himachal Pradesh" }] };
 export const metadata: Metadata = {
@@ -25,6 +25,33 @@ const workflows = [
   { id: "mandi-kullu", title: "Mandi, Kullu and onward hill routes", text: "For multi-stop distribution and passenger journeys, review the entire outward and return trip rather than a single map position. Test connectivity at recurring stops and confirm how the selected device handles reporting gaps. Ask whether stored journey data is available after reconnection, and verify that behavior before fleet rollout." },
 ];
 
+const localPlans = [
+  {
+    id: "nalagarh", name: "Nalagarh collection and return-load planning",
+    intro: "Nalagarh is part of the Baddi–Barotiwala–Nalagarh planning area in Solan district. For vehicles collecting from several premises, a town-wide arrival alert is too broad to explain which collection was completed.",
+    steps: [
+      "Build a stop list before dispatch: supplier name, exact entrance, collection reference and expected next stop. Keep the vehicle trip record separate from the goods manifest so location data is not mistaken for proof of collection.",
+      "For a round between Nalagarh and Baddi, review each arrival and departure against the planned sequence. Mark a skipped collection or a second visit in the dispatch record; a broad BBN geofence cannot distinguish those events.",
+      "Record whether the return leg carries goods or is empty in your dispatch system. GPS trip distance alone cannot identify the load. Review the complete round before comparing vehicle utilisation.",
+      "During a pilot, include two visits to the same premises and an unplanned stop. Check whether supported geofence events and trip exports let the dispatcher reconcile these with the collection sheet. Confirm report retention and export availability before purchase."
+    ],
+    related: "/gps-tracker/himachal-pradesh/baddi", relatedLabel: "Baddi factory gate and staff-fleet guide",
+    source: "https://hpsolan.nic.in/baddi-barotiwala-nalagarh-development-authority/", sourceLabel: "Solan district BBN planning authority"
+  },
+  {
+    id: "parwanoo", name: "Parwanoo delivery handovers and onward journeys",
+    intro: "Parwanoo is an industrial township in Solan district at the gateway to Himachal Pradesh. A delivery ending here and a vehicle continuing toward Solan need different milestones in the dispatch plan.",
+    steps: [
+      "Identify the receiving premises and agreed handover point before departure. Keep an approach or waiting location separate from the unloading point where useful; an arrival near the premises does not confirm unloading or customer acceptance.",
+      "For a vehicle continuing toward Solan, close the Parwanoo delivery task in the dispatch record before starting the next leg. Keep the receiver acknowledgement and any onward consignment reference alongside the trip record.",
+      "Agree who follows up when the location timestamp stops advancing. Check the last received update before contacting the driver through your normal safe operating procedure. Do not treat a stale map marker as evidence that the vehicle is still at the handover point.",
+      "Test one local delivery and one onward journey after fitting. Compare actual arrival, waiting, departure and the final return with supported trip reports. Confirm installation access, network behaviour and any offline-record recovery with the chosen device."
+    ],
+    related: "/gps-tracker/himachal-pradesh/solan", relatedLabel: "Solan local visits and hill-journey guide",
+    source: "https://hpsamb.org/apmc/solan/About", sourceLabel: "Himachal Pradesh State Agricultural Marketing Board"
+  }
+];
+
 const districts = [
   { slug: "bilaspur", name: "Bilaspur", note: "For regional distribution, separate customer stops from through journeys so dispatchers can review planned visits and return trips." },
   { slug: "chamba", name: "Chamba", note: "For passenger and supply journeys, agree on check-in points and review the age of the last position before interpreting a reporting gap." },
@@ -40,6 +67,8 @@ const districts = [
   { slug: "una", name: "Una", note: "For regional and Punjab-connected routes, review complete trips across state boundaries and confirm SIM coverage for recurring destinations." },
 ];
 const faqs = [
+  { question: "How should I review repeated collections around Nalagarh?", answer: "Use a separate stop reference for each planned collection and compare supported arrival and departure records with the collection sheet. Record repeat visits and skipped stops explicitly. GPS location alone does not prove goods were collected or identify the return load." },
+  { question: "Can a Parwanoo arrival alert confirm a completed delivery?", answer: "No. A supported geofence event indicates a vehicle location event, not customer acceptance. Match the trip record with the receiver acknowledgement and close the delivery task separately before reviewing an onward journey." },
   { question: "How do I choose a GPS tracker for Himachal Pradesh?", answer: "Share the vehicle type, power supply, fleet size and daily routes with NAVII GPS. Review device compatibility, mobile-network coverage, reporting needs and the complete quotation before selecting hardware or booking installation." },
   { question: "Will a GPS tracker report continuously on hill routes?", answer: "Fresh updates depend on the selected device, SIM network, installation and connectivity on the actual route. Check the last-update time and test reporting at recurring stops. Confirm whether the chosen device stores journey records during a network gap and sends them after reconnection." },
   { question: "Can I track Baddi factory vehicles and staff transport?", answer: "Discuss separate vehicle groups for goods dispatches and staff journeys. Define factory gates, pickup locations and authorized dispatcher access, then confirm the trip history and alerts supported by your selected device and platform." },
@@ -64,11 +93,22 @@ export default function HimachalPradeshPage() {
       </div>
     </section>
     <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6">
-      <h2 className="text-3xl font-bold text-slate-900">Local vehicle tracking workflows</h2>
+      <h2 className="text-3xl font-bold text-slate-900">Local vehicle tracking workflows</h2><div className="mt-6 flex flex-wrap gap-6 text-blue-700"><Link href="/gps-tracker/himachal-pradesh/baddi" className="underline">Baddi factory dispatch guide</Link><Link href="/gps-tracker/himachal-pradesh/solan" className="underline">Solan local and hill journey guide</Link></div>
       <p className="mt-5 max-w-4xl leading-8 text-slate-600">A factory dispatch and a passenger pickup need different reporting and follow-up. Start with the stops, route and people who act on vehicle updates, then select a compatible device and platform setup.</p>
       <nav aria-label="Fleet workflow sections" className="mt-6 flex flex-wrap gap-5">{workflows.map(item => <a key={item.id} href={`#${item.id}`} className="text-blue-700 underline underline-offset-4">{item.title}</a>)}</nav>
       <div className="mt-9 grid gap-6 md:grid-cols-2">{workflows.map(item => <article id={item.id} key={item.id} className="scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 p-7"><h3 className="text-xl font-bold text-slate-900">{item.title}</h3><p className="mt-4 leading-7 text-slate-600">{item.text}</p></article>)}</div>
       <p className="mt-6 text-sm text-slate-500">Industrial geography reference: <a href="https://hpsolan.nic.in/baddi-barotiwala-nalagarh-development-authority/" className="underline">Solan district’s Baddi–Barotiwala–Nalagarh Development Authority</a>.</p>
+    </div></section>
+    <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6">
+      <h2 className="text-3xl font-bold text-slate-900">Nalagarh and Parwanoo dispatch checklists</h2>
+      <nav aria-label="Local dispatch plans" className="mt-6 flex flex-wrap gap-6 text-blue-700">{localPlans.map(plan => <a key={plan.id} href={`#${plan.id}`} className="underline">{plan.name}</a>)}</nav>
+      <div className="mt-9 grid gap-8 lg:grid-cols-2">{localPlans.map(plan => <article id={plan.id} key={plan.id} className="scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 p-7">
+        <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3><p className="mt-5 leading-7 text-slate-700">{plan.intro}</p>
+        <ol className="mt-6 list-decimal space-y-5 pl-5 leading-7 text-slate-700">{plan.steps.map(step => <li key={step}>{step}</li>)}</ol>
+        <Link href={plan.related} className="mt-6 block font-semibold text-blue-700 underline">{plan.relatedLabel}</Link>
+        <a href="#installation" className="mt-4 block text-blue-700 underline">Confirm fitting arrangements for your location</a>
+        <p className="mt-5 text-sm text-slate-500">Geography reference: <a href={plan.source} className="underline">{plan.sourceLabel}</a>.</p>
+      </article>)}</div>
     </div></section>
     <section className="bg-slate-50 py-20"><div className="mx-auto max-w-7xl px-6">
       <h2 className="text-3xl font-bold text-slate-900">GPS tracking planning across all 12 Himachal districts</h2>
