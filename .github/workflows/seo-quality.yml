@@ -53,6 +53,9 @@ jobs:
       - name: Check GPS screens in a real browser using isolated fixtures
         run: node test/browser/gps-freshness.mjs
 
+      - name: Check live refresh cancellation, timeout and history updates
+        run: node test/browser/live-refresh.mjs
+
       - name: Upload GPS browser checks
         if: always()
         uses: actions/upload-artifact@v4

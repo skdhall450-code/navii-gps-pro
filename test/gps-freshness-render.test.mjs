@@ -28,6 +28,7 @@ const mocked = new Map([
   ['next/navigation', moduleUrl(`export const useParams = () => ({ id: 'v-2' }); export const useRouter = () => ({ replace() {} });`)],
   ['@/components/auth/RoleRouteGuard', moduleUrl(`export default props => props.children;`)],
   ['@/hooks/use-tracking-now', moduleUrl(`export const useTrackingNow = () => globalThis.__panelTests.now;`)],
+  ['@/hooks/use-visible-poll', moduleUrl(`export const useVisiblePoll = () => ({ refresh() {}, pending: false, initialLoading: false });`)],
 ]);
 registerHooks({
   resolve(specifier, context, next) {
@@ -70,7 +71,7 @@ const screens = [
   [Dashboard, v => [[v], false, null, null]],
   [Vehicles, v => [[v], [], [], { role: 'CUSTOMER' }, false]],
   [Detail, v => [v, [], false, false, null, null]],
-  [Tracking, v => [[v], 'v-2', [], false, false, false, null, null, true]],
+  [Tracking, v => [[v], 'v-2', { vehicleId: 'v-2', points: [] }, null, null, null, true]],
 ];
 function render(Component, values) {
   state.cursor = 0; state.values = values; state.effects = [];
