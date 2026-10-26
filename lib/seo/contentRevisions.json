@@ -1,9 +1,9 @@
 {
   "/industries": {
-    "lastModified": "2026-10-21T21:24:08+05:30",
-    "sourceCommit": "2b6808a3fe2b8d40a1b17ba6d1e05702a02b2be0",
+    "lastModified": "2026-10-26T11:06:00Z",
+    "sourceCommit": "ed81803751b8e7b7cd6fb541b57327cfc18f1a57",
     "sourcePath": "app/industries/page.tsx",
-    "sourceSha256": "39aa8cad1482432f593d1891d8c70fb1da5cfda8040bacd28a4d422d5733b6d6"
+    "sourceSha256": "0f25780ec362d387dee3688dd3a68ae50ddfb8bccbeee36e96edc508e6a6f5ba"
   },
   "/gps-tracking-company-india": {
     "lastModified": "2026-10-20T23:27:45+05:30",

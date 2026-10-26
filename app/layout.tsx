@@ -147,7 +147,7 @@ const structuredData = {
       image: "https://naviigps.com/og-image.jpg",
       description:
         "NAVII GPS INDIA provides GPS tracking devices, fleet management software, vehicle security, fuel monitoring and connected IoT solutions across India.",
-      telephone: "+918899729705",
+      telephone: "+917717394007",
       email: "helpline@naviigps.com",
       priceRange: "Contact for pricing",
       address: {
@@ -182,7 +182,7 @@ const structuredData = {
         {
           "@type": "ContactPoint",
           contactType: "sales",
-          telephone: "+918899729705",
+          telephone: "+917717394007",
           email: "info@naviigps.com",
           availableLanguage: ["English", "Hindi"],
           areaServed: "IN",
