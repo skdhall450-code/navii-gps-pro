@@ -148,7 +148,7 @@ export default function MobileNav() {
 
             <div className="sticky bottom-0 mt-auto shrink-0 border-t bg-white p-6">
               <a
-                href="https://wa.me/917717394007"
+                href="https://wa.me/918899729705"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 px-6 py-4 font-semibold text-white transition hover:bg-green-500"

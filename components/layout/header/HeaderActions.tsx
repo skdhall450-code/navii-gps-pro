@@ -9,7 +9,7 @@ export default function HeaderActions() {
 
       {/* WhatsApp */}
       <a
-        href="https://wa.me/917717394007"
+        href="https://wa.me/918899729705"
         target="_blank"
         rel="noopener noreferrer"
         className="flex h-11 w-11 items-center justify-center rounded-xl border border-green-200 bg-green-50 text-green-700 transition-all duration-300 hover:scale-105 hover:bg-green-600 hover:text-white"
