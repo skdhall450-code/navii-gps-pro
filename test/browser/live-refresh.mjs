@@ -20,7 +20,7 @@ async function until(predicate, label) {
 }
 
 const server = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '--hostname', '127.0.0.1', '--port', '39113'], { stdio: ['ignore', 'pipe', 'pipe'] });
-let serverLog = '', browser;
+let serverLog = '', browser, page;
 for (const stream of [server.stdout, server.stderr]) stream.on('data', data => { serverLog = (serverLog + data).slice(-6000); });
 try {
   await until(async () => {
@@ -62,7 +62,7 @@ try {
     localStorage.setItem('navii_access_token', 'synthetic-test-only');
     localStorage.setItem('navii_user', JSON.stringify(user));
   }, { user });
-  const page = await context.newPage();
+  page = await context.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.clock.install({ time: now });
@@ -73,7 +73,7 @@ try {
   holdHistory = true;
   await page.getByRole('button', { name: 'Refresh Route', exact: true }).click();
   await until(() => held.length === 1, 'Delayed A history request');
-  await page.getByRole('button', { name: /^QA-B/ }).click();
+  await page.getByRole('button').filter({ has: page.getByText('QA-B', { exact: true }) }).click();
   await routeCount(2).waitFor();
   holdHistory = false;
   await held.shift()();
@@ -133,6 +133,13 @@ try {
   assert.deepEqual(unexpected, []);
   assert.deepEqual(errors, []);
   console.log('PASS unmount stops polling; browser fixtures only; no production access');
+} catch (error) {
+  if (page) {
+    await mkdir('test-results/gps-browser', { recursive: true });
+    await page.screenshot({ path: 'test-results/gps-browser/live-refresh-failure.png', fullPage: true }).catch(() => {});
+    console.error('Synthetic page state:', await page.locator('body').innerText().catch(() => 'unavailable'));
+  }
+  throw error;
 } finally {
   for (const release of held) await release();
   if (browser) await browser.close();
