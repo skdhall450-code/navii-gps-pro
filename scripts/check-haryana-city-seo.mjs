@@ -65,8 +65,13 @@ for (const city of publishedCities) {
   assert.ok(existsSync(htmlPath), `Missing rendered Haryana city page: ${route}`);
   const html = readFileSync(htmlPath, "utf8");
   assert.ok(html.includes(`rel="canonical" href="${canonical}"`), `Invalid city canonical: ${route}`);
+  const authoredTitles = {
+    "panchkula/kalka": "GPS Tracker in Kalka | Onward Trips &amp; Vehicle Handovers",
+    "panchkula/pinjore": "GPS Tracker in Pinjore | Local Deliveries &amp; Through Trips",
+  };
+  const expectedTitle = authoredTitles[`${city.districtSlug}/${city.slug}`] ?? `GPS Tracker in ${city.name}, ${city.districtName}`;
   assert.ok(
-    html.includes(`<title>GPS Tracker in ${city.name}, ${city.districtName} | NAVII GPS INDIA</title>`),
+    html.includes(`<title>${expectedTitle} | NAVII GPS INDIA</title>`),
     `Invalid city title: ${route}`,
   );
   assert.equal((html.match(/<h1(?:\s|>)/g) || []).length, 1, `Expected one city H1: ${route}`);
@@ -88,6 +93,12 @@ for (const city of publishedCities) {
     )),
     `Missing city Service schema: ${route}`,
   );
+  if (authoredTitles[`${city.districtSlug}/${city.slug}`]) {
+    const faq = schemas.flatMap(schema => schema["@graph"] ?? []).find(item => item["@type"] === "FAQPage");
+    assert.equal(faq?.mainEntity?.length, 5, `Authored FAQs missing: ${route}`);
+    assert.ok(html.includes("fleet planning checklist"), `Authored checklist missing: ${route}`);
+    assert.ok(html.includes('href="/gps-tracker/chandigarh"'), `Connected route missing: ${route}`);
+  }
   assert.ok(
     schemas.some((schema) => schema["@graph"]?.some((item) => item["@type"] === "FAQPage")),
     `Missing city FAQ schema: ${route}`,

@@ -177,3 +177,13 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - Prior Shimla PR #81 is published and live verified; main CI 40443715878 and IndexNow 40444166464 succeeded. Google indexing/ranking remains unverified.
 - Branch seo/kangra-dharamshala-20261027. Require full existing source SEO, lint, regression, build, rendered and browser CI, followed by live canonical/H1/FAQ/links/sitemap checks. Consult PR/deployment state before marking this batch published.
 - Next: return to priority Punjab/Haryana coverage gaps, starting with existing Panchkula/Kalka/Pinjore guides; preserve URLs and improve distinct local needs. Then review Mandi/Kullu. District guide does not mean every Kangra town/locality is fully covered.
+
+### 2026-10-27 Panchkula, Kalka and Pinjore refresh
+
+- Retained /gps-tracker/haryana/panchkula for Panchkula (district canonical), /gps-tracker/haryana/panchkula/kalka and /gps-tracker/haryana/panchkula/pinjore. The duplicate city/district path is excluded by the existing route policy. Registry continues generating the sitemap; no alternate URLs or extra entries.
+- Added optional authored guide data only to these three cities and optional rendering in the shared Haryana city/district components. Three distinct workflow cards and two additional visible/schema FAQs each; targeted titles/descriptions and social previews, existing canonicals/H1/breadcrumbs retained.
+- Panchkula: appointments and shared team vehicles. Kalka: onward legs, transfer handovers and return assignments. Pinjore: local delivery versus through traffic, receiving entrances and repeat visits. Added Chandigarh/Himachal navigation while retaining district and sibling links.
+- Location inventory source verified 2026-10-27: https://panchkula.nic.in/administrative-setup/ . No new branches, fixed installation coverage, road restrictions, prices or guaranteed device capabilities claimed.
+- Prior Kangra PR #82 live verified; main CI 40497835963 and IndexNow 40498459069 successful. Publication/submission does not establish Google indexing.
+- Branch seo/panchkula-kalka-pinjore-20261027. Require existing source SEO, lint, regression, production build, rendered SEO and browser checks before merge; live check all three URLs and five FAQ/schema pairs after deployment. Read PR/deployment status before marking published.
+- Next: Mandi/Kullu distinct-content assessment, then priority Punjab/Haryana/Delhi gaps. Existing authored Tricity guides remain covered; do not repeat their batches.

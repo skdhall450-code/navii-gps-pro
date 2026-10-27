@@ -24,7 +24,7 @@ const cityFaqs = (city: HaryanaCitySeo) => [
 export function HaryanaCityGpsPage({ city }: { city: HaryanaCitySeo }) {
   const url = `https://naviigps.com/gps-tracker/haryana/${city.districtSlug}/${city.slug}`;
   const districtUrl = `https://naviigps.com/gps-tracker/haryana/${city.districtSlug}`;
-  const faqs = cityFaqs(city);
+  const faqs = [...cityFaqs(city), ...(city.guide?.faqs ?? [])];
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -32,8 +32,8 @@ export function HaryanaCityGpsPage({ city }: { city: HaryanaCitySeo }) {
         "@type": "WebPage",
         "@id": `${url}#webpage`,
         url,
-        name: `GPS Tracker in ${city.name}, ${city.districtName} | NAVII GPS`,
-        description: `Vehicle GPS tracking and fleet management planning for ${city.name} in Haryana.`,
+        name: city.guide?.title ?? `GPS Tracker in ${city.name}, ${city.districtName} | NAVII GPS`,
+        description: city.guide?.description ?? `Vehicle GPS tracking and fleet management planning for ${city.name} in Haryana.`,
         isPartOf: { "@id": "https://naviigps.com/#website" },
         inLanguage: "en-IN",
       },
@@ -78,6 +78,7 @@ export function HaryanaCityGpsPage({ city }: { city: HaryanaCitySeo }) {
       { title: "Geofences and Alerts", text: "Monitor supported location boundaries, movement, ignition and fleet events.", icon: BellRing },
     ].map((feature) => { const Icon = feature.icon; return <article key={feature.title} className="rounded-3xl border border-slate-200 p-8 shadow-sm"><div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700"><Icon size={28} /></div><h2 className="mt-5 text-2xl font-bold text-slate-900">{feature.title}</h2><p className="mt-3 leading-7 text-slate-600">{feature.text}</p></article>; })}</div></section>
     <section className="bg-slate-50 py-24"><div className="mx-auto grid max-w-6xl gap-14 px-6 lg:grid-cols-2"><div><p className="text-sm font-semibold tracking-[0.16em] text-blue-700">LOCAL FLEET PLANNING</p><h2 className="mt-4 text-4xl font-extrabold text-slate-900">Vehicle Tracking Around {city.name}</h2><p className="mt-6 text-lg leading-8 text-slate-600">{city.localContext}</p><p className="mt-4 leading-8 text-slate-600">{city.planningNote}</p><ul className="mt-8 space-y-4">{city.sectors.map((sector) => <li key={sector} className="flex items-start gap-3 capitalize text-slate-700"><CheckCircle2 className="mt-0.5 shrink-0 text-emerald-500" size={20} />{sector}</li>)}</ul></div><div className="rounded-[32px] bg-[#06142E] p-9 text-white shadow-xl"><h2 className="text-3xl font-bold">Nearby {city.districtName} Locations</h2><p className="mt-5 leading-8 text-slate-300">Explore related city and town guides for connected fleet routes in the same district.</p><div className="mt-7 grid gap-3">{city.nearbyLocations.map((location) => <Link key={location} href={`/gps-tracker/haryana/${city.districtSlug}/${toHaryanaCitySlug(location)}`} className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-cyan-100 hover:border-cyan-300">GPS Tracker in {location}</Link>)}</div><Link href={`/gps-tracker/haryana/${city.districtSlug}`} className="mt-8 inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 font-semibold">View {city.districtName} District <ArrowRight size={17} /></Link></div></div></section>
+    {city.guide && <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">{city.name} fleet planning checklist</h2><div className="mt-8 grid gap-6 lg:grid-cols-3">{city.guide.cases.map(item => <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-7"><h3 className="text-xl font-bold text-slate-900">{item.title}</h3><p className="mt-4 leading-7 text-slate-600">{item.text}</p></article>)}</div><p className="mt-6 leading-7 text-slate-600">Share your exact vehicle location with the NAVII GPS Dera Bassi team to confirm installation arrangements and complete costs before booking.</p><p className="mt-4 text-sm text-slate-500">Location reference: <a href="https://panchkula.nic.in/administrative-setup/" className="underline">Panchkula district administration</a>.</p><nav aria-label="Connected fleet guides" className="mt-6 flex flex-wrap gap-6 text-blue-700"><Link href="/gps-tracker/chandigarh" className="underline">Chandigarh fleet planning</Link><Link href="/gps-tracker/himachal-pradesh" className="underline">Himachal journey planning</Link></nav></div></section>}
     <section className="bg-white py-20"><div className="mx-auto max-w-5xl px-6"><h2 className="text-center text-4xl font-extrabold text-slate-900">GPS Tracking in {city.name}: FAQs</h2><div className="mt-10 space-y-4">{faqs.map((faq) => <article key={faq.question} className="rounded-2xl border border-slate-200 p-6"><h3 className="text-lg font-bold text-slate-900">{faq.question}</h3><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></article>)}</div></div></section>
   <TrackingSolutionLinks location={city.name} sectors={city.sectors} />
   </main><Footer /></>;

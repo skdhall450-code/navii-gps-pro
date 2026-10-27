@@ -1,3 +1,4 @@
+import { priorityGuides, type HaryanaPriorityGuide } from "@/lib/seo/haryanaPriorityGuides";
 import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
@@ -12,6 +13,7 @@ export type HaryanaCitySeo = {
   sectors: string[];
   localContext: string;
   planningNote: string;
+  guide?: HaryanaPriorityGuide;
 };
 
 const operatingProfiles = [
@@ -36,6 +38,7 @@ export const haryanaCities: HaryanaCitySeo[] = haryanaDistricts.flatMap(
     const operatingProfile = operatingProfiles[(districtIndex + cityIndex) % operatingProfiles.length];
 
     return {
+      guide: district.slug === "panchkula" ? priorityGuides[toHaryanaCitySlug(name)] : undefined,
       slug: toHaryanaCitySlug(name),
       name,
       districtSlug: district.slug,
@@ -75,15 +78,16 @@ export function generateHaryanaCityKeywords(city: HaryanaCitySeo) {
 
 export function generateHaryanaCityMetadata(city: HaryanaCitySeo): Metadata {
   const url = `https://naviigps.com/gps-tracker/haryana/${city.districtSlug}/${city.slug}`;
-  const description = `GPS trackers and fleet management software in ${city.name}, ${city.districtName} district, Haryana, for cars, trucks, buses and commercial vehicles.`;
+  const description = city.guide?.description ?? `GPS trackers and fleet management software in ${city.name}, ${city.districtName} district, Haryana, for cars, trucks, buses and commercial vehicles.`;
 
   return {
-    title: `GPS Tracker in ${city.name}, ${city.districtName}`,
+    title: city.guide?.title ?? `GPS Tracker in ${city.name}, ${city.districtName}`,
     description,
     keywords: uniqueKeywords([...new Set([...generateHaryanaCityKeywords(city), ...generateLocalKeywords(city.name, city.sectors)])]),
+    ...(city.guide ? { twitter: { card: "summary_large_image" as const, title: city.guide.title, description, images: ["/og-image.jpg"] } } : {}),
     alternates: { canonical: url },
     openGraph: {
-      title: `GPS Tracker in ${city.name}, Haryana | NAVII GPS`,
+      title: city.guide?.title ?? `GPS Tracker in ${city.name}, Haryana | NAVII GPS`,
       description,
       url,
       type: "website",
