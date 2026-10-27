@@ -61,6 +61,7 @@ const { default: Dashboard } = await import('../app/dashboard/page.tsx');
 const { default: Vehicles } = await import('../app/dashboard/vehicles/page.tsx');
 const { default: Detail } = await import('../app/dashboard/vehicles/[id]/page.tsx');
 const { default: Tracking } = await import('../components/tracking/LiveTrackingMap.tsx');
+const { default: DeviceSetup } = await import('../app/dashboard/device-setup/page.tsx');
 const { useTrackingNow } = await import('../hooks/use-tracking-now.ts');
 const now = Date.parse('2026-10-24T16:52:49.971Z');
 const fresh = new Date(now - 1000).toISOString();
@@ -93,6 +94,26 @@ test('all four screens retain measured zero and suppress disabled-device telemet
     const disabled = render(Component, values({ ...vehicle, device: { ...vehicle.device, isActive: false } }));
     assert.doesNotMatch(disabled, /35\.0 km\/h/);
   }
+});
+test('device setup renders stale GPS separately from recent contact and explains both windows', () => {
+  const originalNow = Date.now;
+  try {
+    Date.now = () => now;
+    const setupDevice = { ...vehicle.device, model: 'Synthetic test', simNumber: null,
+      vehicle: { ...vehicle, lastUpdate: new Date(now - 5 * 60_000).toISOString() } };
+    const stale = render(DeviceSetup, [[setupDevice]]);
+    assert.match(stale, />Connected</);
+    assert.match(stale, />Awaiting GPS</);
+    assert.match(stale, />GPS stale</);
+    assert.doesNotMatch(stale, />Live<|>GPS current</);
+    assert.match(stale, /Connection stays current for 10 minutes; GPS fixes for 2 minutes/);
+    const current = render(DeviceSetup, [[{ ...setupDevice, vehicle: { ...setupDevice.vehicle, lastUpdate: fresh } }]]);
+    assert.match(current, />Live</);
+    assert.match(current, />GPS current</);
+    const disabled = render(DeviceSetup, [[{ ...setupDevice, isActive: false }]]);
+    assert.match(disabled, />Disabled</);
+    assert.doesNotMatch(disabled, />Live</);
+  } finally { Date.now = originalNow; }
 });
 test('last known marker and timestamp remain visible without presenting stale speed as live', () => {
   const html = render(Tracking, screens[3][1]({ ...vehicle, lastUpdate: '2026-10-24T14:16:29Z' }));
