@@ -1,3 +1,4 @@
+import { priorityGuides } from "@/lib/seo/haryanaPriorityGuides";
 import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
@@ -81,15 +82,17 @@ export function generateHaryanaDistrictMetadata(
   district: HaryanaDistrictSeo,
 ): Metadata {
   const url = `https://naviigps.com/gps-tracker/haryana/${district.slug}`;
-  const description = `GPS trackers and fleet management software in ${district.name} district, Haryana, including ${district.cities.slice(0, 3).join(", ")} and nearby operating routes.`;
+  const guide = district.slug === "panchkula" ? priorityGuides.panchkula : undefined;
+  const description = guide?.description ?? `GPS trackers and fleet management software in ${district.name} district, Haryana, including ${district.cities.slice(0, 3).join(", ")} and nearby operating routes.`;
 
   return {
-    title: `GPS Tracker in ${district.name} District, Haryana`,
+    title: guide?.title ?? `GPS Tracker in ${district.name} District, Haryana`,
     description,
     keywords: uniqueKeywords([...new Set([...generateHaryanaDistrictKeywords(district), ...generateLocalKeywords(district.name, district.sectors)])]),
+    ...(guide ? { twitter: { card: "summary_large_image" as const, title: guide.title, description, images: ["/og-image.jpg"] } } : {}),
     alternates: { canonical: url },
     openGraph: {
-      title: `GPS Tracker in ${district.name} District | NAVII GPS`,
+      title: guide?.title ?? `GPS Tracker in ${district.name} District | NAVII GPS`,
       description,
       url,
       type: "website",
