@@ -106,7 +106,7 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 | Dera Bassi | 2026-10-25 batch: installation enquiry, dispatch review and Tricity pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
 | Mohali | 2026-10-25 batch: staff pickup, service visits and route pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
 | Punjab | Existing 104 city/town records plus district hubs | Zirakpur/Kharar live verified via PR #71; Kurali live verified via PR #74; continue substantive gaps |
-| Himachal Pradesh | State hub plus dedicated Baddi and Solan guides (PR #76 live verified); Nalagarh/Parwanoo covered as substantive hub sections | Shimla city guide prepared in 2026-10-27 batch; next Kangra/Dharamshala assessment; district/locality coverage remains partial |
+| Himachal Pradesh | State hub plus dedicated Baddi and Solan guides (PR #76 live verified); Nalagarh/Parwanoo covered as substantive hub sections | Shimla city guide prepared in 2026-10-27 batch; Kangra district/Dharamshala guide prepared; next Punjab/Haryana gap review; district/locality coverage remains partial |
 | Haryana | Existing district/city routes | Inventory gaps after priority Punjab/Himachal batches |
 | Delhi | Existing district and area routes | Inventory remaining useful locality gaps; retain current canonicals |
 
@@ -167,3 +167,13 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - Prior PR #78 main CI 40264701576 and IndexNow 40265101785 succeeded. Himachal live verification on 2026-10-26: HTTP 200, one H1, self canonical, six matching visible/schema FAQs and both local section anchors. IndexNow success is not Google indexing evidence.
 - Branch seo/shimla-city-guide-20261027. Require existing source SEO, lint, regression, production build, rendered SEO and browser CI before merge; verify live page, hub and sitemap after deployment. Read PR/deployment state before treating this entry as published.
 - Next: assess Kangra/Dharamshala content separation and existing routes, then return to Punjab/Haryana/Delhi locality gaps. Retain Nalagarh/Parwanoo as state-hub sections until separate pages have distinct value.
+
+### 2026-10-27 Kangra district and Dharamshala transfers
+
+- Added /gps-tracker/himachal-pradesh/kangra as a district guide; Dharamshala transfer content is anchored at #dharamshala on this canonical. No separate Dharamshala/airport URL or spelling alias. Registry and live sitemap inventory found neither location already published as a dedicated route.
+- Distinct district planning: town versus district destinations, vehicle reassignment by leg, service-round reconciliation and representative pilot. Dharamshala/Gaggal section separates flight status, vehicle waiting, passenger readiness and reassignment. Four shared visible/schema FAQs.
+- AdministrativeArea Service schema, WebPage, Breadcrumb, FAQ, self canonical/social metadata, state hub navigation and sitemap entry. No new office, installation guarantee, schedule, distance, price or feature claim.
+- Official geography sources checked 2026-10-27: https://hpkangra.nic.in/about-district/ and https://hpkangra.nic.in/how-to-reach/ . Travel page is used only for stable destination geography, not its dated transport timetables.
+- Prior Shimla PR #81 is published and live verified; main CI 40443715878 and IndexNow 40444166464 succeeded. Google indexing/ranking remains unverified.
+- Branch seo/kangra-dharamshala-20261027. Require full existing source SEO, lint, regression, build, rendered and browser CI, followed by live canonical/H1/FAQ/links/sitemap checks. Consult PR/deployment state before marking this batch published.
+- Next: return to priority Punjab/Haryana coverage gaps, starting with existing Panchkula/Kalka/Pinjore guides; preserve URLs and improve distinct local needs. Then review Mandi/Kullu. District guide does not mean every Kangra town/locality is fully covered.
