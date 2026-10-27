@@ -106,7 +106,7 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 | Dera Bassi | 2026-10-25 batch: installation enquiry, dispatch review and Tricity pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
 | Mohali | 2026-10-25 batch: staff pickup, service visits and route pilot guidance; two additional shared visible/schema FAQs | Live verified 2026-10-25 via PR #70; monitor substantive gaps |
 | Punjab | Existing 104 city/town records plus district hubs | Zirakpur/Kharar live verified via PR #71; Kurali live verified via PR #74; continue substantive gaps |
-| Himachal Pradesh | State hub plus dedicated Baddi and Solan guides (PR #76 live verified); Nalagarh/Parwanoo covered as substantive hub sections | Next: Shimla needs assessment; district/locality coverage remains partial |
+| Himachal Pradesh | State hub plus dedicated Baddi and Solan guides (PR #76 live verified); Nalagarh/Parwanoo covered as substantive hub sections | Shimla city guide prepared in 2026-10-27 batch; next Kangra/Dharamshala assessment; district/locality coverage remains partial |
 | Haryana | Existing district/city routes | Inventory gaps after priority Punjab/Himachal batches |
 | Delhi | Existing district and area routes | Inventory remaining useful locality gaps; retain current canonicals |
 
@@ -157,3 +157,13 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - Prior PR #76: main SEO/build run 40195946158 and IndexNow run 40196306623 succeeded. Baddi/Solan live checks were HTTP 200, self canonical, one H1, three matching FAQs and sitemap/hub links. Submission is not Google indexing evidence.
 - Branch seo/nalagarh-parwanoo-hub-20261026. Require source SEO, lint, regression, build, browser and rendered checks plus post-deployment verification. Consult PR status before marking this batch published.
 - Next: assess a distinct Shimla guide, then Kangra/Dharamshala; keep Punjab, Haryana and Delhi gap review in backlog. Do not count hub notes as complete district or locality coverage.
+
+### 2026-10-27 Shimla city guide
+
+- New route /gps-tracker/himachal-pradesh/shimla after repository registry and live sitemap inventory found no existing Shimla URL. Scope is city pickups and service visits, not district-wide installation coverage.
+- Authored guidance distinguishes vehicle parking/meeting points from final destinations, road-access checks from map routes, passenger boarding from geofence events, and service completion from parked time. Four FAQs share the visible and JSON-LD source.
+- Self canonical, title/description and social metadata, WebPage/City Service/Breadcrumb/FAQ schema; Himachal hub inbound link and Solan/Chandigarh/product/software navigation; sitemap entry without invented lastmod.
+- Official sources checked 2026-10-27: https://hpshimla.nic.in/history/ and https://hpshimla.nic.in/service/permit/ . No permit eligibility, fees, specific allowed roads, installation guarantees or device performance promised.
+- Prior PR #78 main CI 40264701576 and IndexNow 40265101785 succeeded. Himachal live verification on 2026-10-26: HTTP 200, one H1, self canonical, six matching visible/schema FAQs and both local section anchors. IndexNow success is not Google indexing evidence.
+- Branch seo/shimla-city-guide-20261027. Require existing source SEO, lint, regression, production build, rendered SEO and browser CI before merge; verify live page, hub and sitemap after deployment. Read PR/deployment state before treating this entry as published.
+- Next: assess Kangra/Dharamshala content separation and existing routes, then return to Punjab/Haryana/Delhi locality gaps. Retain Nalagarh/Parwanoo as state-hub sections until separate pages have distinct value.
