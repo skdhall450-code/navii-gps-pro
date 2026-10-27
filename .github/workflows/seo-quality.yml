@@ -56,6 +56,9 @@ jobs:
       - name: Check live refresh cancellation, timeout and history updates
         run: node test/browser/live-refresh.mjs
 
+      - name: Check vehicle detail refresh with isolated slow and revoked-access responses
+        run: node test/browser/vehicle-detail-refresh.mjs
+
       - name: Upload GPS browser checks
         if: always()
         uses: actions/upload-artifact@v4

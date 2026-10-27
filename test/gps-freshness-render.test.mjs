@@ -70,7 +70,7 @@ const vehicle = { id: 'v-2', vehicleNo: 'SYNTHETIC', name: 'Test', latitude: 30,
 const screens = [
   [Dashboard, v => [[v], false, null, null]],
   [Vehicles, v => [[v], [], [], { role: 'CUSTOMER' }, false]],
-  [Detail, v => [v, [], false, false, null, null]],
+  [Detail, v => [v, [], null, null, null]],
   [Tracking, v => [[v], 'v-2', { vehicleId: 'v-2', points: [] }, null, null, null, true]],
 ];
 function render(Component, values) {
@@ -104,7 +104,7 @@ test('last known marker and timestamp remain visible without presenting stale sp
 });
 test('history retains original historical speed when current telemetry is stale', () => {
   const point = { id: 'p', latitude: 30, longitude: 76, speed: 35, ignition: true, battery: 12.3, recordedAt: fresh };
-  const html = render(Detail, [{ ...vehicle, lastUpdate: '2026-10-24T14:16:29Z' }, [point], false, false, null, null]);
+  const html = render(Detail, [{ ...vehicle, lastUpdate: '2026-10-24T14:16:29Z' }, [point], null, null, null]);
   assert.match(html, /Unavailable/);
   assert.match(html, /35/);
   assert.match(html, /History/);
