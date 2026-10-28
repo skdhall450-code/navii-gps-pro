@@ -187,3 +187,15 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - Prior Kangra PR #82 live verified; main CI 40497835963 and IndexNow 40498459069 successful. Publication/submission does not establish Google indexing.
 - Branch seo/panchkula-kalka-pinjore-20261027. Require existing source SEO, lint, regression, production build, rendered SEO and browser checks before merge; live check all three URLs and five FAQ/schema pairs after deployment. Read PR/deployment status before marking published.
 - Next: Mandi/Kullu distinct-content assessment, then priority Punjab/Haryana/Delhi gaps. Existing authored Tricity guides remain covered; do not repeat their batches.
+
+
+### 2026-10-28 Mandi / Kullu hub planning sections
+
+- [x] Inspected main 48f5c28, open PRs, existing Himachal routes and prior progress. No unfinished city-SEO batch; unrelated panel PRs remain untouched.
+- [x] Keep /gps-tracker/himachal-pradesh canonical and sitemap entry. Mandi and Kullu are authored hub sections at #mandi and #kullu, not separate city URLs or full district coverage. Existing #mandi-kullu and district anchors remain intact.
+- [x] Mandi: local versus onward consignments, vehicle-to-vehicle consolidation, partial deliveries and return reconciliation. Kullu/Manali: precise destination, property access, passenger waits and dated multi-day vehicle assignments. Four operational steps per section, related guide links and two shared visible/schema FAQs.
+- [x] Metadata description updated; title, canonical, one H1, State Service schema, social metadata and sitemap policy preserved. Section navigation uses the existing localPlans renderer.
+- [x] Geography sources verified 2026-10-28: https://hpmandi.nic.in/about-district/ and https://hpkullu.nic.in/about-district/ . No distance, road-opening status, local branch, installation coverage or device capability guaranteed.
+- [x] Previous Panchkula/Kalka/Pinjore PR #83 published; main CI 40538724236 passed and IndexNow 40540734277 accepted 2035 URLs. Live audit found no blockers in 14 priority pages and 256 link destinations. Submission is not Google indexing evidence.
+- [ ] Branch seo/mandi-kullu-hub-20261028: require source SEO, lint, regression, build, browser and rendered audits before merge; verify production description, both anchors, eight visible/schema FAQs and sitemap after deployment. Read PR/deployment status before treating this entry as published.
+- [ ] Next: improve existing Patiala and Rajpura guides after checking exact canonical coverage; then return to Haryana/Delhi gaps. Keep detailed locality expansion separate from district-complete claims.
