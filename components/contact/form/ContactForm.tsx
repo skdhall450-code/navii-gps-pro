@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { AlertCircle, CheckCircle2, MessageCircle } from "lucide-react";
 
-const whatsappNumber = "918899729705";
+const whatsappNumber = "917717394007";
 
 type FormStatus = {
   kind: "success" | "error";

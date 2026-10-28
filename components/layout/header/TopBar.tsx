@@ -10,11 +10,11 @@ export default function TopBar() {
         {/* Left */}
         <div className="flex items-center gap-6 text-sm">
           <a
-            href="tel:+917717394007"
+            href="tel:+918899729705"
             className="flex items-center gap-2 hover:text-cyan-300"
           >
             <Phone size={14} />
-            Sales: +91 77173 94007
+            Sales: +91 88997 29705
           </a>
 
           <a

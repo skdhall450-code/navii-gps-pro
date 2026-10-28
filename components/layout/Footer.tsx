@@ -44,7 +44,7 @@ export default function Footer() {
             </p>
 
             <a
-              href="https://wa.me/918899729705"
+              href="https://wa.me/917717394007"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Contact NAVII GPS on WhatsApp"

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function FloatingWhatsApp() {
-  const phone = "918899729705";
+  const phone = "917717394007";
 
   return (
     <motion.a
