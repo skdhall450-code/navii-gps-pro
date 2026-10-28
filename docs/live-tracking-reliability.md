@@ -12,12 +12,21 @@ cannot show another vehicle's route. History failures remain visible independent
 of successful fleet requests. GPS freshness still uses the device GPS timestamp,
 not the request time or heartbeat; an old speed is not a live speed.
 
+Vehicle Details uses the same bounded polling: scoped vehicle data every five
+seconds and its latest 20 history points every 15 seconds. Slow history does not
+block current readings or erase its error on a successful vehicle refresh. Each
+vehicle URL owns a separate component lifetime; navigation cancels its requests
+and clears the old view. A forbidden or missing vehicle clears cached details and
+stops history polling. A transient API failure retains last-known data, whose GPS
+freshness continues to expire using its original event timestamp.
+
 ## Verification
 
 - `node --experimental-strip-types --test test/*.test.mjs test/*.test.cjs`
 - `npm run lint` and `npm run build`
 - `node test/browser/gps-freshness.mjs`
 - `node test/browser/live-refresh.mjs`
+- `node test/browser/vehicle-detail-refresh.mjs`
 
 Browser tests intercept all external requests with synthetic fixtures. They cover
 route reselection races, periodic history, independent errors, slow/late requests,

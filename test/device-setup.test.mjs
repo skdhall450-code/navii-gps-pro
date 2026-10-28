@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { DEFAULT_DEVICE_PORT, DEFAULT_DEVICE_SERVER, getDeviceSetupPreset, parseDeviceRows, deviceProgress, prepareCommand, registerDeviceBatch } from '../lib/device-setup.ts';
 import { DEVICE_MODEL_CATALOG, SAFE_SMS_PROFILES, catalogModelNames, findCatalogEntry, findSmsCommand, supportsSmsProfile } from '../lib/device-command-profiles.ts';
+import { getTrackingDetails, FRESHNESS_MS, COMMUNICATION_FRESHNESS_MS } from '../lib/tracking-state.ts';
 const now = Date.parse('2026-09-14T00:00:00Z');
 const device = { id: 'd', model: 'PT06', imei: '012345678901234', simNumber: '+919876543210', isActive: true, lastSeenAt: null, vehicle: { id: 'v', vehicleNo: 'GPS-012345678901234', latitude: null, longitude: null, lastUpdate: null } };
 // Synthetic fixture, deliberately not a manufacturer's actual provisioning command.
@@ -20,6 +21,33 @@ test('registration, connection and GPS are distinct stages', () => {
   assert.equal(deviceProgress(live, now + 600001).stage, 'Offline');
   assert.equal(deviceProgress({ ...live, isActive: false }, now).stage, 'Disabled');
   assert.equal(deviceProgress({ ...live, vehicle: { ...live.vehicle, latitude: 95 } }, now).stage, 'Awaiting GPS');
+});
+test('setup expires a GPS fix at the same boundary as the live map despite a fresh heartbeat', () => {
+  for (const age of [0, FRESHNESS_MS, FRESHNESS_MS + 1, 5 * 60_000, COMMUNICATION_FRESHNESS_MS]) {
+    const reading = { ...device, lastSeenAt: new Date(now).toISOString(), vehicle: {
+      ...device.vehicle, latitude: 30, longitude: 76, lastUpdate: new Date(now - age).toISOString(),
+    } };
+    const original = structuredClone(reading);
+    const setup = deviceProgress(reading, now);
+    const map = getTrackingDetails({ ...reading.vehicle, device: reading }, now);
+    const current = age <= FRESHNESS_MS;
+    assert.equal(setup.connected, true);
+    assert.equal(setup.gpsFresh, current, `GPS age ${age} ms`);
+    assert.equal(setup.stage, current ? 'Live' : 'Awaiting GPS');
+    assert.equal(setup.gps, current ? 'GPS current' : 'GPS stale');
+    assert.equal(setup.gpsFresh, map.gpsFresh);
+    assert.deepEqual(reading, original, 'Display policy must not rewrite GPS or contact timestamps');
+  }
+});
+test('setup GPS expires while cached data is unchanged and contact keeps its separate ten-minute window', () => {
+  const reading = { ...device, lastSeenAt: new Date(now).toISOString(), vehicle: {
+    ...device.vehicle, latitude: 30, longitude: 76, lastUpdate: new Date(now).toISOString(),
+  } };
+  assert.equal(deviceProgress(reading, now + FRESHNESS_MS).stage, 'Live');
+  assert.equal(deviceProgress(reading, now + FRESHNESS_MS + 1).stage, 'Awaiting GPS');
+  assert.equal(deviceProgress(reading, now + COMMUNICATION_FRESHNESS_MS).connected, true);
+  assert.equal(deviceProgress(reading, now + COMMUNICATION_FRESHNESS_MS + 1).stage, 'Offline');
+  assert.equal(deviceProgress({ ...reading, isActive: false }, now).stage, 'Disabled');
 });
 test('commands have exactly one validated recipient and encode the body safely', () => {
   const before = structuredClone(device);
