@@ -64,8 +64,8 @@ export const contactInfo = {
   company: "NAVII GPS INDIA (OPC) PVT LTD",
   address:
     "SCO 46, Barwala Road, Dera Bassi, Punjab – 140507, India",
-  phone: "+91 77173 94007",
-  whatsapp: "+91 88997 29705",
+  phone: "+91 88997 29705",
+  whatsapp: "+91 77173 94007",
   email: "helpline@naviigps.com",
   website: "www.naviigps.com",
 };

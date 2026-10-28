@@ -348,7 +348,7 @@ export default function IndustriesPage() {
               <h2 className="text-4xl font-extrabold">Need a Solution for Your Industry?</h2>
               <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-cyan-50">Tell our team about your vehicles and operational requirements. We will help you select the appropriate NAVII GPS solution.</p>
               <div className="mt-9 flex flex-wrap justify-center gap-4">
-                <a href="https://wa.me/918899729705" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-7 py-4 font-semibold text-white transition hover:bg-emerald-400"><MessageCircle size={20} />WhatsApp Enquiry</a>
+                <a href="https://wa.me/917717394007" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-7 py-4 font-semibold text-white transition hover:bg-emerald-400"><MessageCircle size={20} />WhatsApp Enquiry</a>
                 <Link href="/contact" className="inline-flex items-center gap-2 rounded-xl bg-white px-7 py-4 font-semibold text-blue-700 transition hover:bg-slate-100">Contact NAVII GPS <ArrowRight size={19} /></Link>
               </div>
             </div>

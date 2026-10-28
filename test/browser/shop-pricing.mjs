@@ -38,7 +38,7 @@ try {
   assert.ok((await page.locator('#g17').innerText()).includes('₹2,500.00'));
   assert.ok(!(await page.locator('main').innerText()).includes('500 km'));
   for(const link of await page.locator('#device-offers a[href^="https://wa.me/"]').all()){
-    const url=new URL(await link.getAttribute('href'));assert.equal(url.pathname,'/918899729705');
+    const url=new URL(await link.getAttribute('href'));assert.equal(url.pathname,'/917717394007');
     assert.ok(url.searchParams.get('text').includes('Shipping & handling: INR 250.00 + GST INR 45.00'));
   }
   await page.getByRole('link',{name:'View BT-50 GPS specifications'}).click();await page.waitForURL('**/products/bt50-vehicle-gps-tracker');await page.goBack({waitUntil:'domcontentloaded'});

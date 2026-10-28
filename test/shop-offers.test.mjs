@@ -36,7 +36,7 @@ test('each WhatsApp enquiry uses its exact model, variant and correct GST total'
   for (const offer of shopOffers) for (const variant of offer.variants) {
     const url=new URL(getShopEnquiryUrl(offer,variant));
     assert.equal(url.origin,'https://wa.me');
-    assert.equal(url.pathname,'/918899729705');
+    assert.equal(url.pathname,'/917717394007');
     const text=url.searchParams.get('text');
     assert.ok(text.includes(offer.name)); assert.ok(text.includes(variant.label));
     assert.ok(text.includes(`INR ${(getCompleteShopPrice(variant.baseInr,offer.chargePolicy).totalPaise/100).toFixed(2)}`));

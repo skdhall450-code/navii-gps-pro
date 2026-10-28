@@ -15,7 +15,7 @@ export interface Product {
   whatsapp: string;
 }
 
-const salesWhatsApp = "918899729705";
+const salesWhatsApp = "917717394007";
 
 export const products: Product[] = [
   {

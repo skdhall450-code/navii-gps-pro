@@ -126,7 +126,7 @@ export default function ProductFeatures({
             </a>
 
             <a
-              href="tel:+917717394007"
+              href="tel:+918899729705"
               className="rounded-xl border border-white/30 px-7 py-4 font-semibold text-white transition hover:bg-white/10"
             >
               Call Sales Team

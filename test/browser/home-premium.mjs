@@ -79,8 +79,8 @@ try {
   assert.equal(await hero.getByRole('link', { name: 'Book a free NAVII GPS product and software demo' }).getAttribute('href'), '/contact');
   const cta = page.locator('section').filter({ has: page.getByRole('heading', { name: headings.cta }) });
   assert.equal(await cta.getByRole('link', { name: /Get Free Demo/ }).getAttribute('href'), '/contact');
-  assert.equal(await cta.getByRole('link', { name: /Call Now/ }).getAttribute('href'), 'tel:+917717394007');
-  assert.equal(await cta.getByRole('link', { name: /WhatsApp/ }).getAttribute('href'), 'https://wa.me/918899729705');
+  assert.equal(await cta.getByRole('link', { name: /Call Now/ }).getAttribute('href'), 'tel:+918899729705');
+  assert.equal(await cta.getByRole('link', { name: /WhatsApp/ }).getAttribute('href'), 'https://wa.me/917717394007');
   await verifyFAQ(page);
   await hero.getByRole('link', { name: 'Explore Products', exact: true }).click();
   await page.waitForURL(base + '/products');

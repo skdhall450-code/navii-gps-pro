@@ -50,7 +50,7 @@ try {
   assert.ok(await page.locator('details').evaluate(element => element.open));
   await page.locator('summary').press('Enter');
   assert.equal(await page.locator('details').evaluate(element => element.open), false);
-  assert.match(await page.getByRole('link', { name: /Enquire about/ }).getAttribute('href'), /^https:\/\/wa.me\/918899729705\?text=/);
+  assert.match(await page.getByRole('link', { name: /Enquire about/ }).getAttribute('href'), /^https:\/\/wa.me\/917717394007\?text=/);
   await page.getByRole('link', { name: 'View Details', exact: true }).click();
   await page.waitForURL('**/products/g17-gps-tracker');
   await page.goBack({ waitUntil: 'networkidle' });

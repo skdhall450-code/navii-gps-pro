@@ -17,14 +17,14 @@ export default function CTAButtons() {
       {/* Call */}
 
       <a
-        href="tel:+917717394007"
+        href="tel:+918899729705"
         className="rounded-2xl border border-cyan-400/30 bg-white/5 px-6 py-4 text-base font-semibold text-white  transition hover:border-cyan-300 hover:bg-cyan-400/10"
       >
         📞 Call Now
       </a>
 
       {/* WhatsApp */}      <a
-        href="https://wa.me/918899729705"
+        href="https://wa.me/917717394007"
         target="_blank"
         rel="noopener noreferrer"
         className="rounded-2xl border border-green-400/30 bg-green-500/10 px-6 py-4 text-base font-semibold text-green-300  transition hover:bg-green-500/20 hover:border-green-300"

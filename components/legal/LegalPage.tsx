@@ -143,7 +143,7 @@ export default function LegalPage({
 
               <div className="mt-6 space-y-5 text-sm">
                 <a
-                  href="tel:+917717394007"
+                  href="tel:+918899729705"
                   className="flex gap-3 text-slate-700 transition hover:text-cyan-700"
                 >
                   <Phone
@@ -153,12 +153,12 @@ export default function LegalPage({
                   <span>
                     Sales
                     <br />
-                    +91 77173 94007
+                    +91 88997 29705
                   </span>
                 </a>
 
                 <a
-                  href="https://wa.me/918899729705"
+                  href="https://wa.me/917717394007"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex gap-3 text-slate-700 transition hover:text-emerald-700"
@@ -170,7 +170,7 @@ export default function LegalPage({
                   <span>
                     WhatsApp
                     <br />
-                    +91 88997 29705
+                    +91 77173 94007
                   </span>
                 </a>
 
