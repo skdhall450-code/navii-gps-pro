@@ -85,6 +85,10 @@ try {
   await page.clock.runFor(5000);
   assert.equal(await page.getByText(/History Error: Request timed out/).count(), 1, 'Fleet success does not erase history error');
   holdHistory = false;
+  // Advancing the fake clock can start another scheduled history request.
+  // Restore the synthetic network for that in-flight request as well; Refresh
+  // deliberately coalesces while a request is active.
+  for (const item of held.splice(0)) await item.release();
   await page.getByRole('button', { name: 'Refresh', exact: true }).click();
   await until(async () => await page.getByText(/History Error:/).count() === 0, 'History recovers');
   for (const item of held.splice(0)) await item.release();
