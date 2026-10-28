@@ -14,17 +14,18 @@ export function parseDeviceRows(text: string): RegistrationRow[] {
     return { model: parts[0], imei: parts[1], simNumber: parts[2], ...(parts.length === 4 ? { terminalId: parts[3] } : {}) };
   });
 }
-function fresh(value: string | null, now: number) {
+function fresh(value: string | null, now: number, maxAge: number) {
   if (!value) return false;
   const age = now - Date.parse(value);
-  return Number.isFinite(age) && age >= -60_000 && age <= 600_000;
+  return Number.isFinite(age) && age >= -60_000 && age <= maxAge;
 }
 export function deviceProgress(device: SetupDevice, now: number) {
-  const connected = device.isActive && fresh(device.lastSeenAt, now);
+  const connected = device.isActive && fresh(device.lastSeenAt, now, 600_000);
   const { latitude, longitude, lastUpdate } = device.vehicle;
   const hasFix = typeof latitude === 'number' && Number.isFinite(latitude) && Math.abs(latitude) <= 90 &&
     typeof longitude === 'number' && Number.isFinite(longitude) && Math.abs(longitude) <= 180;
-  const gpsFresh = hasFix && fresh(lastUpdate, now);
+  // Match live tracking's two-minute GPS window; heartbeat contact is separate.
+  const gpsFresh = hasFix && fresh(lastUpdate, now, 120_000);
   return { connected, gpsFresh,
     connection: !device.isActive ? 'Disabled' : connected ? 'Connected' : !device.lastSeenAt ? 'Not yet connected' : 'Offline',
     gps: !hasFix || !lastUpdate ? 'No GPS fix' : gpsFresh ? 'GPS current' : 'GPS stale',

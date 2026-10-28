@@ -1,5 +1,6 @@
 "use client";
 
+import { useVisiblePoll } from "@/hooks/use-visible-poll";
 import { useTrackingNow } from "@/hooks/use-tracking-now";
 import { getTelemetry, TRACKING_LABELS } from "@/lib/tracking-state";
 
@@ -26,7 +27,6 @@ import {
 
 import {
   useCallback,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -130,230 +130,103 @@ async function readJson<T>(
   }
 }
 
-function VehicleDetailsContent() {
+class VehicleUnavailableError extends Error {}
+
+function VehicleDetailsContent({ vehicleId }: { vehicleId: string }) {
   const now = useTrackingNow();
-  const params = useParams();
   const router = useRouter();
+  const [vehicle, setVehicle] = useState<Vehicle | null>(null);
+  const [history, setHistory] = useState<Position[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
+  const [historyError, setHistoryError] = useState<string | null>(null);
 
-  const vehicleId =
-    typeof params.id === "string"
-      ? params.id
-      : Array.isArray(params.id)
-        ? params.id[0]
-        : "";
+  const handleUnauthorized = useCallback(() => {
+    localStorage.removeItem("navii_access_token");
+    localStorage.removeItem("navii_user");
+    router.replace("/login");
+  }, [router]);
 
-  const [vehicle, setVehicle] =
-    useState<Vehicle | null>(null);
+  const requestVehicle = useCallback(async (signal: AbortSignal) => {
+    if (!getAccessToken()) {
+      handleUnauthorized();
+      throw new VehicleUnavailableError("Please sign in to view this vehicle.");
+    }
+    // Keep the existing role/ownership-scoped endpoint.
+    const response = await fetch(`${API_BASE}/api/gps/vehicles`, {
+      method: "GET", headers: getAuthHeaders(), cache: "no-store", signal,
+    });
+    signal.throwIfAborted();
+    if (response.status === 401) {
+      handleUnauthorized();
+      throw new VehicleUnavailableError("Please sign in to view this vehicle.");
+    }
+    if (response.status === 403) {
+      throw new VehicleUnavailableError("You do not have permission to access vehicle data.");
+    }
+    const result = await readJson<VehiclesResponse>(response);
+    if (!response.ok || !result.success || !Array.isArray(result.data)) {
+      throw new Error(result.message || `Vehicles API returned an invalid response (${response.status})`);
+    }
+    const found = result.data.find(item => item.id === vehicleId);
+    if (!found) {
+      throw new VehicleUnavailableError("Vehicle not found or you do not have permission to access it.");
+    }
+    return found;
+  }, [vehicleId, handleUnauthorized]);
+  const receiveVehicle = useCallback((found: Vehicle) => {
+    setVehicle(found);
+    setLastRefresh(new Date());
+    setError(null);
+  }, []);
+  const failVehicle = useCallback((failure: Error) => {
+    if (failure instanceof VehicleUnavailableError) {
+      setVehicle(null);
+      setHistory([]);
+      setLastRefresh(null);
+      setHistoryError(null);
+    }
+    setError(failure.message);
+  }, []);
+  const { refresh: refreshVehicle, pending: refreshing, initialLoading: loading } = useVisiblePoll({
+    enabled: Boolean(vehicleId), request: requestVehicle,
+    onSuccess: receiveVehicle, onError: failVehicle, intervalMs: 5000,
+  });
 
-  const [history, setHistory] =
-    useState<Position[]>([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [refreshing, setRefreshing] =
-    useState(false);
-
-  const [error, setError] =
-    useState<string | null>(null);
-
-  const [lastRefresh, setLastRefresh] =
-    useState<Date | null>(null);
-
-  const handleUnauthorized =
-    useCallback(() => {
-      localStorage.removeItem(
-        "navii_access_token",
-      );
-
-      localStorage.removeItem(
-        "navii_user",
-      );
-
-      router.replace("/login");
-    }, [router]);
-
-  const loadVehicle =
-    useCallback(async () => {
-      if (!vehicleId) {
-        setError(
-          "Invalid vehicle ID.",
-        );
-        setLoading(false);
-        return;
-      }
-
-      const token =
-        getAccessToken();
-
-      if (!token) {
-        handleUnauthorized();
-        return;
-      }
-
-      try {
-        setRefreshing(true);
-        setError(null);
-
-        const vehicleResponse =
-          await fetch(
-            `${API_BASE}/api/gps/vehicles`,
-            {
-              method: "GET",
-              headers:
-                getAuthHeaders(),
-              cache: "no-store",
-            },
-          );
-
-        if (
-          vehicleResponse.status ===
-          401
-        ) {
-          handleUnauthorized();
-          return;
-        }
-
-        if (
-          vehicleResponse.status ===
-          403
-        ) {
-          setVehicle(null);
-          setHistory([]);
-
-          throw new Error(
-            "You do not have permission to access vehicle data.",
-          );
-        }
-
-        const vehicleResult =
-          await readJson<VehiclesResponse>(
-            vehicleResponse,
-          );
-
-        if (!vehicleResponse.ok) {
-          throw new Error(
-            vehicleResult.message ||
-              `Vehicles API returned ${vehicleResponse.status}`,
-          );
-        }
-
-        const vehicleList =
-          Array.isArray(
-            vehicleResult.data,
-          )
-            ? vehicleResult.data
-            : [];
-
-        const foundVehicle =
-          vehicleList.find(
-            (item) =>
-              item.id === vehicleId,
-          ) ?? null;
-
-        /*
-         * Important security behaviour:
-         *
-         * /api/gps/vehicles is already
-         * backend role/ownership scoped.
-         *
-         * If this ID is not present in the
-         * scoped response, this account
-         * must not display the vehicle.
-         */
-        if (!foundVehicle) {
-          setVehicle(null);
-          setHistory([]);
-
-          throw new Error(
-            "Vehicle not found or you do not have permission to access it.",
-          );
-        }
-
-        setVehicle(foundVehicle);
-
-        const historyResponse =
-          await fetch(
-            `${API_BASE}/api/gps/history/${vehicleId}?limit=20`,
-            {
-              method: "GET",
-              headers:
-                getAuthHeaders(),
-              cache: "no-store",
-            },
-          );
-
-        if (
-          historyResponse.status ===
-          401
-        ) {
-          handleUnauthorized();
-          return;
-        }
-
-        if (
-          historyResponse.status ===
-          403
-        ) {
-          setHistory([]);
-
-          throw new Error(
-            "You do not have permission to view history for this vehicle.",
-          );
-        }
-
-        const historyResult =
-          await readJson<HistoryResponse>(
-            historyResponse,
-          );
-
-        if (!historyResponse.ok) {
-          throw new Error(
-            historyResult.message ||
-              `History API returned ${historyResponse.status}`,
-          );
-        }
-
-        setHistory(
-          Array.isArray(
-            historyResult.data,
-          )
-            ? historyResult.data
-            : [],
-        );
-
-        setLastRefresh(
-          new Date(),
-        );
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Unable to load vehicle",
-        );
-      } finally {
-        setLoading(false);
-        setRefreshing(false);
-      }
-    }, [
-      vehicleId,
-      handleUnauthorized,
-    ]);
-
-  useEffect(() => {
-    void loadVehicle();
-
-    const timer =
-      window.setInterval(() => {
-        void loadVehicle();
-      }, 5000);
-
-    return () => {
-      window.clearInterval(
-        timer,
-      );
-    };
-  }, [loadVehicle]);
+  const requestHistory = useCallback(async (signal: AbortSignal) => {
+    if (!getAccessToken()) {
+      handleUnauthorized();
+      throw new Error("Please sign in to view history.");
+    }
+    const response = await fetch(`${API_BASE}/api/gps/history/${encodeURIComponent(vehicleId)}?limit=20`, {
+      method: "GET", headers: getAuthHeaders(), cache: "no-store", signal,
+    });
+    signal.throwIfAborted();
+    if (response.status === 401) {
+      handleUnauthorized();
+      throw new Error("Please sign in to view history.");
+    }
+    if (response.status === 403) {
+      throw new Error("You do not have permission to view history for this vehicle.");
+    }
+    const result = await readJson<HistoryResponse>(response);
+    if (!response.ok || !result.success || !Array.isArray(result.data)) {
+      throw new Error(result.message || `History API returned an invalid response (${response.status})`);
+    }
+    return result.data;
+  }, [vehicleId, handleUnauthorized]);
+  const receiveHistory = useCallback((points: Position[]) => {
+    setHistory(points);
+    setHistoryError(null);
+  }, []);
+  const failHistory = useCallback((failure: Error) => {
+    setHistory([]);
+    setHistoryError(failure.message);
+  }, []);
+  const { refresh: refreshHistory } = useVisiblePoll({
+    enabled: Boolean(vehicle), request: requestHistory,
+    onSuccess: receiveHistory, onError: failHistory, intervalMs: 15000,
+  });
 
   const latestHistory =
     history[0] ?? null;
@@ -460,9 +333,10 @@ function VehicleDetailsContent() {
             <button
               type="button"
               disabled={refreshing}
-              onClick={() =>
-                void loadVehicle()
-              }
+              onClick={() => {
+                refreshVehicle();
+                refreshHistory();
+              }}
               className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm transition hover:bg-white/[0.08] disabled:opacity-50"
             >
               <RefreshCw
@@ -499,6 +373,12 @@ function VehicleDetailsContent() {
         {error && (
           <div className="mb-5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
             {error}
+          </div>
+        )}
+
+        {historyError && (
+          <div className="mb-5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-300">
+            History Error: {historyError}
           </div>
         )}
 
@@ -895,6 +775,8 @@ function VehicleDetailsContent() {
 }
 
 export default function VehicleDetailsPage() {
+  const params = useParams();
+  const vehicleId = typeof params.id === "string" ? params.id : params.id?.[0] ?? "";
   return (
     <RoleRouteGuard
       allowedRoles={[
@@ -905,7 +787,7 @@ export default function VehicleDetailsPage() {
         "USER",
       ]}
     >
-      <VehicleDetailsContent />
+      <VehicleDetailsContent key={vehicleId} vehicleId={vehicleId} />
     </RoleRouteGuard>
   );
 }
