@@ -7,7 +7,7 @@ import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 
 const url = "https://naviigps.com/gps-tracker/himachal-pradesh";
 const title = "GPS Tracker in Himachal Pradesh | Hill & Industrial Fleets";
-const description = "Plan vehicle GPS tracking across Himachal Pradesh's 12 districts, including Nalagarh collection rounds, Parwanoo deliveries and hill-route fleets. Discuss setup with NAVII GPS.";
+const description = "Plan GPS tracking for Himachal fleets: Mandi distribution rounds, Kullu and Manali transfers, Nalagarh collections and Parwanoo deliveries. Confirm fitting needs.";
 const sectors = ["industrial logistics", "tourism transport", "commercial delivery", "school transport"];
 const social = { title, description, images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS vehicle tracking in Himachal Pradesh" }] };
 export const metadata: Metadata = {
@@ -49,7 +49,37 @@ const localPlans = [
     ],
     related: "/gps-tracker/himachal-pradesh/solan", relatedLabel: "Solan local visits and hill-journey guide",
     source: "https://hpsamb.org/apmc/solan/About", sourceLabel: "Himachal Pradesh State Agricultural Marketing Board"
-  }
+  },
+{
+  "id": "mandi",
+  "name": "Mandi distribution rounds and consignment reconciliation",
+  "intro": "Treat Mandi town and destinations elsewhere in Mandi district as different delivery instructions. A district name alone does not identify the receiving premises, and a vehicle passing through town may have no local delivery scheduled.",
+  "steps": [
+    "Before dispatch, separate local Mandi drops from consignments continuing to another district. Give each delivery an address, receiving contact and consignment reference. Use the receiver-confirmed entrance when planning a supported geofence rather than a broad town boundary.",
+    "If goods are consolidated or transferred between vehicles, record the incoming and outgoing vehicle assignments against the same consignment reference. Review their journeys separately; two nearby GPS positions do not establish that a load was transferred.",
+    "Record partial deliveries, refused consignments and returns in the dispatch sheet. Reconcile those exceptions with available stop records at the end of the round. Vehicle distance and waiting time cannot determine the quantity delivered or returned.",
+    "Trial a round that includes a local drop and an onward consignment. Check whether timestamps and supported exports allow the dispatcher to reconstruct both legs, including a vehicle change or repeat visit. Confirm reporting retention and fitting arrangements before expanding the fleet."
+  ],
+  "related": "/commercial-vehicle-tracking",
+  "relatedLabel": "Commercial vehicle tracking requirements",
+  "source": "https://hpmandi.nic.in/about-district/",
+  "sourceLabel": "Mandi district administration"
+},
+{
+  "id": "kullu",
+  "name": "Kullu and Manali passenger itinerary handovers",
+  "intro": "Kullu and Manali are towns in Kullu district. Keep each booked destination and meeting point explicit: a Kullu district booking is not necessarily a pickup in Kullu town, and reaching Manali does not establish that every itinerary stop was completed.",
+  "steps": [
+    "Create a booking sheet with the actual pickup, accommodation entrance, planned stops and final drop. Confirm vehicle access and meeting arrangements with the receiving property before departure. Use current local information for route decisions; a GPS map is not a road-opening or access-permission service.",
+    "Separate a passenger-requested wait from an unplanned delay in the booking notes. Compare those notes with supported stop records instead of treating every stationary period as driver inactivity. A parked vehicle does not prove passengers have boarded.",
+    "For a multi-day itinerary, record the vehicle assigned to each day and any replacement with its effective time. Review trips against that dated assignment so the current vehicle label does not obscure which vehicle performed an earlier journey. Restrict passenger details to authorised coordination staff.",
+    "Before confirming a return pickup, check both the agreed meeting time and the age of the latest vehicle update. Where updates are delayed, use the agreed safe dispatcher follow-up process. Test the actual recurring route and confirm device/SIM behaviour, reporting gaps and installation availability before purchase."
+  ],
+  "related": "/gps-tracker/himachal-pradesh/kangra",
+  "relatedLabel": "Kangra and Dharamshala transfer planning",
+  "source": "https://hpkullu.nic.in/about-district/",
+  "sourceLabel": "Kullu district administration"
+}
 ];
 
 const districts = [
@@ -67,6 +97,8 @@ const districts = [
   { slug: "una", name: "Una", note: "For regional and Punjab-connected routes, review complete trips across state boundaries and confirm SIM coverage for recurring destinations." },
 ];
 const faqs = [
+{"question": "How should Mandi deliveries be reconciled when goods change vehicles?", "answer": "Keep the consignment reference, both vehicle assignments and the receiving acknowledgement together. Review each vehicle journey for its own leg. GPS proximity alone does not prove transfer, quantity or delivery acceptance."},
+{"question": "Can GPS confirm every stop on a Kullu or Manali passenger itinerary?", "answer": "No. Compare supported trip and stop records with the dated booking sheet and passenger coordination notes. Confirm boarding, requested waits and completed drops separately; vehicle position alone does not establish those milestones."},
   { question: "How should I review repeated collections around Nalagarh?", answer: "Use a separate stop reference for each planned collection and compare supported arrival and departure records with the collection sheet. Record repeat visits and skipped stops explicitly. GPS location alone does not prove goods were collected or identify the return load." },
   { question: "Can a Parwanoo arrival alert confirm a completed delivery?", answer: "No. A supported geofence event indicates a vehicle location event, not customer acceptance. Match the trip record with the receiver acknowledgement and close the delivery task separately before reviewing an onward journey." },
   { question: "How do I choose a GPS tracker for Himachal Pradesh?", answer: "Share the vehicle type, power supply, fleet size and daily routes with NAVII GPS. Review device compatibility, mobile-network coverage, reporting needs and the complete quotation before selecting hardware or booking installation." },
@@ -100,7 +132,7 @@ export default function HimachalPradeshPage() {
       <p className="mt-6 text-sm text-slate-500">Industrial geography reference: <a href="https://hpsolan.nic.in/baddi-barotiwala-nalagarh-development-authority/" className="underline">Solan district’s Baddi–Barotiwala–Nalagarh Development Authority</a>.</p>
     </div></section>
     <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6">
-      <h2 className="text-3xl font-bold text-slate-900">Nalagarh and Parwanoo dispatch checklists</h2>
+      <h2 className="text-3xl font-bold text-slate-900">Local delivery and passenger dispatch checklists</h2>
       <nav aria-label="Local dispatch plans" className="mt-6 flex flex-wrap gap-6 text-blue-700">{localPlans.map(plan => <a key={plan.id} href={`#${plan.id}`} className="underline">{plan.name}</a>)}</nav>
       <div className="mt-9 grid gap-8 lg:grid-cols-2">{localPlans.map(plan => <article id={plan.id} key={plan.id} className="scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 p-7">
         <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3><p className="mt-5 leading-7 text-slate-700">{plan.intro}</p>
