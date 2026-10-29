@@ -1,3 +1,4 @@
+import { patialaGuide } from "@/lib/seo/patialaGuide";
 import { TrackingSolutionLinks } from "@/components/seo/TrackingSolutionLinks";
 import Link from "next/link";
 import { ArrowRight, BellRing, CheckCircle2, MapPin, RadioTower, Route } from "lucide-react";
@@ -24,14 +25,15 @@ const districtFaqs = (district: PunjabDistrictSeo) => [
 
 export function PunjabDistrictGpsPage({ district }: { district: PunjabDistrictSeo }) {
   const url = `https://naviigps.com/gps-tracker/punjab/${district.slug}`;
-  const faqs = districtFaqs(district);
+  const guide = district.slug === "patiala" ? patialaGuide : undefined;
+  const faqs = [...districtFaqs(district), ...(guide?.faqs ?? [])];
   const cityGuides = getPunjabCitiesForDistrict(district.slug).filter(
     (city) => city.slug !== district.slug,
   );
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebPage", "@id": `${url}#webpage`, url, name: `GPS Tracker in ${district.name} District, Punjab | NAVII GPS`, description: `Vehicle GPS tracking and fleet management planning for ${district.name} district in Punjab.`, isPartOf: { "@id": "https://naviigps.com/#website" }, inLanguage: "en-IN" },
+      { "@type": "WebPage", "@id": `${url}#webpage`, url, name: `GPS Tracker in ${district.name} District, Punjab | NAVII GPS`, description: guide?.description ?? `Vehicle GPS tracking and fleet management planning for ${district.name} district in Punjab.`, isPartOf: { "@id": "https://naviigps.com/#website" }, inLanguage: "en-IN" },
       { "@type": "Service", name: `GPS Tracking Solutions in ${district.name} District`, serviceType: "Vehicle GPS Tracking and Fleet Management", provider: { "@id": "https://naviigps.com/#organization" }, areaServed: { "@type": "AdministrativeArea", name: `${district.name} District`, containedInPlace: { "@type": "State", name: "Punjab" } }, url },
       { "@type": "FAQPage", mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) },
       { "@type": "BreadcrumbList", itemListElement: [
@@ -52,6 +54,7 @@ export function PunjabDistrictGpsPage({ district }: { district: PunjabDistrictSe
       { title: "Geofences and Alerts", text: "Monitor supported location boundaries, movement, ignition and fleet events.", icon: BellRing },
     ].map((feature) => { const Icon = feature.icon; return <article key={feature.title} className="rounded-3xl border border-slate-200 p-8 shadow-sm"><div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700"><Icon size={28} /></div><h2 className="mt-5 text-2xl font-bold text-slate-900">{feature.title}</h2><p className="mt-3 leading-7 text-slate-600">{feature.text}</p></article>; })}</div></section>
     <section className="bg-slate-50 py-24"><div className="mx-auto grid max-w-6xl gap-14 px-6 lg:grid-cols-2"><div><p className="text-sm font-semibold tracking-[0.16em] text-blue-700">DISTRICT FLEET PLANNING</p><h2 className="mt-4 text-4xl font-extrabold text-slate-900">Vehicle Tracking Across {district.name}</h2><p className="mt-6 text-lg leading-8 text-slate-600">{district.localContext}</p><p className="mt-4 leading-8 text-slate-600">{district.planningNote}</p><ul className="mt-8 space-y-4">{district.sectors.map((sector) => <li key={sector} className="flex items-start gap-3 capitalize text-slate-700"><CheckCircle2 className="mt-0.5 shrink-0 text-emerald-500" size={20} />{sector}</li>)}</ul></div><div className="rounded-[32px] bg-[#06142E] p-9 text-white shadow-xl"><h2 className="text-3xl font-bold">Cities and Towns in {district.name}</h2><p className="mt-5 leading-8 text-slate-300">Choose a location for its dedicated vehicle tracking guide, installation considerations and connected fleet routes.</p><div className="mt-7 grid gap-3">{cityGuides.map((city) => <Link key={city.slug} href={`/gps-tracker/punjab/${district.slug}/${city.slug}`} className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-cyan-100 hover:border-cyan-300">GPS Tracker in {city.name}</Link>)}</div><Link href="/gps-tracker/punjab" className="mt-8 inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 font-semibold">View All Punjab Districts <ArrowRight size={17} /></Link></div></div></section>
+    {guide && <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">Patiala fleet appointment checklist</h2><div className="mt-8 grid gap-6 lg:grid-cols-3">{guide.cases.map(item => <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-7"><h3 className="text-xl font-bold text-slate-900">{item.title}</h3><p className="mt-4 leading-7 text-slate-600">{item.text}</p></article>)}</div><p className="mt-7 leading-7 text-slate-600">For warehouse dispatches, review the <Link href="/gps-tracker/punjab/patiala/rajpura" className="underline text-blue-700">Rajpura fleet guide</Link>. Confirm fitting arrangements for your exact location before booking.</p><p className="mt-4 text-sm text-slate-500">District geography: <a href="https://patiala.nic.in/tehsil/" className="underline">Patiala district administration</a>.</p></div></section>}
     <section className="bg-white py-20"><div className="mx-auto max-w-5xl px-6"><h2 className="text-center text-4xl font-extrabold text-slate-900">GPS Tracking in {district.name}: FAQs</h2><div className="mt-10 space-y-4">{faqs.map((faq) => <article key={faq.question} className="rounded-2xl border border-slate-200 p-6"><h3 className="text-lg font-bold text-slate-900">{faq.question}</h3><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></article>)}</div></div></section>
   <TrackingSolutionLinks location={district.name} sectors={district.sectors} />
   </main><Footer /></>;
