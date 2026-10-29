@@ -197,5 +197,15 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Metadata description updated; title, canonical, one H1, State Service schema, social metadata and sitemap policy preserved. Section navigation uses the existing localPlans renderer.
 - [x] Geography sources verified 2026-10-28: https://hpmandi.nic.in/about-district/ and https://hpkullu.nic.in/about-district/ . No distance, road-opening status, local branch, installation coverage or device capability guaranteed.
 - [x] Previous Panchkula/Kalka/Pinjore PR #83 published; main CI 40538724236 passed and IndexNow 40540734277 accepted 2035 URLs. Live audit found no blockers in 14 priority pages and 256 link destinations. Submission is not Google indexing evidence.
-- [ ] Branch seo/mandi-kullu-hub-20261028: require source SEO, lint, regression, build, browser and rendered audits before merge; verify production description, both anchors, eight visible/schema FAQs and sitemap after deployment. Read PR/deployment status before treating this entry as published.
+- [x] Published via PR #87; main CI 40622900400 and IndexNow 40623487184 passed. Live canonical, sections and eight FAQs verified. Branch seo/mandi-kullu-hub-20261028: require source SEO, lint, regression, build, browser and rendered audits before merge; verify production description, both anchors, eight visible/schema FAQs and sitemap after deployment. Read PR/deployment status before treating this entry as published.
 - [ ] Next: improve existing Patiala and Rajpura guides after checking exact canonical coverage; then return to Haryana/Delhi gaps. Keep detailed locality expansion separate from district-complete claims.
+
+
+### 2026-10-29 Patiala / Rajpura refresh
+
+- [x] Main 0d6c753 inspected with open PRs, route policy and live sitemap; no unfinished routine city-SEO batch. Unrelated PRs remain untouched.
+- [x] Preserve Patiala district canonical /gps-tracker/punjab/patiala and Rajpura /gps-tracker/punjab/patiala/rajpura. No alternate Patiala city URL or sitemap entry.
+- [x] Patiala: exact appointment sites, urgent job reassignment, unfinished visits and shift reconciliation. Rajpura: gate versus loading readiness, consignment vehicle changes, part deliveries and returns. Three substantive cards and two shared visible/schema FAQs each.
+- [x] Updated descriptions, retained unique existing titles, canonicals, headings and navigation; district-to-Rajpura link and correct district source. Geography verified 2026-10-29: https://patiala.nic.in/tehsil/ . No new local office, installation coverage, prices or guaranteed features claimed.
+- [ ] Branch seo/patiala-rajpura-20261029: full source SEO, lint, regression, build, rendered/browser checks required before merge; live-check both canonical URLs, five FAQ pairs, descriptions and sitemap. PR/deployment record is authoritative until confirmed in a later ledger update.
+- [ ] Next: assess existing Ambala and Ambala Cantt guides with exact route/canonical mapping; then Delhi district/locality gaps. Retain remaining Punjab towns in backlog; this batch does not complete every Patiala locality.
