@@ -12,7 +12,7 @@ export type PunjabCitySeo = {
   sectors: string[];
   localContext: string;
   planningNote: string;
-  guide?: { description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
+  guide?: { source?: string; sourceLabel?: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 };
 
 const operatingProfiles = [
@@ -33,6 +33,35 @@ export function toPunjabCitySlug(name: string) {
 }
 
 const priorityGuides: Record<string, NonNullable<PunjabCitySeo["guide"]>> = {
+"rajpura": {
+  "description": "Plan GPS tracking in Rajpura for dispatch vehicles and warehouse handovers. Review gate waiting, loading records, part deliveries and return assignments.",
+  "cases": [
+    {
+      "title": "Separate gate arrival from loading readiness",
+      "text": "For a Rajpura warehouse or supplier visit, record the agreed vehicle entrance, booking reference and receiving contact before dispatch. Review supported arrival events alongside the gate register. Waiting outside a premises, entering the yard and being ready for loading are different events; a town-wide geofence cannot distinguish them."
+    },
+    {
+      "title": "Track the dispatch reference through a vehicle change",
+      "text": "If a Rajpura dispatch is reassigned to another vehicle, keep the consignment reference with both assignments and the effective handover time. Record the receiving confirmation in the dispatch system. Compare each vehicle journey with its own leg; nearby map positions cannot prove goods were transferred or establish the load quantity."
+    },
+    {
+      "title": "Close part deliveries and returns independently",
+      "text": "When a vehicle serves Rajpura and continues to another destination, record which goods were accepted locally and which remain for onward delivery. Mark rejected or returned items in the delivery record and give the return trip a clear destination. Pilot a representative round and compare available trip exports with acknowledgements before relying on reports for reconciliation."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Does reaching a Rajpura warehouse mean loading has started?",
+      "answer": "No. A supported location event only helps identify the vehicle arrival. Use the gate, loading and dispatch records to distinguish waiting, loading readiness and departure."
+    },
+    {
+      "question": "How should Rajpura part deliveries be checked against GPS records?",
+      "answer": "Keep a delivery reference and receiving acknowledgement for each stop, including rejected goods and returns. Review the relevant vehicle trip separately. GPS location alone cannot identify quantities delivered or remaining cargo."
+    }
+  ],
+  "source": "https://patiala.nic.in/tehsil/",
+  "sourceLabel": "Patiala district administration"
+},
 "kurali": {
   "description": "GPS tracking in Kurali for collection rounds and service fleets. Plan repeat depot visits, route records and installation checks for Kharar and Mohali trips.",
   "cases": [
@@ -177,7 +206,7 @@ export const punjabCities: PunjabCitySeo[] = punjabDistricts.flatMap(
 
     return {
       slug: toPunjabCitySlug(name),
-      guide: district.slug === "sahibzada-ajit-singh-nagar" ? priorityGuides[toPunjabCitySlug(name)] : undefined,
+      guide: (district.slug === "sahibzada-ajit-singh-nagar" || (district.slug === "patiala" && toPunjabCitySlug(name) === "rajpura")) ? priorityGuides[toPunjabCitySlug(name)] : undefined,
       name,
       districtSlug: district.slug,
       districtName: district.name,
