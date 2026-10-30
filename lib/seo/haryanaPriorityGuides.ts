@@ -1,5 +1,65 @@
-export type HaryanaPriorityGuide = { title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
+export type HaryanaPriorityGuide = { source?: string; sourceLabel?: string; title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
+"ambala-city": {
+  "title": "GPS Tracker in Ambala City, Ambala",
+  "description": "Plan GPS tracking in Ambala City for local distribution and return collections. Review stop references, vehicle loading breaks and end-of-round records.",
+  "source": "https://ambala.gov.in/about-district/",
+  "sourceLabel": "Ambala district administration",
+  "cases": [
+    {
+      "title": "Keep Ambala City and Cantt delivery instructions separate",
+      "text": "An address labelled only Ambala may not identify the intended destination. For Ambala City distribution, record the receiver, exact premises entrance and delivery reference before dispatch. Keep a stop in Ambala Cantt as a separate task, even when the same vehicle serves both places during one round."
+    },
+    {
+      "title": "Pair return collections with the original delivery record",
+      "text": "If an Ambala City customer returns goods on a later visit, give the collection its own reference linked to the original delivery. Compare supported stop records with the collection acknowledgement. A vehicle returning to the same address does not establish what was collected, whether it was accepted or how much space remains in the vehicle."
+    },
+    {
+      "title": "Separate depot reloads from customer waiting",
+      "text": "For several Ambala City rounds in one shift, record the depot return, reload and next departure against separate round references. Review available timestamps alongside loading records rather than treating all stationary time as customer delay. Pilot one complete shift, including a return collection, and confirm supported reports and fitting arrangements before fleet rollout."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "How should I distinguish Ambala City deliveries from Ambala Cantt stops?",
+      "answer": "Use the exact destination and a separate task reference for every stop. Confirm the receiving entrance before dispatch and compare trip records with delivery acknowledgements; a broad Ambala geofence does not identify a completed customer delivery."
+    },
+    {
+      "question": "Can GPS show which goods were returned during an Ambala City round?",
+      "answer": "No. Use the return collection acknowledgement and goods record to establish the items and quantities. Location and supported trip records can help review when the vehicle visited the collection point."
+    }
+  ]
+},
+"ambala-cantt": {
+  "title": "GPS Tracker in Ambala Cantt, Ambala",
+  "description": "Plan GPS tracking in Ambala Cantt for passenger pickups and onward journeys. Separate arrival information, vehicle waiting, boarding and return assignments.",
+  "source": "https://ambala.gov.in/how-to-reach/",
+  "sourceLabel": "Ambala district travel information",
+  "cases": [
+    {
+      "title": "Confirm the pickup destination before assigning a vehicle",
+      "text": "For an Ambala Cantt passenger booking, confirm the exact station, entrance or other meeting point with the passenger. Do not substitute Ambala City for Ambala Cantt in the booking. Where the pickup connects with a train, check current railway arrival information separately; the tracker reports the vehicle, not the train."
+    },
+    {
+      "title": "Keep vehicle waiting and passenger readiness separate",
+      "text": "Record the agreed waiting arrangement, the latest vehicle update time and passenger readiness as separate booking milestones. A vehicle reaching the pickup area is not proof that passengers have boarded. Confirm the permitted meeting and waiting arrangements for the actual premises; a GPS location does not establish access permission."
+    },
+    {
+      "title": "Reassign a delayed pickup without losing the onward booking",
+      "text": "If a delayed Ambala Cantt pickup affects another journey, record any replacement vehicle and effective assignment time in the booking sheet. Keep the passenger acknowledgement and onward destination with that assignment. Review each vehicle leg separately and test supported waiting and trip records on a representative journey before relying on them for dispatch."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can a vehicle tracker confirm a train arrival for an Ambala Cantt pickup?",
+      "answer": "No. Use current railway information for train status and confirm passenger readiness through the booking process. Vehicle GPS can help review the assigned vehicle journey and the age of its last update."
+    },
+    {
+      "question": "What should I confirm before arranging GPS fitting for Ambala Cantt vehicles?",
+      "answer": "Share the exact fitting location, vehicle models, recurring pickup points and reporting needs with NAVII GPS. Confirm access arrangements, hardware, SIM, platform, installation availability and complete costs before booking; this guide does not establish a local NAVII office."
+    }
+  ]
+},
   "panchkula": {
     "title": "GPS Tracker in Panchkula | Service Visits & Shared Fleets",
     "description": "Plan GPS tracking in Panchkula for scheduled service visits and shared vehicles. Review appointment records, vehicle changes and fitting requirements.",
