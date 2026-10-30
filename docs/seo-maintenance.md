@@ -207,5 +207,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Preserve Patiala district canonical /gps-tracker/punjab/patiala and Rajpura /gps-tracker/punjab/patiala/rajpura. No alternate Patiala city URL or sitemap entry.
 - [x] Patiala: exact appointment sites, urgent job reassignment, unfinished visits and shift reconciliation. Rajpura: gate versus loading readiness, consignment vehicle changes, part deliveries and returns. Three substantive cards and two shared visible/schema FAQs each.
 - [x] Updated descriptions, retained unique existing titles, canonicals, headings and navigation; district-to-Rajpura link and correct district source. Geography verified 2026-10-29: https://patiala.nic.in/tehsil/ . No new local office, installation coverage, prices or guaranteed features claimed.
-- [ ] Branch seo/patiala-rajpura-20261029: full source SEO, lint, regression, build, rendered/browser checks required before merge; live-check both canonical URLs, five FAQ pairs, descriptions and sitemap. PR/deployment record is authoritative until confirmed in a later ledger update.
+- [x] Published via PR #89; main CI 40810720471 and IndexNow 40811235535 passed. Both live URLs verified with five matching FAQs. Branch seo/patiala-rajpura-20261029: full source SEO, lint, regression, build, rendered/browser checks required before merge; live-check both canonical URLs, five FAQ pairs, descriptions and sitemap. PR/deployment record is authoritative until confirmed in a later ledger update.
 - [ ] Next: assess existing Ambala and Ambala Cantt guides with exact route/canonical mapping; then Delhi district/locality gaps. Retain remaining Punjab towns in backlog; this batch does not complete every Patiala locality.
+
+
+### 2026-10-30 Ambala City / Ambala Cantt refresh
+
+- [x] Inspected main 357b257, open PRs, route registry and live sitemap; no unfinished routine SEO batch. Unrelated PRs remain untouched.
+- [x] Preserve /gps-tracker/haryana/ambala/ambala-city and /gps-tracker/haryana/ambala/ambala-cantt, separate from the existing Ambala district hub. No alternate spelling route or added sitemap entries.
+- [x] Ambala City: precise city/Cantt delivery instructions, return-collection references, depot reload versus customer waiting. Ambala Cantt: exact pickup point, train status versus vehicle position, passenger readiness and reassignment of delayed pickups. Three distinct planning cards and two additional visible/schema FAQs each.
+- [x] Preserve existing titles, canonicals, H1, district/sibling navigation and sitemap generation; update descriptions/social/schema through optional guide data. Correct geography sources for both new guides; previous Panchkula/Kalka/Pinjore sources retained.
+- [x] Sources verified 2026-10-30: https://ambala.gov.in/about-district/ and https://ambala.gov.in/how-to-reach/ . Use only location/railway context, not dated timetables, distances, contact listings or route access rules. No local branches, installation coverage, prices or device guarantees invented.
+- [ ] Branch seo/ambala-city-cantt-20261030: require full SEO, lint, regression, production build, rendered and browser CI before merge. Verify live descriptions, five FAQ pairs each, source links, canonicals, H1 and sitemap after deployment; PR/deployment record confirms publication.
+- [ ] Next: Delhi district/locality gap review, starting with existing New Delhi and Connaught Place mapping; preserve canonical policy and add only substantive distinct content. Remaining Ambala towns and Punjab/Himachal gaps stay in backlog.
