@@ -1,3 +1,4 @@
+import { delhiPriorityGuides, type DelhiPriorityGuide } from "@/lib/seo/delhiPriorityGuides";
 import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
@@ -12,6 +13,7 @@ export type DelhiAreaSeo = {
   sectors: string[];
   localContext: string;
   planningNote: string;
+  guide?: DelhiPriorityGuide;
 };
 
 const operatingProfiles = [
@@ -38,6 +40,7 @@ export const delhiAreas: DelhiAreaSeo[] = delhiDistricts.flatMap(
 
     return {
       slug: toDelhiAreaSlug(name),
+      guide: district.slug === "new-delhi" && toDelhiAreaSlug(name) === "connaught-place" ? delhiPriorityGuides.connaughtPlace : undefined,
       name,
       districtSlug: district.slug,
       districtName: district.name,
@@ -76,7 +79,7 @@ export function generateDelhiAreaKeywords(area: DelhiAreaSeo) {
 
 export function generateDelhiAreaMetadata(area: DelhiAreaSeo): Metadata {
   const url = `https://naviigps.com/gps-tracker/delhi/${area.districtSlug}/${area.slug}`;
-  const description = `GPS trackers and fleet management software in ${area.name}, ${area.districtName} district, Delhi, for cars, trucks, buses and commercial vehicles.`;
+  const description = area.guide?.description ?? `GPS trackers and fleet management software in ${area.name}, ${area.districtName} district, Delhi, for cars, trucks, buses and commercial vehicles.`;
 
   return {
     title: `GPS Tracker in ${area.name}, Delhi`,
