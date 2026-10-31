@@ -1,3 +1,4 @@
+import { delhiPriorityGuides } from "@/lib/seo/delhiPriorityGuides";
 import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
@@ -70,7 +71,7 @@ export function generateDelhiDistrictKeywords(district: DelhiDistrictSeo) {
 
 export function generateDelhiDistrictMetadata(district: DelhiDistrictSeo): Metadata {
   const url = `https://naviigps.com/gps-tracker/delhi/${district.slug}`;
-  const description = `GPS trackers and fleet management software in ${district.name} district, Delhi, including ${district.areas.slice(0, 3).join(", ")} and nearby operating routes.`;
+  const description = district.slug === "new-delhi" ? delhiPriorityGuides.newDelhi.description : `GPS trackers and fleet management software in ${district.name} district, Delhi, including ${district.areas.slice(0, 3).join(", ")} and nearby operating routes.`;
 
   return {
     title: `GPS Tracker in ${district.name} District, Delhi`,
