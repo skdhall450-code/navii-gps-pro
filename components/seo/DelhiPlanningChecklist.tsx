@@ -1,0 +1,6 @@
+import Link from "next/link";
+import type { DelhiPriorityGuide } from "@/lib/seo/delhiPriorityGuides";
+
+export function DelhiPlanningChecklist({ guide }: { guide: DelhiPriorityGuide }) {
+  return <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">{guide.name} fleet planning checklist</h2><div className="mt-8 grid gap-6 lg:grid-cols-3">{guide.cases.map(item => <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-7"><h3 className="text-xl font-bold text-slate-900">{item.title}</h3><p className="mt-4 leading-7 text-slate-600">{item.text}</p></article>)}</div><p className="mt-7 leading-7 text-slate-600">Confirm hardware, SIM, platform, fitting arrangements and renewal costs for your exact vehicle location before booking.</p><nav aria-label="Related fleet planning" className="mt-6 flex flex-wrap gap-6 text-blue-700"><Link href={guide.related} className="underline">{guide.relatedLabel}</Link><Link href="/commercial-vehicle-tracking" className="underline">Commercial vehicle tracking requirements</Link></nav><p className="mt-4 text-sm text-slate-500">Geography reference: <a href={guide.source} className="underline">{guide.sourceLabel}</a>.</p></div></section>;
+}
