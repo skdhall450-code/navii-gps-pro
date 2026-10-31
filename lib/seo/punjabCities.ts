@@ -1,3 +1,4 @@
+import { khannaGuide } from "@/lib/seo/ludhianaGuides";
 import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
@@ -206,7 +207,7 @@ export const punjabCities: PunjabCitySeo[] = punjabDistricts.flatMap(
 
     return {
       slug: toPunjabCitySlug(name),
-      guide: (district.slug === "sahibzada-ajit-singh-nagar" || (district.slug === "patiala" && toPunjabCitySlug(name) === "rajpura")) ? priorityGuides[toPunjabCitySlug(name)] : undefined,
+      guide: district.slug === "ludhiana" && toPunjabCitySlug(name) === "khanna" ? khannaGuide : (district.slug === "sahibzada-ajit-singh-nagar" || (district.slug === "patiala" && toPunjabCitySlug(name) === "rajpura")) ? priorityGuides[toPunjabCitySlug(name)] : undefined,
       name,
       districtSlug: district.slug,
       districtName: district.name,

@@ -33,7 +33,7 @@ export function PunjabCityGpsPage({ city }: { city: PunjabCitySeo }) {
         "@id": `${url}#webpage`,
         url,
         name: `GPS Tracker in ${city.name}, ${city.districtName} | NAVII GPS`,
-        description: `Vehicle GPS tracking and fleet management planning for ${city.name} in Punjab.`,
+        description: city.guide?.description ?? `Vehicle GPS tracking and fleet management planning for ${city.name} in Punjab.`,
         isPartOf: { "@id": "https://naviigps.com/#website" },
         inLanguage: "en-IN",
       },
