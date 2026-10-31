@@ -1,5 +1,65 @@
 export type HaryanaPriorityGuide = { source?: string; sourceLabel?: string; title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
+"karnal": {
+  "title": "GPS Tracker in Karnal District, Haryana",
+  "description": "Plan GPS tracking in Karnal district for agricultural service rounds. Record field access points, equipment job references and workshop follow-up journeys.",
+  "source": "https://karnal.gov.in/about-district/",
+  "sourceLabel": "Karnal district administration",
+  "cases": [
+    {
+      "title": "Locate the field entrance, not only the village",
+      "text": "Karnal district includes agricultural operations around towns such as Indri, Nilokheri, Assandh and Gharaunda. For an equipment service call, record the village, customer reference and agreed vehicle-access point separately from the field or work-site pin. Confirm the usable approach with the customer before travel. A map route does not establish that a lane is suitable for the assigned vehicle."
+    },
+    {
+      "title": "Keep the service vehicle separate from the equipment job",
+      "text": "When a Karnal field team travels to a pump, implement or other customer equipment, link the job reference to the assigned service vehicle and planned parts. Review the vehicle journey against the technician report. The tracker in a service van does not report the operating hours, condition or location of a separate machine left at the site."
+    },
+    {
+      "title": "Track workshop follow-ups as separate legs",
+      "text": "If a field repair needs a workshop visit or a part must be collected before returning, give those movements separate tasks linked to the original service call. Record who holds any removed item and whether the customer equipment remains out of service. Pilot a full field-to-workshop-to-field round, checking supported trip records and report timestamps before using them for dispatch review."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Does tracking a Karnal service van also track the farm equipment it visits?",
+      "answer": "No. A tracker reports the vehicle or asset on which it is installed. Keep equipment identity, condition and service completion in the job record. Any separate equipment-tracking requirement needs its own suitability and installation assessment."
+    },
+    {
+      "question": "What should I test on a Karnal rural service route?",
+      "answer": "Test the actual access point, a customer stop, any workshop follow-up and the return journey. Compare the latest update time and available trip history with the job log. Confirm hardware compatibility, SIM/network requirements, supported reporting and fitting arrangements for the actual locations."
+    }
+  ]
+},
+"gharaunda": {
+  "title": "GPS Tracker in Gharaunda, Karnal",
+  "description": "Plan GPS tracking in Gharaunda for nursery pickups and vegetable consignments. Keep lot records, receiving windows and handling checks alongside vehicle trips.",
+  "source": "https://ulbharyana.gov.in/Gharaunda/772",
+  "sourceLabel": "Municipal Committee Gharaunda",
+  "cases": [
+    {
+      "title": "Identify the nursery or produce collection point",
+      "text": "Gharaunda is in Karnal district and is home to a Centre of Excellence for Vegetables. For your own nursery or vegetable dispatch, record the actual supplier premises, lot reference and receiving destination before assigning a vehicle. This planning example does not imply that NAVII GPS serves the centre or has an institutional partnership."
+    },
+    {
+      "title": "Keep tray counts and condition checks with the lot",
+      "text": "Where a Gharaunda nursery load contains several plant varieties or tray lots, keep the labels, quantities and collection condition in the dispatch record. Match each delivery acknowledgement to its lot and assigned vehicle. GPS trip history can help review the journey, but cannot count plants, confirm variety or establish damage, moisture or temperature without separately specified equipment and procedures."
+    },
+    {
+      "title": "Review receiving windows before changing the stop order",
+      "text": "For a vegetable or nursery round leaving Gharaunda, agree the receiving window and handling instructions with each customer. If a stop is delayed or resequenced, record the change and confirm that the receiver can still accept the consignment. During a pilot, compare actual trip timestamps with the lot handover records; location tracking alone cannot guarantee freshness or suitability on arrival."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can GPS confirm that a Gharaunda nursery load arrived in good condition?",
+      "answer": "No. Confirm quantities and condition at collection and receipt using the lot record. Vehicle GPS describes movement; it does not by itself measure plant condition, cargo temperature or handling quality."
+    },
+    {
+      "question": "Does this Gharaunda guide imply a government-centre partnership or local NAVII branch?",
+      "answer": "No. The centre is mentioned only as local horticulture context. Share your actual vehicle location and use case with NAVII GPS to confirm hardware, reporting, fitting availability and costs before booking."
+    }
+  ]
+},
 "ambala-city": {
   "title": "GPS Tracker in Ambala City, Ambala",
   "description": "Plan GPS tracking in Ambala City for local distribution and return collections. Review stop references, vehicle loading breaks and end-of-round records.",

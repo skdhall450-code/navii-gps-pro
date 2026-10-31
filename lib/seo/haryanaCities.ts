@@ -38,7 +38,7 @@ export const haryanaCities: HaryanaCitySeo[] = haryanaDistricts.flatMap(
     const operatingProfile = operatingProfiles[(districtIndex + cityIndex) % operatingProfiles.length];
 
     return {
-      guide: (district.slug === "panchkula" || district.slug === "ambala") ? priorityGuides[toHaryanaCitySlug(name)] : undefined,
+      guide: (district.slug === "panchkula" || district.slug === "ambala" || (district.slug === "karnal" && toHaryanaCitySlug(name) === "gharaunda")) ? priorityGuides[toHaryanaCitySlug(name)] : undefined,
       slug: toHaryanaCitySlug(name),
       name,
       districtSlug: district.slug,
