@@ -82,7 +82,7 @@ export function generateHaryanaDistrictMetadata(
   district: HaryanaDistrictSeo,
 ): Metadata {
   const url = `https://naviigps.com/gps-tracker/haryana/${district.slug}`;
-  const guide = district.slug === "panchkula" ? priorityGuides.panchkula : undefined;
+  const guide = (district.slug === "panchkula" || district.slug === "karnal") ? priorityGuides[district.slug] : undefined;
   const description = guide?.description ?? `GPS trackers and fleet management software in ${district.name} district, Haryana, including ${district.cities.slice(0, 3).join(", ")} and nearby operating routes.`;
 
   return {
