@@ -1,3 +1,4 @@
+import { ludhianaGuide } from "@/lib/seo/ludhianaGuides";
 import { patialaGuide } from "@/lib/seo/patialaGuide";
 import { generateLocalKeywords, uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
@@ -83,7 +84,7 @@ export function generatePunjabDistrictKeywords(district: PunjabDistrictSeo) {
 
 export function generatePunjabDistrictMetadata(district: PunjabDistrictSeo): Metadata {
   const url = `https://naviigps.com/gps-tracker/punjab/${district.slug}`;
-  const description = district.slug === "patiala" ? patialaGuide.description : `GPS trackers and fleet management software in ${district.name} district, Punjab, including ${district.cities.slice(0, 3).join(", ")} and nearby operating routes.`;
+  const description = district.slug === "ludhiana" ? ludhianaGuide.description : district.slug === "patiala" ? patialaGuide.description : `GPS trackers and fleet management software in ${district.name} district, Punjab, including ${district.cities.slice(0, 3).join(", ")} and nearby operating routes.`;
 
   return {
     title: `GPS Tracker in ${district.name} District, Punjab`,
