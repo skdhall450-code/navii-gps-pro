@@ -7,7 +7,7 @@ import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 
 const url = "https://naviigps.com/gps-tracker/himachal-pradesh";
 const title = "GPS Tracker in Himachal Pradesh | Hill & Industrial Fleets";
-const description = "Plan GPS tracking across Himachal Pradesh: Una supplier rounds, Hamirpur service circuits, industrial collections and hill transfers. Confirm fitting needs.";
+const description = "Plan vehicle GPS tracking in Himachal Pradesh with local fleet checklists, delivery and passenger workflows, reporting checks and installation questions.";
 const sectors = ["industrial logistics", "tourism transport", "commercial delivery", "school transport"];
 const social = { title, description, images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS vehicle tracking in Himachal Pradesh" }] };
 export const metadata: Metadata = {
@@ -26,6 +26,36 @@ const workflows = [
 ];
 
 const localPlans = [
+{
+  "id": "bilaspur",
+  "name": "Bilaspur district delivery zones and split rounds",
+  "intro": "Bilaspur district includes Bilaspur, Ghumarwin and Jhandutta subdivisions, with Shri Naina Devi Ji subdivision headquartered at Swarghat. Give a delivery its exact destination: a district label or subdivision office location is not the receiving address.",
+  "steps": [
+    "Before allocating vehicles, separate Bilaspur town orders from Ghumarwin, Jhandutta and other district destinations. Group orders by confirmed receiving address and delivery window, then check the actual road itinerary. Administrative boundaries alone do not tell you which stops fit the same round.",
+    "When two vehicles divide a district round, assign each order to one vehicle and retain the time of any reassignment. Keep the original and revised dispatch lists. A vehicle entering a broad Bilaspur geofence cannot establish which driver accepted a particular order.",
+    "Give a delivery, a collection and a through journey different task labels even if they use the same stretch of road. Where an order cannot be delivered, record the reason and whether it stays on the vehicle or returns to the depot; journey distance cannot resolve that exception.",
+    "Trial a split round with one reassigned order and one undelivered return. Reconcile supported trip timestamps with receiving acknowledgements and the final dispatch list. Confirm reporting retention, location freshness and fitting arrangements for the actual operating base before rollout."
+  ],
+  "related": "/commercial-vehicle-tracking",
+  "relatedLabel": "Commercial fleet reporting and device selection",
+  "source": "https://hpbilaspur.nic.in/sub-division/",
+  "sourceLabel": "Bilaspur district subdivision directory"
+},
+{
+  "id": "sirmaur-nahan",
+  "name": "Sirmaur and Nahan depot-to-field equipment journeys",
+  "intro": "Nahan is the headquarters of Sirmaur district; Paonta Sahib and Rajgarh are separate subdivisions in the same district. For a team carrying tools or replacement equipment from a Nahan base, retain the customer site as well as the district name in each job record.",
+  "steps": [
+    "Create an outward equipment list for each job, including the assigned vehicle, customer premises and expected return location. Keep a Nahan town appointment separate from a visit in Paonta Sahib or Rajgarh. Confirm access with the customer rather than using an administrative office as a default map pin.",
+    "If equipment is left at the customer site while the vehicle continues, record the item reference and recipient acknowledgement separately. Vehicle GPS follows the vehicle; its next position does not show where detached tools or replacement equipment remain.",
+    "For a replacement or loan item, link the later collection to the original job and identify whether it returns to the Nahan base or another agreed receiving point. Record missing items, partial returns and changes of vehicle in the job sheet, then compare the relevant journey legs.",
+    "Test one outward delivery and a later equipment collection against the available trip report. Confirm who may see vehicle history and how long records remain available. If tracking detached equipment is required, discuss a separate suitable solution rather than assuming a vehicle tracker can provide it."
+  ],
+  "related": "/software",
+  "relatedLabel": "Review fleet software and reporting requirements",
+  "source": "https://hpsirmaur.nic.in/administrative-setup/",
+  "sourceLabel": "Sirmaur district administrative setup"
+},
 {
   "id": "una",
   "name": "Una industrial supplier rounds and dispatch cut-offs",
@@ -127,6 +157,8 @@ const districts = [
   { slug: "una", name: "Una", note: "For regional and Punjab-connected routes, review complete trips across state boundaries and confirm SIM coverage for recurring destinations." },
 ];
 const faqs = [
+{"question": "How should Bilaspur district deliveries be split between vehicles?", "answer": "Assign every order to a vehicle using the exact receiving address and agreed delivery window. Retain any reassignment time and compare the final dispatch list with supported trip records and customer acknowledgements. A district-wide arrival event cannot identify which order was delivered."},
+{"question": "Can a vehicle tracker locate equipment left at a Sirmaur customer site?", "answer": "No. A tracker fitted to the vehicle reports that vehicle, not detached equipment. Record the item handover and later collection separately against the Nahan, Paonta Sahib, Rajgarh or other customer job. Discuss a separate suitable tracking solution if equipment location is required."},
 {"question": "Can GPS show whether an Una supplier order is ready for collection?", "answer": "No. Confirm material readiness and quantities through the supplier and purchase-order records. Use supported vehicle trip and stop records to review the collection journey, including deferred or repeated visits."},
 {"question": "How should Hamirpur service circuits handle repeat visits?", "answer": "Link the return appointment to the original job while retaining its own date and visit reference. Reconcile vehicle movements with technician reports and customer acknowledgements; repeated stops alone do not establish work completion."},
 {"question": "How should Mandi deliveries be reconciled when goods change vehicles?", "answer": "Keep the consignment reference, both vehicle assignments and the receiving acknowledgement together. Review each vehicle journey for its own leg. GPS proximity alone does not prove transfer, quantity or delivery acceptance."},
