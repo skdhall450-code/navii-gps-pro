@@ -7,7 +7,7 @@ import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 
 const url = "https://naviigps.com/gps-tracker/himachal-pradesh";
 const title = "GPS Tracker in Himachal Pradesh | Hill & Industrial Fleets";
-const description = "Plan GPS tracking for Himachal fleets: Mandi distribution rounds, Kullu and Manali transfers, Nalagarh collections and Parwanoo deliveries. Confirm fitting needs.";
+const description = "Plan GPS tracking across Himachal Pradesh: Una supplier rounds, Hamirpur service circuits, industrial collections and hill transfers. Confirm fitting needs.";
 const sectors = ["industrial logistics", "tourism transport", "commercial delivery", "school transport"];
 const social = { title, description, images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS vehicle tracking in Himachal Pradesh" }] };
 export const metadata: Metadata = {
@@ -26,6 +26,36 @@ const workflows = [
 ];
 
 const localPlans = [
+{
+  "id": "una",
+  "name": "Una industrial supplier rounds and dispatch cut-offs",
+  "intro": "Una district borders Punjab and includes industrial centres such as Mehatpur, Gagret, Tahliwal and Amb. A supplier round needs the actual industrial premises, not just an Una district destination.",
+  "steps": [
+    "Before a supplier round, list each purchase-order reference, collection premises and loading cut-off agreed with the supplier. Keep Mehatpur, Gagret, Tahliwal and Amb stops distinct when they occur on the same plan; a district-wide geofence cannot identify a particular supplier.",
+    "Check material readiness with the supplier before sending the vehicle to the next collection. If one order is delayed, record whether the vehicle waits, skips that stop or returns later. Retain the revised stop sequence so the dispatcher can compare GPS history with the plan actually used.",
+    "Where a vehicle brings materials from Punjab into Una district, preserve the same consignment reference across the journey and record any actual vehicle change separately. Crossing a state boundary does not itself establish a handover or receipt of goods.",
+    "Pilot a round with a deferred collection and a final depot return. Compare available stop timestamps with purchase-order acknowledgements and loading records. Confirm supported exports, reporting retention and fitting arrangements; GPS alone cannot determine stock availability or loaded quantities."
+  ],
+  "related": "/gps-tracker/punjab",
+  "relatedLabel": "Punjab fleet planning guides",
+  "source": "https://hpuna.nic.in/about-district/",
+  "sourceLabel": "Una district administration"
+},
+{
+  "id": "hamirpur",
+  "name": "Hamirpur scheduled service circuits and repeat visits",
+  "intro": "Hamirpur district includes Hamirpur, Nadaun, Sujanpur, Barsar and Bhoranj. For a team serving several towns on scheduled days, distinguish the service circuit from the district name and retain the exact customer destination.",
+  "steps": [
+    "Group recurring visits by circuit and day, with a separate job reference for every customer. Record which tasks belong to the Hamirpur town round and which require travel to Nadaun, Sujanpur, Barsar or Bhoranj. Confirm the actual premises and usable arrival point with the customer.",
+    "When a technician needs a second visit for parts or follow-up work, link it to the original job but give it a new appointment window. Keep first attendance, incomplete work and successful completion as separate records; repeated GPS stops do not show why the team returned.",
+    "If an urgent call interrupts the scheduled circuit, record which visits move to another day and tell the responsible coordinator. Compare journeys against the dated circuit list rather than counting every original appointment as missed after an approved reschedule.",
+    "Trial a complete circuit including a repeat visit, then reconcile supported trip records with job outcomes. Review the age of location updates at recurring stops and agree a dispatcher follow-up procedure for missing updates. Confirm access permissions, report availability and installation costs before rollout."
+  ],
+  "related": "/gps-tracker/himachal-pradesh/kangra",
+  "relatedLabel": "Kangra district journey planning",
+  "source": "https://hphamirpur.nic.in/administrative-setup/",
+  "sourceLabel": "Hamirpur district administration"
+},
   {
     id: "nalagarh", name: "Nalagarh collection and return-load planning",
     intro: "Nalagarh is part of the Baddi–Barotiwala–Nalagarh planning area in Solan district. For vehicles collecting from several premises, a town-wide arrival alert is too broad to explain which collection was completed.",
@@ -97,6 +127,8 @@ const districts = [
   { slug: "una", name: "Una", note: "For regional and Punjab-connected routes, review complete trips across state boundaries and confirm SIM coverage for recurring destinations." },
 ];
 const faqs = [
+{"question": "Can GPS show whether an Una supplier order is ready for collection?", "answer": "No. Confirm material readiness and quantities through the supplier and purchase-order records. Use supported vehicle trip and stop records to review the collection journey, including deferred or repeated visits."},
+{"question": "How should Hamirpur service circuits handle repeat visits?", "answer": "Link the return appointment to the original job while retaining its own date and visit reference. Reconcile vehicle movements with technician reports and customer acknowledgements; repeated stops alone do not establish work completion."},
 {"question": "How should Mandi deliveries be reconciled when goods change vehicles?", "answer": "Keep the consignment reference, both vehicle assignments and the receiving acknowledgement together. Review each vehicle journey for its own leg. GPS proximity alone does not prove transfer, quantity or delivery acceptance."},
 {"question": "Can GPS confirm every stop on a Kullu or Manali passenger itinerary?", "answer": "No. Compare supported trip and stop records with the dated booking sheet and passenger coordination notes. Confirm boarding, requested waits and completed drops separately; vehicle position alone does not establish those milestones."},
   { question: "How should I review repeated collections around Nalagarh?", answer: "Use a separate stop reference for each planned collection and compare supported arrival and departure records with the collection sheet. Record repeat visits and skipped stops explicitly. GPS location alone does not prove goods were collected or identify the return load." },
