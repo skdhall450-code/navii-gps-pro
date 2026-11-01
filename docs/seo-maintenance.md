@@ -251,5 +251,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Karnal: rural service access points, service van versus customer equipment and workshop follow-up legs. Gharaunda: nursery/vegetable lot references, tray counts and condition records, receiving windows when resequencing stops. Three distinct cards and two shared visible/schema FAQs per page.
 - [x] Reuse optional Haryana guide metadata/rendering; retain titles, H1, canonicals, Service scope and parent/sibling/service navigation. District source now follows its guide while retaining the Panchkula fallback.
 - [x] Official geography verified 2026-10-31: https://karnal.gov.in/about-district/ and https://ulbharyana.gov.in/Gharaunda/772 . Use stable town/agriculture/horticulture context only; no distances, contact listings, current access rules, institutional affiliation, branch, fitting coverage, prices or sensor guarantees claimed.
-- [ ] Branch seo/karnal-gharaunda-20261031: require full source SEO, lint, regression, production build, rendered SEO and browser checks before merge. Verify both live pages, five FAQ pairs, sources, metadata, links and sitemap; confirm Panchkula regression. Read PR/deployment evidence before marking published.
+- [x] Published via PR #93; main CI 41178762278 and IndexNow 41179157945 succeeded. Both URLs and Panchkula regression live verified. Branch seo/karnal-gharaunda-20261031: require full source SEO, lint, regression, production build, rendered SEO and browser checks before merge. Verify both live pages, five FAQ pairs, sources, metadata, links and sitemap; confirm Panchkula regression. Read PR/deployment evidence before marking published.
 - [ ] Next: review existing Delhi Cantt and Chanakyapuri guides for distinct locality needs, then return to remaining Himachal coverage. Current batches do not complete all district towns/localities.
+
+
+### 2026-11-01 Delhi Cantt / Chanakyapuri refresh
+
+- [x] Inspected main dd978ef, open PRs, route registry, sitemap and prior progress. No unfinished routine SEO batch; unrelated PRs untouched.
+- [x] Preserve /gps-tracker/delhi/new-delhi/delhi-cantt and /gps-tracker/delhi/new-delhi/chanakyapuri. No spelling aliases, district remapping or new sitemap entries.
+- [x] Delhi Cantt: station versus premises destinations, host-confirmed meeting arrangements and waiting/return bookings. Chanakyapuri: venue/entrance versus staging, versioned multi-venue itineraries and coordinator handover. Three distinct cards and two shared visible/schema FAQs each.
+- [x] Existing optional guide renderer supplies descriptions, WebPage schema, visible headings, source references and related navigation; existing titles, canonical, H1, Service geography and parent/sibling links retained.
+- [x] Geography sources verified 2026-11-01: https://dmnewdelhi.delhi.gov.in/subdivision-blocks/ and https://www.ndmc.gov.in/Departments/civil_control.aspx . Use stable locality context only, not old contact lists, access rules, schedules or distances. No local branch, institutional affiliation or fitting guarantee claimed.
+- [ ] Branch seo/delhi-cantt-chanakyapuri-20261101: require full SEO, lint, regression, build and browser checks; verify live metadata, five FAQs/schema, headings, sources, navigation and sitemap before recording publication. PR/deployment record provides completion evidence.
+- [ ] Next: assess existing Himachal hub coverage for Una/Hamirpur and add substantive local planning where justified; retain single canonical policy. Delhi locality coverage remains partial.
