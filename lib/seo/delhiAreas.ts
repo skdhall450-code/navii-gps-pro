@@ -33,6 +33,12 @@ export function toDelhiAreaSlug(name: string) {
     .replace(/^-|-$/g, "");
 }
 
+const newDelhiAreaGuides: Record<string, DelhiPriorityGuide> = {
+  "connaught-place": delhiPriorityGuides.connaughtPlace,
+  "delhi-cantt": delhiPriorityGuides.delhiCantt,
+  "chanakyapuri": delhiPriorityGuides.chanakyapuri,
+};
+
 export const delhiAreas: DelhiAreaSeo[] = delhiDistricts.flatMap(
   (district, districtIndex) => district.areas.map((name, areaIndex) => {
     const nearbyAreas = district.areas.filter((area) => area !== name);
@@ -40,7 +46,7 @@ export const delhiAreas: DelhiAreaSeo[] = delhiDistricts.flatMap(
 
     return {
       slug: toDelhiAreaSlug(name),
-      guide: district.slug === "new-delhi" && toDelhiAreaSlug(name) === "connaught-place" ? delhiPriorityGuides.connaughtPlace : undefined,
+      guide: district.slug === "new-delhi" ? newDelhiAreaGuides[toDelhiAreaSlug(name)] : undefined,
       name,
       districtSlug: district.slug,
       districtName: district.name,
