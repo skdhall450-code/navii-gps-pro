@@ -1,4 +1,68 @@
 export const delhiPriorityGuides = {
+"delhiCantt": {
+  "name": "Delhi Cantt",
+  "description": "Plan GPS tracking in Delhi Cantt for passenger meeting points and booked visits. Separate station pickups, premises access and vehicle waiting records.",
+  "source": "https://dmnewdelhi.delhi.gov.in/subdivision-blocks/",
+  "sourceLabel": "New Delhi district: Delhi Cantt",
+  "related": "/gps-tracker/delhi/new-delhi",
+  "relatedLabel": "New Delhi district fleet planning",
+  "cases": [
+    {
+      "title": "Distinguish a station pickup from a premises visit",
+      "text": "Delhi Cantt is the commonly used name for Delhi Cantonment. A booking labelled only Delhi Cantt may refer to the railway station or another destination in the area. Record the specific meeting point and passenger contact reference before dispatch. Check current train information separately when relevant; vehicle GPS does not report train arrival or passenger readiness."
+    },
+    {
+      "title": "Confirm the meeting arrangement with the host",
+      "text": "For a booked premises visit in Delhi Cantt, agree the receiving point and any vehicle-entry arrangements with the host in advance. Keep arrival at the agreed waiting point separate from entry to the destination. A route shown on a map or a location alert does not establish permission to enter a site. This guide does not specify access rules for individual premises."
+    },
+    {
+      "title": "Close the waiting leg before the return booking",
+      "text": "Record when the passenger is ready, when boarding is confirmed and whether the same vehicle handles the return. If another vehicle takes the return leg, retain both assignments under the booking reference. During a pilot, compare supported stop and trip records with these milestones so waiting near a pickup is not counted as a completed passenger journey."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Does a Delhi Cantt geofence confirm that passengers have boarded?",
+      "answer": "No. Confirm boarding through the booking process. A supported location event can help review the vehicle arrival, but cannot establish which passengers boarded or whether the intended meeting point was reached."
+    },
+    {
+      "question": "Can GPS guidance confirm entry arrangements for a Delhi Cantt destination?",
+      "answer": "No. Confirm the exact receiving point and entry arrangements with the host before travel. A tracker reports vehicle movement and does not grant access or verify permission for a particular premises."
+    }
+  ]
+},
+"chanakyapuri": {
+  "name": "Chanakyapuri",
+  "description": "Plan GPS tracking in Chanakyapuri for hotel pickups and multi-venue visits. Coordinate vehicle staging, revised departure times and passenger handovers.",
+  "source": "https://www.ndmc.gov.in/Departments/civil_control.aspx",
+  "sourceLabel": "NDMC Chanakyapuri and Diplomatic Enclave geography",
+  "related": "/gps-tracker/delhi/new-delhi/connaught-place",
+  "relatedLabel": "Connaught Place stop planning",
+  "cases": [
+    {
+      "title": "Use the booked venue and entrance for each transfer",
+      "text": "Chanakyapuri and the Diplomatic Enclave appear in NDMC locality information. For a hotel or appointment transfer in this area, record the actual venue, agreed vehicle entrance and booking reference. Keep the passenger meeting point separate from the vehicle staging point where they differ. Confirm the arrangement with the host or hotel rather than relying on a general locality pin."
+    },
+    {
+      "title": "Keep a multi-venue itinerary versioned",
+      "text": "For a Chanakyapuri pickup followed by several appointments, record the planned departure and destination for each leg. When a meeting overruns, preserve the revised departure time and the coordinator who accepted the change. Compare the vehicle history with the itinerary that applied during that leg; a later edited schedule can otherwise make an agreed wait look like a missed departure."
+    },
+    {
+      "title": "Hand the return pickup to the next coordinator",
+      "text": "If the passenger leaves the first vehicle to attend a meeting, record who confirms readiness for the return and which vehicle is assigned. Share only the booking details needed by the responsible coordinator. Pilot a day with a venue change and return pickup, checking update timestamps and supported trip reports before using the setup for regular transfers."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can vehicle GPS confirm that a Chanakyapuri meeting has finished?",
+      "answer": "No. The host or passenger should confirm readiness for pickup. Review that confirmation alongside the assigned vehicle and its latest update time; a parked marker cannot establish the status of a meeting."
+    },
+    {
+      "question": "Does this guide establish a diplomatic affiliation or NAVII branch in Chanakyapuri?",
+      "answer": "No. It provides independent fleet planning guidance only. Confirm hardware, SIM, platform, reporting support, fitting availability and complete costs for your exact vehicle location with NAVII GPS before booking."
+    }
+  ]
+},
   "newDelhi": {
     "name": "New Delhi",
     "description": "Plan GPS tracking in New Delhi district for scheduled office visits and shared vehicles. Review destination entrances, appointment changes and return assignments.",
