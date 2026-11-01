@@ -262,5 +262,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Delhi Cantt: station versus premises destinations, host-confirmed meeting arrangements and waiting/return bookings. Chanakyapuri: venue/entrance versus staging, versioned multi-venue itineraries and coordinator handover. Three distinct cards and two shared visible/schema FAQs each.
 - [x] Existing optional guide renderer supplies descriptions, WebPage schema, visible headings, source references and related navigation; existing titles, canonical, H1, Service geography and parent/sibling links retained.
 - [x] Geography sources verified 2026-11-01: https://dmnewdelhi.delhi.gov.in/subdivision-blocks/ and https://www.ndmc.gov.in/Departments/civil_control.aspx . Use stable locality context only, not old contact lists, access rules, schedules or distances. No local branch, institutional affiliation or fitting guarantee claimed.
-- [ ] Branch seo/delhi-cantt-chanakyapuri-20261101: require full SEO, lint, regression, build and browser checks; verify live metadata, five FAQs/schema, headings, sources, navigation and sitemap before recording publication. PR/deployment record provides completion evidence.
+- [x] Published via PR #94; main CI 41266556290 and IndexNow 41266843176 succeeded. Both live pages verified with five matching FAQs. Branch seo/delhi-cantt-chanakyapuri-20261101: require full SEO, lint, regression, build and browser checks; verify live metadata, five FAQs/schema, headings, sources, navigation and sitemap before recording publication. PR/deployment record provides completion evidence.
 - [ ] Next: assess existing Himachal hub coverage for Una/Hamirpur and add substantive local planning where justified; retain single canonical policy. Delhi locality coverage remains partial.
+
+
+### 2026-11-01 Una / Hamirpur hub improvements
+
+- [x] Inspected main 8d67b87, open PRs, current routes, sitemap and prior ledger. No unfinished routine SEO batch; unrelated PRs remain untouched.
+- [x] Extend existing /gps-tracker/himachal-pradesh with #una and #hamirpur sections; preserve existing #district-una and #district-hamirpur notes. No alternate city pages or new sitemap URLs.
+- [x] Una: purchase-order references, loading cut-offs, deferred supplier stops and Punjab-connected consignments. Hamirpur: dated multi-town service circuits, repeat visits, urgent rescheduling and job-outcome reconciliation. Four steps each, official sources and relevant internal links.
+- [x] Update shared metadata description and add two matching visible/schema FAQs (ten total). Preserve title, one H1, self-canonical, State Service schema and existing sections/navigation.
+- [x] Geography verified 2026-11-01: https://hpuna.nic.in/about-district/ and https://hphamirpur.nic.in/administrative-setup/ . Only stable district/town/industrial context used; no new branch, installation coverage, schedules, current access rules or device guarantees.
+- [ ] Branch seo/una-hamirpur-hub-20261101: require source SEO, lint, regression, build, rendered and browser checks before merge; verify live description, new anchors, ten matching FAQs, sources, navigation and sitemap. PR/deployment evidence records actual publication.
+- [ ] Next: assess Bilaspur and Sirmaur/Nahan existing Himachal coverage for distinct useful content; then return to Punjab/Haryana gaps. Hub sections do not establish full district/locality coverage.
