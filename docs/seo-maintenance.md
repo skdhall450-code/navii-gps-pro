@@ -317,5 +317,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Karol Bagh: exact shop references, individual collection readiness and consolidated dispatch reconciliation. Paharganj: station versus Main Bazaar/accommodation meeting points, passenger/luggage handovers and revised bookings. Three cards and two shared visible/schema FAQs each.
 - [x] Existing guide renderer supplies unique descriptions, visible headings, source links, mutual navigation and matching WebPage/FAQ schema. Retain titles, H1, canonical, Service scope and parent/sibling links.
 - [x] Stable local references verified 2026-11-02 at https://delhitourism.gov.in/shopping/karol_bagh.html and https://delhitourism.gov.in/shopping/paharganj.html . No current opening hours, parking rules, travel times, branch, installation or device guarantees added.
-- [ ] Branch seo/karol-bagh-paharganj-20261102: require full source SEO, lint, regressions, production build, rendered SEO and browser checks before merge. Verify live metadata, five matching FAQs per page, cards, sources, mutual links and sitemap; regression-check Connaught Place. Consult PR/deployment evidence before marking published.
+- [x] Published via PR #99; main CI 41386826181 and IndexNow 41387331054 succeeded. Both pages and Connaught Place regression live verified. Branch seo/karol-bagh-paharganj-20261102: require full source SEO, lint, regressions, production build, rendered SEO and browser checks before merge. Verify live metadata, five matching FAQs per page, cards, sources, mutual links and sitemap; regression-check Connaught Place. Consult PR/deployment evidence before marking published.
 - [ ] Next: assess existing Himachal Chamba coverage for a substantive district workflow; Kinnaur and Lahaul–Spiti remain in backlog. Delhi and northern locality coverage remains partial.
+
+
+### 2026-11-02 Chamba hub improvement
+
+- [x] Inspected main 3512126, open PRs, route inventory, live sitemap and previous ledger. No unfinished routine SEO batch; unrelated PRs untouched.
+- [x] Extend existing /gps-tracker/himachal-pradesh with #chamba planning section; retain #district-chamba and the canonical/sitemap URL. No alternate district or town pages.
+- [x] Added four detailed steps covering distinct Chamba/Dalhousie/Bharmour destinations, dated check-in windows, revised or deferred stages and recovered-record event times. Added two shared visible/schema FAQs (fourteen total), source link and Kangra guide navigation.
+- [x] Preserve appropriate state title/description, social metadata, one H1, canonical, State Service schema and prior sections. Existing local-plan renderer provides visible heading and anchor navigation.
+- [x] Stable subdivision geography verified 2026-11-02 at https://hpchamba.nic.in/tehsil/ . No dated boundary text, current road-opening claims, travel times, network coverage, local branch or device-recovery guarantee added.
+- [ ] Branch seo/chamba-hub-20261102: require source SEO, lint, regressions, production build, rendered SEO and browser checks before merge. Verify live section, fourteen matching FAQs, metadata, source/internal links, existing anchors and sitemap. PR/deployment evidence records publication.
+- [ ] Next: assess Kinnaur and Lahaul–Spiti existing district notes for useful distinct planning content; broader Punjab/Haryana/Delhi town backlog remains. Hub sections do not establish complete district/locality coverage or installation availability.
