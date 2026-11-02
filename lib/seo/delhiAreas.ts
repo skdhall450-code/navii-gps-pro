@@ -39,6 +39,11 @@ const newDelhiAreaGuides: Record<string, DelhiPriorityGuide> = {
   "chanakyapuri": delhiPriorityGuides.chanakyapuri,
 };
 
+const centralAreaGuides: Record<string, DelhiPriorityGuide> = {
+  "karol-bagh": delhiPriorityGuides.karolBagh,
+  "paharganj": delhiPriorityGuides.paharganj,
+};
+
 export const delhiAreas: DelhiAreaSeo[] = delhiDistricts.flatMap(
   (district, districtIndex) => district.areas.map((name, areaIndex) => {
     const nearbyAreas = district.areas.filter((area) => area !== name);
@@ -46,7 +51,7 @@ export const delhiAreas: DelhiAreaSeo[] = delhiDistricts.flatMap(
 
     return {
       slug: toDelhiAreaSlug(name),
-      guide: district.slug === "new-delhi" ? newDelhiAreaGuides[toDelhiAreaSlug(name)] : undefined,
+      guide: district.slug === "new-delhi" ? newDelhiAreaGuides[toDelhiAreaSlug(name)] : district.slug === "central" ? centralAreaGuides[toDelhiAreaSlug(name)] : undefined,
       name,
       districtSlug: district.slug,
       districtName: district.name,
