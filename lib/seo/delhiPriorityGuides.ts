@@ -1,4 +1,68 @@
 export const delhiPriorityGuides = {
+"karolBagh": {
+  "name": "Karol Bagh",
+  "description": "Plan GPS tracking in Karol Bagh for shop collections and retail deliveries. Record shop entrances, collection references and consolidated dispatch handovers.",
+  "source": "https://delhitourism.gov.in/shopping/karol_bagh.html",
+  "sourceLabel": "Delhi Tourism: Karol Bagh",
+  "related": "/gps-tracker/delhi/central/paharganj",
+  "relatedLabel": "Paharganj pickup planning",
+  "cases": [
+    {
+      "title": "Give each Karol Bagh shop its own collection reference",
+      "text": "Ajmal Khan Road, Arya Samaj Road, Bank Street and Ghaffar Market are distinct shopping references within Karol Bagh. Record the shop name, exact entrance, receiving contact and collection reference before assigning a vehicle. Confirm a usable meeting point with the shop; a market name alone is not a complete loading instruction."
+    },
+    {
+      "title": "Keep collection readiness separate for each shop",
+      "text": "For a round collecting from several Karol Bagh shops, confirm which orders are packed and ready before arranging the stop sequence. If one shop defers a collection, preserve that exception and its revised appointment. Match every collection to its acknowledgement rather than assuming all nearby orders were loaded during one vehicle stop."
+    },
+    {
+      "title": "Reconcile consolidated goods before onward dispatch",
+      "text": "If several shop collections are combined at a depot, retain the shop references under the onward dispatch record. Record any missing parcel, return or vehicle reassignment before closing the collection round. Test a representative round against supported trip history; vehicle movement cannot count parcels or establish custody of goods after they leave the vehicle."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can one Karol Bagh GPS stop confirm collections from several shops?",
+      "answer": "No. Keep a separate collection reference and acknowledgement for each shop. A stop can support multiple visits, but vehicle location alone does not show which parcels were collected."
+    },
+    {
+      "question": "What should a Karol Bagh collection pilot include?",
+      "answer": "Include several confirmed shop entrances, a deferred order and a depot handover. Compare supported trip records with collection acknowledgements, then confirm reporting retention, vehicle compatibility and fitting arrangements before rollout."
+    }
+  ]
+},
+"paharganj": {
+  "name": "Paharganj",
+  "description": "Plan GPS tracking in Paharganj for station-area and guest pickups. Confirm meeting points, luggage handovers and changed departure plans before dispatch.",
+  "source": "https://delhitourism.gov.in/shopping/paharganj.html",
+  "sourceLabel": "Delhi Tourism: Paharganj",
+  "related": "/gps-tracker/delhi/central/karol-bagh",
+  "relatedLabel": "Karol Bagh collection planning",
+  "cases": [
+    {
+      "title": "Distinguish the station meeting point from Main Bazaar",
+      "text": "Paharganj Main Bazaar is near New Delhi Railway Station. A booking labelled Paharganj may refer to a station meeting point, a guest accommodation or a shop. Record the exact agreed pickup point and passenger contact reference; confirm the station side or property entrance separately rather than sending a driver to a general locality pin."
+    },
+    {
+      "title": "Confirm passengers and luggage through the booking record",
+      "text": "For a guest pickup, record passenger readiness and the agreed luggage handover with the coordinator. Keep a vehicle arrival separate from boarding confirmation, especially when people meet the driver away from the accommodation entrance. GPS reports the vehicle and cannot confirm that every passenger or bag is on board; avoid placing unnecessary guest details in shared vehicle labels."
+    },
+    {
+      "title": "Reassign delayed departures without losing the original booking",
+      "text": "If a train arrival or guest departure changes, update the booking with the revised meeting time and assigned vehicle. Confirm train information through the relevant travel service; a vehicle tracker does not report railway status. Retain cancellation or replacement notes and review both journey legs during a pilot before relying on available trip reports for pickup coordination."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Does a Paharganj arrival alert confirm that a guest and luggage are onboard?",
+      "answer": "No. Confirm passengers and luggage through the booking handover process. A supported location event can help review the vehicle arrival but does not establish boarding or luggage custody."
+    },
+    {
+      "question": "How should a changed Paharganj station pickup be recorded?",
+      "answer": "Keep the revised meeting point, time and vehicle assignment under the original booking reference. Verify train status separately and compare vehicle movements with the version of the booking that applied to that journey."
+    }
+  ]
+},
 "delhiCantt": {
   "name": "Delhi Cantt",
   "description": "Plan GPS tracking in Delhi Cantt for passenger meeting points and booked visits. Separate station pickups, premises access and vehicle waiting records.",

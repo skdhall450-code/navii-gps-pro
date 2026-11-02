@@ -306,5 +306,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Panipat: textile roll/bale identity, loading versus delivery sequence and packaging exceptions. Samalkha: foundry release readiness, loading appointments and rejected-casting returns. Three distinct cards and two additional shared visible/schema FAQs each.
 - [x] Reuse Haryana guide rendering for descriptions, social metadata, headings, source links and WebPage/FAQ schema; retain titles, H1, canonical, Service geography and parent/sibling/service navigation.
 - [x] Geography/industry verified 2026-11-02 at https://panipat.gov.in/industries/ and https://panipat.gov.in/about-district/ . Use stable textile/foundry context only; no industrial rankings, current factory counts, branch, installation availability, device or price guarantees added.
-- [ ] Branch seo/panipat-samalkha-20261102: require full source SEO, lint, regressions, production build, rendered and browser CI before merge. Verify both live URLs, five matching FAQs each, metadata, sources, internal links and sitemap; regression-check Karnal/Panchkula. PR/deployment evidence records publication.
+- [x] Published via PR #98; main CI 41379541001 and IndexNow 41379921736 succeeded. Both pages and Karnal/Panchkula regressions live verified. Branch seo/panipat-samalkha-20261102: require full source SEO, lint, regressions, production build, rendered and browser CI before merge. Verify both live URLs, five matching FAQs each, metadata, sources, internal links and sitemap; regression-check Karnal/Panchkula. PR/deployment evidence records publication.
 - [ ] Next: assess existing Delhi Karol Bagh and Paharganj locality guides, preserving their current district mapping and canonical URLs. Remaining Punjab/Himachal/Haryana towns stay in backlog; this batch does not establish complete locality coverage.
+
+
+### 2026-11-02 Karol Bagh / Paharganj refresh
+
+- [x] Inspected main 595c27a, open PRs, existing route inventory, live sitemap and ledger; no unfinished routine SEO batch. Unrelated PRs untouched.
+- [x] Preserve /gps-tracker/delhi/central/karol-bagh and /gps-tracker/delhi/central/paharganj. No district remapping, alternate URLs or added sitemap entries.
+- [x] Karol Bagh: exact shop references, individual collection readiness and consolidated dispatch reconciliation. Paharganj: station versus Main Bazaar/accommodation meeting points, passenger/luggage handovers and revised bookings. Three cards and two shared visible/schema FAQs each.
+- [x] Existing guide renderer supplies unique descriptions, visible headings, source links, mutual navigation and matching WebPage/FAQ schema. Retain titles, H1, canonical, Service scope and parent/sibling links.
+- [x] Stable local references verified 2026-11-02 at https://delhitourism.gov.in/shopping/karol_bagh.html and https://delhitourism.gov.in/shopping/paharganj.html . No current opening hours, parking rules, travel times, branch, installation or device guarantees added.
+- [ ] Branch seo/karol-bagh-paharganj-20261102: require full source SEO, lint, regressions, production build, rendered SEO and browser checks before merge. Verify live metadata, five matching FAQs per page, cards, sources, mutual links and sitemap; regression-check Connaught Place. Consult PR/deployment evidence before marking published.
+- [ ] Next: assess existing Himachal Chamba coverage for a substantive district workflow; Kinnaur and Lahaul–Spiti remain in backlog. Delhi and northern locality coverage remains partial.
