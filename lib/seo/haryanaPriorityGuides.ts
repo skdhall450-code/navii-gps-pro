@@ -1,5 +1,65 @@
 export type HaryanaPriorityGuide = { source?: string; sourceLabel?: string; title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
+"panipat": {
+  "title": "GPS Tracker in Panipat District, Haryana",
+  "description": "Plan GPS tracking in Panipat for textile dispatches. Match roll and bale references, loading sequences and customer receiving records to vehicle journeys.",
+  "source": "https://panipat.gov.in/industries/",
+  "sourceLabel": "Panipat district administration: textile and Samalkha foundry industries",
+  "cases": [
+    {
+      "title": "Identify textile rolls and bales before dispatch",
+      "text": "Panipat is known for textiles, carpets and blankets. For a textile dispatch, list the roll or bale identifiers, customer order and receiving premises before assigning the vehicle. Keep packing quantities and product details in the dispatch sheet; a vehicle tracker cannot identify fabric, colour, roll length or the items on board."
+    },
+    {
+      "title": "Review loading order against the delivery sequence",
+      "text": "When a Panipat vehicle carries textile orders for several receivers, agree the delivery sequence before loading and retain a separate acknowledgement for each order. If the sequence changes, confirm with the dispatch team whether the required consignment can be reached without unloading other orders. GPS stop history supports journey review but does not show the physical arrangement of the load."
+    },
+    {
+      "title": "Record packaging exceptions at the receiving point",
+      "text": "Keep any wet, torn or missing packaging observations with the receiver record and the affected roll or bale reference. Compare the assigned vehicle journey with that record without treating location or waiting time as proof of cargo condition. Pilot a multi-customer round and confirm available trip exports, retention and fitting arrangements before fleet rollout."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can GPS identify a Panipat textile roll or its condition?",
+      "answer": "No. Keep roll identifiers, quantities and packaging condition in the dispatch and receiving records. Vehicle GPS can help review the journey, but does not establish fabric specifications, moisture or damage."
+    },
+    {
+      "question": "How should a changed Panipat delivery sequence be reviewed?",
+      "answer": "Retain the revised stop order and confirm that the planned consignment can be unloaded at each receiver. Reconcile supported stop timestamps with individual order acknowledgements; the first delivery does not close the remaining textile orders."
+    }
+  ]
+},
+"samalkha": {
+  "title": "GPS Tracker in Samalkha, Panipat",
+  "description": "Plan GPS tracking in Samalkha for foundry collections. Confirm release readiness, loading appointments and casting return references alongside vehicle trips.",
+  "source": "https://panipat.gov.in/industries/",
+  "sourceLabel": "Panipat district administration: textile and Samalkha foundry industries",
+  "cases": [
+    {
+      "title": "Confirm foundry release before sending a vehicle",
+      "text": "Samalkha is in Panipat district and has foundry activity associated with agricultural implements. For a casting collection, confirm the order reference, supplier release and actual loading premises before dispatch. Separate production or inspection clearance from vehicle arrival; reaching the foundry does not mean a consignment is ready to load."
+    },
+    {
+      "title": "Coordinate the loading appointment with the supplier",
+      "text": "Ask the Samalkha supplier to confirm the loading window, receiving contact and handling arrangements suitable for the consignment and vehicle. Record a postponed appointment separately from a driver delay. Compare supported arrival and departure times with the loading note; GPS cannot confirm lifting capacity, load securing or weight."
+    },
+    {
+      "title": "Keep rejected castings separate from the next collection",
+      "text": "If castings return for inspection or rework, link the return reference to the original order and list the items accepted back by the supplier. Keep this return task separate from any fresh collection on the same vehicle. Trial the outward and return legs against available trip records and confirm hardware, reporting and installation requirements for the actual operating base."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Does a Samalkha foundry arrival prove a casting is ready?",
+      "answer": "No. Confirm production or inspection release with the supplier before dispatch. Use vehicle timestamps to review the collection journey, and keep the loading acknowledgement with the order reference."
+    },
+    {
+      "question": "Can GPS confirm casting weight or acceptance of a rework return?",
+      "answer": "No. Use the relevant weighing, inspection and supplier acceptance records. Link a returned casting to its order and vehicle journey; location data alone cannot measure the load or prove acceptance for rework."
+    }
+  ]
+},
 "karnal": {
   "title": "GPS Tracker in Karnal District, Haryana",
   "description": "Plan GPS tracking in Karnal district for agricultural service rounds. Record field access points, equipment job references and workshop follow-up journeys.",
