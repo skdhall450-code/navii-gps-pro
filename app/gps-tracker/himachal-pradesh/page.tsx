@@ -27,6 +27,21 @@ const workflows = [
 
 const localPlans = [
 {
+  "id": "chamba",
+  "name": "Chamba district staged journeys and reporting check-ins",
+  "intro": "Chamba, Dalhousie and Bharmour are separate subdivisions in Chamba district. For a supply or passenger journey, identify the actual destination and planned stages rather than treating a Chamba district booking as a stop in Chamba town.",
+  "steps": [
+    "Before departure, give each stage its own destination, receiving contact and expected check-in window. Keep a Chamba town visit distinct from a Dalhousie or Bharmour destination. Confirm the usable arrival point with the receiver and use current local information for route decisions; a saved GPS route is not evidence that a road is open or suitable today.",
+    "Agree which dispatcher reviews the check-ins and what happens when an update is late. Record the last received vehicle timestamp separately from a phone confirmation or receiver acknowledgement. If the map position is old, label it as the last reported position and follow the agreed safe contact process; do not assume that the vehicle is still there or that a journey is complete.",
+    "If a stage is deferred, a vehicle turns back or the receiving destination changes, retain the revised plan with its effective time. Mark the original appointment as deferred rather than delivered. When another vehicle completes the journey, keep both vehicle assignments and any actual goods or passenger handover under the same dispatch or booking reference.",
+    "Pilot a representative outward and return journey and review any reporting gaps with the installer. Ask whether the chosen device stores records while disconnected and how recovered records appear in reports. Compare event times with the check-in log after reconnection so delayed uploads are not mistaken for new visits. Confirm report retention, authorised access and fitting arrangements for the actual vehicle base before rollout."
+  ],
+  "related": "/gps-tracker/himachal-pradesh/kangra",
+  "relatedLabel": "Kangra and Dharamshala journey planning",
+  "source": "https://hpchamba.nic.in/tehsil/",
+  "sourceLabel": "Chamba district subdivision and tehsil directory"
+},
+{
   "id": "bilaspur",
   "name": "Bilaspur district delivery zones and split rounds",
   "intro": "Bilaspur district includes Bilaspur, Ghumarwin and Jhandutta subdivisions, with Shri Naina Devi Ji subdivision headquartered at Swarghat. Give a delivery its exact destination: a district label or subdivision office location is not the receiving address.",
@@ -157,6 +172,8 @@ const districts = [
   { slug: "una", name: "Una", note: "For regional and Punjab-connected routes, review complete trips across state boundaries and confirm SIM coverage for recurring destinations." },
 ];
 const faqs = [
+{"question": "Does a Chamba vehicle reporting gap mean the vehicle has stopped?", "answer": "No. Check the timestamp of the last received update and use the agreed dispatcher check-in procedure. A stale map position cannot establish the current location, journey completion or the reason updates are missing."},
+{"question": "How should delayed Chamba journey records be reviewed after reconnection?", "answer": "Confirm the selected device and platform support for storing and recovering records. Compare the recorded event times with the dated dispatch plan and check-in log; a delayed upload is not necessarily a new trip or repeat visit."},
 {"question": "How should Bilaspur district deliveries be split between vehicles?", "answer": "Assign every order to a vehicle using the exact receiving address and agreed delivery window. Retain any reassignment time and compare the final dispatch list with supported trip records and customer acknowledgements. A district-wide arrival event cannot identify which order was delivered."},
 {"question": "Can a vehicle tracker locate equipment left at a Sirmaur customer site?", "answer": "No. A tracker fitted to the vehicle reports that vehicle, not detached equipment. Record the item handover and later collection separately against the Nahan, Paonta Sahib, Rajgarh or other customer job. Discuss a separate suitable tracking solution if equipment location is required."},
 {"question": "Can GPS show whether an Una supplier order is ready for collection?", "answer": "No. Confirm material readiness and quantities through the supplier and purchase-order records. Use supported vehicle trip and stop records to review the collection journey, including deferred or repeated visits."},
