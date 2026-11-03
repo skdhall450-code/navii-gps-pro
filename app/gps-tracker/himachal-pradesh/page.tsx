@@ -27,6 +27,36 @@ const workflows = [
 
 const localPlans = [
 {
+  "id": "kinnaur",
+  "name": "Kinnaur supply batches and receiving records",
+  "intro": "The Kinnaur district directory lists Kalpa, Nichar and Pooh subdivisions. For supplies destined for different receiving sites, keep the actual delivery address and order reference alongside the subdivision; a district label is not a loading or unloading point.",
+  "steps": [
+    "Before consolidating a supply run, give each receiving site a separate order reference, agreed quantity and receiving contact. Separate Kalpa, Nichar and Pooh destinations in the dispatch sheet, then confirm which actual stops belong on the planned journey. An administrative grouping does not establish a suitable driving route.",
+    "Record the quantities loaded for each destination and any supplies held back at the depot. If a receiver accepts only part of an order, record the accepted amount and what remains on the vehicle. A supported arrival or stop record helps review the visit but cannot measure stock or confirm acceptance.",
+    "Keep a replenishment request separate from the delivery that triggered it. Link the new order to the shortage or returned-item record, confirm receiver readiness and allocate a dated journey. Do not count a second vehicle visit as fulfilment of the original balance without a receiving acknowledgement.",
+    "Pilot a run with more than one receiving site and reconcile dispatch quantities, acknowledgements and returns with supported journey timestamps. Confirm report retention, connectivity expectations and installation arrangements for the actual vehicle base. Stock accounting still needs the order and receiving records; GPS history is supporting journey evidence."
+  ],
+  "related": "/commercial-vehicle-tracking",
+  "relatedLabel": "Commercial vehicle reporting requirements",
+  "source": "https://hpkinnaur.nic.in/administrative-setup/",
+  "sourceLabel": "Kinnaur district administrative setup"
+},
+{
+  "id": "lahaul-spiti",
+  "name": "Lahaul and Spiti vehicle bases and return assignments",
+  "intro": "The Lahaul and Spiti district directory lists Keylong, Kaza and Udaipur subdivisions. Treat each operating base and booked destination explicitly when allocating vehicles; a vehicle listed somewhere in the district is not automatically available for the next job.",
+  "steps": [
+    "For each vehicle, record its operating base, current assignment and agreed return point. Keep Keylong, Kaza and Udaipur jobs distinct in the allocation sheet. Confirm the actual itinerary using current local road information before committing the vehicle; district membership and a saved map route do not establish that a connection is usable.",
+    "Reserve the vehicle through its planned return or agreed handover, including any overnight stay. Separate a customer stop from a return-to-base task so a completed outward booking does not release the vehicle prematurely for another booking.",
+    "If the vehicle finishes at a different base, record the receiving coordinator, handover time and next authorised assignment. Agree who owns follow-up until the handover is confirmed. Use the age of the latest GPS update alongside direct coordination; a last-reported position alone cannot confirm that a vehicle is ready for dispatch.",
+    "Test the allocation process with a changed return point and a delayed update before expanding the fleet. Review supported journey history against the dated assignment log, including the return leg. Confirm how reporting gaps are handled, who can access records and where fitting can be arranged; do not assume uninterrupted connectivity or local installation availability."
+  ],
+  "related": "/software",
+  "relatedLabel": "Fleet software and dispatcher access planning",
+  "source": "https://hplahaulspiti.nic.in/administrative-setup/",
+  "sourceLabel": "Lahaul and Spiti district administrative setup"
+},
+{
   "id": "chamba",
   "name": "Chamba district staged journeys and reporting check-ins",
   "intro": "Chamba, Dalhousie and Bharmour are separate subdivisions in Chamba district. For a supply or passenger journey, identify the actual destination and planned stages rather than treating a Chamba district booking as a stop in Chamba town.",
@@ -172,6 +202,8 @@ const districts = [
   { slug: "una", name: "Una", note: "For regional and Punjab-connected routes, review complete trips across state boundaries and confirm SIM coverage for recurring destinations." },
 ];
 const faqs = [
+{"question": "Can GPS confirm the quantities delivered on a Kinnaur supply run?", "answer": "No. Compare supported vehicle journey records with the loaded quantities, receiving acknowledgements and returns for each order. A location or stop event does not measure stock, confirm acceptance or settle a partial-delivery balance."},
+{"question": "When is a Lahaul or Spiti vehicle ready for its next assignment?", "answer": "Confirm completion of the current assignment, the agreed return point or base handover, and the receiving coordinator’s acknowledgement. Check the age of the latest vehicle update as supporting evidence. A completed outward trip or a last-reported map position alone does not establish availability."},
 {"question": "Does a Chamba vehicle reporting gap mean the vehicle has stopped?", "answer": "No. Check the timestamp of the last received update and use the agreed dispatcher check-in procedure. A stale map position cannot establish the current location, journey completion or the reason updates are missing."},
 {"question": "How should delayed Chamba journey records be reviewed after reconnection?", "answer": "Confirm the selected device and platform support for storing and recovering records. Compare the recorded event times with the dated dispatch plan and check-in log; a delayed upload is not necessarily a new trip or repeat visit."},
 {"question": "How should Bilaspur district deliveries be split between vehicles?", "answer": "Assign every order to a vehicle using the exact receiving address and agreed delivery window. Retain any reassignment time and compare the final dispatch list with supported trip records and customer acknowledgements. A district-wide arrival event cannot identify which order was delivered."},
