@@ -25,6 +25,23 @@ type DealerContact = {
   company?: string;
 };
 
+type SavedDealerContact = {
+  id: string;
+  name: string;
+  email: string;
+  district?: string | null;
+  state?: string | null;
+  companyName?: string | null;
+};
+
+type SavedCampaign = {
+  id: string;
+  subject: string;
+  recipientCount: number;
+  createdAt: string;
+  status: string;
+};
+
 const DEALER_EMAIL_API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com";
 
 function dealerEmailAuthHeaders() {
@@ -121,10 +138,10 @@ function DealerEmailContent() {
         if (!responses[0].ok || !contactJson.success) throw new Error(contactJson.message || "Unable to load saved dealer contacts.");
         if (!responses[1].ok || !campaignJson.success) throw new Error(campaignJson.message || "Unable to load campaign history.");
         if (!active) return;
-        const savedContacts = (contactJson.data || []).map((item: any) => ({ id: item.id, name: item.name, email: item.email, district: item.district || "", state: item.state || "", company: item.companyName || "" }));
+        const savedContacts = (contactJson.data || []).map((item: SavedDealerContact) => ({ id: item.id, name: item.name, email: item.email, district: item.district || "", state: item.state || "", company: item.companyName || "" }));
         setContacts(savedContacts);
         setSelectedIds(savedContacts.map((item: DealerContact) => item.id));
-        setHistory((campaignJson.data || []).map((item: any) => ({ id: item.id, subject: item.subject, district: "Saved recipients", recipients: item.recipientCount, createdAt: new Date(item.createdAt).toLocaleString(), status: item.status === "APPROVED" ? "APPROVED" : "DRAFT" })));
+        setHistory((campaignJson.data || []).map((item: SavedCampaign) => ({ id: item.id, subject: item.subject, district: "Saved recipients", recipients: item.recipientCount, createdAt: new Date(item.createdAt).toLocaleString(), status: item.status === "APPROVED" ? "APPROVED" : "DRAFT" })));
       } catch (err) {
         if (active) setError(err instanceof Error ? err.message : "Unable to load saved marketing data.");
       } finally { if (active) setLoading(false); }
@@ -161,14 +178,14 @@ function DealerEmailContent() {
       }
       const parsed = parseDealerCsv(await file.text());
       if (!parsed.length) throw new Error("No valid dealer rows found. Check the Name and Email columns.");
-      const response = await fetch(apiBase + "/api/dealer-email/contacts/import", {
+      const response = await fetch(DEALER_EMAIL_API_BASE + "/api/dealer-email/contacts/import", {
         method: "POST",
         headers: dealerEmailAuthHeaders(),
         body: JSON.stringify({ contacts: parsed.map(({ name, email, district, state, company }) => ({ name, email, district, state, companyName: company })) }),
       });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message || "Unable to save imported contacts.");
-      const saved = (result.contacts || []).map((item: any) => ({ id: item.id, name: item.name, email: item.email, district: item.district || "", state: item.state || "", company: item.companyName || "" }));
+      const saved = (result.contacts || []).map((item: SavedDealerContact) => ({ id: item.id, name: item.name, email: item.email, district: item.district || "", state: item.state || "", company: item.companyName || "" }));
       setContacts(saved);
       setSelectedIds(saved.map((item: DealerContact) => item.id));
       setApproved(false);
@@ -190,9 +207,9 @@ function DealerEmailContent() {
     if (!subject.trim() || !body.trim() || recipientCount === 0) return;
     setError("");
     try {
-      const response = await fetch(apiBase + "/api/dealer-email/campaigns", {
+      const response = await fetch(DEALER_EMAIL_API_BASE + "/api/dealer-email/campaigns", {
         method: "POST",
-        headers: authHeaders(),
+        headers: dealerEmailAuthHeaders(),
         body: JSON.stringify({ subject: subject.trim(), body: body.trim(), attachmentName: pdfName || undefined, recipients: selectedRecipients.map(({ name, email, district, state, company }) => ({ name, email, district, state, companyName: company })) }),
       });
       const result = await response.json();
