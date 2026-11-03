@@ -25,6 +25,14 @@ type DealerContact = {
   company?: string;
 };
 
+const DEALER_EMAIL_API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com";
+
+function dealerEmailAuthHeaders() {
+  const token = window.localStorage.getItem("navii_access_token");
+  if (!token) throw new Error("NAVII login session not found. Please sign in again.");
+  return { "Content-Type": "application/json", Authorization: "Bearer " + token };
+}
+
 type CampaignDraft = {
   id: string;
   subject: string;
@@ -98,22 +106,15 @@ function DealerEmailContent() {
   const [history, setHistory] = useState<CampaignDraft[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com";
-
-  function authHeaders() {
-    const token = window.localStorage.getItem("navii_access_token");
-    if (!token) throw new Error("NAVII login session not found. Please sign in again.");
-    return { "Content-Type": "application/json", Authorization: "Bearer " + token };
-  }
 
   useEffect(() => {
     let active = true;
     async function loadSavedData() {
       try {
-        const headers = authHeaders();
+        const headers = dealerEmailAuthHeaders();
         const responses = await Promise.all([
-          fetch(apiBase + "/api/dealer-email/contacts", { headers }),
-          fetch(apiBase + "/api/dealer-email/campaigns", { headers }),
+          fetch(DEALER_EMAIL_API_BASE + "/api/dealer-email/contacts", { headers }),
+          fetch(DEALER_EMAIL_API_BASE + "/api/dealer-email/campaigns", { headers }),
         ]);
         const contactJson = await responses[0].json();
         const campaignJson = await responses[1].json();
@@ -162,7 +163,7 @@ function DealerEmailContent() {
       if (!parsed.length) throw new Error("No valid dealer rows found. Check the Name and Email columns.");
       const response = await fetch(apiBase + "/api/dealer-email/contacts/import", {
         method: "POST",
-        headers: authHeaders(),
+        headers: dealerEmailAuthHeaders(),
         body: JSON.stringify({ contacts: parsed.map(({ name, email, district, state, company }) => ({ name, email, district, state, companyName: company })) }),
       });
       const result = await response.json();
