@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertCircle,
   CheckCircle2,
@@ -97,6 +97,40 @@ function DealerEmailContent() {
   const [approved, setApproved] = useState(false);
   const [history, setHistory] = useState<CampaignDraft[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com";
+
+  function authHeaders() {
+    const token = window.localStorage.getItem("navii_access_token");
+    if (!token) throw new Error("NAVII login session not found. Please sign in again.");
+    return { "Content-Type": "application/json", Authorization: "Bearer " + token };
+  }
+
+  useEffect(() => {
+    let active = true;
+    async function loadSavedData() {
+      try {
+        const headers = authHeaders();
+        const responses = await Promise.all([
+          fetch(apiBase + "/api/dealer-email/contacts", { headers }),
+          fetch(apiBase + "/api/dealer-email/campaigns", { headers }),
+        ]);
+        const contactJson = await responses[0].json();
+        const campaignJson = await responses[1].json();
+        if (!responses[0].ok || !contactJson.success) throw new Error(contactJson.message || "Unable to load saved dealer contacts.");
+        if (!responses[1].ok || !campaignJson.success) throw new Error(campaignJson.message || "Unable to load campaign history.");
+        if (!active) return;
+        const savedContacts = (contactJson.data || []).map((item: any) => ({ id: item.id, name: item.name, email: item.email, district: item.district || "", state: item.state || "", company: item.companyName || "" }));
+        setContacts(savedContacts);
+        setSelectedIds(savedContacts.map((item: DealerContact) => item.id));
+        setHistory((campaignJson.data || []).map((item: any) => ({ id: item.id, subject: item.subject, district: "Saved recipients", recipients: item.recipientCount, createdAt: new Date(item.createdAt).toLocaleString(), status: item.status === "APPROVED" ? "APPROVED" : "DRAFT" })));
+      } catch (err) {
+        if (active) setError(err instanceof Error ? err.message : "Unable to load saved marketing data.");
+      } finally { if (active) setLoading(false); }
+    }
+    void loadSavedData();
+    return () => { active = false; };
+  }, []);
 
   const districts = useMemo(
     () => [...new Set(contacts.map((item) => item.district).filter(Boolean))].sort(),
@@ -126,14 +160,19 @@ function DealerEmailContent() {
       }
       const parsed = parseDealerCsv(await file.text());
       if (!parsed.length) throw new Error("No valid dealer rows found. Check the Name and Email columns.");
-      const unique = new Map<string, DealerContact>();
-      [...contacts, ...parsed].forEach((item) => unique.set(item.email, item));
-      const merged = [...unique.values()];
-      setContacts(merged);
-      setSelectedIds(merged.map((item) => item.id));
+      const response = await fetch(apiBase + "/api/dealer-email/contacts/import", {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({ contacts: parsed.map(({ name, email, district, state, company }) => ({ name, email, district, state, companyName: company })) }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.message || "Unable to save imported contacts.");
+      const saved = (result.contacts || []).map((item: any) => ({ id: item.id, name: item.name, email: item.email, district: item.district || "", state: item.state || "", company: item.companyName || "" }));
+      setContacts(saved);
+      setSelectedIds(saved.map((item: DealerContact) => item.id));
       setApproved(false);
       setDistrict("ALL");
-      setImportMessage(`${parsed.length} valid rows imported. ${merged.length} unique dealer contacts are now in this working session.`);
+      setImportMessage(`${result.imported} valid contacts saved to the NAVII database. ${saved.length} contacts are available across sessions.`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to import this file.");
     } finally {
@@ -146,19 +185,25 @@ function DealerEmailContent() {
     setApproved(false);
   }
 
-  function approveDraft() {
+  async function approveDraft() {
     if (!subject.trim() || !body.trim() || recipientCount === 0) return;
-    const draft: CampaignDraft = {
-      id: `NAV-${Date.now()}`,
-      subject: subject.trim(),
-      district: district === "ALL" ? "All selected districts" : district,
-      recipients: recipientCount,
-      createdAt: new Date().toLocaleString(),
-      status: "APPROVED",
-    };
-    setHistory((current) => [draft, ...current]);
-    setApproved(true);
-    setShowPreview(false);
+    setError("");
+    try {
+      const response = await fetch(apiBase + "/api/dealer-email/campaigns", {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({ subject: subject.trim(), body: body.trim(), attachmentName: pdfName || undefined, recipients: selectedRecipients.map(({ name, email, district, state, company }) => ({ name, email, district, state, companyName: company })) }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.message || "Unable to save campaign draft.");
+      const item = result.data;
+      const draft: CampaignDraft = { id: item.id, subject: item.subject, district: district === "ALL" ? "All selected districts" : district, recipients: item.recipientCount, createdAt: new Date(item.createdAt).toLocaleString(), status: "APPROVED" };
+      setHistory((current) => [draft, ...current]);
+      setApproved(true);
+      setShowPreview(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to save campaign draft.");
+    }
   }
 
   const previewBody = body.replaceAll("{{name}}", firstRecipient?.name || "Dealer");
@@ -210,7 +255,7 @@ function DealerEmailContent() {
             </div>
             <div className="flex items-center justify-between text-xs text-slate-400"><span>{filtered.length} contacts shown</span><button type="button" onClick={() => { setSelectedIds((current) => [...new Set([...current, ...filtered.map((item) => item.id)])]); setApproved(false); }} className="font-semibold text-sky-400 hover:text-sky-300">Select all shown</button></div>
             <div className="max-h-[380px] overflow-auto rounded-xl border border-white/10">
-              {filtered.length === 0 ? <div className="p-8 text-center text-sm text-slate-500">No dealer contacts yet. Import a CSV file to begin.</div> : <table className="w-full min-w-[540px] text-left text-sm">
+              {filtered.length === 0 ? <div className="p-8 text-center text-sm text-slate-500">{loading ? "Loading saved dealer contacts…" : "No dealer contacts yet. Import a CSV file to begin."}</div> : <table className="w-full min-w-[540px] text-left text-sm">
                 <thead className="sticky top-0 bg-[#111f33] text-xs uppercase tracking-wide text-slate-400"><tr><th className="p-3">Select</th><th className="p-3">Dealer</th><th className="p-3">District / State</th><th className="p-3">Email</th></tr></thead>
                 <tbody>{filtered.map((item) => <tr key={item.id} className="border-t border-white/5 hover:bg-white/[0.025]"><td className="p-3"><input aria-label={`Select ${item.name}`} type="checkbox" checked={selectedIds.includes(item.id)} onChange={() => toggleContact(item.id)} className="h-4 w-4 accent-sky-500" /></td><td className="p-3"><p className="font-medium text-slate-200">{item.name}</p><p className="text-xs text-slate-500">{item.company || "—"}</p></td><td className="p-3 text-slate-300">{item.district || "—"}<p className="text-xs text-slate-500">{item.state}</p></td><td className="p-3 text-slate-400">{item.email}</td></tr>)}</tbody>
               </table>}
@@ -227,12 +272,12 @@ function DealerEmailContent() {
             </div>
             <div className="rounded-xl border border-sky-500/20 bg-sky-500/5 p-4 text-xs leading-5 text-slate-300"><p className="font-semibold text-sky-300">Approval safety</p><p className="mt-1">Preview and approval only create a local campaign record. No email is sent until the free Gmail authorisation and send workflow are configured and separately enabled.</p></div>
             <div className="flex flex-wrap gap-3"><button type="button" disabled={!recipientCount || !subject.trim() || !body.trim()} onClick={() => setShowPreview(true)} className="flex-1 rounded-xl bg-sky-500 px-4 py-3 text-sm font-semibold text-white hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-40">Preview campaign</button><button type="button" onClick={() => { setSelectedIds([]); setApproved(false); }} className="rounded-xl border border-white/10 px-4 py-3 text-sm text-slate-300 hover:bg-white/5">Clear selection</button></div>
-            {approved && <p className="flex items-center gap-2 text-sm text-emerald-300"><CheckCircle2 className="h-4 w-4" /> Draft approved and saved in this session. Nothing was sent.</p>}
+            {approved && <p className="flex items-center gap-2 text-sm text-emerald-300"><CheckCircle2 className="h-4 w-4" /> Draft approved and saved to the NAVII database. Nothing was sent.</p>}
           </section>
         </div>
 
         <section className="rounded-2xl border border-white/10 bg-[#0a1426] p-5">
-          <div className="flex items-center justify-between"><div><h2 className="text-lg font-semibold">Campaign history</h2><p className="mt-1 text-xs text-slate-400">Draft and approval activity in this browser session</p></div><span className="text-xs text-slate-500">Session only</span></div>
+          <div className="flex items-center justify-between"><div><h2 className="text-lg font-semibold">Campaign history</h2><p className="mt-1 text-xs text-slate-400">Approved campaign drafts saved in the NAVII database</p></div><span className="text-xs text-emerald-300">Database synced</span></div>
           {history.length === 0 ? <div className="mt-4 rounded-xl border border-dashed border-white/10 p-7 text-center text-sm text-slate-500">No campaign drafts approved yet.</div> : <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[620px] text-left text-sm"><thead className="text-xs uppercase text-slate-500"><tr><th className="p-3">Campaign</th><th className="p-3">Target</th><th className="p-3">Recipients</th><th className="p-3">Date</th><th className="p-3">Status</th></tr></thead><tbody>{history.map((item) => <tr key={item.id} className="border-t border-white/10"><td className="p-3"><p className="font-medium">{item.subject}</p><p className="text-xs text-slate-500">{item.id}</p></td><td className="p-3 text-slate-300">{item.district}</td><td className="p-3">{item.recipients}</td><td className="p-3 text-slate-400">{item.createdAt}</td><td className="p-3"><span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">Approved · Not sent</span></td></tr>)}</tbody></table></div>}
         </section>
       </div>
