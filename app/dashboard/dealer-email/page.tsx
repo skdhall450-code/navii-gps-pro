@@ -72,7 +72,7 @@ function parseDealerCsv(text: string): DealerContact[] {
   return lines.slice(1).map((line, row) => {
     const cells = parseCsvLine(line);
     return {
-      id: \`dealer-\${row}-\${cells[emailIndex] ?? ""}\`,
+      id: `dealer-${row}-${cells[emailIndex] ?? ""}`,
       name: cells[nameIndex] ?? "",
       email: (cells[emailIndex] ?? "").toLowerCase(),
       district: districtIndex >= 0 ? cells[districtIndex] ?? "" : "",
@@ -129,7 +129,7 @@ function DealerEmailContent() {
       setContacts(merged);
       setSelectedIds(merged.map((item) => item.id));
       setDistrict("ALL");
-      setImportMessage(\`\${parsed.length} valid rows imported. \${merged.length} unique dealer contacts are now in this working session.\`);
+      setImportMessage(`${parsed.length} valid rows imported. ${merged.length} unique dealer contacts are now in this working session.`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to import this file.");
     } finally {
@@ -145,7 +145,7 @@ function DealerEmailContent() {
   function approveDraft() {
     if (!subject.trim() || !body.trim() || recipientCount === 0) return;
     const draft: CampaignDraft = {
-      id: \`NAV-\${Date.now()}\`,
+      id: `NAV-${Date.now()}`,
       subject: subject.trim(),
       district: district === "ALL" ? "All selected districts" : district,
       recipients: recipientCount,
@@ -208,15 +208,15 @@ function DealerEmailContent() {
             <div className="max-h-[380px] overflow-auto rounded-xl border border-white/10">
               {filtered.length === 0 ? <div className="p-8 text-center text-sm text-slate-500">No dealer contacts yet. Import a CSV file to begin.</div> : <table className="w-full min-w-[540px] text-left text-sm">
                 <thead className="sticky top-0 bg-[#111f33] text-xs uppercase tracking-wide text-slate-400"><tr><th className="p-3">Select</th><th className="p-3">Dealer</th><th className="p-3">District / State</th><th className="p-3">Email</th></tr></thead>
-                <tbody>{filtered.map((item) => <tr key={item.id} className="border-t border-white/5 hover:bg-white/[0.025]"><td className="p-3"><input aria-label={\`Select \${item.name}\`} type="checkbox" checked={selectedIds.includes(item.id)} onChange={() => toggleContact(item.id)} className="h-4 w-4 accent-sky-500" /></td><td className="p-3"><p className="font-medium text-slate-200">{item.name}</p><p className="text-xs text-slate-500">{item.company || "—"}</p></td><td className="p-3 text-slate-300">{item.district || "—"}<p className="text-xs text-slate-500">{item.state}</p></td><td className="p-3 text-slate-400">{item.email}</td></tr>)}</tbody>
+                <tbody>{filtered.map((item) => <tr key={item.id} className="border-t border-white/5 hover:bg-white/[0.025]"><td className="p-3"><input aria-label={`Select ${item.name}`} type="checkbox" checked={selectedIds.includes(item.id)} onChange={() => toggleContact(item.id)} className="h-4 w-4 accent-sky-500" /></td><td className="p-3"><p className="font-medium text-slate-200">{item.name}</p><p className="text-xs text-slate-500">{item.company || "—"}</p></td><td className="p-3 text-slate-300">{item.district || "—"}<p className="text-xs text-slate-500">{item.state}</p></td><td className="p-3 text-slate-400">{item.email}</td></tr>)}</tbody>
               </table>}
             </div>
           </section>
 
           <section className="space-y-5 rounded-2xl border border-white/10 bg-[#0a1426] p-5">
-            <div><h2 className="text-lg font-semibold">Proposal composer</h2><p className="mt-1 text-xs text-slate-400">Personalised with the {{name}} field for each dealer</p></div>
+            <div><h2 className="text-lg font-semibold">Proposal composer</h2><p className="mt-1 text-xs text-slate-400">Personalised with the {"{{name}}"} field for each dealer</p></div>
             <label className="block text-sm"><span className="mb-2 block text-slate-400">Email subject</span><input value={subject} onChange={(event) => { setSubject(event.target.value); setApproved(false); }} className="w-full rounded-xl border border-white/10 bg-[#07101f] px-3 py-3 outline-none focus:border-sky-500" /></label>
-            <label className="block text-sm"><span className="mb-2 block text-slate-400">Email message</span><textarea rows={12} value={body} onChange={(event) => { setBody(event.target.value); setApproved(false); }} className="w-full resize-y rounded-xl border border-white/10 bg-[#07101f] px-3 py-3 leading-6 outline-none focus:border-sky-500" /><span className="mt-2 block text-xs text-slate-500">Use {{name}} to insert the dealer's name automatically.</span></label>
+            <label className="block text-sm"><span className="mb-2 block text-slate-400">Email message</span><textarea rows={12} value={body} onChange={(event) => { setBody(event.target.value); setApproved(false); }} className="w-full resize-y rounded-xl border border-white/10 bg-[#07101f] px-3 py-3 leading-6 outline-none focus:border-sky-500" /><span className="mt-2 block text-xs text-slate-500">Use {"{{name}}"} to insert the dealer's name automatically.</span></label>
             <div className="rounded-xl border border-white/10 bg-[#07101f] p-4">
               <div className="flex flex-wrap items-center justify-between gap-3"><div className="flex items-center gap-2 text-sm font-medium"><Paperclip className="h-4 w-4 text-sky-400" /> Proposal / catalogue PDF</div><button type="button" onClick={() => pdfRef.current?.click()} className="rounded-lg border border-white/10 px-3 py-2 text-xs font-semibold hover:bg-white/5">Choose PDF</button><input ref={pdfRef} type="file" accept="application/pdf,.pdf" className="hidden" onChange={(event) => setPdfName(event.target.files?.[0]?.name ?? "")} /></div>
               {pdfName ? <p className="mt-3 flex items-center gap-2 text-xs text-emerald-300"><FileText className="h-4 w-4" />{pdfName}</p> : <p className="mt-2 text-xs text-slate-500">No PDF selected. The file stays in this browser session; upload/send integration is not connected yet.</p>}
