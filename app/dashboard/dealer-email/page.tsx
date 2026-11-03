@@ -109,9 +109,12 @@ function DealerEmailContent() {
       .some((value) => value.toLowerCase().includes(term));
     return matchesDistrict && matchesSearch;
   }), [contacts, district, search]);
-  const selected = filtered.filter((item) => selectedIds.includes(item.id));
-  const recipientCount = selectedIds.length;
-  const firstRecipient = selected[0] ?? contacts.find((item) => selectedIds.includes(item.id));
+  const selectedRecipients = contacts.filter((item) =>
+    selectedIds.includes(item.id) &&
+    (district === "ALL" || item.district.toLowerCase() === district.toLowerCase()),
+  );
+  const recipientCount = selectedRecipients.length;
+  const firstRecipient = selectedRecipients[0];
 
   async function importCsv(file?: File) {
     if (!file) return;
