@@ -10,14 +10,16 @@ let server,
 async function start(mode) {
   server = spawn(
     process.execPath,
-    [
-      "node_modules/next/dist/bin/next",
-      mode,
-      "--hostname",
-      "127.0.0.1",
-      "--port",
-      "39120",
-    ],
+    mode === "isolated"
+      ? ["scripts/start-shop-test.mjs", "39120"]
+      : [
+          "node_modules/next/dist/bin/next",
+          mode,
+          "--hostname",
+          "127.0.0.1",
+          "--port",
+          "39120",
+        ],
     {
       env: {
         ...process.env,
@@ -72,6 +74,36 @@ try {
     (
       await fetch(base + "/api/shop-test", {
         method: "POST",
+        headers: {
+          Host: "127.0.0.1:39120",
+          Origin: base,
+          "Content-Type": "application/json",
+          "x-shop-listener-time": String(Date.now()),
+          "x-shop-listener-proof": "a".repeat(64),
+        },
+        body: "{}",
+      })
+    ).status,
+    404,
+    "Spoofed Host/Origin/proof on direct Next dev cannot reach proxy",
+  );
+  await stop();
+  assert.equal(await start("isolated"), 200);
+  assert.equal(
+    (
+      await fetch(base + "/api/shop-test", {
+        method: "POST",
+        headers: { Origin: base, "Content-Type": "application/json" },
+        body: "{}",
+      })
+    ).status,
+    400,
+    "Verified loopback launcher reaches validation without contacting backend",
+  );
+  assert.equal(
+    (
+      await fetch(base + "/api/shop-test", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: "{}",
       })
@@ -102,7 +134,8 @@ try {
   const page = await browser.newPage({ viewport: { width: 390, height: 900 } });
   const creates = [];
   let paid = false,
-    confirmed = false;
+    confirmed = false,
+    statusChecks = 0;
   const summary = () => ({
     id: "00000000-0000-4000-8000-000000000001",
     status: paid ? "PAID" : "PAYMENT_PENDING",
@@ -125,6 +158,11 @@ try {
         creates.push(input);
         if (creates.length === 1)
           return route.fulfill({
+            status: 400,
+            json: { message: "Invalid contact details" },
+          });
+        if (creates.length === 2)
+          return route.fulfill({
             status: 503,
             json: { message: "Temporary setup delay. Retry same attempt." },
           });
@@ -136,7 +174,8 @@ try {
           json: { message: "Verification pending" },
         });
       }
-      if (input.action === "status" && confirmed) paid = true;
+      if (input.action === "status" && confirmed && ++statusChecks > 1)
+        paid = true;
       return route.fulfill({ json: summary() });
     }
     return route.continue();
@@ -160,6 +199,16 @@ try {
   await page
     .getByRole("button", { name: "Create test order", exact: true })
     .click();
+  await page.getByText("Invalid contact details", { exact: true }).waitFor();
+  assert.equal(
+    await page.locator('[name="phone"]').isEnabled(),
+    true,
+    "Validation rejection unlocks customer fields",
+  );
+  await page.locator('[name="phone"]').fill("9876543211");
+  await page
+    .getByRole("button", { name: "Create test order", exact: true })
+    .click();
   await page
     .getByText("Temporary setup delay. Retry same attempt.", { exact: true })
     .waitFor();
@@ -169,11 +218,17 @@ try {
   await page
     .getByRole("button", { name: "Open Razorpay Test Mode", exact: true })
     .waitFor();
-  assert.equal(creates.length, 2);
-  assert.equal(creates[0].key, creates[1].key);
-  assert.equal(creates[0].access, creates[1].access);
-  assert.deepEqual(creates[0].payload, creates[1].payload);
-  assert.equal(creates[0].payload.amount, undefined);
+  assert.equal(creates.length, 3);
+  assert.notEqual(
+    creates[0].key,
+    creates[1].key,
+    "Rejected input starts a corrected attempt",
+  );
+  assert.equal(creates[1].payload.customer.phone, "9876543211");
+  assert.equal(creates[1].key, creates[2].key);
+  assert.equal(creates[1].access, creates[2].access);
+  assert.deepEqual(creates[1].payload, creates[2].payload);
+  assert.equal(creates[1].payload.amount, undefined);
   assert.ok((await page.locator("main").innerText()).includes("2,525.00"));
   await page
     .getByRole("button", { name: "Open Razorpay Test Mode", exact: true })
@@ -186,12 +241,35 @@ try {
     .waitFor();
   assert.equal(
     await page
+      .getByRole("button", { name: "Open Razorpay Test Mode", exact: true })
+      .count(),
+    0,
+    "Pending verification cannot reopen payment",
+  );
+  assert.equal(
+    await page
       .getByText(
         "Test payment verified by server. No delivery will be created.",
         { exact: true },
       )
       .count(),
     0,
+  );
+  await page
+    .getByRole("button", { name: "Check server status", exact: true })
+    .click();
+  await page
+    .getByText(
+      "Status: PAYMENT_PENDING. Keep this attempt; do not pay again.",
+      { exact: true },
+    )
+    .waitFor();
+  assert.equal(
+    await page
+      .getByRole("button", { name: "Open Razorpay Test Mode", exact: true })
+      .count(),
+    0,
+    "Pending server status must not unlock another payment",
   );
   await page
     .getByRole("button", { name: "Check server status", exact: true })

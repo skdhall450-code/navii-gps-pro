@@ -107,7 +107,13 @@ normal shop navigation and sitemap; live `/shop-now` remains enquiry-only.
 
 For an authorized local test setup, use `SHOP_TEST_UI_ENABLED=1` and securely set
 `SHOP_TEST_HARNESS_TOKEN` to match the separately configured local backend. Run
-Next in development mode. The proxy only accepts same-origin loopback requests
+`node scripts/start-shop-test.mjs 3000` (Node 24) rather than a general Next dev
+listener. This launcher binds only 127.0.0.1, checks the actual listener and socket
+addresses, strips supplied forwarding/proof headers, and authenticates its local
+request attestation with the existing harness secret. No new credential is created.
+The proxy refuses unsigned requests even if Host/Origin headers are spoofed on a
+network-bound ordinary Next dev server. Do not expose the launcher with a tunnel
+or reverse proxy. The proxy also requires same-origin loopback requests
 and only calls fixed `http://127.0.0.1:4101/shop-test` paths. No backend URL is
 accepted from the browser. Harness credentials stay on the server. Backend must
 have its separate local test DB and merchant test credentials configured securely.
@@ -115,6 +121,10 @@ No such credentials have been created, requested in chat or installed here.
 
 The UI uses fictional details, one-unit selection, server-calculated totals,
 retained attempt keys on retries, Test Mode key checks and server-confirmed status.
+Rejected input unlocks the form for correction; uncertain creation failures keep
+the same attempt. Once Checkout opens, another payment cannot be opened from this
+tab, including after cancellation, callback failure or a still-pending status.
+An operator must verify whether a retry is safe; automatic recovery is not supplied.
 It never marks paid from the Checkout callback alone. Keep the tab open: this
 minimal test harness keeps its attempt in memory and has no recovery after refresh.
 Production guest-order recovery, persisted cart/session, approved shipping/refund
@@ -135,3 +145,19 @@ The sharp override remains 0.35.5. Audit entries
 are package/advisory reports rather than distinct proven exploits; the sharp
 workaround already addressed the documented Next image condition. Review the
 current lockfile audit separately from production applicability.
+
+## Environment discovery checkpoint
+
+Metadata-only inspection found no shop/Razorpay test variables in the selected
+machine's process, user or machine environment, no local `.env` in either isolated
+checkout, and no saved Codex Cloud environments. A PostgreSQL 16 service exists,
+but its databases/data were not inspected or accessed; it is not verified as an
+isolated test instance. Hosting/merchant secret stores were not available through
+the connected tool metadata, so absence there is not established.
+
+Smallest owner action: identify an approved isolated test machine/environment and
+have its administrator securely configure the documented test-only variables from
+the merchant's existing Razorpay Test Mode credentials, then report only the
+environment name and that configuration is complete. Do not send secret values in
+chat. If no test credentials or environment exist, provision those through the
+owner's approved secure process before an actual provider end-to-end test.

@@ -21,10 +21,20 @@ const randomToken = () =>
     v.toString(16).padStart(2, "0"),
   ).join("");
 
+class CheckoutError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+  }
+}
+
 export default function ShopTestCheckout() {
   const [selection, setSelection] = useState("g17:device");
   const [attempt, setAttempt] = useState<Attempt>();
   const [busy, setBusy] = useState(false);
+  const [paymentOpened, setPaymentOpened] = useState(false);
   const [message, setMessage] = useState(
     "Use fictional customer details. No real purchases or deliveries.",
   );
@@ -46,7 +56,10 @@ export default function ShopTestCheckout() {
     });
     const result = await response.json();
     if (!response.ok)
-      throw new Error(result.message || "Test checkout unavailable");
+      throw new CheckoutError(
+        result.message || "Test checkout unavailable",
+        response.status,
+      );
     return result as Order;
   }
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -74,6 +87,14 @@ export default function ShopTestCheckout() {
           : "Setup needs review. Do not create another payment.",
       );
     } catch (error) {
+      // The backend rejects invalid input before creating an order. Allow correction.
+      // Network errors/conflicts keep the exact attempt because creation is uncertain.
+      if (
+        error instanceof CheckoutError &&
+        error.status === 400 &&
+        !current.order
+      )
+        setAttempt(undefined);
       setMessage(
         error instanceof Error ? error.message : "Test checkout unavailable",
       );
@@ -101,6 +122,7 @@ export default function ShopTestCheckout() {
     const order = current.order;
     if (
       !order ||
+      paymentOpened ||
       order.status !== "PAYMENT_PENDING" ||
       !order.keyId?.startsWith("rzp_test_") ||
       !order.razorpayOrderId
@@ -119,6 +141,8 @@ export default function ShopTestCheckout() {
           document.head.appendChild(script);
         });
       if (!target.Razorpay) throw new Error("Razorpay unavailable");
+      // A pending/cancelled callback is not proof that another payment is safe.
+      setPaymentOpened(true);
       new target.Razorpay({
         key: order.keyId,
         order_id: order.razorpayOrderId,
@@ -144,7 +168,7 @@ export default function ShopTestCheckout() {
         modal: {
           ondismiss: () => {
             setMessage(
-              "Checkout closed. Check status before reopening this same order.",
+              "Checkout closed. Check status; payment retry needs operator verification.",
             );
             setBusy(false);
           },
@@ -242,7 +266,7 @@ export default function ShopTestCheckout() {
               >
                 Check server status
               </button>
-              {attempt.order.status === "PAYMENT_PENDING" && (
+              {attempt.order.status === "PAYMENT_PENDING" && !paymentOpened && (
                 <button
                   disabled={busy}
                   onClick={() => pay(attempt)}

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { verifyListenerProof } from "@/lib/shop-test-listener";
 
 export const runtime = "nodejs";
 export async function POST(request: NextRequest) {
@@ -7,8 +8,17 @@ export async function POST(request: NextRequest) {
     process.env.NODE_ENV === "production" ||
     process.env.SHOP_TEST_UI_ENABLED !== "1" ||
     !["localhost", "127.0.0.1"].includes(origin.hostname) ||
-    request.headers.get("origin") !== origin.origin ||
-    !process.env.SHOP_TEST_HARNESS_TOKEN
+    request.headers.get("origin") !==
+      request.headers.get("x-shop-listener-origin") ||
+    !process.env.SHOP_TEST_HARNESS_TOKEN ||
+    !verifyListenerProof(
+      request.method,
+      origin.pathname,
+      request.headers.get("x-shop-listener-time"),
+      request.headers.get("x-shop-listener-origin"),
+      request.headers.get("x-shop-listener-proof"),
+      process.env.SHOP_TEST_HARNESS_TOKEN,
+    )
   )
     return new NextResponse(null, { status: 404 });
   const reader = request.body?.getReader();
