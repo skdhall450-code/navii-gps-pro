@@ -131,6 +131,7 @@ Production guest-order recovery, persisted cart/session, approved shipping/refun
 policies and reconciliation are still launch gates.
 
 `node test/browser/shop-test-checkout.mjs` checks production refusal, mobile layout,
+modal dismissal, constructor/open failures, pre-hydration form locking,
 same-attempt retry, callback failure and server-confirmed success with all provider
 and payment requests mocked. It requires a production build first, then starts
 local production/development servers; optional `SHOP_BROWSER_EXECUTABLE` selects

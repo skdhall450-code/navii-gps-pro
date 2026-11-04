@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { shopOffers } from "@/lib/shop-offers";
 import { formatInrPaise } from "@/lib/product-pricing";
 
@@ -31,6 +31,8 @@ class CheckoutError extends Error {
 }
 
 export default function ShopTestCheckout() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
   const [selection, setSelection] = useState("g17:device");
   const [attempt, setAttempt] = useState<Attempt>();
   const [busy, setBusy] = useState(false);
@@ -189,13 +191,14 @@ export default function ShopTestCheckout() {
         </p>
         <h1 className="my-6 text-3xl font-bold">NAVII GPS checkout test</h1>
         <form
+          method="post"
           onSubmit={submit}
           className="grid gap-4 rounded-2xl border border-slate-700 bg-slate-900 p-6"
         >
           <label>
             Device
             <select
-              disabled={!!attempt}
+              disabled={!ready || !!attempt}
               value={selection}
               onChange={(e) => setSelection(e.target.value)}
               className="mt-2 block w-full rounded-lg bg-slate-800 p-3"
@@ -209,7 +212,10 @@ export default function ShopTestCheckout() {
               )}
             </select>
           </label>
-          <fieldset disabled={!!attempt} className="grid gap-4 sm:grid-cols-2">
+          <fieldset
+            disabled={!ready || !!attempt}
+            className="grid gap-4 sm:grid-cols-2"
+          >
             {[
               "name",
               "email",
@@ -233,7 +239,7 @@ export default function ShopTestCheckout() {
           </fieldset>
           {!attempt?.order && (
             <button
-              disabled={busy}
+              disabled={!ready || busy}
               className="rounded-lg bg-blue-600 p-3 font-semibold disabled:opacity-50"
             >
               {busy

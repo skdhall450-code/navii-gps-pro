@@ -66,6 +66,144 @@ async function stop() {
     }
   }
 }
+
+async function checkClosedCheckout({ name, script, message, openCalls }) {
+  const scenarioPage = await browser.newPage({
+    viewport: { width: 390, height: 900 },
+    javaScriptEnabled: true,
+  });
+  const browserErrors = [];
+  scenarioPage.on("pageerror", (error) => browserErrors.push(error.message));
+  scenarioPage.on("requestfailed", (request) => {
+    if (new URL(request.url()).origin === base)
+      browserErrors.push(
+        `${new URL(request.url()).pathname}: ${request.failure()?.errorText}`,
+      );
+  });
+  const actions = [];
+  const pending = {
+    id: "00000000-0000-4000-8000-000000000002",
+    status: "PAYMENT_PENDING",
+    amount: 252500,
+    currency: "INR",
+    keyId: "rzp_test_fixture",
+    razorpayOrderId: "order_closedfixture",
+  };
+  try {
+    await scenarioPage.route("**/*", (route) => {
+      const url = new URL(route.request().url());
+      if (url.href === "https://checkout.razorpay.com/v1/checkout.js")
+        return route.fulfill({ contentType: "text/javascript", body: script });
+      if (url.origin !== base) return route.abort();
+      if (url.pathname === "/api/shop-test") {
+        const input = route.request().postDataJSON();
+        actions.push(input);
+        return route.fulfill({ json: pending });
+      }
+      return route.continue();
+    });
+    await scenarioPage.goto(base + "/shop-test", { waitUntil: "networkidle" });
+    const consent = scenarioPage.getByRole("button", {
+      name: "Necessary Only",
+      exact: true,
+    });
+    if (await consent.isVisible()) await consent.click();
+    for (const [field, value] of Object.entries({
+      name: "Fixture Buyer",
+      email: "fixture@example.test",
+      phone: "9876543210",
+      address: "Fixture address",
+      city: "Fixture city",
+      state: "Punjab",
+      postalCode: "140603",
+    }))
+      await scenarioPage.locator(`[name="${field}"]`).fill(value);
+    await scenarioPage
+      .getByRole("button", { name: "Create test order", exact: true })
+      .click();
+    await scenarioPage
+      .getByRole("button", { name: "Open Razorpay Test Mode", exact: true })
+      .click();
+    await scenarioPage.getByText(message, { exact: true }).waitFor();
+    assert.equal(
+      await scenarioPage
+        .getByRole("button", { name: "Open Razorpay Test Mode", exact: true })
+        .count(),
+      0,
+      `${name}: retry remains locked`,
+    );
+    assert.equal(
+      await scenarioPage
+        .getByRole("button", { name: "Check server status", exact: true })
+        .isEnabled(),
+      true,
+      `${name}: status recovery remains usable`,
+    );
+    assert.equal(
+      await scenarioPage
+        .getByText(
+          "Test payment verified by server. No delivery will be created.",
+          { exact: true },
+        )
+        .count(),
+      0,
+      `${name}: never claims paid`,
+    );
+    assert.deepEqual(
+      await scenarioPage.evaluate(() => window.__checkoutFixture),
+      { construct: 1, open: openCalls },
+      `${name}: provider invoked only once`,
+    );
+    await scenarioPage
+      .getByRole("button", { name: "Check server status", exact: true })
+      .click();
+    await scenarioPage
+      .getByText(
+        "Status: PAYMENT_PENDING. Keep this attempt; do not pay again.",
+        { exact: true },
+      )
+      .waitFor();
+    assert.equal(
+      await scenarioPage
+        .getByRole("button", { name: "Open Razorpay Test Mode", exact: true })
+        .count(),
+      0,
+      `${name}: pending status cannot unlock payment`,
+    );
+    assert.deepEqual(
+      actions.map((action) => action.action),
+      ["create", "status"],
+      `${name}: no confirmation or second order request`,
+    );
+    assert.equal(
+      actions[0].access,
+      actions[1].access,
+      `${name}: same order ownership retained`,
+    );
+    assert.equal(actions[1].id, pending.id);
+    await scenarioPage.screenshot({
+      path: `test-results/shop-test/${name}-mobile.png`,
+      fullPage: true,
+    });
+    console.log(
+      `PASS: ${name} remains fail-closed with status recovery and no duplicate payment/order`,
+    );
+  } catch (error) {
+    console.error(
+      `${name}: browser errors=${JSON.stringify(browserErrors)}; server=${log.slice(-3500)}`,
+    );
+    console.error(
+      `${name}: actions=${actions.map((action) => action.action).join(",")}; status=${await scenarioPage.locator('main [role="status"]').innerText()}`,
+    );
+    await scenarioPage.screenshot({
+      path: `test-results/shop-test/${name}-failure.png`,
+      fullPage: true,
+    });
+    throw error;
+  } finally {
+    await scenarioPage.close();
+  }
+}
 try {
   assert.equal(
     await start("start"),
@@ -145,7 +283,35 @@ try {
       ? { executablePath: process.env.SHOP_BROWSER_EXECUTABLE }
       : {}),
   });
-  const page = await browser.newPage({ viewport: { width: 390, height: 900 } });
+  const noScriptPage = await browser.newPage({ javaScriptEnabled: false });
+  await noScriptPage.route("**/*", (route) =>
+    new URL(route.request().url()).origin === base
+      ? route.continue()
+      : route.abort(),
+  );
+  await noScriptPage.goto(base + "/shop-test");
+  assert.equal(
+    await noScriptPage.locator('[name="name"]').isDisabled(),
+    true,
+    "Customer details cannot be entered before the submit handler is ready",
+  );
+  assert.equal(
+    await noScriptPage
+      .getByRole("button", { name: "Create test order", exact: true })
+      .isDisabled(),
+    true,
+    "Native pre-hydration submission is blocked",
+  );
+  assert.equal(
+    await noScriptPage.locator("form").getAttribute("method"),
+    "post",
+    "No native GET submission of customer fields",
+  );
+  await noScriptPage.close();
+  const page = await browser.newPage({
+    viewport: { width: 390, height: 900 },
+    javaScriptEnabled: true,
+  });
   const creates = [];
   let paid = false,
     confirmed = false,
@@ -309,6 +475,28 @@ try {
   await page.screenshot({
     path: "test-results/shop-test/verified-mobile.png",
     fullPage: true,
+  });
+  await checkClosedCheckout({
+    name: "modal-dismissal",
+    openCalls: 1,
+    message:
+      "Checkout closed. Check status; payment retry needs operator verification.",
+    script:
+      "window.__checkoutFixture={construct:0,open:0};window.Razorpay=class {constructor(options){window.__checkoutFixture.construct++;this.options=options;}open(){window.__checkoutFixture.open++;this.options.modal.ondismiss();}};",
+  });
+  await checkClosedCheckout({
+    name: "constructor-failure",
+    openCalls: 0,
+    message: "Fixture constructor failure",
+    script:
+      'window.__checkoutFixture={construct:0,open:0};window.Razorpay=class {constructor(){window.__checkoutFixture.construct++;throw new Error("Fixture constructor failure");}open(){window.__checkoutFixture.open++;}};',
+  });
+  await checkClosedCheckout({
+    name: "open-failure",
+    openCalls: 1,
+    message: "Fixture open failure",
+    script:
+      'window.__checkoutFixture={construct:0,open:0};window.Razorpay=class {constructor(){window.__checkoutFixture.construct++;}open(){window.__checkoutFixture.open++;throw new Error("Fixture open failure");}};',
   });
   console.log(
     "PASS: production refusal, retry identity, canonical total, pending confirmation and server-verified status; provider requests mocked.",
