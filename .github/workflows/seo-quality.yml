@@ -117,6 +117,7 @@ jobs:
           retention-days: 7
 
       - name: Check isolated checkout UI with offline payment fixtures
+        timeout-minutes: 4
         run: node test/browser/shop-test-checkout.mjs
 
       - name: Upload checkout test UI checks

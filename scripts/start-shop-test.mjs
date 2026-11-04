@@ -61,8 +61,14 @@ const server = http.createServer((req, res) => {
 });
 server.listen(port, "127.0.0.1");
 async function close() {
+  // Development watchers may otherwise retain the standalone Node process on Linux.
+  const deadline = setTimeout(() => process.exit(0), 5000);
+  deadline.unref();
+  server.closeAllConnections();
   server.close();
   await app.close();
+  clearTimeout(deadline);
+  process.exit(0);
 }
 process.once("SIGTERM", () => {
   void close();

@@ -8,6 +8,7 @@ let server,
   browser,
   log = "";
 async function start(mode) {
+  console.log(`Starting isolated checkout fixture: ${mode}`);
   server = spawn(
     process.execPath,
     mode === "isolated"
@@ -47,9 +48,22 @@ async function start(mode) {
 }
 async function stop() {
   if (server?.exitCode === null) {
-    const exit = new Promise((resolve) => server.once("exit", resolve));
-    server.kill();
-    await exit;
+    const child = server;
+    const exit = new Promise((resolve) => child.once("exit", resolve));
+    child.kill();
+    const deadline = setTimeout(() => {
+      if (child.exitCode === null) {
+        console.log(
+          "Stopping fixture child after bounded graceful-shutdown wait",
+        );
+        child.kill("SIGKILL");
+      }
+    }, 5000);
+    try {
+      await exit;
+    } finally {
+      clearTimeout(deadline);
+    }
   }
 }
 try {
