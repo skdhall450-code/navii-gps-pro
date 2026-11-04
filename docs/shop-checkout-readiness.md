@@ -46,8 +46,8 @@ mapping to a website order. Do not add invented amount/reference URL parameters.
 
 Only a test fixture implements that interface. It is NOT a production database
 adapter, concurrency proof for a real database, or working order-booking system.
-There are deliberately no payment endpoints, enabled checkout buttons, new
-credentials, environment settings, database mutations, deployment or live charges.
+There are no production payment endpoints or enabled public checkout buttons,
+new credentials, database mutations, deployments or live charges.
 
 ## Smallest next step
 
@@ -92,3 +92,46 @@ but it is not enabled or treated as automatic checkout in this draft.
 
 Run `node --experimental-strip-types --test test/shop-checkout.test.mjs` for
 offline fixtures. No actual payment provider request is made by these tests.
+
+## Follow-up: isolated backend and local test UI
+
+Backend draft: https://github.com/skdhall450-code/navii-gps-backend/pull/44
+implements separate shop tables, immutable snapshots, transactional paid/outbox
+processing and a test-only NestJS service. This supersedes the initial absence
+of an implementation candidate, but does not establish deployed service identity
+or authorize production database/service changes.
+
+This website now has a development-only `/shop-test` page and `/api/shop-test`
+proxy. Both refuse production NODE_ENV even when opted in. They are absent from
+normal shop navigation and sitemap; live `/shop-now` remains enquiry-only.
+
+For an authorized local test setup, use `SHOP_TEST_UI_ENABLED=1` and securely set
+`SHOP_TEST_HARNESS_TOKEN` to match the separately configured local backend. Run
+Next in development mode. The proxy only accepts same-origin loopback requests
+and only calls fixed `http://127.0.0.1:4101/shop-test` paths. No backend URL is
+accepted from the browser. Harness credentials stay on the server. Backend must
+have its separate local test DB and merchant test credentials configured securely.
+No such credentials have been created, requested in chat or installed here.
+
+The UI uses fictional details, one-unit selection, server-calculated totals,
+retained attempt keys on retries, Test Mode key checks and server-confirmed status.
+It never marks paid from the Checkout callback alone. Keep the tab open: this
+minimal test harness keeps its attempt in memory and has no recovery after refresh.
+Production guest-order recovery, persisted cart/session, approved shipping/refund
+policies and reconciliation are still launch gates.
+
+`node test/browser/shop-test-checkout.mjs` checks production refusal, mobile layout,
+same-attempt retry, callback failure and server-confirmed success with all provider
+and payment requests mocked. It requires a production build first, then starts
+local production/development servers; optional `SHOP_BROWSER_EXECUTABLE` selects
+an installed Chromium executable. It does not submit a real/test-mode payment to
+Razorpay. Actual merchant test-mode end-to-end verification remains outstanding.
+
+Next and matching eslint-config-next are updated to compatible patch 15.5.29.
+The unused `@tailwindcss/vite` plugin is removed: this Next application configures
+`@tailwindcss/postcss` and has no Vite imports/configuration. A direct Vite patch
+attempt encountered incompatible optional peer resolution; it was not forced.
+The sharp override remains 0.35.5. Audit entries
+are package/advisory reports rather than distinct proven exploits; the sharp
+workaround already addressed the documented Next image condition. Review the
+current lockfile audit separately from production applicability.

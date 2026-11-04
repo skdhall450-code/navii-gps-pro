@@ -115,3 +115,15 @@ jobs:
           path: test-results/shop-browser
           if-no-files-found: ignore
           retention-days: 7
+
+      - name: Check isolated checkout UI with offline payment fixtures
+        run: node test/browser/shop-test-checkout.mjs
+
+      - name: Upload checkout test UI checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shop-test-ui-${{ github.sha }}
+          path: test-results/shop-test
+          if-no-files-found: ignore
+          retention-days: 7
