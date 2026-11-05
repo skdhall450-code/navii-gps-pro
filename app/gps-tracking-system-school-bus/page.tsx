@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   ]),
   alternates: { canonical: "https://naviigps.com/gps-tracking-system-school-bus" },
   openGraph: {
-    title: "GPS Tracking System for School Bus in India | NAVII GPS",
+    title: "School Bus Tracking Software | NAVII GPS",
     description: "Track school buses with live location, routes, geofencing, trip history and configurable alerts using NAVII GPS.",
     url: "https://naviigps.com/gps-tracking-system-school-bus",
     type: "website",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GPS Tracking System for School Bus | NAVII GPS",
+    title: "School Bus Tracking Software | NAVII GPS",
     description: "School bus GPS tracking with live location, route monitoring, geofencing and fleet alerts.",
     images: ["/og-image.jpg"],
   },
@@ -43,14 +43,14 @@ export default function SchoolBusTrackingSystemPage() {
         "@type": "WebPage",
         "@id": "https://naviigps.com/gps-tracking-system-school-bus#webpage",
         url: "https://naviigps.com/gps-tracking-system-school-bus",
-        name: "GPS Tracking System for School Bus in India | NAVII GPS",
+        name: "School Bus Tracking Software | NAVII GPS",
         description: metadata.description,
         inLanguage: "en-IN",
       },
       {
         "@type": "Service",
         "@id": "https://naviigps.com/gps-tracking-system-school-bus#service",
-        name: "GPS Tracking System for School Bus",
+        name: "School Bus Tracking Software",
         serviceType: "School Bus GPS Tracking",
         provider: { "@id": "https://naviigps.com/#organization" },
         areaServed: { "@type": "Country", name: "India" },
@@ -61,7 +61,7 @@ export default function SchoolBusTrackingSystemPage() {
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: "https://naviigps.com/" },
           { "@type": "ListItem", position: 2, name: "School Bus GPS", item: "https://naviigps.com/school-bus-gps" },
-          { "@type": "ListItem", position: 3, name: "GPS Tracking System for School Bus", item: "https://naviigps.com/gps-tracking-system-school-bus" },
+          { "@type": "ListItem", position: 3, name: "School Bus Tracking Software", item: "https://naviigps.com/gps-tracking-system-school-bus" },
         ],
       },
     ],
@@ -75,8 +75,8 @@ export default function SchoolBusTrackingSystemPage() {
           <div className="mx-auto max-w-7xl px-6">
             <div className="max-w-4xl">
               <span className="text-sm font-semibold tracking-[0.2em] text-cyan-300">SCHOOL TRANSPORT GPS</span>
-              <h1 className="mt-6 text-5xl font-extrabold leading-tight md:text-6xl">GPS Tracking System for School Bus</h1>
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl">Monitor school buses with live location visibility, route history, geofencing and configurable alerts through the NAVII GPS platform.</p>
+              <h1 className="mt-6 text-5xl font-extrabold leading-tight md:text-6xl">School Bus Tracking Software</h1>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl">Evaluate school bus tracking software for authorised staff: check location timestamps, route history, geofences and alert delivery in a demonstration. For devices, installation and rollout planning, see School Bus GPS Solutions.</p>
               <div className="mt-9 flex flex-wrap gap-4">
                 <Link href="/contact" className="rounded-xl bg-cyan-500 px-7 py-4 font-semibold text-white hover:bg-cyan-400">Discuss School Bus Tracking</Link>
                 <Link href="/school-bus-gps" className="rounded-xl border border-white/20 px-7 py-4 font-semibold text-white hover:bg-white/10">School Bus GPS Solutions</Link>
@@ -87,14 +87,14 @@ export default function SchoolBusTrackingSystemPage() {
 
         <section className="bg-white py-20">
           <div className="mx-auto max-w-7xl px-6">
-            <h2 className="text-4xl font-extrabold text-slate-900">School Bus GPS Tracking Features</h2>
+            <h2 className="text-4xl font-extrabold text-slate-900">School Bus Software Evaluation Checklist</h2>
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[
-                ["Live Bus Location", "See the latest location of connected school buses through the NAVII GPS tracking platform."],
+                ["Live Bus Location", "During a demo, compare the latest reported location and timestamp with a known bus position. Ask how offline or stale locations are shown."],
                 ["Route & Trip History", "Review routes and trip activity to support school transport planning and operational monitoring."],
                 ["Geofencing & Alerts", "Configure location boundaries and vehicle alerts for day-to-day transport oversight."],
                 ["Fleet Visibility", "Monitor multiple school buses and institutional vehicles from connected GPS software tools."],
-                ["Mobile Access", "Give authorized transport teams convenient access to vehicle and trip information."],
+                ["Mobile Access", "Confirm which buses each authorised staff member can view on mobile and web. Parent access requires separate configuration and verification."],
                 ["Operational Reports", "Use available fleet and trip information to support transport reviews and management decisions."],
               ].map(([title, description]) => (
                 <article key={title} className="rounded-3xl border border-slate-200 bg-slate-50 p-7">

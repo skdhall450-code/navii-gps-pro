@@ -1,0 +1,50 @@
+SEO transfer onto current main — 5 November 2026
+
+Base: 6f174ac13959f1feb4db4d7381144df49bdfa130 (origin/main, PR107 merge).
+Branch: seo/crawlable-answers-main-20261105.
+Source delta: acef2e41b3beb503810e97a0a7524c8865ee26b6 relative to its parent
+f6f20ccddfd9a2c359cf3f9bca1b1fb52173311b. The old isolated baseline was copied
+from unmerged PR106 checkout state; neither baseline nor PR106 was merged here.
+Only five applicable implementation diffs plus the render test were applied.
+The old historical change-notes file was replaced with this reconciliation note.
+
+Transferred changes
+- Server-render all contact FAQ answers with native details/summary.
+- Qualify installation, device-approval and mobile-access claims.
+- Render existing specifications without client-side opacity-zero animation.
+- Add descriptive Product metadata from existing visible product data only.
+- Focus the school-bus software page on software evaluation while retaining both
+  established school-bus routes and their self-canonicals.
+- Normalise Windows CRLF in the international source checker.
+
+PR44 reconciliation
+PR44 remains open, draft and unmerged, head 0470a8993ba8d54e92fe596c0d7842a48f35534f.
+Its overlapping files are app/products/[slug]/page.tsx and ContactFAQ.tsx.
+Its product delta inserts PurchaseChecks; it does not conflict conceptually with
+our additive Product metadata, but this branch deliberately does not import that
+component, sales journey, older G17 bundle or any dashboard/checkout changes.
+Its FAQ delta also qualifies commercial/platform claims. This transfer retains
+neutral installation/approval/app wording and additionally qualifies the fourth
+answer by hardware, subscription and account permissions. It avoids importing
+PR44's account-specific Android availability claim. If PR44 is integrated later,
+resolve its textual FAQ conflict using the native markup and qualified answers;
+do not restore client-conditional answers or obsolete commercial copy.
+No mergeability claim is made for the full PR44 branch.
+
+PR107 reconciliation
+PR107 is merged as the exact base commit. Its four files remain unchanged:
+components/seo/HaryanaDistrictGpsPage.tsx, docs/seo-maintenance.md,
+lib/seo/haryanaDistricts.ts, lib/seo/haryanaPriorityGuides.ts.
+Hisar/Hansi content, newer geographic data and maintenance ledger are preserved.
+No city pages, metadata URLs, redirects, robots rules or sitemap entries are removed.
+
+Commercial boundary
+No price section, Offer/AggregateOffer, rating, GTIN, certification or local-branch
+claim is introduced. Existing shop and checkout files and dependencies remain
+identical to current main. Product nodes are descriptive only and do not satisfy
+Google product-snippet requirements without an offer/review/rating alternative.
+No rich-result eligibility, indexing, ranking or traffic improvement is promised.
+
+Validation evidence is saved outside the repository in seo-main-*.log and the
+final handoff, so evidence updates do not alter the tested source commit.
+Keep this branch local; no push, merge, deployment or indexing submission.

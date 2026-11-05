@@ -1,6 +1,6 @@
-"use client";
 
-import { motion } from "framer-motion";
+
+
 import type { Product } from "../data/productsData";
 
 interface ProductSpecificationsProps {
@@ -36,22 +36,7 @@ export default function ProductSpecifications({
 
         {/* Table */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.6,
-          }}
-          viewport={{
-            once: true,
-          }}
-          className="mt-16 overflow-hidden rounded-3xl border border-slate-200 shadow-xl"
+        <dl className="mt-16 overflow-hidden rounded-3xl border border-slate-200 shadow-xl"
         >
 
           {product.specifications.map((item, index) => (
@@ -65,19 +50,17 @@ export default function ProductSpecifications({
               }`}
             >
 
-              <div className="font-semibold text-slate-700">
-                {item.label}
-              </div>
+              <dt className="font-semibold text-slate-700">
+                {item.label}</dt>
 
-              <div className="text-right font-bold text-slate-900">
-                {item.value}
-              </div>
+              <dd className="text-right font-bold text-slate-900">
+                {item.value}</dd>
 
             </div>
 
           ))}
 
-        </motion.div>
+        </dl>
 
       </div>
 
