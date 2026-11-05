@@ -47,4 +47,6 @@ No rich-result eligibility, indexing, ranking or traffic improvement is promised
 
 Validation evidence is saved outside the repository in seo-main-*.log and the
 final handoff, so evidence updates do not alter the tested source commit.
-Keep this branch local; no push, merge, deployment or indexing submission.
+The user subsequently authorized a public draft PR and CI. The exact SEO branch
+is disabled in vercel.json's existing branch-specific deployment map before its
+first push. No merge, deployment or indexing submission is authorized.
