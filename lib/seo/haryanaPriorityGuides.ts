@@ -1,5 +1,65 @@
 export type HaryanaPriorityGuide = { source?: string; sourceLabel?: string; title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
+"hisar": {
+  "title": "GPS Tracker in Hisar District, Haryana",
+  "description": "Plan GPS tracking in Hisar for multi-desk fleet dispatch. Review vehicle responsibility, overlapping orders and shift handovers across district destinations.",
+  "source": "https://commhsr.haryana.gov.in/about-division/",
+  "sourceLabel": "Hisar Divisional Commissioner: district and tehsil directory",
+  "cases": [
+    {
+      "title": "Assign a dispatch owner for each Hisar-area journey",
+      "text": "The Hisar divisional directory lists Hisar, Adampur and Barwala tehsils within Hisar district, with Hansi listed separately. For vehicles serving several destinations, identify the actual receiving premises and one dispatcher responsible for each journey. Keep the operating depot separate from the customer destination so a district label does not become a default delivery address."
+    },
+    {
+      "title": "Resolve competing vehicle requests before departure",
+      "text": "If two dispatch desks request the same Hisar-based vehicle, record which order has been accepted and which remains unassigned. Share the dated assignment with both desks before releasing the vehicle. Check the latest location timestamp as supporting information, but confirm availability with the responsible coordinator; a parked marker does not show whether the vehicle is already committed to another order."
+    },
+    {
+      "title": "Hand over open exceptions with the shift",
+      "text": "At a dispatcher shift change, pass on the active order, next confirmed stop, outstanding receiver response and agreed return point. Keep the time of the handover and name of the receiving dispatcher in the work log. Trial a journey spanning a shift change against supported trip records and confirm platform access, reporting retention and fitting arrangements for the actual base before rollout."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can the nearest Hisar vehicle automatically take another order?",
+      "answer": "No. Check its existing assignment and confirm availability with the responsible dispatcher. The latest GPS position supports coordination but cannot establish load capacity, driver readiness or release from a previous booking."
+    },
+    {
+      "question": "What should a Hisar dispatcher hand over at a shift change?",
+      "answer": "Pass on the active order reference, assigned vehicle, next confirmed stop, unresolved exceptions and agreed return point. Retain the handover time and compare supported journey records with the plan in force for that shift."
+    }
+  ]
+},
+"hansi": {
+  "title": "GPS Tracker in Hansi District, Haryana",
+  "description": "Plan GPS tracking in Hansi district with current destination records. Separate Hansi, Narnaund and Bass jobs and reconcile older Hisar address labels.",
+  "source": "https://hansi.haryana.gov.in/administrative-setup/",
+  "sourceLabel": "Hansi district administration: tehsil and sub-tehsil setup",
+  "cases": [
+    {
+      "title": "Use Hansi district destinations explicitly",
+      "text": "Hansi is a separate district; its administration lists Hansi, Narnaund and Bass tehsils and Kheri Jalab sub-tehsil. Keep the actual customer premises and town or village in each dispatch record. A Hansi district booking is not necessarily a stop in Hansi city, and an administrative office is not a substitute for the receiver’s address."
+    },
+    {
+      "title": "Reconcile older Hisar labels without creating a second customer",
+      "text": "If an older customer record labels a Hansi-area destination as Hisar, confirm the current district and exact premises with the receiver before changing it. Retain the existing customer reference and an audit note explaining the corrected label. Do not create a duplicate receiving site merely because its district field changes, or move its map pin to a district headquarters."
+    },
+    {
+      "title": "Compare route reports using the address version for that trip",
+      "text": "For rounds involving Hansi, Narnaund or Bass destinations, retain the dispatch sheet used on the journey date. When an address label is corrected later, keep historic orders traceable to the original reference. Pilot a repeat visit after a label correction and confirm supported report exports, access and installation arrangements. GPS evidence can help identify the vehicle visit; it does not verify administrative boundaries or delivery acceptance."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Should Hansi jobs still be grouped under Hisar district?",
+      "answer": "Hansi is a separate district. Use the current district and the exact receiving premises for new planning, while retaining older customer and order references so historical journeys remain traceable."
+    },
+    {
+      "question": "Does correcting a Hansi customer’s district require a new GPS location?",
+      "answer": "Not necessarily. Confirm the actual premises and map position with the receiver. Correct the address label without creating a duplicate site or moving a valid pin to the district headquarters; retain a record of the change."
+    }
+  ]
+},
 "panipat": {
   "title": "GPS Tracker in Panipat District, Haryana",
   "description": "Plan GPS tracking in Panipat for textile dispatches. Match roll and bale references, loading sequences and customer receiving records to vehicle journeys.",
