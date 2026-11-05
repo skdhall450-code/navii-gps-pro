@@ -32,6 +32,8 @@ import {
   Wrench,
 } from "lucide-react";
 
+import CustomerShell from "@/components/customer/CustomerShell";
+
 type UserRole =
   | "SUPER_ADMIN"
   | "ADMIN"
@@ -258,6 +260,8 @@ export default function DashboardLayout({
   const [checkingAuth, setCheckingAuth] =
     useState(true);
 
+  const [verifiedToken, setVerifiedToken] = useState<string | null>(null);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -300,7 +304,8 @@ export default function DashboardLayout({
           );
         }
 
-        if (!cancelled) {
+        if (!cancelled && localStorage.getItem("navii_access_token") === token) {
+          setVerifiedToken(token);
           setUser(json.data);
 
           localStorage.setItem(
@@ -311,7 +316,7 @@ export default function DashboardLayout({
           setCheckingAuth(false);
         }
       } catch {
-        if (cancelled) {
+        if (cancelled || localStorage.getItem("navii_access_token") !== token) {
           return;
         }
 
@@ -402,6 +407,10 @@ export default function DashboardLayout({
     ...allowedNavigation,
     ...allowedManagementNavigation,
   ];
+
+  if (user.role === "CUSTOMER" || user.role === "USER") {
+    return <CustomerShell user={{...user, sessionToken: verifiedToken}} navigation={allMobileNavigation} onLogout={logout}>{children}</CustomerShell>;
+  }
 
   return (
     <div className="min-h-screen bg-[#050b16] text-white">
