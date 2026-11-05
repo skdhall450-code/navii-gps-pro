@@ -350,5 +350,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Amritsar: visitor destination versus meeting point, group vehicle assignment and independent return pickups. Ajnala: town versus subdivision addresses, appointment readiness and deferred job follow-up. Three distinct cards and two additional shared visible/schema FAQs per page.
 - [x] Reuse guide rendering for unique descriptions, page/social metadata, WebPage/FAQ schema, visible headings and source links; retain titles, H1, canonical, Service scope, parent/sibling navigation and add Amritsar-to-Ajnala planning link.
 - [x] Geography verified 2026-11-04: https://amritsar.nic.in/tourist-places/ and https://amritsar.nic.in/sub-divisions/ . Stable destination/subdivision facts only; no current access rules, travel times, branch, installation coverage, device specifications or price guarantees added.
-- [ ] Branch seo/amritsar-ajnala-20261104: require full source SEO, lint, regression, production build, rendered SEO and browser CI before merge. Verify live metadata, five matching FAQ pairs per page, cards, sources, links and sitemap; regression-check Jalandhar/Phagwara. PR/deployment evidence records publication.
+- [x] Published via PR #105; main CI 41767187001 and IndexNow 41767750346 succeeded. Both pages and Jalandhar/Phagwara regressions live verified. Branch seo/amritsar-ajnala-20261104: require full source SEO, lint, regression, production build, rendered SEO and browser CI before merge. Verify live metadata, five matching FAQ pairs per page, cards, sources, links and sitemap; regression-check Jalandhar/Phagwara. PR/deployment evidence records publication.
 - [ ] Next: assess existing Haryana Hisar and Hansi guides for useful distinct gaps, verifying current district mapping first. Northern town/locality coverage remains partial.
+
+
+### 2026-11-05 Hisar / Hansi refresh
+
+- [x] Inspected main 9afc66f, open PRs, existing routes, sitemap and previous ledger; no unfinished routine SEO batch. Unrelated PRs untouched.
+- [x] Preserve /gps-tracker/haryana/hisar and /gps-tracker/haryana/hansi. Hansi is already a separate district in the registry; no alternate town path, remapping or sitemap additions.
+- [x] Hisar: responsible dispatch desk, competing vehicle requests and shift handovers. Hansi: exact district destinations, older Hisar-labelled customer records and historical address-version reconciliation. Three distinct cards and two additional shared visible/schema FAQs per page.
+- [x] Reuse Haryana guide metadata and rendering for descriptions, headings, WebPage/FAQ schema and official sources; retain titles, H1, canonicals, district Service scope and existing navigation. Add mutual Hisar/Hansi links.
+- [x] Geography verified 2026-11-05 at https://commhsr.haryana.gov.in/about-division/ and https://hansi.haryana.gov.in/administrative-setup/ ; separate-district status corroborated by https://hansi.haryana.gov.in/about-district/ . No officeholders, travel times, local branches, installation availability or device guarantees added.
+- [ ] Branch seo/hisar-hansi-20261105: require full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify both live pages, five matching FAQs each, metadata, source/mutual links and sitemap; regression-check Panipat and Karnal. PR/deployment evidence records publication.
+- [ ] Next: assess existing Delhi Dwarka and Najafgarh guides for useful distinct gaps, verifying current route mapping first. Northern town/locality coverage remains partial.
