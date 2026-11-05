@@ -24,8 +24,29 @@ const { default: Specifications } = require('../components/products/details/Prod
 const { products } = require('../components/products/data/productsData.ts');
 const { default: ProductPage } = require('../app/products/[slug]/page.tsx');
 const render = (Component, props) => renderToStaticMarkup(React.createElement(Component, props));
-const schemas = html => [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].flatMap(match => {
-  const data = JSON.parse(match[1]); return data['@graph'] || (Array.isArray(data) ? data : [data]);
+const jsonLdDocuments = html => [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+const schemas = html => jsonLdDocuments(html).flatMap(data => data['@graph'] || (Array.isArray(data) ? data : [data]));
+const offerPaths = (value, location = '$') => {
+  if (!value || typeof value !== 'object') return [];
+  const types = [].concat(value['@type'] || []);
+  const found = types.some(type => /(?:^|[:/#])(?:Offer|AggregateOffer)$/.test(type)) ? [location] : [];
+  for (const [key, child] of Object.entries(value)) {
+    const childPath = `${location}.${key}`;
+    if (key === 'offers') found.push(childPath);
+    found.push(...offerPaths(child, childPath));
+  }
+  return found;
+};
+
+test('offer guard detects nested objects, arrays, multi-types and reference-only offers', () => {
+  for (const fixture of [
+    { '@graph': [{ '@type': 'Product', offers: { '@id': '#offer' } }] },
+    { mainEntity: { '@type': 'Product', subjectOf: { '@type': 'Offer' } } },
+    [{ nested: [{ '@type': ['Thing', 'AggregateOffer'] }] }],
+    { mainEntity: { '@type': 'https://schema.org/Offer' } },
+    { '@graph': [], offers: { '@id': '#offer' } },
+  ]) assert.ok(offerPaths(fixture).length > 0, JSON.stringify(fixture));
+  assert.deepEqual(offerPaths({ '@type': 'Product', description: 'Ask about offers', additionalProperty: [{ '@type': 'PropertyValue', name: 'Protocol', value: 'GT06 compatible' }] }), []);
 });
 test('all contact answers are in initial HTML, accessible without JavaScript', () => {
   const html = render(FAQ);
@@ -39,16 +60,21 @@ test('all product pages omit unverified offers and commercial prices', async () 
     const html = renderToStaticMarkup(await ProductPage({ params: Promise.resolve({ slug: product.slug }) }));
     const graph = schemas(html);
     assert.ok(graph.some(item => item['@type'] === 'Product'));
-    assert.ok(!graph.some(item => item['@type'] === 'Offer' || item['@type'] === 'AggregateOffer'));
-    assert.equal(graph.find(item => item['@type'] === 'Product').offers, undefined);
+    assert.deepEqual(offerPaths(jsonLdDocuments(html)), [], product.slug);
     assert.doesNotMatch(html, /G17 price and included charges|Payable after round-off|2525\.00|2,525\.00/);
   }
 });
-test('specifications remain readable without animation or client execution', () => {
-  const html = render(Specifications, { product: products[0] });
-  assert.equal((html.match(/<dt /g) || []).length, products[0].specifications.length);
-  assert.match(html, /GT06 compatible/);
-  assert.doesNotMatch(html, /opacity:0/);
+test('every product renders all specification labels and values without hidden animation', () => {
+  const escaped = text => renderToStaticMarkup(React.createElement(React.Fragment, null, text));
+  for (const product of products) {
+    const html = render(Specifications, { product });
+    const labels = [...html.matchAll(/<dt\b[^>]*>([\s\S]*?)<\/dt>/g)].map(match => match[1].trim());
+    const values = [...html.matchAll(/<dd\b[^>]*>([\s\S]*?)<\/dd>/g)].map(match => match[1].trim());
+    assert.ok(product.specifications.length > 0, product.slug);
+    assert.deepEqual(labels, product.specifications.map(item => escaped(item.label)), product.slug);
+    assert.deepEqual(values, product.specifications.map(item => escaped(item.value)), product.slug);
+    assert.doesNotMatch(html, /opacity:\s*0(?:[;"\s]|$)/, product.slug);
+  }
 });
 test('actual G17 page emits descriptive Product data without claiming an offer', async () => {
   const html = renderToStaticMarkup(await ProductPage({ params: Promise.resolve({ slug: 'g17-gps-tracker' }) }));
@@ -66,7 +92,14 @@ test('school bus software and deployment routes retain separate canonicals and d
   const deployment = require('../app/school-bus-gps/page.tsx');
   assert.notEqual(software.metadata.alternates.canonical, deployment.metadata.alternates.canonical);
   const html = render(software.default);
+  const deploymentHtml = render(deployment.default);
+  const headings = markup => [...markup.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)].map(match => match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim());
+  assert.deepEqual(headings(html), ['School Bus Tracking Software']);
+  assert.deepEqual(headings(deploymentHtml), ['School Bus GPS Tracking for Transport Teams in India']);
+  assert.notEqual(headings(html)[0], headings(deploymentHtml)[0]);
   assert.match(html, /School Bus Software Evaluation Checklist/);
   assert.match(html, /href="\/school-bus-gps"/);
-  assert.match(html, /Parent access requires separate configuration/);
+  assert.match(html, /If you need parent access, ask whether it is available for your proposed deployment/);
+  assert.match(html, /request a demonstration before promising it to families/);
+  assert.doesNotMatch(html, /Parent access requires separate configuration/);
 });

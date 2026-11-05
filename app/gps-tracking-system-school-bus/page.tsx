@@ -94,7 +94,7 @@ export default function SchoolBusTrackingSystemPage() {
                 ["Route & Trip History", "Review routes and trip activity to support school transport planning and operational monitoring."],
                 ["Geofencing & Alerts", "Configure location boundaries and vehicle alerts for day-to-day transport oversight."],
                 ["Fleet Visibility", "Monitor multiple school buses and institutional vehicles from connected GPS software tools."],
-                ["Mobile Access", "Confirm which buses each authorised staff member can view on mobile and web. Parent access requires separate configuration and verification."],
+                ["Mobile Access", "Confirm which buses each authorised staff member can view on mobile and web. If you need parent access, ask whether it is available for your proposed deployment and request a demonstration before promising it to families."],
                 ["Operational Reports", "Use available fleet and trip information to support transport reviews and management decisions."],
               ].map(([title, description]) => (
                 <article key={title} className="rounded-3xl border border-slate-200 bg-slate-50 p-7">
