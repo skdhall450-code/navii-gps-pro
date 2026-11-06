@@ -1,4 +1,68 @@
 export const delhiPriorityGuides = {
+dwarka: {
+  "name": "Dwarka",
+  "description": "Plan GPS tracking for Dwarka society pickups: identify the sector and gate, review shared vehicle stops and handle a changed return entrance.",
+  "source": "https://dmsouthwest.delhi.gov.in/about-district/administrative-setup/subdivision-blocks/",
+  "sourceLabel": "South West Delhi district subdivision directory",
+  "related": "/gps-tracker/delhi/south-west/najafgarh",
+  "relatedLabel": "Najafgarh village service rounds",
+  "cases": [
+    {
+      "title": "Give the driver a gate, not just a sector",
+      "text": "For a pickup in a Dwarka housing society, put the sector, society name and agreed gate on the booking sheet. Confirm with the coordinator whether the vehicle should enter or meet the passenger outside. If the vehicle waits at a different gate, record that location separately so the passenger does not follow a pin to the wrong entrance."
+    },
+    {
+      "title": "Review one vehicle stop against several bookings",
+      "text": "Two passengers may use the same gate on the same round. Give each booking its own reference, then compare the vehicle’s stop time with the coordinator’s boarding record. A single stop can serve both bookings; it cannot tell the dispatcher that both passengers boarded."
+    },
+    {
+      "title": "Test a changed gate on the return trip",
+      "text": "Keep the outward pickup and return drop as separate tasks. If the coordinator changes the return gate, note when the instruction changed and which driver received it. On a trial run, check whether the available trip history distinguishes the two entrances. If it cannot, use the driver’s confirmed meeting point when reviewing a missed pickup."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "What address should I give for a Dwarka society pickup?",
+      "answer": "Give the sector, society name, agreed gate and meeting instructions confirmed by the coordinator. A sector pin alone is too broad to identify the pickup point."
+    },
+    {
+      "question": "Can one GPS stop prove everyone boarded at a Dwarka gate?",
+      "answer": "No. Match the vehicle stop with a boarding confirmation for each booking. Keep a missed passenger or a changed return gate on the relevant booking record."
+    }
+  ]
+},
+najafgarh: {
+  "name": "Najafgarh",
+  "description": "Plan Najafgarh field-service rounds by village and customer site. Record a roadside meeting separately from the work location and review unfinished calls.",
+  "source": "https://dmsouthwest.delhi.gov.in/about-district/administrative-setup/village-panchayats/",
+  "sourceLabel": "South West Delhi district village directory",
+  "related": "/gps-tracker/delhi/south-west/dwarka",
+  "relatedLabel": "Dwarka society pickup planning",
+  "cases": [
+    {
+      "title": "Distinguish the village from the service address",
+      "text": "The district directory lists Ujwa, Dhansa and Najafgarh separately within the Najafgarh subdivision. For a call in Ujwa, record Ujwa and the actual premises rather than sending the driver to a generic Najafgarh pin. Ask the customer for the approach point and whether the assigned vehicle can reach it before grouping calls into a round."
+    },
+    {
+      "title": "Record where the service van stops and where the work happens",
+      "text": "If a customer meets the technician at a roadside landmark and walks them to the site, keep both locations on the job sheet. The van tracker stays with the van. Use the technician’s job record to explain time away from the vehicle; a stationary vehicle does not mean the technician was idle or that the repair was finished."
+    },
+    {
+      "title": "Leave an unresolved call open on depot return",
+      "text": "Suppose a van returns after a Dhansa visit because a replacement part is needed. Record the part request and the next agreed appointment against the original job. Compare the two dated vehicle visits separately. Returning to the depot closes a journey, while the customer’s job remains open until the work is confirmed."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Is a Najafgarh subdivision pin enough for a village service call?",
+      "answer": "No. Record the village, customer premises and confirmed vehicle approach point. The subdivision identifies the wider area, not the location of the job."
+    },
+    {
+      "question": "How do I review an unfinished call when the van returns to base?",
+      "answer": "Close the vehicle journey but leave the service job open. Record what is needed, link the next appointment to the original job and confirm the outcome from the technician’s report."
+    }
+  ]
+},
 "karolBagh": {
   "name": "Karol Bagh",
   "description": "Plan GPS tracking in Karol Bagh for shop collections and retail deliveries. Record shop entrances, collection references and consolidated dispatch handovers.",
