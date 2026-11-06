@@ -361,5 +361,14 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Hisar: responsible dispatch desk, competing vehicle requests and shift handovers. Hansi: exact district destinations, older Hisar-labelled customer records and historical address-version reconciliation. Three distinct cards and two additional shared visible/schema FAQs per page.
 - [x] Reuse Haryana guide metadata and rendering for descriptions, headings, WebPage/FAQ schema and official sources; retain titles, H1, canonicals, district Service scope and existing navigation. Add mutual Hisar/Hansi links.
 - [x] Geography verified 2026-11-05 at https://commhsr.haryana.gov.in/about-division/ and https://hansi.haryana.gov.in/administrative-setup/ ; separate-district status corroborated by https://hansi.haryana.gov.in/about-district/ . No officeholders, travel times, local branches, installation availability or device guarantees added.
-- [ ] Branch seo/hisar-hansi-20261105: require full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify both live pages, five matching FAQs each, metadata, source/mutual links and sitemap; regression-check Panipat and Karnal. PR/deployment evidence records publication.
+- [x] Published via PR #107; main CI 41958973172 and IndexNow 41959509147 succeeded. Both district URLs and Panipat/Karnal regressions verified live. Branch seo/hisar-hansi-20261105: require full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify both live pages, five matching FAQs each, metadata, source/mutual links and sitemap; regression-check Panipat and Karnal. PR/deployment evidence records publication.
 - [ ] Next: assess existing Delhi Dwarka and Najafgarh guides for useful distinct gaps, verifying current route mapping first. Northern town/locality coverage remains partial.
+
+### 2026-11-06 Dwarka / Najafgarh, Delhi
+
+- [x] Checked main 6f174ac, open PRs, area registry and sitemap. Product/contact/school-bus PR #108 is a separate review-only batch. Keep both existing South West URLs; Gujarat's Dwarka guide is a different destination.
+- [x] Dwarka: sector and society gate, multiple passenger bookings at one stop, changed return gate. Najafgarh: village and premises, van stop versus work site, unfinished jobs on depot return.
+- [x] Add specific descriptions, three visible planning sections, two extra visible/schema FAQs each and links between both guides. Keep the existing titles, H1, district links, canonicals and sitemap entries.
+- [x] Official geography: https://revenue.delhi.gov.in/revenue/list-villages and https://dmsouthwest.delhi.gov.in/about-district/administrative-setup/village-panchayats/ . No new access, installation, product or travel-time claims.
+- [ ] Publication: see branch seo/dwarka-najafgarh-20261106 and its PR for final CI, live-page and IndexNow evidence.
+- [ ] Next: inspect existing Punjab Bathinda district and Talwandi Sabo town guides for distinct visitor needs before editing; retain canonical URLs.
