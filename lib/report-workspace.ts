@@ -57,7 +57,20 @@ export function csvCell(value: unknown) {
 }
 export function csvRows(rows: unknown[][]) { return "\uFEFF" + rows.map(row => row.map(csvCell).join(",")).join("\r\n"); }
 
-export type ReportPosition = { id: string; latitude: number | null; longitude: number | null; speed: number | null; ignition: boolean | null; battery: number | null; recordedAt: string };
+export type HistoricalIgnition = { ignition?: boolean | null; ignitionSource?: string | null; ignitionObservedAt?: string | null; recordedAt: string };
+// Historical freshness is relative to this row, never the browser's current clock.
+// Match the current ACC contract's five-minute window / thirty-second clock tolerance.
+export function historicalIgnitionLabel(position: HistoricalIgnition): 'ON' | 'OFF' | 'Stale' | 'Unavailable' {
+  const recordedAt = typeof position.recordedAt === 'string' ? Date.parse(position.recordedAt) : NaN;
+  const observedAt = typeof position.ignitionObservedAt === 'string' ? Date.parse(position.ignitionObservedAt) : NaN;
+  if (typeof position.ignition !== 'boolean' || position.ignitionSource !== 'ACC' ||
+    !Number.isFinite(recordedAt) || !Number.isFinite(observedAt) || observedAt > recordedAt + 30_000) return 'Unavailable';
+  if (recordedAt - observedAt > 300_000) return 'Stale';
+  return position.ignition ? 'ON' : 'OFF';
+}
+export const ENGINE_TOTALS_UNAVAILABLE = 'Engine-derived activity totals are unavailable because the report does not verify ACC observations across the aggregated period. GPS coverage does not establish ignition coverage.';
+
+export type ReportPosition = HistoricalIgnition & { id: string; latitude: number | null; longitude: number | null; speed: number | null; ignition: boolean | null; battery: number | null; recordedAt: string };
 export type ActivityReport = {
   definitionsVersion?: string;
   vehicle: { id: string; vehicleNo: string; name: string | null };
@@ -95,10 +108,11 @@ export function activityCsv(report: ActivityReport, filters: ReportFilters) {
     ["Distance observed seconds", c.distanceObservedSeconds],
     ["Aggregation truncated", c.truncated], ["Export path truncated", c.pathTruncated],
     ["Distance basis", "Estimated GPS distance; not odometer"], ["GPS distance km", c.distanceObservedSeconds > 0 ? report.summary.totalDistanceKm : "Unavailable"],
-    ["Moving seconds", report.summary.runningSeconds], ["Engine-on idle seconds", report.summary.idleSeconds],
-    ["Parked seconds", report.summary.parkedSeconds], ["Unknown state seconds", report.summary.unknownSeconds],
+    ["Engine-derived activity basis", ENGINE_TOTALS_UNAVAILABLE],
+    ["Moving seconds", "Unavailable"], ["Engine-on idle seconds", "Unavailable"],
+    ["Parked seconds", "Unavailable"], ["Unknown state seconds", "Unavailable"],
     ["Average speed basis", "Time-weighted over observed valid intervals"], ["Average speed km/h", report.summary.averageSpeedKph], [],
     ["Recorded at UTC", `Recorded at (${filters.timezone})`, "Latitude", "Longitude", "Reported speed km/h", "Ignition", "Battery V"],
-    ...report.positions.map(p => [p.recordedAt, formatReportTime(p.recordedAt, filters.timezone), p.latitude, p.longitude, p.speed, p.ignition === null ? "Unknown" : p.ignition ? "On" : "Off", p.battery]),
+    ...report.positions.map(p => [p.recordedAt, formatReportTime(p.recordedAt, filters.timezone), p.latitude, p.longitude, p.speed, historicalIgnitionLabel(p), p.battery]),
   ]);
 }

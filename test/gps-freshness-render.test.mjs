@@ -64,6 +64,7 @@ const { default: Dashboard } = await import('../app/dashboard/page.tsx');
 const { default: Vehicles } = await import('../app/dashboard/vehicles/page.tsx');
 const { default: Detail } = await import('../app/dashboard/vehicles/[id]/page.tsx');
 const { default: Tracking } = await import('../components/tracking/LiveTrackingMap.tsx');
+const { default: HistoryPlayback } = await import('../components/history/HistoryPlayback.tsx');
 const { default: DeviceSetup } = await import('../app/dashboard/device-setup/page.tsx');
 const { useTrackingNow } = await import('../hooks/use-tracking-now.ts');
 const now = Date.parse('2026-10-24T16:52:49.971Z');
@@ -82,6 +83,21 @@ function render(Component, values) {
   return renderToStaticMarkup(React.createElement(Component));
 }
 beforeEach(() => Object.assign(state, { now, cursor: 0, values: [], effects: [], subscriptions: [] }));
+
+test('all four current screens require ACC provenance and expose stale ACC separately', () => {
+  for (const [Component, values] of screens) {
+    const unverified = render(Component, values(vehicle));
+    assert.match(unverified, /Unavailable/);
+    assert.doesNotMatch(unverified, />ON<|>OFF</);
+    assert.doesNotMatch(unverified, /text-emerald-400[^>]*>Unavailable</);
+    const acc = { ...vehicle, ignitionSource: 'ACC', ignitionObservedAt: fresh };
+    assert.match(render(Component, values(acc)), />ON</);
+    assert.match(render(Component, values({ ...acc, ignition: false })), />OFF</);
+    const stale = render(Component, values({ ...acc, ignitionObservedAt: new Date(now - 300001).toISOString() }));
+    assert.match(stale, />Stale</);
+    assert.doesNotMatch(stale, />ON<|>OFF</);
+  }
+});
 
 test('all four real screens hide stale speed even while the device communicates', () => {
   for (const [Component, values] of screens) {
@@ -132,6 +148,21 @@ test('history retains original historical speed when current telemetry is stale'
   assert.match(html, /Unavailable/);
   assert.match(html, /35/);
   assert.match(html, /History/);
+});
+
+test('history replay card and popup withhold carried ignition while keeping historical speed', () => {
+  const point={id:'p',latitude:30,longitude:76,speed:35,ignition:true,battery:12.3,recordedAt:fresh};
+  const values=p=>[[vehicle],'v-2',[p],false,false,null,0,false,1,'',''];
+  for(const ignition of [true,false]) {
+    const html=render(HistoryPlayback,values({...point,ignition}));
+    assert.match(html,/35\.0/);
+    assert.match(html,/Unavailable/);
+    assert.doesNotMatch(html,/>ON<|>OFF</);
+  }
+  const acc={...point,ignitionSource:'ACC',ignitionObservedAt:fresh};
+  assert.match(render(HistoryPlayback,values(acc)),/>ON</);
+  assert.match(render(HistoryPlayback,values({...acc,ignition:false})),/>OFF</);
+  assert.match(render(HistoryPlayback,values({...acc,ignitionObservedAt:new Date(now-301001).toISOString()})),/>Stale</);
 });
 test('freshness clock advances without a response and cancels its interval on unmount', () => {
   let callback; let cleared;

@@ -41,7 +41,7 @@ async function createFixture(browser, options = {}) {
         status = state.profile === 'failure' ? 401 : 200;
         data = fixtureUser(state.role);
       } else if (['/api/gps/vehicles', '/api/gps/latest'].includes(url.pathname)) {
-        data = [vehicle('qa-car', 'CAR', 'QA CAR'), vehicle('qa-scooter', 'EV_SCOOTER', 'QA EV SCOOTER', 0)];
+        data = [vehicle('qa-car', 'CAR', 'QA CAR'), vehicle('qa-scooter', 'EV_SCOOTER', 'QA EV SCOOTER', 0)].map(v => ({ ...v, ...state.telemetryPatch }));
       } else if (url.pathname.startsWith('/api/gps/history/')) data = [];
       else if (/capabilit/.test(url.pathname)) status = 404;
       else { state.unexpected.push(`${req.method()} ${url.pathname}`); status = 404; }
@@ -95,7 +95,7 @@ try {
   await f.page.getByRole('button', { name: 'Hide password', exact: true }).click();
   f.state.login = 'failure';
   await f.page.getByRole('button', { name: 'Sign In', exact: true }).click();
-  await f.page.getByRole('alert').waitFor();
+  await f.page.getByRole('alert').filter({ hasText: 'Synthetic verification failed' }).waitFor();
   await emptySession(f.page);
   await f.page.waitForFunction(() => document.activeElement?.id === "login-error", null, { timeout: 5000 });
   assert.equal(await f.page.evaluate(() => document.activeElement?.id), "login-error");
@@ -124,6 +124,7 @@ try {
     await f.page.goto(base + '/dashboard');
     await f.page.getByTestId('customer-home').waitFor();
     await f.page.getByText('35.0 km/h', { exact: true }).first().waitFor();
+    assert.equal(await f.page.getByText('Ignition', { exact: true }).locator('..').locator('strong').innerText(), 'Unavailable', 'Legacy boolean is not verified ACC');
     await f.page.getByTestId('customer-map').waitFor();
     await f.page.getByTestId('customer-device-details').getByText('qa-car-synthetic-imei', { exact: true }).waitFor();
     const mapBox = await f.page.getByTestId('customer-map').boundingBox();
@@ -163,6 +164,38 @@ try {
     await f.context.close();
     console.log('PASS customer responsive/map identifiers/selection:', name);
   }
+  for (const [expected, telemetryPatch] of [
+    ['ON', { ignition: true, ignitionSource: 'ACC', ignitionObservedAt: new Date().toISOString() }],
+    ['OFF', { ignition: false, ignitionSource: 'ACC', ignitionObservedAt: new Date().toISOString() }],
+    ['Stale', { ignition: true, ignitionSource: 'ACC', ignitionObservedAt: new Date(Date.now() - 301000).toISOString() }],
+    ['Unavailable', { ignition: true, ignitionSource: 'CHARGING', ignitionObservedAt: new Date().toISOString(), charging: true }],
+    ['Unavailable', { ignition: true, ignitionSource: 'ACC', ignitionObservedAt: 'invalid' }],
+  ]) {
+    const f = await createFixture(browser, { session: true, telemetryPatch });
+    await f.page.goto(base + '/dashboard');
+    await f.page.getByText('35.0 km/h', { exact: true }).first().waitFor();
+    assert.equal(await f.page.getByText('Ignition', { exact: true }).locator('..').locator('strong').innerText(), expected);
+    assert.deepEqual(f.errors, []); assert.deepEqual(f.state.writes, []); assert.deepEqual(f.state.unexpected, []);
+    await f.context.close();
+  }
+  console.log('PASS ignition requires ACC provenance and independent fresh timestamp; stale/charging/malformed observations suppressed');
+  for (const ignition of [true, false]) {
+    const f = await createFixture(browser, { session: true, telemetryPatch: { ignition } });
+    await f.page.goto(base + '/dashboard');
+    await f.page.getByText('35.0 km/h', { exact: true }).first().waitFor();
+    const ignitionLabel = f.page.getByText('Ignition', { exact: true }).locator('..').locator('strong');
+    assert.equal(await ignitionLabel.innerText(), 'Unavailable');
+    for (const speed of [36, 37]) {
+      // New GPS packets update speed/fix/contact while ingest carries old ignition.
+      f.state.telemetryPatch = { ignition, speed, lastUpdate: new Date().toISOString() };
+      await f.page.getByRole('button', { name: 'Refresh tracking', exact: true }).click();
+      await f.page.getByText(`${speed}.0 km/h`, { exact: true }).first().waitFor();
+      assert.equal(await ignitionLabel.innerText(), 'Unavailable');
+    }
+    assert.deepEqual(f.errors, []); assert.deepEqual(f.state.writes, []); assert.deepEqual(f.state.unexpected, []);
+    await f.context.close();
+  }
+  console.log('PASS carried-forward true/false remain unavailable across successful fresh GPS refreshes');
   for (const role of ['USER', 'ADMIN', 'DEALER']) {
     const f = await createFixture(browser, { role, storedRole: role === 'USER' ? 'ADMIN' : 'CUSTOMER', session: true });
     await f.page.goto(base + '/dashboard');

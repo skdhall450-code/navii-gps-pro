@@ -23,8 +23,20 @@ function render({result=null,error='',currentFilters=filters,loading=false}={}) 
   return renderToStaticMarkup(React.createElement(Component));
 }
 test('initial rendered report has explicit dates/timezone and no fabricated metrics',()=>{const html=render();assert.match(html,/Generate report/);assert.match(html,/Timezone/);assert.match(html,/Your report starts here/);assert.doesNotMatch(html,/0\.00 km/);});
-test('partial/null report renders unknown values safely and explains gap coverage',()=>{const html=render({result:{filters,vehicle,createdAt:activity.period.to,activity}});assert.match(html,/Partial activity coverage/);assert.match(html,/GPS distance is partial/);assert.match(html,/Unavailable/);assert.match(html,/Unknown/);assert.match(html,/Stored device data|stored device data/);assert.doesNotMatch(html,/NaN/);});
+test('partial/null report renders unknown values safely and explains gap coverage',()=>{const html=render({result:{filters,vehicle,createdAt:activity.period.to,activity}});assert.match(html,/Partial activity coverage/);assert.match(html,/GPS distance is partial/);assert.match(html,/Unavailable/);assert.match(html,/Unknown/);assert.match(html,/Stored ignition booleans/);assert.doesNotMatch(html,/NaN/);});
 test('changing filters preserves a visible snapshot and export warning',()=>{const html=render({currentFilters:{...filters,timezone:'Asia/Kolkata'},result:{filters,vehicle,createdAt:activity.period.to,activity}});assert.match(html,/Filters have changed/);assert.match(html,/Downloads use the dates below/);assert.match(html,/Download CSV/);});
+
+test('rendered and printable report hides legacy ignition and all engine-derived totals despite complete GPS coverage',()=>{
+  const candidate={...activity,summary:{...activity.summary,runningSeconds:7321,idleSeconds:7321,parkedSeconds:7321,unknownSeconds:7321,totalDistanceKm:12},coverage:{...activity.coverage,complete:true,coveragePercent:100,distanceObservedSeconds:300,distanceComplete:true},positions:[{...activity.positions[0],speed:35,ignition:true}]};
+  const html=render({result:{filters,vehicle,createdAt:activity.period.to,activity:candidate}});
+  assert.match(html,/does not verify ACC observations/);
+  assert.match(html,/12\.00 km/);
+  assert.match(html,/35\.0 km\/h/);
+  assert.doesNotMatch(html,/>On<|>Off<|>ON<|>OFF<|2h 2m/);
+  for(const title of ['Moving','Engine-on idle','Parked','Unknown state']) assert.match(html,new RegExp(`${title}</p><p[^>]*>Unavailable</p>`));
+  const verified={...candidate,positions:[{...candidate.positions[0],ignitionSource:'ACC',ignitionObservedAt:candidate.positions[0].recordedAt}]};
+  assert.match(render({result:{filters,vehicle,createdAt:activity.period.to,activity:verified}}),/>ON</);
+});
 test('loading exposes a cancel button and errors retain earlier report warning',()=>{assert.match(render({loading:true}),/Cancel/);assert.match(render({error:'Synthetic timeout',result:{filters,vehicle,createdAt:activity.period.to,activity}}),/earlier report remains below/);});
 
 test('future period explains why coverage cannot yet be complete without inventing gaps',()=>{const html=render({result:{filters,vehicle,createdAt:activity.period.from,activity}});assert.match(html,/This period includes future time/);assert.match(html,/0 telemetry gaps/);assert.doesNotMatch(render({result:{filters,vehicle,createdAt:activity.period.to,activity}}),/This period includes future time/);});
@@ -36,4 +48,16 @@ test('primary report action has unambiguous hover contrast and dark native contr
   assert.match(submit,/hover:bg-sky-400/);
   assert.doesNotMatch(submit,/hover:bg-white\/10|text-slate-100/);
   for(const control of html.matchAll(/<input[^>]*type="datetime-local"[^>]*>/g)) assert.match(control[0],/\[color-scheme:dark\]/);
+});
+
+test('report print styles hide only report-time shell overlays and wrap all table cells',()=>{
+  const css=render().match(/<style>([\s\S]*?)<\/style>/)?.[1];
+  assert.ok(css?.trim().startsWith('@media print {'));
+  assert.match(css,/body:has\(\.navii-report-workspace\) \[data-cookie-settings\]/);
+  assert.match(css,/body:has\(\.navii-report-workspace\) \[data-cookie-consent\]/);
+  assert.match(css,/\[data-customer-portal\] > nav/);
+  assert.match(css,/table-layout: fixed/);
+  assert.match(css,/white-space: normal !important; overflow-wrap: anywhere/);
+  assert.match(css,/overflow: visible !important/);
+  assert.match(css,/thead \{ display: table-header-group/);
 });
