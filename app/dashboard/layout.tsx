@@ -32,6 +32,8 @@ import {
   Wrench,
 } from "lucide-react";
 
+import CustomerShell from "@/components/customer/CustomerShell";
+
 type UserRole =
   | "SUPER_ADMIN"
   | "ADMIN"
@@ -258,15 +260,39 @@ export default function DashboardLayout({
   const [checkingAuth, setCheckingAuth] =
     useState(true);
 
+  const [verifiedToken, setVerifiedToken] = useState<string | null>(null);
+
   useEffect(() => {
     let cancelled = false;
 
-    async function verifySession() {
-      const token =
-        localStorage.getItem(
-          "navii_access_token",
-        );
+    // Bind this mounted workspace to one token. Never reuse its children for
+    // credentials written by another tab (or while this tab was suspended).
+    let token: string | null = null;
+    try { token = localStorage.getItem("navii_access_token"); } catch { /* Fail closed. */ }
+    function invalidateSession() {
+      if (cancelled) return;
+      cancelled = true;
+      setUser(null);
+      setVerifiedToken(null);
+      setCheckingAuth(true);
+      router.replace("/login");
+    }
+    function checkSession() {
+      if (cancelled) return;
+      try {
+        if (localStorage.getItem("navii_access_token") !== token) invalidateSession();
+      } catch { invalidateSession(); }
+    }
+    function onStorage(event: StorageEvent) {
+      if (event.key === null || event.key === "navii_access_token" || event.key === "navii_user") checkSession();
+    }
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("focus", checkSession);
+    window.addEventListener("pageshow", checkSession);
+    window.addEventListener("navii-session-changed", checkSession);
+    document.addEventListener("visibilitychange", checkSession);
 
+    async function verifySession() {
       if (!token) {
         router.replace("/login");
         return;
@@ -300,7 +326,8 @@ export default function DashboardLayout({
           );
         }
 
-        if (!cancelled) {
+        if (!cancelled && localStorage.getItem("navii_access_token") === token) {
+          setVerifiedToken(token);
           setUser(json.data);
 
           localStorage.setItem(
@@ -311,17 +338,12 @@ export default function DashboardLayout({
           setCheckingAuth(false);
         }
       } catch {
-        if (cancelled) {
-          return;
-        }
-
-        localStorage.removeItem(
-          "navii_access_token",
-        );
-
-        localStorage.removeItem(
-          "navii_user",
-        );
+        if (cancelled) return;
+        try {
+          if (localStorage.getItem("navii_access_token") !== token) return;
+          localStorage.removeItem("navii_access_token");
+          localStorage.removeItem("navii_user");
+        } catch { /* Storage denial must not leave verified content visible. */ }
 
         if (!cancelled) {
           router.replace("/login");
@@ -333,6 +355,11 @@ export default function DashboardLayout({
 
     return () => {
       cancelled = true;
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("focus", checkSession);
+      window.removeEventListener("pageshow", checkSession);
+      window.removeEventListener("navii-session-changed", checkSession);
+      document.removeEventListener("visibilitychange", checkSession);
     };
   }, [router]);
 
@@ -372,16 +399,20 @@ export default function DashboardLayout({
   }
 
   function logout() {
-    localStorage.removeItem(
-      "navii_access_token",
-    );
-
-    localStorage.removeItem(
-      "navii_user",
-    );
-
+    // An old tab's logout must never remove a newer account's credentials.
+    setUser(null);
+    setVerifiedToken(null);
+    setCheckingAuth(true);
+    try {
+      if (verifiedToken && localStorage.getItem("navii_access_token") === verifiedToken) {
+        localStorage.removeItem("navii_access_token");
+        localStorage.removeItem("navii_user");
+      }
+    } catch { /* Still hide this workspace when browser storage is denied. */ }
+    window.dispatchEvent(new Event("navii-session-changed"));
+    // Replacing the route is sufficient: a refresh here competes with the
+    // pending transition and can leave the invalidated dashboard mounted.
     router.replace("/login");
-    router.refresh();
   }
 
   if (checkingAuth || !user) {
@@ -402,6 +433,10 @@ export default function DashboardLayout({
     ...allowedNavigation,
     ...allowedManagementNavigation,
   ];
+
+  if (user.role === "CUSTOMER" || user.role === "USER") {
+    return <CustomerShell key={verifiedToken} user={{...user, sessionToken: verifiedToken}} navigation={allMobileNavigation} onLogout={logout}>{children}</CustomerShell>;
+  }
 
   return (
     <div className="min-h-screen bg-[#050b16] text-white">
