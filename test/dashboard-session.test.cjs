@@ -50,7 +50,11 @@ function mountLayout({ hasToken = true, storageDenied = false } = {}) {
   const states = [];
   const effects = [];
   const requests = [];
-  const router = { replace: (href) => redirects.push(href), refresh() {} };
+  const navigationCalls = [];
+  const router = {
+    replace(href) { redirects.push(href); navigationCalls.push(["replace", href]); },
+    refresh() { navigationCalls.push(["refresh"]); },
+  };
   const listeners = new Map();
   const events = {
     addEventListener(name, callback) { if (!listeners.has(name)) listeners.set(name, new Set()); listeners.get(name).add(callback); },
@@ -110,7 +114,7 @@ function mountLayout({ hasToken = true, storageDenied = false } = {}) {
   assert.equal(states.length, 3);
   const cleanup = effects[0]();
   assert.equal(typeof cleanup, "function");
-  return { storage, removed, written, redirects, states, requests, cleanup, restart: effects[0],
+  return { storage, removed, written, redirects, navigationCalls, states, requests, cleanup, restart: effects[0],
     dispatch: (type, detail = {}) => events.dispatchEvent({ type, ...detail }), listeners,
     denyStorage() { storageDenied = true; },
     render() { rerendering = true; stateCursor = 0; return exports.default({ children: "private child" }); },
@@ -302,4 +306,17 @@ test("logout with denied storage still hides its subtree", async () => {
  const shell = layout.render(); layout.denyStorage(); shell.props.onLogout();
  assert.deepEqual(layout.states.map(state => state.value), [null, true, null]);
  assert.deepEqual(layout.removed, []); layout.cleanup();
+});
+
+for (const replacement of [false, true]) test(`logout navigation is not followed by a competing refresh (${replacement ? "replacement account" : "own account"})`, async () => {
+  const layout = mountLayout(); layout.requests[0].resolve(validResponse()); await settled();
+  const shell = layout.render();
+  if (replacement) layout.storage.set("navii_access_token", "account-B-token");
+  shell.props.onLogout();
+  assert.ok(layout.navigationCalls.length > 0, "Logout must navigate");
+  assert.ok(layout.navigationCalls.every(call => call[0] === "replace" && call[1] === "/login"),
+    "Do not refresh the current dashboard after scheduling the login transition");
+  assert.deepEqual(layout.states.map(state => state.value), [null, true, null]);
+  assert.equal(layout.storage.get("navii_access_token"), replacement ? "account-B-token" : undefined);
+  layout.cleanup();
 });

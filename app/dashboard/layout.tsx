@@ -410,8 +410,9 @@ export default function DashboardLayout({
       }
     } catch { /* Still hide this workspace when browser storage is denied. */ }
     window.dispatchEvent(new Event("navii-session-changed"));
+    // Replacing the route is sufficient: a refresh here competes with the
+    // pending transition and can leave the invalidated dashboard mounted.
     router.replace("/login");
-    router.refresh();
   }
 
   if (checkingAuth || !user) {
