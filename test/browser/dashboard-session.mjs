@@ -4,8 +4,10 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
+import { mkdir, writeFile } from 'node:fs/promises';
 
 const base = 'http://127.0.0.1:39125';
+const output = 'test-results/dashboard-session';
 const tokenA = 'synthetic-session-A', tokenB = 'synthetic-session-B';
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const profile = (role, account = 'A') => ({ id: `synthetic-${account}`, name: `Synthetic account ${account}`, role, companyId: `company-${account}`, email: `${account}@example.invalid` });
@@ -17,8 +19,12 @@ for (const stream of [server.stdout, server.stderr]) stream.on('data', chunk => 
 
 async function fixture(role, delayPath = null) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block' });
-  const state = { calls: [], errors: [], writes: [], held: [], delayPath, released: false };
-  context.on('page', page => page.on('pageerror', error => state.errors.push(error.message)));
+  const state = { calls: [], errors: [], writes: [], held: [], delayPath, released: false, console: [], failedRequests: [] };
+  context.on('page', page => {
+    page.on('pageerror', error => state.errors.push(error.message));
+    page.on('console', message => { if (state.console.length < 100) state.console.push({ type: message.type(), text: message.text() }); });
+    page.on('requestfailed', request => { if (state.failedRequests.length < 100) state.failedRequests.push({ url: request.url(), error: request.failure()?.errorText }); });
+  });
   await context.route('**/*', async route => {
     const request = route.request(), url = new URL(request.url());
     if (url.origin === base) return route.continue();
@@ -51,6 +57,23 @@ async function noOldContent(page) {
   assert.equal(await page.locator('textarea').filter({ hasText: 'private-A@example.invalid' }).count(), 0);
   assert.ok(!(await page.locator('input, textarea').evaluateAll(nodes => nodes.map(node => node.value))).includes('private-A@example.invalid'));
 }
+async function recordFailure(fixture, name, error) {
+  await mkdir(output, { recursive: true });
+  const prefix = name.replace(/[^a-zA-Z0-9_-]/g, '-');
+  const pages = [];
+  for (const [index, page] of fixture.context.pages().entries()) {
+    if (page.isClosed()) continue;
+    pages.push({ index, url: page.url() });
+    // Only synthetic fixture pages are opened. Capture before releasing held
+    // requests or closing either tab so the original failure remains visible.
+    await page.screenshot({ path: `${output}/${prefix}-tab-${index}.png`, fullPage: true, timeout: 5000 }).catch(() => {});
+    await page.content().then(html => writeFile(`${output}/${prefix}-tab-${index}.html`, html)).catch(() => {});
+    await page.locator('input:not([type=password]), textarea, select').evaluateAll(nodes => nodes.map(node => ({ tag: node.tagName, placeholder: node.getAttribute('placeholder'), value: node.value })))
+      .then(fields => writeFile(`${output}/${prefix}-tab-${index}-fields.json`, JSON.stringify(fields, null, 2))).catch(() => {});
+  }
+  const { calls, errors, writes, delayPath, released, console: consoleMessages, failedRequests } = fixture.state;
+  await writeFile(`${output}/${prefix}.json`, JSON.stringify({ failure: error.stack || String(error), pages, calls, errors, writes, delayPath, released, consoleMessages, failedRequests, serverLog: log }, null, 2));
+}
 function release(state) { state.released = true; for (const resolve of state.held.splice(0)) resolve(); }
 
 try {
@@ -67,7 +90,11 @@ try {
           if (delayed) await until(() => f.state.held.length > 0, 'Expected pending API request');
           else if (settings) {
             await f.page.getByRole('button', { name: 'Edit PRIVATE-AREA-A', exact: true }).waitFor();
-            assert.equal(await f.page.getByLabel('Future email recipients', { exact: true }).inputValue(), 'private-A@example.invalid');
+            // Use the component's unique placeholder for the already-populated
+            // textarea; the existing suite fills this field while initially empty.
+            const recipients = f.page.getByPlaceholder('name@example.com, other@example.com', { exact: true });
+            assert.equal(await recipients.count(), 1, 'Exactly one source-defined recipients field');
+            assert.equal(await recipients.inputValue(), 'private-A@example.invalid');
           } else await f.page.getByText('PRIVATE-VEHICLE-A', { exact: true }).first().waitFor();
           // Keep an authenticated history entry behind the invalidated one so
           // Back actually revisits the dashboard, rather than another login URL.
@@ -84,6 +111,9 @@ try {
           await f.page.goForward(); await sleep(200); await noOldContent(f.page);
           assert.deepEqual(f.state.errors, []); assert.deepEqual(f.state.writes, []);
           console.log(`PASS ${role} ${change} ${delayed || 'loaded data'} with history traversal`);
+        } catch (error) {
+          await recordFailure(f, `${role}-${change}-${delayed || 'loaded'}`, error);
+          throw error;
         } finally { release(f.state); await f.context.close(); }
       }
     }
@@ -105,7 +135,14 @@ try {
       assert.ok(!f.state.calls.some(call => call.token === `Bearer ${tokenB}`));
       assert.deepEqual(f.state.errors, []); assert.deepEqual(f.state.writes, []);
       console.log(`PASS ${role} stale logout preserves newer credentials`);
+    } catch (error) {
+      await recordFailure(f, `${role}-stale-logout`, error);
+      throw error;
     } finally { await f.context.close(); }
   }
   console.log('PASS synthetic-only cross-tab session browser regressions');
+} catch (error) {
+  await mkdir(output, { recursive: true });
+  await writeFile(`${output}/failure.log`, `${error.stack || error}\n\nLocal server:\n${log}`);
+  throw error;
 } finally { if (browser) await browser.close(); server.kill('SIGTERM'); }

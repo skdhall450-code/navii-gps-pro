@@ -51,6 +51,19 @@ jobs:
       - name: Install Chromium for GPS display checks
         run: npx playwright install --with-deps chromium
 
+      - name: Check cross-tab session isolation in Chromium
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: node test/browser/dashboard-session.mjs
+
+      - name: Upload cross-tab session browser diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-session-${{ github.sha }}
+          path: test-results/dashboard-session
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Check GPS screens in a real browser using isolated fixtures
         run: node test/browser/gps-freshness.mjs
 
@@ -141,7 +154,3 @@ jobs:
           path: test-results/customer-settings
           if-no-files-found: ignore
           retention-days: 7
-
-      - name: Check cross-tab session isolation in Chromium
-        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
-        run: node test/browser/dashboard-session.mjs
