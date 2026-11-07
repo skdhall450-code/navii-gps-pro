@@ -370,5 +370,15 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Dwarka: sector and society gate, multiple passenger bookings at one stop, changed return gate. Najafgarh: village and premises, van stop versus work site, unfinished jobs on depot return.
 - [x] Add specific descriptions, three visible planning sections, two extra visible/schema FAQs each and links between both guides. Keep the existing titles, H1, district links, canonicals and sitemap entries.
 - [x] Official geography: https://revenue.delhi.gov.in/revenue/list-villages and https://dmsouthwest.delhi.gov.in/about-district/administrative-setup/village-panchayats/ . No new access, installation, product or travel-time claims.
-- [ ] Publication: see branch seo/dwarka-najafgarh-20261106 and its PR for final CI, live-page and IndexNow evidence.
+- [x] Published via PR #109; main CI 42155241217 and IndexNow 42155813936 succeeded. Both pages and Delhi/Tricity regressions verified live.
 - [ ] Next: inspect existing Punjab Bathinda district and Talwandi Sabo town guides for distinct visitor needs before editing; retain canonical URLs.
+
+### 2026-11-07 Bathinda / Talwandi Sabo
+
+- [x] Inspected main 0c135e4, open PRs, route inventory, prior ledger and sitemap. Separate review-only PR #108 and panel/payment PRs remain untouched.
+- [x] Keep /gps-tracker/punjab/bathinda and /gps-tracker/punjab/bathinda/talwandi-sabo; no duplicate Bathinda city route or new sitemap entries.
+- [x] Bathinda: train versus road-vehicle status, delayed-arrival instructions and onward destination. Talwandi Sabo: group reunion, changed return bookings and coach repositioning versus departure. Three authored cards and two shared visible/schema FAQs each.
+- [x] Retain titles, H1, canonicals, Service geography, parent/sibling links; shared guide rendering supplies new descriptions, social metadata, WebPage and FAQ data. Add Bathinda-to-Talwandi planning link.
+- [x] Geography checked 2026-11-07 at https://bathinda.nic.in/how-to-reach/ and https://bathinda.nic.in/tourist-place/takhat-sri-damdama-sahib/ . Use only station/destination facts; no schedules, distances, parking permissions, branch or installation guarantees.
+- [ ] Publication: branch seo/bathinda-talwandi-20261107 and its PR must record full CI, production and live URL evidence. Require source SEO, lint, regression, build, rendered SEO and browser checks.
+- [ ] Next: review existing Haryana Rohtak and Meham guides for substantive gaps; verify geography and existing canonical inventory first.
