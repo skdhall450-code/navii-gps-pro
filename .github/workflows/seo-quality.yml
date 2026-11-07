@@ -141,3 +141,7 @@ jobs:
           path: test-results/customer-settings
           if-no-files-found: ignore
           retention-days: 7
+
+      - name: Check cross-tab session isolation in Chromium
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: node test/browser/dashboard-session.mjs

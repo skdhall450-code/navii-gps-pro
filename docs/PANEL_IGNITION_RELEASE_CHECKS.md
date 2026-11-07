@@ -15,3 +15,11 @@ Local integration validation on main `0c135e4` passed 160 unit/render tests, lin
 Before release, verify backend schema/runtime compatibility, tenant/account scope, real device ACC observations and independent timestamps, alert capability and delivery, migration safety and restore/rollback evidence. Synthetic fixtures are not physical-device or production acceptance. Do not infer aggregate engine coverage from GPS coverage.
 
 This remains a review draft. The draft branch disables automatic Vercel deployment. No merge, deployment, device command or production write is part of this change.
+
+## November 7 integration refresh
+
+The candidate now includes main `8325d1fb70927b08456d51da42e76b3c9744a7e6`, preserving the latest Punjab SEO content. Dashboard sessions invalidate and unmount on account changes across tabs, focus recovery and logout; a stale workspace cannot clear a replacement session. The new synthetic browser suite covers loaded and pending reads, customer/admin/dealer layouts and history navigation without contacting external APIs.
+
+Next.js and its ESLint configuration are patched together to 15.5.29. Vite is pinned at the compatible 8.2.4 development version. The production dependency audit reports zero known findings; six moderate development-tool findings remain in the TypeScript ESLint/minimatch chain.
+
+Local validation passed 177 unit/render tests, lint, the production build, source/rendered SEO checks for all 2,035 public URLs, and QR decoding. Local Chromium could not start because socket creation was unavailable, so real-browser acceptance must come from the exact-head CI run. Previous browser results do not validate this updated candidate. The draft's automatic deployment remains disabled, and the release boundaries above still apply.
