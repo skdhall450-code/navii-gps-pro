@@ -380,5 +380,15 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Bathinda: train versus road-vehicle status, delayed-arrival instructions and onward destination. Talwandi Sabo: group reunion, changed return bookings and coach repositioning versus departure. Three authored cards and two shared visible/schema FAQs each.
 - [x] Retain titles, H1, canonicals, Service geography, parent/sibling links; shared guide rendering supplies new descriptions, social metadata, WebPage and FAQ data. Add Bathinda-to-Talwandi planning link.
 - [x] Geography checked 2026-11-07 at https://bathinda.nic.in/how-to-reach/ and https://bathinda.nic.in/tourist-place/takhat-sri-damdama-sahib/ . Use only station/destination facts; no schedules, distances, parking permissions, branch or installation guarantees.
-- [ ] Publication: branch seo/bathinda-talwandi-20261107 and its PR must record full CI, production and live URL evidence. Require source SEO, lint, regression, build, rendered SEO and browser checks.
+- [x] Published via PR #111; main CI 42331014106 and IndexNow 42331342115 passed. Bathinda/Talwandi Sabo and Amritsar/Ajnala live checks passed; 2,035 URLs accepted by IndexNow (not evidence of Google indexing).
 - [ ] Next: review existing Haryana Rohtak and Meham guides for substantive gaps; verify geography and existing canonical inventory first.
+
+### 2026-11-08 Rohtak / Meham
+
+- [x] Checked main 8325d1f, open PRs, prior ledger, registry and 2,035-URL sitemap. No unfinished routine city SEO batch; unrelated/review-only PRs untouched.
+- [x] Keep /gps-tracker/haryana/rohtak and /gps-tracker/haryana/rohtak/meham; no new aliases or sitemap entries.
+- [x] Rohtak: campus department, gate versus handover, unreceived items. Meham: exact office, document receipt, separate return collection. Three distinct sections and two additional visible/schema FAQs each.
+- [x] Existing renderers provide specific titles/descriptions, social previews, WebPage/FAQ data, H1, self-canonicals and district/town navigation.
+- [x] Sources checked 2026-11-08: https://rohtak.gov.in/public-utility-category/universities/ and https://rohtak.gov.in/divisions/sub-division/ . No officeholder, opening-time, access, branch, institutional partnership, installation or device guarantees.
+- [ ] Publication: seo/rohtak-meham-20261108 PR records full source SEO, lint, regression, build, rendered SEO/browser checks and production/live verification. Verify both pages and Hisar/Samalkha shared-template regressions.
+- [ ] Next: review existing Delhi Rohini and Pitampura guides, verify canonical mapping and distinct useful gaps. Northern town/locality backlog remains partial.
