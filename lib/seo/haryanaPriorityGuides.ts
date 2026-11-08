@@ -1,5 +1,65 @@
 export type HaryanaPriorityGuide = { source?: string; sourceLabel?: string; title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
+"rohtak": {
+  "title": "GPS Tracker in Rohtak District, Haryana",
+  "description": "Plan GPS tracking for Rohtak campus deliveries. Separate gate arrival, department handover and unreceived consignments when reviewing vehicle journeys.",
+  "source": "https://rohtak.gov.in/public-utility-category/universities/",
+  "sourceLabel": "Rohtak district administration: universities",
+  "cases": [
+    {
+      "title": "Identify the campus department receiving the delivery",
+      "text": "Rohtak's university directory includes Maharshi Dayanand University and other institutions. For a campus delivery, record the institution, department, receiving contact and agreed vehicle entrance. Confirm entry arrangements directly before dispatch. A university address or map pin does not identify the department store or grant vehicle access; this planning example does not imply a NAVII GPS institutional partnership."
+    },
+    {
+      "title": "Separate the gate stop from the consignment handover",
+      "text": "A Rohtak delivery vehicle may stop at an entrance before proceeding to the receiving department. Keep the gate arrival and actual handover as separate events in the delivery record. Match the receiver acknowledgement to the consignment reference. GPS stop history supports movement review but cannot establish that staff checked or accepted the items."
+    },
+    {
+      "title": "Keep unreceived items open when the vehicle returns",
+      "text": "If a campus receiver is unavailable, record which items remain on the vehicle and the agreed next action. Do not mark the order delivered merely because the vehicle entered the campus or returned to its depot. Trial a partly completed delivery round and compare supported trip exports with individual handover records before selecting reporting access, retention and installation arrangements."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Does a GPS stop at a Rohtak campus prove delivery?",
+      "answer": "No. A stop records vehicle movement, not acceptance of a consignment. Keep the department, order reference and receiver acknowledgement alongside the trip record; an entrance stop may precede the actual handover."
+    },
+    {
+      "question": "How should an unsuccessful Rohtak campus delivery be recorded?",
+      "answer": "Keep the unreceived items and reason against the original order, confirm their return or next delivery instruction, and retain the receiver response. Vehicle return to the depot does not close the delivery."
+    }
+  ]
+},
+"meham": {
+  "title": "GPS Tracker in Meham, Rohtak",
+  "description": "Plan GPS tracking for Meham document courier rounds. Confirm the receiving office, distinguish a vehicle visit from a receipt and record return collections.",
+  "source": "https://rohtak.gov.in/divisions/sub-division/",
+  "sourceLabel": "Rohtak district administration: subdivision offices",
+  "cases": [
+    {
+      "title": "Confirm the office before sending a Meham courier",
+      "text": "Rohtak district's subdivision directory lists an SDM office at Meham. For a document courier journey, confirm the exact receiving office, department and appointment directly with the recipient. A Meham-area address is not automatically a booking at the SDM office. Keep current opening times and acceptance requirements separate from the vehicle route plan."
+    },
+    {
+      "title": "Match the receipt to the envelope reference",
+      "text": "For a Meham courier carrying several document packets, use a separate dispatch reference and receipt for each handover. Keep confidential document details in the authorised work record rather than a shared vehicle-location link. A GPS visit cannot prove that a packet was submitted, checked or accepted, and should not replace the recipient's acknowledgement."
+    },
+    {
+      "title": "Treat the return collection as a separate task",
+      "text": "If a document must be collected later from Meham, confirm that it is ready and assign a collection instruction linked to the original dispatch. Do not infer readiness from a previous visit. Pilot an outward submission and later collection with supported trip records, checking timestamps, user access and fitting arrangements for the courier's actual vehicle."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can a Meham GPS visit replace a document receipt?",
+      "answer": "No. Keep the recipient's acknowledgement against the packet reference. Vehicle location can support journey review, but cannot confirm submission, acceptance or processing of documents."
+    },
+    {
+      "question": "Should a Meham return collection be inferred from the original trip?",
+      "answer": "No. Confirm readiness with the receiving office and record a separate collection task. Link it to the original dispatch reference and reconcile the actual collection acknowledgement with the assigned vehicle journey."
+    }
+  ]
+},
 "hisar": {
   "title": "GPS Tracker in Hisar District, Haryana",
   "description": "Plan GPS tracking in Hisar for multi-desk fleet dispatch. Review vehicle responsibility, overlapping orders and shift handovers across district destinations.",
