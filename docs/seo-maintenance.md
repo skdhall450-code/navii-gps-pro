@@ -390,5 +390,14 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Rohtak: campus department, gate versus handover, unreceived items. Meham: exact office, document receipt, separate return collection. Three distinct sections and two additional visible/schema FAQs each.
 - [x] Existing renderers provide specific titles/descriptions, social previews, WebPage/FAQ data, H1, self-canonicals and district/town navigation.
 - [x] Sources checked 2026-11-08: https://rohtak.gov.in/public-utility-category/universities/ and https://rohtak.gov.in/divisions/sub-division/ . No officeholder, opening-time, access, branch, institutional partnership, installation or device guarantees.
-- [ ] Publication: seo/rohtak-meham-20261108 PR records full source SEO, lint, regression, build, rendered SEO/browser checks and production/live verification. Verify both pages and Hisar/Samalkha shared-template regressions.
+- [x] Published PR #112; full pre-merge CI 42440378068 passed on retry after a test-server port collision. Main CI 42441050479 and IndexNow 42441368157 passed. Rohtak/Meham and Hisar/Samalkha live checks passed.
 - [ ] Next: review existing Delhi Rohini and Pitampura guides, verify canonical mapping and distinct useful gaps. Northern town/locality backlog remains partial.
+
+### 2026-11-09 Rohini commercial service guide
+
+- [x] Inspected main 63267a8, open PRs, existing area registry, shared renderer, previous progress and 2,035-URL sitemap. No unfinished routine city batch; review-only/unrelated PRs untouched.
+- [x] Preserve /gps-tracker/delhi/north-west/rohini. Pitampura is absent from registry and sitemap, contrary to the previous next-batch assumption; do not invent an existing URL.
+- [x] Add distinct guidance for Mangalam Place versus Sector 10 district centre, equipment job versus service-van movement, and separate replacement/return handovers. Three visible sections, two additional visible/schema FAQs and specific page/social/WebPage description; retain title, H1, canonical and district/sibling navigation.
+- [x] Geography checked 2026-11-09: https://dda.gov.in/architecture/district-centre . Source lists Mangalam Place Sector 3 and Twin District Centre Sector 10; no access, parking, affiliation, branch, installation or device guarantees.
+- [ ] Publication: seo/rohini-20261109 PR records full source SEO, lint, regression, build, rendered SEO/browser CI, live production and IndexNow evidence. Check Rohini and existing Dwarka/Najafgarh shared-template regressions.
+- [ ] Next: verify Pitampura district mapping and distinct visitor need before proposing a new canonical; if mapping remains uncertain, improve an existing Punjab guide instead. Coverage remains partial.
