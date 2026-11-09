@@ -1,4 +1,36 @@
 export const delhiPriorityGuides = {
+rohini: {
+  "name": "Rohini",
+  "description": "Plan GPS tracking for Rohini commercial service visits. Identify the correct district centre, match vehicle visits to equipment jobs and record replacement handovers.",
+  "source": "https://dda.gov.in/architecture/district-centre",
+  "sourceLabel": "DDA: Rohini district centres",
+  "related": "/gps-tracker/delhi/north-west",
+  "relatedLabel": "North West Delhi fleet planning",
+  "cases": [
+    {
+      "title": "Distinguish Mangalam Place from the Sector 10 district centre",
+      "text": "DDA lists Mangalam Place District Centre in Sector 3 and Twin District Centre in Sector 10, Rohini. For a commercial service appointment, record the centre, building, unit and receiving contact before assigning a vehicle. A booking labelled only Rohini district centre can send the driver to the wrong destination. Confirm the usable entrance with the customer; the DDA listing does not establish vehicle access or parking availability."
+    },
+    {
+      "title": "Keep each equipment job separate from the service vehicle",
+      "text": "When a Rohini service van visits several offices, link each appointment to the customer's equipment reference and technician job sheet. Record whether the visit is inspection, replacement delivery or collection. The van's GPS history can help review the journey, but does not identify equipment inside a building or confirm that an installation or repair was completed."
+    },
+    {
+      "title": "Record replacement and return equipment at the same stop",
+      "text": "A single Rohini office stop may involve delivering a replacement unit and collecting the old one. Keep separate handover references, item identifiers and receiving acknowledgements for both tasks. If only one task is completed, leave the other open. Pilot a round between the actual customer premises and compare supported trip records with these handovers before choosing device compatibility, reporting access and fitting arrangements."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Which Rohini district centre should a service booking identify?",
+      "answer": "Specify whether the appointment is at Mangalam Place in Sector 3, Twin District Centre in Sector 10 or another location. Include the building, unit and confirmed entrance; a generic Rohini district-centre pin is not enough."
+    },
+    {
+      "question": "Can a Rohini GPS stop confirm both replacement delivery and old-equipment collection?",
+      "answer": "No. Keep separate item and handover records for the delivery and collection. One vehicle stop may support both tasks, but location alone cannot identify the equipment, confirm acceptance or close an unfinished task."
+    }
+  ]
+},
 dwarka: {
   "name": "Dwarka",
   "description": "Plan GPS tracking for Dwarka society pickups: identify the sector and gate, review shared vehicle stops and handle a changed return entrance.",
