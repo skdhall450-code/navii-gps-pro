@@ -47,6 +47,7 @@ const centralAreaGuides: Record<string, DelhiPriorityGuide> = {
 const guidesByDistrict: Record<string, Record<string, DelhiPriorityGuide>> = {
   "new-delhi": newDelhiAreaGuides,
   central: centralAreaGuides,
+  "central-north": { pitampura: delhiPriorityGuides.pitampura },
   "north-west": { rohini: delhiPriorityGuides.rohini },
   "south-west": { dwarka: delhiPriorityGuides.dwarka, najafgarh: delhiPriorityGuides.najafgarh },
 };
