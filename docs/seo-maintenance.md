@@ -399,5 +399,14 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Preserve /gps-tracker/delhi/north-west/rohini. Pitampura is absent from registry and sitemap, contrary to the previous next-batch assumption; do not invent an existing URL.
 - [x] Add distinct guidance for Mangalam Place versus Sector 10 district centre, equipment job versus service-van movement, and separate replacement/return handovers. Three visible sections, two additional visible/schema FAQs and specific page/social/WebPage description; retain title, H1, canonical and district/sibling navigation.
 - [x] Geography checked 2026-11-09: https://dda.gov.in/architecture/district-centre . Source lists Mangalam Place Sector 3 and Twin District Centre Sector 10; no access, parking, affiliation, branch, installation or device guarantees.
-- [ ] Publication: seo/rohini-20261109 PR records full source SEO, lint, regression, build, rendered SEO/browser CI, live production and IndexNow evidence. Check Rohini and existing Dwarka/Najafgarh shared-template regressions.
+- [x] Published PR #113; pre-merge CI 42553636138, main CI 42554163900 and IndexNow 42554654249 passed. Rohini and Dwarka/Najafgarh live verification passed.
 - [ ] Next: verify Pitampura district mapping and distinct visitor need before proposing a new canonical; if mapping remains uncertain, improve an existing Punjab guide instead. Coverage remains partial.
+
+### 2026-11-10 Pathankot / Delhi mapping finding
+
+- [x] Inspected main 4d7efc6, open PRs, ledger, route registry and sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/punjab/pathankot. Add three onward-transfer sections and two matching visible/schema FAQs; specific descriptions use shared metadata/rendering. Retain titles, H1, canonical and town navigation; link to Himachal planning. No new URLs.
+- [x] Stable travel-hub context checked at https://pathankot.nic.in/ on 2026-11-10. No current road status, schedules, times, permits, branches, guaranteed installation or device claims.
+- [x] Pitampura blocker identified: https://revenue.delhi.gov.in/sites/default/files/revenue/generic_multiple_files/central_north.pdf lists Pitampura revenue village under Central North/Shalimar Bagh. https://revenue.delhi.gov.in/revenue/district-offices lists 13 districts; site registry retains older district groupings. Do not add Pitampura under North West based on older tourism pages.
+- [ ] Next: plan a source-backed Delhi district/schema reconciliation preserving existing URL equity and checking locality boundaries before adding Pitampura. This requires broader inventory review, not a blind slug change. Continue independent Punjab/Himachal content while that migration is prepared.
+- [ ] Publication: seo/pathankot-20261110 PR records full source SEO, lint, regressions, build, rendered SEO/browser CI, production/live checks and IndexNow. Verify Pathankot plus Bathinda/Amritsar shared-template regressions.
