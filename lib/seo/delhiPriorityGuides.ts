@@ -1,4 +1,36 @@
 export const delhiPriorityGuides = {
+pitampura: {
+  "name": "Pitampura",
+  "description": "Plan GPS tracking for Pitampura exhibition deliveries. Confirm the correct Dilli Haat venue, separate stall consignments and reconcile equipment returns after an event.",
+  "source": "https://delhitourism.gov.in/tourist_place/pitampura.html",
+  "sourceLabel": "Delhi Tourism: Dilli Haat Pitampura",
+  "related": "/gps-tracker/delhi/central-north",
+  "relatedLabel": "Central North Delhi fleet planning",
+  "cases": [
+    {
+      "title": "Confirm Pitampura rather than another Dilli Haat venue",
+      "text": "Delhi Tourism lists separate Dilli Haat venues at Pitampura, INA and Janakpuri. For an exhibition delivery, include Pitampura, the event date, organiser and agreed receiving point on the dispatch instruction. Confirm unloading arrangements with the organiser before travel. A booking saying only Dilli Haat is incomplete, and a public visitor entrance is not automatically the goods receiving point."
+    },
+    {
+      "title": "Match every stall consignment to its own handover",
+      "text": "Dilli Haat Pitampura includes craft stalls and exhibition spaces. If one vehicle carries material for several exhibitors, keep each stall or exhibitor reference, package list and receiving acknowledgement separate. Use supported stop times to review the vehicle visit; GPS cannot identify which display items were unloaded or establish that every exhibitor accepted their consignment. This is independent planning guidance, not a claim of venue affiliation."
+    },
+    {
+      "title": "Keep event pack-down separate from the original delivery",
+      "text": "For a later collection in Pitampura, ask each exhibitor which display equipment, empty packaging or unsold items are ready to return. Give the collection its own booking and list anything left at the venue. An earlier delivery visit does not confirm pack-down readiness. Pilot a delivery and collection on different days, comparing supported trip records with item handovers before confirming reporting access, vehicle suitability and fitting arrangements."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "What should a Pitampura exhibition delivery instruction include?",
+      "answer": "Specify Dilli Haat Pitampura rather than just Dilli Haat, then add the event date, exhibitor reference, organiser contact and confirmed goods receiving point. Check unloading arrangements directly; a map destination does not grant access."
+    },
+    {
+      "question": "Can GPS confirm that all Pitampura event equipment returned?",
+      "answer": "No. Reconcile the collection list with individual exhibitor handovers and note items still at the venue. Vehicle trip history can support the journey review but cannot count display equipment or prove custody."
+    }
+  ]
+},
 rohini: {
   "name": "Rohini",
   "description": "Plan GPS tracking for Rohini commercial service visits. Identify the correct district centre, match vehicle visits to equipment jobs and record replacement handovers.",
