@@ -33,7 +33,9 @@ export function reportQuery(filters: ReportFilters): string {
   const duration = Date.parse(to) - Date.parse(from);
   if (duration <= 0) throw new Error("End time must be after start time.");
   if (duration > 31 * DAY) throw new Error("Choose a period of 31 days or less.");
-  return new URLSearchParams({ from, to, timezone: filters.timezone, limit: filters.kind === "ACTIVITY" ? "20000" : "500" }).toString();
+  const params = new URLSearchParams({ from, to, timezone: filters.timezone, limit: filters.kind === "ACTIVITY" ? "20000" : "500" });
+  if (filters.kind === "ALERTS") params.set("alertContract", ALERT_CONTRACT_VERSION);
+  return params.toString();
 }
 
 export function formatReportTime(value: string | null | undefined, timezone: ReportTimezone) {
@@ -114,5 +116,92 @@ export function activityCsv(report: ActivityReport, filters: ReportFilters) {
     ["Average speed basis", "Time-weighted over observed valid intervals"], ["Average speed km/h", report.summary.averageSpeedKph], [],
     ["Recorded at UTC", `Recorded at (${filters.timezone})`, "Latitude", "Longitude", "Reported speed km/h", "Ignition", "Battery V"],
     ...report.positions.map(p => [p.recordedAt, formatReportTime(p.recordedAt, filters.timezone), p.latitude, p.longitude, p.speed, historicalIgnitionLabel(p), p.battery]),
+  ]);
+}
+
+
+export const ALERT_CONTRACT_VERSION = "source-records-v1";
+export const ALERT_SOURCES = ["LEGACY_ALERT", "CUSTOMER_ALERT_EVENT"] as const;
+export type AlertSource = typeof ALERT_SOURCES[number];
+export type AlertResolution = "OPEN" | "RESOLVED" | "UNAVAILABLE";
+export type AlertRecord = { id: string; sourceId: string; type: string; message: string; reportTime: string; storedAt: string; resolutionStatus: AlertResolution; resolvedAt: string | null };
+export type AlertSourceReport = {
+  source: AlertSource; timeBasis: "CREATED_AT" | "OBSERVED_AT"; scope: "CURRENT_VEHICLE_ACCESS" | "CURRENT_CUSTOMER_ASSIGNMENT";
+  coverage: { pointLimit: number; returnedCount: number; truncated: boolean; dataComplete: boolean; complete: boolean };
+  data: AlertRecord[];
+};
+export type AlertReport = {
+  success: true; status: "available"; definitionsVersion: "2026-10-11"; alertContractVersion: typeof ALERT_CONTRACT_VERSION;
+  vehicle: { id: string; vehicleNo: string; name: string | null };
+  period: { from: string; to: string; timezone: ReportTimezone; endExclusive: true; defaulted: false };
+  sources: AlertSourceReport[];
+};
+export const ALERT_RECORDS_NOTICE = "Stored records, not unique incidents. The two streams may overlap and are not deduplicated. These records do not establish complete real-world alert history or notification delivery. Event capture or evaluation may be disabled; stored query completeness does not prove that capture or evaluation was active.";
+export const ALERT_SOURCE_LABELS: Record<AlertSource, { title: string; timeBasis: string; scope: string }> = {
+  LEGACY_ALERT: { title: "Legacy alerts", timeBasis: "Created time (stored record creation)", scope: "Current vehicle access. Legacy records are vehicle-linked; ownership at the time of each record is not established. Legacy records only; customer alert events are shown separately." },
+  CUSTOMER_ALERT_EVENT: { title: "Customer alert events", timeBasis: "Observed time (telemetry observation)", scope: "Current customer assignment only. Prior customer assignments are omitted. No current customer assignment returns no records. Resolution status is unavailable for this source." },
+};
+export function alertResolutionLabel(status: AlertResolution) { return status === "OPEN" ? "Open" : status === "RESOLVED" ? "Resolved" : "Unavailable"; }
+export function filterAlertRecords(records: AlertRecord[], query: string, status: AlertResolution | "ALL" = "ALL") {
+  return records.filter(row => (status === "ALL" || row.resolutionStatus === status) &&
+    [row.type, row.message, alertResolutionLabel(row.resolutionStatus), row.reportTime, row.storedAt].join(" ").toLowerCase().includes(query.toLowerCase()));
+}
+// This validator is the negotiated wire boundary. Missing/old/partial metadata must not become a success view.
+export function isAlertReport(value: unknown, filters: ReportFilters): value is AlertReport {
+  const object = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "object" && !Array.isArray(v);
+  const iso = (v: unknown): v is string => typeof v === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(v) && Number.isFinite(Date.parse(v)) && new Date(v).toISOString() === v;
+  const text = (v: unknown): v is string => typeof v === "string" && v.length > 0;
+  let query: URLSearchParams;
+  try { query = new URLSearchParams(reportQuery(filters)); } catch { return false; }
+  if (filters.kind !== "ALERTS" || !object(value) || value.success !== true || value.status !== "available" ||
+    value.definitionsVersion !== "2026-10-11" || value.alertContractVersion !== ALERT_CONTRACT_VERSION ||
+    !object(value.vehicle) || value.vehicle.id !== filters.vehicleId || !text(value.vehicle.vehicleNo) ||
+    !(value.vehicle.name === null || typeof value.vehicle.name === "string") || !object(value.period) ||
+    value.period.from !== query.get("from") || value.period.to !== query.get("to") ||
+    value.period.timezone !== filters.timezone || value.period.endExclusive !== true || value.period.defaulted !== false ||
+    !Array.isArray(value.sources) || value.sources.length !== ALERT_SOURCES.length) return false;
+  const from = Date.parse(query.get("from")!); const to = Date.parse(query.get("to")!);
+  const seenSources = new Set<string>();
+  return value.sources.every(source => {
+    if (!object(source) || !ALERT_SOURCES.includes(source.source as AlertSource) || seenSources.has(source.source as string)) return false;
+    seenSources.add(source.source as string);
+    const legacy = source.source === "LEGACY_ALERT";
+    if (source.timeBasis !== (legacy ? "CREATED_AT" : "OBSERVED_AT") || source.scope !== (legacy ? "CURRENT_VEHICLE_ACCESS" : "CURRENT_CUSTOMER_ASSIGNMENT") ||
+      !object(source.coverage) || !Array.isArray(source.data)) return false;
+    const c = source.coverage;
+    if (c.pointLimit !== Number(query.get("limit")) || !Number.isSafeInteger(c.returnedCount) || c.returnedCount !== source.data.length ||
+      source.data.length > Number(c.pointLimit) || typeof c.truncated !== "boolean" ||
+      c.dataComplete !== !c.truncated || c.complete !== !c.truncated || (c.truncated && source.data.length !== c.pointLimit)) return false;
+    const seenIds = new Set<string>();
+    let previous: { time: number; id: string } | undefined;
+    return source.data.every(row => {
+      if (!object(row) || !text(row.sourceId) || row.id !== `${source.source}:${row.sourceId}` || seenIds.has(row.sourceId) ||
+        !text(row.type) || typeof row.message !== "string" || !iso(row.reportTime) || !iso(row.storedAt) ||
+        !(row.resolvedAt === null || iso(row.resolvedAt))) return false;
+      const time = Date.parse(row.reportTime);
+      if (time < from || time >= to || (previous && (time > previous.time || (time === previous.time && row.sourceId <= previous.id)))) return false;
+      if (legacy ? (row.storedAt !== row.reportTime || !["OPEN", "RESOLVED"].includes(row.resolutionStatus as string) || (row.resolutionStatus === "OPEN" && row.resolvedAt !== null)) :
+        (row.resolutionStatus !== "UNAVAILABLE" || row.resolvedAt !== null)) return false;
+      seenIds.add(row.sourceId); previous = { time, id: row.sourceId };
+      return true;
+    });
+  });
+}
+export function alertsCsv(report: AlertReport, filters: ReportFilters) {
+  return csvRows([
+    ["NAVII GPS alert source records"], ["Vehicle", report.vehicle.vehicleNo], ["Timezone", filters.timezone],
+    ["From inclusive", report.period.from], ["To exclusive", report.period.to],
+    ["Alert contract", report.alertContractVersion], ["Definitions version", report.definitionsVersion],
+    ["Record interpretation", ALERT_RECORDS_NOTICE], ["Export scope", "All returned records from both sources, regardless of screen search, status filter or page"],
+    ...report.sources.flatMap(source => {
+      const labels = ALERT_SOURCE_LABELS[source.source]; const c = source.coverage;
+      return [[], ["Source", source.source, labels.title], ["Time basis", source.timeBasis, labels.timeBasis], ["Access scope", source.scope, labels.scope],
+        ["Stored records returned", c.returnedCount], ["Per-source record limit", c.pointLimit], ["Stored query truncated", c.truncated],
+        ["Stored query complete", c.complete], ["Stored data complete", c.dataComplete],
+        ["Coverage note", c.truncated ? "Record limit reached; omitted records remain. Choose a shorter period." : "All stored records matching this source scope and time basis at generation are returned; this is not complete real-world history."],
+        ["Source", "Time basis", "Scope", "Namespaced ID", "Source ID", "Report time UTC", `Report time (${filters.timezone})`, "Stored at UTC", "Type", "Message", "Resolution status", "Resolved at UTC"],
+        ...source.data.map(row => [source.source, source.timeBasis, source.scope, row.id, row.sourceId, row.reportTime, formatReportTime(row.reportTime, filters.timezone), row.storedAt, row.type, row.message, alertResolutionLabel(row.resolutionStatus), row.resolvedAt]),
+      ];
+    }),
   ]);
 }

@@ -380,5 +380,43 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Bathinda: train versus road-vehicle status, delayed-arrival instructions and onward destination. Talwandi Sabo: group reunion, changed return bookings and coach repositioning versus departure. Three authored cards and two shared visible/schema FAQs each.
 - [x] Retain titles, H1, canonicals, Service geography, parent/sibling links; shared guide rendering supplies new descriptions, social metadata, WebPage and FAQ data. Add Bathinda-to-Talwandi planning link.
 - [x] Geography checked 2026-11-07 at https://bathinda.nic.in/how-to-reach/ and https://bathinda.nic.in/tourist-place/takhat-sri-damdama-sahib/ . Use only station/destination facts; no schedules, distances, parking permissions, branch or installation guarantees.
-- [ ] Publication: branch seo/bathinda-talwandi-20261107 and its PR must record full CI, production and live URL evidence. Require source SEO, lint, regression, build, rendered SEO and browser checks.
+- [x] Published via PR #111; main CI 42331014106 and IndexNow 42331342115 passed. Bathinda/Talwandi Sabo and Amritsar/Ajnala live checks passed; 2,035 URLs accepted by IndexNow (not evidence of Google indexing).
 - [ ] Next: review existing Haryana Rohtak and Meham guides for substantive gaps; verify geography and existing canonical inventory first.
+
+### 2026-11-08 Rohtak / Meham
+
+- [x] Checked main 8325d1f, open PRs, prior ledger, registry and 2,035-URL sitemap. No unfinished routine city SEO batch; unrelated/review-only PRs untouched.
+- [x] Keep /gps-tracker/haryana/rohtak and /gps-tracker/haryana/rohtak/meham; no new aliases or sitemap entries.
+- [x] Rohtak: campus department, gate versus handover, unreceived items. Meham: exact office, document receipt, separate return collection. Three distinct sections and two additional visible/schema FAQs each.
+- [x] Existing renderers provide specific titles/descriptions, social previews, WebPage/FAQ data, H1, self-canonicals and district/town navigation.
+- [x] Sources checked 2026-11-08: https://rohtak.gov.in/public-utility-category/universities/ and https://rohtak.gov.in/divisions/sub-division/ . No officeholder, opening-time, access, branch, institutional partnership, installation or device guarantees.
+- [x] Published PR #112; full pre-merge CI 42440378068 passed on retry after a test-server port collision. Main CI 42441050479 and IndexNow 42441368157 passed. Rohtak/Meham and Hisar/Samalkha live checks passed.
+- [ ] Next: review existing Delhi Rohini and Pitampura guides, verify canonical mapping and distinct useful gaps. Northern town/locality backlog remains partial.
+
+### 2026-11-09 Rohini commercial service guide
+
+- [x] Inspected main 63267a8, open PRs, existing area registry, shared renderer, previous progress and 2,035-URL sitemap. No unfinished routine city batch; review-only/unrelated PRs untouched.
+- [x] Preserve /gps-tracker/delhi/north-west/rohini. Pitampura is absent from registry and sitemap, contrary to the previous next-batch assumption; do not invent an existing URL.
+- [x] Add distinct guidance for Mangalam Place versus Sector 10 district centre, equipment job versus service-van movement, and separate replacement/return handovers. Three visible sections, two additional visible/schema FAQs and specific page/social/WebPage description; retain title, H1, canonical and district/sibling navigation.
+- [x] Geography checked 2026-11-09: https://dda.gov.in/architecture/district-centre . Source lists Mangalam Place Sector 3 and Twin District Centre Sector 10; no access, parking, affiliation, branch, installation or device guarantees.
+- [x] Published PR #113; pre-merge CI 42553636138, main CI 42554163900 and IndexNow 42554654249 passed. Rohini and Dwarka/Najafgarh live verification passed.
+- [ ] Next: verify Pitampura district mapping and distinct visitor need before proposing a new canonical; if mapping remains uncertain, improve an existing Punjab guide instead. Coverage remains partial.
+
+### 2026-11-10 Pathankot / Delhi mapping finding
+
+- [x] Inspected main 4d7efc6, open PRs, ledger, route registry and sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/punjab/pathankot. Add three onward-transfer sections and two matching visible/schema FAQs; specific descriptions use shared metadata/rendering. Retain titles, H1, canonical and town navigation; link to Himachal planning. No new URLs.
+- [x] Stable travel-hub context checked at https://pathankot.nic.in/ on 2026-11-10. No current road status, schedules, times, permits, branches, guaranteed installation or device claims.
+- [x] Pitampura blocker identified: https://revenue.delhi.gov.in/sites/default/files/revenue/generic_multiple_files/central_north.pdf lists Pitampura revenue village under Central North/Shalimar Bagh. https://revenue.delhi.gov.in/revenue/district-offices lists 13 districts; Correction after full registry inspection: all 13 districts, including Central North, already exist; Pitampura was the missing area record. Other locality mappings have not been comprehensively revalidated. Do not add Pitampura under North West based on older tourism pages.
+- [x] Pitampura prerequisite resolved below: use existing Central North district; no district rename or URL migration is required for this new locality.
+- [x] Pathankot published via PR #114; CI 42745399578 / 42746066878 and IndexNow 42746896882 passed; Pathankot, Bathinda and Amritsar live verified.
+
+### 2026-11-10 Pitampura new locality
+
+- [x] Inspected main 8d73984, open PRs, route inventory, sitemap, prior progress and repository SEO requirements. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Correct previous assumption: Central North already exists in the 13-district registry. Add only /gps-tracker/delhi/central-north/pitampura, absent from source and live sitemap. Preserve every existing URL.
+- [x] Mapping source checked 2026-11-10: https://revenue.delhi.gov.in/sites/default/files/revenue/generic_multiple_files/central_north.pdf (Pitampura revenue village, Shalimar Bagh subdivision); district confirmed at https://revenue.delhi.gov.in/revenue/district-offices . Do not infer precise neighbourhood boundaries from the village table.
+- [x] Distinct content: selecting the Pitampura Dilli Haat venue, exhibitor-specific consignments, and later equipment returns. Source: https://delhitourism.gov.in/tourist_place/pitampura.html . No prices, opening hours, parking availability, entry permissions, branch, partnership or installation guarantees added.
+- [x] Shared route generator provides title, description/social metadata, canonical, H1, visible/schema FAQs, Service/Breadcrumb data, parent/sibling links and sitemap entry. Update source inventory to 61 records and assert Pitampura's district explicitly. Existing district/sibling navigation discovers the new guide.
+- [ ] Publication: seo/pitampura-20261110 PR records required full CI, deployment and live verification. Check new page, Central North parent, Shalimar Bagh sibling and Rohini regression; expect 2,036 sitemap URLs.
+- [ ] Next: review existing Sujanpur and Dhar Kalan (Pathankot) for distinct useful town guidance. Broader district/locality coverage remains partial; no comprehensive Delhi-boundary audit claimed.

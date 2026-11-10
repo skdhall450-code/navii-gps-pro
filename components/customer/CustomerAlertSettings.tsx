@@ -19,7 +19,16 @@ export default function CustomerAlertSettings() {
  const verifiedToken = useRef(customer?.sessionToken); verifiedToken.current = customer?.sessionToken;
  const pending = useRef<PendingCustomerWrite | null>(null);
  const recoveryKey = `navii-customer-pending:${customer?.id || "none"}`;
- const keepPending = useCallback((value: PendingCustomerWrite | null) => { pending.current = value; setUncertain(Boolean(value)); try { if(value) sessionStorage.setItem(recoveryKey, JSON.stringify(value)); else sessionStorage.removeItem(recoveryKey); return true; } catch { return false; } }, [recoveryKey]);
+ const keepPending = useCallback((value: PendingCustomerWrite | null) => {
+  // A failed pre-request save is definitive: no request can have been sent.
+  // Publish a new pending operation only after its recovery record is durable.
+  if (value) {
+   try { sessionStorage.setItem(recoveryKey, JSON.stringify(value)); } catch { return false; }
+   pending.current = value; setUncertain(true); return true;
+  }
+  pending.current = null; setUncertain(false);
+  try { sessionStorage.removeItem(recoveryKey); return true; } catch { return false; }
+ }, [recoveryKey]);
  const validSession = useCallback((session: {token: string | null; id: string | undefined}) => mounted.current && session.id === identity.current && Boolean(session.token) && session.token === verifiedToken.current && localStorage.getItem("navii_access_token") === session.token, []);
  const [vehicles, setVehicles] = useState<CustomerAlertVehicle[]>([]);
  const [settings, setSettings] = useState<CustomerAlertSetting[]>([]);

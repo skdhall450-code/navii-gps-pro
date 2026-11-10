@@ -1,4 +1,68 @@
 export const delhiPriorityGuides = {
+pitampura: {
+  "name": "Pitampura",
+  "description": "Plan GPS tracking for Pitampura exhibition deliveries. Confirm the correct Dilli Haat venue, separate stall consignments and reconcile equipment returns after an event.",
+  "source": "https://delhitourism.gov.in/tourist_place/pitampura.html",
+  "sourceLabel": "Delhi Tourism: Dilli Haat Pitampura",
+  "related": "/gps-tracker/delhi/central-north",
+  "relatedLabel": "Central North Delhi fleet planning",
+  "cases": [
+    {
+      "title": "Confirm Pitampura rather than another Dilli Haat venue",
+      "text": "Delhi Tourism lists separate Dilli Haat venues at Pitampura, INA and Janakpuri. For an exhibition delivery, include Pitampura, the event date, organiser and agreed receiving point on the dispatch instruction. Confirm unloading arrangements with the organiser before travel. A booking saying only Dilli Haat is incomplete, and a public visitor entrance is not automatically the goods receiving point."
+    },
+    {
+      "title": "Match every stall consignment to its own handover",
+      "text": "Dilli Haat Pitampura includes craft stalls and exhibition spaces. If one vehicle carries material for several exhibitors, keep each stall or exhibitor reference, package list and receiving acknowledgement separate. Use supported stop times to review the vehicle visit; GPS cannot identify which display items were unloaded or establish that every exhibitor accepted their consignment. This is independent planning guidance, not a claim of venue affiliation."
+    },
+    {
+      "title": "Keep event pack-down separate from the original delivery",
+      "text": "For a later collection in Pitampura, ask each exhibitor which display equipment, empty packaging or unsold items are ready to return. Give the collection its own booking and list anything left at the venue. An earlier delivery visit does not confirm pack-down readiness. Pilot a delivery and collection on different days, comparing supported trip records with item handovers before confirming reporting access, vehicle suitability and fitting arrangements."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "What should a Pitampura exhibition delivery instruction include?",
+      "answer": "Specify Dilli Haat Pitampura rather than just Dilli Haat, then add the event date, exhibitor reference, organiser contact and confirmed goods receiving point. Check unloading arrangements directly; a map destination does not grant access."
+    },
+    {
+      "question": "Can GPS confirm that all Pitampura event equipment returned?",
+      "answer": "No. Reconcile the collection list with individual exhibitor handovers and note items still at the venue. Vehicle trip history can support the journey review but cannot count display equipment or prove custody."
+    }
+  ]
+},
+rohini: {
+  "name": "Rohini",
+  "description": "Plan GPS tracking for Rohini commercial service visits. Identify the correct district centre, match vehicle visits to equipment jobs and record replacement handovers.",
+  "source": "https://dda.gov.in/architecture/district-centre",
+  "sourceLabel": "DDA: Rohini district centres",
+  "related": "/gps-tracker/delhi/north-west",
+  "relatedLabel": "North West Delhi fleet planning",
+  "cases": [
+    {
+      "title": "Distinguish Mangalam Place from the Sector 10 district centre",
+      "text": "DDA lists Mangalam Place District Centre in Sector 3 and Twin District Centre in Sector 10, Rohini. For a commercial service appointment, record the centre, building, unit and receiving contact before assigning a vehicle. A booking labelled only Rohini district centre can send the driver to the wrong destination. Confirm the usable entrance with the customer; the DDA listing does not establish vehicle access or parking availability."
+    },
+    {
+      "title": "Keep each equipment job separate from the service vehicle",
+      "text": "When a Rohini service van visits several offices, link each appointment to the customer's equipment reference and technician job sheet. Record whether the visit is inspection, replacement delivery or collection. The van's GPS history can help review the journey, but does not identify equipment inside a building or confirm that an installation or repair was completed."
+    },
+    {
+      "title": "Record replacement and return equipment at the same stop",
+      "text": "A single Rohini office stop may involve delivering a replacement unit and collecting the old one. Keep separate handover references, item identifiers and receiving acknowledgements for both tasks. If only one task is completed, leave the other open. Pilot a round between the actual customer premises and compare supported trip records with these handovers before choosing device compatibility, reporting access and fitting arrangements."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Which Rohini district centre should a service booking identify?",
+      "answer": "Specify whether the appointment is at Mangalam Place in Sector 3, Twin District Centre in Sector 10 or another location. Include the building, unit and confirmed entrance; a generic Rohini district-centre pin is not enough."
+    },
+    {
+      "question": "Can a Rohini GPS stop confirm both replacement delivery and old-equipment collection?",
+      "answer": "No. Keep separate item and handover records for the delivery and collection. One vehicle stop may support both tasks, but location alone cannot identify the equipment, confirm acceptance or close an unfinished task."
+    }
+  ]
+},
 dwarka: {
   "name": "Dwarka",
   "description": "Plan GPS tracking for Dwarka society pickups: identify the sector and gate, review shared vehicle stops and handle a changed return entrance.",

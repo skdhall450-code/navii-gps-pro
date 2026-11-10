@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
 import { mkdir } from 'node:fs/promises';
+import { createBlockedWebSocketRoute } from './alert-report-network.mjs';
 const base='http://127.0.0.1:39123';
 const user={id:'qa-customer',name:'Synthetic customer',role:'CUSTOMER',companyId:'qa-company'};
 const caps={geofenceWrite:true,overspeedConfiguration:true,eventEvaluation:false,emailDelivery:false,smsDelivery:false,lowBattery:false};
@@ -14,13 +15,19 @@ for(const stream of [server.stdout,server.stderr])stream.on('data',data=>log=(lo
 try {
  let ready=false;for(let until=Date.now()+45000;Date.now()<until;){if(server.exitCode!==null)throw Error(log);try{if((await fetch(base+'/login')).ok){ready=true;break;}}catch{}await sleep(500);}assert.ok(ready,log);
  browser=await chromium.launch({headless:true,chromiumSandbox:true,...(process.env.CI?{channel:"chrome"}:{})});await mkdir('test-results/customer-settings',{recursive:true});
- const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
+ const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce',serviceWorkers:'block'});
  await context.addInitScript(u=>{localStorage.setItem('navii_access_token','synthetic-only');localStorage.setItem('navii_user',JSON.stringify(u));},user);
- const state={unsupported:true,failReads:false,loseWrite:false,deferCreate:false,pendingCreate:null,settings:[],circles:[],writes:[],unexpected:[]};
+ const state={unsupported:true,failReads:false,loseWrite:false,deferCreate:false,pendingCreate:null,settings:[],circles:[],writes:[],unexpected:[],blocked:[],errors:[],completeness:'complete'};
+ await context.routeWebSocket('**/*',createBlockedWebSocketRoute(state));
  await context.route('**/*',async route=>{
-  const req=route.request(),url=new URL(req.url());if(url.origin===base)return route.continue();
+  try {
+  const req=route.request(),url=new URL(req.url());if(url.origin===base && ['GET','HEAD'].includes(req.method()) && !/^\/api(?:\/|$)/.test(url.pathname) && (url.pathname!=='/_next/image' || url.searchParams.get('url')==='/assets/logo/logo.png')) {
+   const response=await route.fetch({maxRedirects:0});
+   if(response.status()<300 || response.status()>=400)return route.fulfill({response});
+   state.unexpected.push(`Local redirect: ${req.url()}`);return route.abort();
+  }
   if(url.hostname.endsWith('tile.openstreetmap.org'))return route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><rect width="256" height="256" fill="#edf1ef"/><path d="M0 100H256M100 0V256" stroke="#fff" stroke-width="16"/><text x="15" y="40" font-size="12" fill="#789">SYNTHETIC QA MAP</text></svg>'});
-  if(url.origin!=='https://api.naviigps.com')return route.fulfill({status:204,body:''});
+  if(url.origin!=='https://api.naviigps.com'){state.blocked.push(req.url());return route.abort();}
   const headers={'access-control-allow-origin':base,'access-control-allow-methods':'GET,PUT,POST,PATCH,DELETE','access-control-allow-headers':'authorization,content-type'};
   const reply=(status,data)=>route.fulfill({status,headers,contentType:'application/json',body:JSON.stringify(data)});
   if(req.method()==='OPTIONS')return route.fulfill({status:204,headers});
@@ -29,7 +36,7 @@ try {
   if(state.unsupported)return reply(state.unsupported===503?503:404,{});
   if(req.method()==='GET'){
    if(state.failReads)return reply(503,{});
-   return reply(200,{success:true,data:url.pathname.endsWith('settings')?state.settings:state.circles,vehicles,capabilities:caps,mode:'DRAFT_CHANNELS_DISABLED'});
+   return reply(200,{success:true,data:url.pathname.endsWith('settings')?state.settings:state.circles,vehicles,capabilities:caps,mode:'DRAFT_CHANNELS_DISABLED',...(state.completeness==='omitted'?{}:{truncated:state.completeness==='incomplete'})});
   }
   const body=req.postDataJSON();state.writes.push({method:req.method(),path:url.pathname,body});
   if(req.method()==='PUT'){
@@ -41,6 +48,7 @@ try {
   else if(req.method()==='DELETE')state.circles=[];
   if(state.loseWrite){state.loseWrite=false;state.failReads=true;return route.abort('failed');}
   return reply(200,{success:true,data:state.settings[0],capabilities:caps});
+  } catch(error) {state.errors.push(String(error?.stack || error));await route.abort().catch(()=>{});}
  });
  const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/dashboard/customer-settings');await page.getByRole('heading',{name:'Setup is not available yet'}).waitFor();assert.equal(state.writes.length,0);
@@ -55,6 +63,10 @@ try {
  const consent=page.getByRole('button',{name:'Necessary Only',exact:true});if(await consent.isVisible())await consent.click();
  await page.screenshot({path:'test-results/customer-settings/mobile-fixture-settings.png',fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
  await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'test-results/customer-settings/desktop-fixture-settings.png',fullPage:true});
- caps.geofenceWrite=false;await page.getByRole('button',{name:'Refresh saved settings'}).click();await page.waitForTimeout(200);assert.equal(await page.getByRole('button',{name:'Edit Synthetic home',exact:true}).isDisabled(),true);assert.equal(await page.getByRole('button',{name:'Delete Synthetic home',exact:true}).isDisabled(),true);caps.geofenceWrite=true;await page.getByRole('button',{name:'Refresh saved settings'}).click();await page.waitForTimeout(200);page.on('dialog',d=>d.accept());await page.getByRole('button',{name:'Delete Synthetic home',exact:true}).click();await page.getByText('No customer-created areas for this vehicle.',{exact:true}).waitFor();assert.equal(state.circles.length,0);assert.deepEqual(state.unexpected,[]);assert.deepEqual(errors,[]);
+ caps.geofenceWrite=false;await page.getByRole('button',{name:'Refresh saved settings'}).click();await page.waitForTimeout(200);assert.equal(await page.getByRole('button',{name:'Edit Synthetic home',exact:true}).isDisabled(),true);assert.equal(await page.getByRole('button',{name:'Delete Synthetic home',exact:true}).isDisabled(),true);caps.geofenceWrite=true;await page.getByRole('button',{name:'Refresh saved settings'}).click();await page.waitForTimeout(200);page.on('dialog',d=>d.accept());state.completeness='omitted';await page.getByRole('button',{name:'Delete Synthetic home',exact:true}).click();await page.getByText('No customer-created areas for this vehicle.',{exact:true}).waitFor();assert.equal(state.circles.length,0);
+ await page.getByRole('status').filter({hasText:'Changes remain blocked'}).waitFor();assert.equal(await page.getByRole('button',{name:'Save preferences',exact:true}).isDisabled(),true,'Missing completeness metadata cannot verify DELETE absence');const afterDelete=state.writes.length;
+ state.completeness='incomplete';await page.getByRole('button',{name:'Refresh saved settings'}).click();await page.getByText('Only part of your eligible vehicle list was returned.',{exact:false}).waitFor();assert.equal(await page.getByRole('button',{name:'Save preferences',exact:true}).isDisabled(),true,'Incomplete reads cannot verify DELETE absence');assert.equal(state.writes.length,afterDelete);
+ state.completeness='complete';await page.getByRole('button',{name:'Refresh saved settings'}).click();await page.getByRole('status').filter({hasText:'stored change has been verified'}).waitFor();assert.equal(await page.getByRole('button',{name:'Save preferences',exact:true}).isDisabled(),false);
+ await page.getByLabel('Speed limit (km/h)',{exact:true}).fill('85');await page.getByRole('button',{name:'Save preferences',exact:true}).click();await page.getByRole('status').filter({hasText:'Save request completed'}).waitFor();assert.equal(state.settings[0].speedLimitKph,85);assert.equal(state.writes.length,afterDelete+1,'Verified DELETE permits a subsequent write');assert.deepEqual(state.unexpected,[]);assert.deepEqual(state.errors,[]);assert.deepEqual(errors,[]);
  await context.close();console.log('PASS customer settings fixture-only unsupported, saves, exact payload, circle CRUD, uncertain-write recovery, responsive screenshots');
 } finally{if(browser)await browser.close();server.kill('SIGTERM');}

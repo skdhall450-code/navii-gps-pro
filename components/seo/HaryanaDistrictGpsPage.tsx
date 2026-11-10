@@ -25,7 +25,7 @@ const districtFaqs = (district: HaryanaDistrictSeo) => [
 
 export function HaryanaDistrictGpsPage({ district }: { district: HaryanaDistrictSeo }) {
   const url = `https://naviigps.com/gps-tracker/haryana/${district.slug}`;
-  const guide = (district.slug === "hisar" || district.slug === "hansi" || district.slug === "panchkula" || district.slug === "karnal" || district.slug === "panipat") ? priorityGuides[district.slug] : undefined;
+  const guide = (district.slug === "rohtak" || district.slug === "hisar" || district.slug === "hansi" || district.slug === "panchkula" || district.slug === "karnal" || district.slug === "panipat") ? priorityGuides[district.slug] : undefined;
   const faqs = [...districtFaqs(district), ...(guide?.faqs ?? [])];
   const cityGuides = getHaryanaCitiesForDistrict(district.slug).filter(
     (city) => city.slug !== district.slug,

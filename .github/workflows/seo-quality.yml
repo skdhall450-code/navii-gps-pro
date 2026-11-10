@@ -51,6 +51,20 @@ jobs:
       - name: Install Chromium for GPS display checks
         run: npx playwright install --with-deps chromium
 
+      - name: Check alert reports, CSV and print in Chromium
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        timeout-minutes: 3
+        run: node test/browser/alert-report-contract.mjs
+
+      - name: Upload alert report browser diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alert-report-contract-${{ github.sha }}
+          path: test-results/alert-report-contract
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Check cross-tab session isolation in Chromium
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: node test/browser/dashboard-session.mjs
