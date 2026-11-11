@@ -428,5 +428,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Sujanpur: complete delivery addresses, several customer handovers at one vehicle stop, and dated address corrections. Dhar Kalan: camp road meeting point, vehicle versus activity schedules, and overnight hire assignments. Three distinct sections and two extra visible/schema FAQs each.
 - [x] Shared renderer supplies specific page/social/WebPage descriptions, visible headings, source links and five FAQ pairs each; retain titles, H1, canonicals, Service geography, parent/sibling navigation and existing sitemap entries.
 - [x] Geography verified 2026-11-11: https://pathankot.nic.in/public-utility/municipal-council-sujanpur/ and https://pathankot.nic.in/tourist-place/dhar-nature-retreat-and-awareness-camp/ . Use only municipality/camp location facts; no current activities, hours, prices, access permissions, branches, installation coverage or device guarantees claimed.
-- [ ] Publication: branch seo/sujanpur-dhar-kalan-20261111 requires source SEO, lint, regressions, build, rendered SEO and browser checks before merge. PR records deployment/live evidence. Verify both pages, five matching FAQs, metadata, source/parent/sibling links and unchanged sitemap; regression-check Talwandi Sabo and Ajnala.
+- [x] Published via PR #116; pre-merge CI 42948933373, main CI 42949530485 and IndexNow 42950037039 passed. Both pages and Talwandi Sabo/Ajnala regressions verified live; unchanged 2,036-URL sitemap accepted by IndexNow. Tricity basic HTTP/canonical/H1/indexability checks also passed.
 - [ ] Next: assess existing Haryana Sonipat and Gohana guides for useful distinct gaps; verify exact route mapping first. Northern district/town/locality coverage remains partial.
+
+
+### 2026-11-11 Sonipat / Gohana
+
+- [x] Inspected main c3551f9, open PRs, previous ledger, existing routes and 2,036-URL live sitemap. No unfinished routine city SEO batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/haryana/sonipat and /gps-tracker/haryana/sonipat/gohana; no alternate city route or new sitemap entries.
+- [x] Sonipat: industrial site-to-site transfers, returnable packaging balances and repeated shuttle circuits. Gohana: grain lot assignment, weighing-slip/load-cycle matching and onward unloading instructions. Three distinct sections and two extra visible/schema FAQs each.
+- [x] Existing renderers provide titles, specific descriptions/social metadata, H1, canonicals, WebPage/FAQ/Service/Breadcrumb data and district/town navigation. Scope guide selection to Sonipat district and its Gohana town only.
+- [x] Sources verified 2026-11-11: https://sonipat.gov.in/department/hsidc/ , https://sonipat.gov.in/sub-division/ and https://hsamb.org.in/grain-market . Use stable local context only; no current procurement, crop prices, weighing equipment availability, access, local branch, installation coverage or device guarantees claimed.
+- [ ] Publication: branch seo/sonipat-gohana-20261111 requires full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify live metadata, three sections/five matching FAQs each, source/parent/town links and unchanged sitemap; regression-check Rohtak/Meham. PR records deployment and IndexNow evidence.
+- [ ] Next: assess existing Punjab Sangrur and Sunam guides for distinct useful gaps; verify canonical mapping and local sources first. District/town/locality coverage remains partial.
