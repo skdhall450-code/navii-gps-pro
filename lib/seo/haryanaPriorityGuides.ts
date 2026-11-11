@@ -1,5 +1,65 @@
 export type HaryanaPriorityGuide = { source?: string; sourceLabel?: string; title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
+  "sonipat": {
+    "title": "GPS Tracker in Sonipat District, Haryana",
+    "description": "Plan GPS tracking for Sonipat industrial transfers. Match dispatch and receiving sites, reconcile returnable pallets or crates, and review repeat shuttle journeys.",
+    "source": "https://sonipat.gov.in/department/hsidc/",
+    "sourceLabel": "Sonipat district administration: HSIIDC Kundli directory",
+    "cases": [
+      {
+        "title": "Identify both ends of an industrial transfer",
+        "text": "Kundli is part of Sonipat district's industrial setting, with an HSIIDC office listed in the district directory. For a transfer between a Kundli premises and another Sonipat location, record separate dispatch and receiving site codes, exact entrances and the transfer reference. Two sites belonging to the same business still need separate journey endpoints; an office address is not automatically the loading premises."
+      },
+      {
+        "title": "Reconcile returnable pallets and crates separately",
+        "text": "If a Sonipat industrial delivery uses returnable pallets or crates, record the number issued, accepted back and left outstanding against the transfer. Keep empty-container collection distinct from the goods delivery, even when both happen on one vehicle visit. Vehicle GPS cannot count packaging or prove that it was returned. Use the signed exchange record to resolve a container balance rather than closing it from a geofence event."
+      },
+      {
+        "title": "Give each shuttle circuit its own transfer reference",
+        "text": "A vehicle shuttling repeatedly between Sonipat sites may follow the same route several times. Pair each outward movement with its own receiving record and return assignment; do not reuse the first completed transfer for later circuits. Pilot a working shift with a goods delivery and an empty-container collection, comparing supported trip timestamps with the transfer register before choosing reporting access and fitting arrangements."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can GPS confirm a Sonipat pallet or crate balance?",
+        "answer": "No. Keep issued, returned and outstanding quantities in the container exchange record. GPS can help match a vehicle visit to that record, but cannot count packaging or confirm its condition."
+      },
+      {
+        "question": "How can repeated Sonipat shuttle trips be distinguished?",
+        "answer": "Assign a separate transfer reference to each circuit, with dispatch and receiving sites, handover records and the return task. Match those references to supported trip timestamps instead of treating all visits between the same sites as one transfer."
+      }
+    ]
+  },
+  "gohana": {
+    "title": "GPS Tracker in Gohana, Sonipat",
+    "description": "Plan GPS tracking for Gohana grain-market transport. Keep crop lots separate, match weighing slips to the right journey and confirm onward unloading instructions.",
+    "source": "https://hsamb.org.in/grain-market",
+    "sourceLabel": "Haryana State Agricultural Marketing Board: grain markets",
+    "cases": [
+      {
+        "title": "Keep each grain lot tied to its vehicle assignment",
+        "text": "The Haryana State Agricultural Marketing Board lists Gohana as a grain market. For a market-bound load, record the crop lot reference, originating pickup and assigned vehicle, and confirm the actual receiving yard with the coordinator. If several lots share a vehicle, keep their records distinct. A Gohana map position cannot identify the grower, crop grade or lot carried, and this guide does not state current procurement arrangements."
+      },
+      {
+        "title": "Match weighing records to the correct load cycle",
+        "text": "Where the Gohana transport job includes weighing, retain the weighbridge slip reference, vehicle registration, recorded weight and timestamp with that load. If loaded and empty readings are required, pair the readings for the same load cycle rather than combining slips from different trips. GPS movement can help review the visit sequence; it cannot measure crop weight, moisture or quality, or replace the weighing record."
+      },
+      {
+        "title": "Confirm the unloading destination after the market visit",
+        "text": "A Gohana market visit may be followed by an instructed journey to storage or another receiver. Record that destination and who authorised it before dispatching the next leg. Keep unloading acknowledgement separate from market arrival and vehicle departure. Trial a market-to-receiver journey with supported trip records, checking location freshness and access for the coordinator, then confirm compatible hardware, installation and renewal costs for the actual vehicle."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can vehicle GPS measure a Gohana grain load?",
+        "answer": "No. Use the relevant weighing records for weight and the authorised inspection records for crop quality. Associate the slips and lot reference with the correct vehicle journey; a location event cannot replace those records."
+      },
+      {
+        "question": "Does arrival at Gohana grain market complete the transport job?",
+        "answer": "Only if the agreed task ends there and its handover is confirmed. If onward unloading is required, retain the receiver instruction and track that journey leg separately until its own acknowledgement is recorded."
+      }
+    ]
+  },
 "rohtak": {
   "title": "GPS Tracker in Rohtak District, Haryana",
   "description": "Plan GPS tracking for Rohtak campus deliveries. Separate gate arrival, department handover and unreceived consignments when reviewing vehicle journeys.",
