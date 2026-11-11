@@ -7,5 +7,6 @@ test('Panel draft branches cannot trigger a Vercel deployment; other branches re
   assert.deepEqual(config.git.deploymentEnabled, {
     'codex/panel-phase1-20261011': false,
     'codex/panel-provenance-print-20261106': false,
+    'local/reconcile-pr110-main-20261111': false,
   });
 });
