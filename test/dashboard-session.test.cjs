@@ -69,6 +69,8 @@ function mountLayout({ hasToken = true } = {}) {
     "next/link": () => null,
     "next/navigation": { usePathname: () => "/dashboard", useRouter: () => router },
     "lucide-react": require("lucide-react"),
+    // Presentation-only wrapper; keep exercising the actual layout session effect.
+    "@/components/customer/CustomerShell": ({ children }) => children,
   };
   const exports = {};
   vm.runInNewContext(compiled, {
@@ -97,7 +99,7 @@ function mountLayout({ hasToken = true } = {}) {
   }, { filename });
   exports.default({ children: null });
   assert.equal(effects.length, 1, "Capture the layout's actual session effect");
-  assert.equal(states.length, 2);
+  assert.equal(states.length, 3);
   const cleanup = effects[0]();
   assert.equal(typeof cleanup, "function");
   return { storage, removed, written, redirects, states, requests, cleanup, restart: effects[0] };
@@ -107,7 +109,7 @@ function assertNoUpdates(layout) {
   assert.deepEqual(layout.removed, []);
   assert.deepEqual(layout.written, []);
   assert.deepEqual(layout.redirects, []);
-  assert.deepEqual(layout.states.map((state) => state.updates), [[], []]);
+  assert.deepEqual(layout.states.map((state) => state.updates), [[], [], []]);
   assert.equal(layout.storage.get("navii_access_token"), token);
   assert.equal(layout.storage.get("navii_user"), savedProfile);
 }
@@ -141,7 +143,7 @@ for (const [name, fail] of failures) {
     assert.equal(layout.storage.has("navii_user"), false);
     assert.deepEqual(layout.redirects, ["/login"]);
     assert.deepEqual(layout.written, []);
-    assert.deepEqual(layout.states.map((state) => state.updates), [[], []]);
+    assert.deepEqual(layout.states.map((state) => state.updates), [[], [], []]);
     layout.cleanup();
   });
 }
@@ -157,7 +159,7 @@ test("active verification retains the token, caches the user and shows the dashb
   await settled();
   assert.equal(layout.storage.get("navii_access_token"), token);
   assert.equal(layout.storage.get("navii_user"), JSON.stringify(profile));
-  assert.deepEqual(layout.states.map((state) => state.value), [profile, false]);
+  assert.deepEqual(layout.states.map((state) => state.value), [profile, false, token]);
   assert.deepEqual(layout.removed, []);
   assert.deepEqual(layout.redirects, []);
   layout.cleanup();
@@ -193,7 +195,7 @@ test("a cancelled effect cannot clear the session verified by its replacement", 
   await settled();
   assert.equal(layout.storage.get("navii_access_token"), token);
   assert.equal(layout.storage.get("navii_user"), JSON.stringify(profile));
-  assert.deepEqual(layout.states.map((state) => state.updates), [[profile], [false]]);
+  assert.deepEqual(layout.states.map((state) => state.updates), [[profile], [false], [token]]);
   assert.deepEqual(layout.removed, []);
   assert.deepEqual(layout.redirects, []);
   cleanupReplacement();
@@ -205,4 +207,27 @@ test("a missing token still redirects without requesting a profile", async () =>
   assert.deepEqual(layout.requests, []);
   assert.deepEqual(layout.redirects, ["/login"]);
   layout.cleanup();
+});
+
+
+test("late successful verification never binds a replacement token to the old profile", async () => {
+  const layout = mountLayout();
+  layout.storage.set("navii_access_token", "replacement-synthetic-token");
+  layout.requests[0].resolve(validResponse());
+  await settled();
+  assert.deepEqual(layout.states.map(state => state.updates), [[], [], []]);
+  assert.equal(layout.storage.get("navii_access_token"), "replacement-synthetic-token");
+});
+
+
+test("late failed verification never clears a replacement session", async () => {
+  const layout = mountLayout();
+  layout.storage.set("navii_access_token", "replacement-synthetic-token");
+  layout.requests[0].reject(new Error("old request failed"));
+  await settled();
+  assert.deepEqual(layout.removed, []);
+  assert.deepEqual(layout.written, []);
+  assert.deepEqual(layout.redirects, []);
+  assert.deepEqual(layout.states.map(state => state.updates), [[], [], []]);
+  assert.equal(layout.storage.get("navii_access_token"), "replacement-synthetic-token");
 });

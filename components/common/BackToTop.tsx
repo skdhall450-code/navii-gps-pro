@@ -27,7 +27,7 @@ export default function BackToTop() {
   return (
     <AnimatePresence>
       {visible && (
-        <motion.button
+        <motion.button data-public-widget
           onClick={scrollToTop}
           initial={{
             opacity: 0,
