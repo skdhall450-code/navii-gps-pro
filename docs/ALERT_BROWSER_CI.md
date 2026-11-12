@@ -9,7 +9,11 @@ days, including failure JSON/server logs and any completed CSV, PDF or screensho
 
 Prerequisites are the existing locked npm dependencies, a completed `npm run
 build`, a free loopback port 39131, and sandbox-capable Chromium. CI uses the
-runner's preinstalled stable Chrome, as the other customer browser suites do.
+runner's preinstalled stable Chrome for all ten browser suites. A required,
+two-minute-bounded preflight launches that Chrome with its sandbox enabled,
+records its version and checks an inert page before any browser suite. Missing
+Chrome or failed launch fails CI; there is no browser download, apt installation,
+unsandboxed fallback or ignored failure.
 Local use defaults to Playwright's installed Chromium. An explicit
 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` overrides that selection without disabling
 the sandbox. No new dependencies, credentials, services or deployment steps are

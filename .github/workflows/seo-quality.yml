@@ -48,8 +48,9 @@ jobs:
         id: build
         run: npm run build
 
-      - name: Install Chromium for GPS display checks
-        run: npx playwright install --with-deps chromium
+      - name: Verify installed sandboxed Chrome
+        timeout-minutes: 2
+        run: node test/browser/chrome-preflight.mjs
 
       - name: Check alert reports, CSV and print in Chromium
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}

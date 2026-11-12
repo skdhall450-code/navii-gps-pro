@@ -33,7 +33,7 @@ test('CI directly executes alert browser acceptance after build and uploads diag
   assert.match(alert,/timeout-minutes: 3/);
   assert.doesNotMatch(alert,/continue-on-error|--list/);
   assert.ok(workflow.indexOf('id: build')<workflow.indexOf(alert));
-  assert.ok(workflow.indexOf('npx playwright install --with-deps chromium')<workflow.indexOf(alert));
+  assert.ok(workflow.indexOf('run: node test/browser/chrome-preflight.mjs')<workflow.indexOf(alert));
   const artifact=steps.find(step=>step.startsWith('Upload alert report browser diagnostics\n'));
   assert.match(artifact,/if: always\(\)/);
   assert.match(artifact,/path: test-results\/alert-report-contract/);
