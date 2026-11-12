@@ -1,5 +1,65 @@
 export type HaryanaPriorityGuide = { source?: string; sourceLabel?: string; title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
+  "yamunanagar": {
+    "title": "GPS Tracker in Yamunanagar District, Haryana",
+    "description": "Plan GPS tracking for Yamunanagar plywood dispatches. Keep board specifications with load references, record receiving exceptions and test reporting on factory rounds.",
+    "source": "https://yamunanagar.nic.in/economy/",
+    "sourceLabel": "Yamunanagar district administration: local industries",
+    "cases": [
+      {
+        "title": "Identify the plywood load beyond the vehicle number",
+        "text": "Yamunanagar's district economy page identifies plywood manufacturing among its industries. For a board dispatch, keep the supplier's grade, thickness, sheet dimensions and bundle or sheet quantity with the load reference. Specify which unit is being counted so a bundle total is not mistaken for a sheet total. Link the assigned vehicle to that record; the vehicle marker cannot identify the board specification or quantity on board."
+      },
+      {
+        "title": "Record sheet and packaging exceptions at receipt",
+        "text": "For a Yamunanagar plywood delivery, ask the receiver to record any count difference or visible edge, surface or wrapping issue against the affected load reference. Keep the receiving note and any authorised photographs with the order. Compare the relevant trip and stop timestamps with that evidence, without treating a route trace as proof of cargo condition or when damage occurred. GPS alone does not measure board moisture or verify weather protection."
+      },
+      {
+        "title": "Test reporting at the factory loading point and receiver",
+        "text": "Pilot the actual Yamunanagar factory-to-receiver route before adding more vehicles. Compare reported position timestamps at loading, departure and receipt with the dispatch record, and check whether delayed updates remain distinguishable from current positions. Review the available trip export with the person handling delivery disputes. Confirm hardware placement, mobile-network availability, report retention and fitting access for the operating vehicle rather than assuming every industrial premises has the same conditions."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can GPS confirm a Yamunanagar plywood grade or sheet count?",
+        "answer": "No. Retain the supplier specification and quantity unit in the load record, then reconcile them with the receiver's acknowledgement. GPS helps associate a vehicle journey with the dispatch but cannot identify the boards carried."
+      },
+      {
+        "question": "Does a plywood delivery route prove when damage occurred?",
+        "answer": "No. Review receiving notes and authorised condition photographs alongside the relevant trip timestamps. Location records alone cannot establish cargo condition, moisture or the time and cause of damage."
+      }
+    ]
+  },
+  "jagadhri": {
+    "title": "GPS Tracker in Jagadhri, Yamunanagar",
+    "description": "Plan GPS tracking for Jagadhri metal and utensil jobs. Distinguish pieces from sets, track workshop processing stages and reconcile finished goods with unused material.",
+    "source": "https://yamunanagar.nic.in/town-jagadhri/",
+    "sourceLabel": "Yamunanagar district administration: Jagadhri town and industry",
+    "cases": [
+      {
+        "title": "State the quantity unit for each utensil dispatch",
+        "text": "The district's Jagadhri guide describes its metal industry, including brassware and stainless steel products. For a utensil order, record the item or set reference and whether the dispatch quantity means individual pieces, complete sets or cartons. Keep the pack composition with the order where it matters. A carton count or vehicle visit alone cannot establish that each requested set is complete."
+      },
+      {
+        "title": "Keep workshop processing stages separate from customer delivery",
+        "text": "If a Jagadhri metal job moves to another workshop for polishing or another agreed process, label that journey with the job reference and expected processing stage. Record what the workshop accepted and which items remain due back. Keep the workshop stop distinct from the final customer destination; reaching the processor does not prove that the work has finished or that finished goods have reached the buyer."
+      },
+      {
+        "title": "Reconcile finished pieces and unused material on return",
+        "text": "When a Jagadhri processing job returns, record finished pieces, rejected items and unused material separately, using the agreed quantity or weight units. Do not classify everything arriving on the return vehicle as completed stock. Trial an outward workshop job and its return against supported trip records and the job ledger, then confirm who can access reports, how long records are retained and how the actual vehicle will be fitted."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can a Jagadhri GPS stop prove a utensil set is complete?",
+        "answer": "No. Use the order's set composition, packing record and receiving acknowledgement to verify completeness. Vehicle location cannot count the pieces inside a carton or identify missing components."
+      },
+      {
+        "question": "How should a Jagadhri workshop return be reconciled?",
+        "answer": "Link it to the original processing job and record finished pieces, rejected items and unused material separately. Compare the return journey with the workshop handover record; vehicle arrival is not proof that all returned material is finished stock."
+      }
+    ]
+  },
   "sonipat": {
     "title": "GPS Tracker in Sonipat District, Haryana",
     "description": "Plan GPS tracking for Sonipat industrial transfers. Match dispatch and receiving sites, reconcile returnable pallets or crates, and review repeat shuttle journeys.",
