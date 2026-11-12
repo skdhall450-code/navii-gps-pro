@@ -439,5 +439,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Sonipat: industrial site-to-site transfers, returnable packaging balances and repeated shuttle circuits. Gohana: grain lot assignment, weighing-slip/load-cycle matching and onward unloading instructions. Three distinct sections and two extra visible/schema FAQs each.
 - [x] Existing renderers provide titles, specific descriptions/social metadata, H1, canonicals, WebPage/FAQ/Service/Breadcrumb data and district/town navigation. Scope guide selection to Sonipat district and its Gohana town only.
 - [x] Sources verified 2026-11-11: https://sonipat.gov.in/department/hsidc/ , https://sonipat.gov.in/sub-division/ and https://hsamb.org.in/grain-market . Use stable local context only; no current procurement, crop prices, weighing equipment availability, access, local branch, installation coverage or device guarantees claimed.
-- [ ] Publication: branch seo/sonipat-gohana-20261111 requires full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify live metadata, three sections/five matching FAQs each, source/parent/town links and unchanged sitemap; regression-check Rohtak/Meham. PR records deployment and IndexNow evidence.
+- [x] Published via PR #117; pre-merge CI 42972812454, main CI 42973480171 and IndexNow 42974116837 passed. Both pages and Rohtak/Meham verified live; unchanged 2,036-URL sitemap accepted by IndexNow.
 - [ ] Next: assess existing Punjab Sangrur and Sunam guides for distinct useful gaps; verify canonical mapping and local sources first. District/town/locality coverage remains partial.
+
+
+### 2026-11-12 Sangrur / Sunam
+
+- [x] Inspected main a7c31f9, open PRs, prior progress, route registry and 2,036-URL live sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/punjab/sangrur and /gps-tracker/punjab/sangrur/sunam; no alternate gate/town routes or sitemap additions.
+- [x] Sangrur: city gate names versus nearby towns, premises versus landmark geofences, and corrected dispatch records. Sunam: named college destinations, dated visitor pickups and replacement vehicles with limited personal-data sharing. Three detailed sections and two extra visible/schema FAQs each.
+- [x] Shared renderers supply descriptions/social metadata, headings, WebPage/FAQ data and source links; retain titles, H1, canonicals, Service geography and parent/town navigation. Add Sangrur-to-Sunam planning link.
+- [x] Sources checked 2026-11-12: https://sangrur.nic.in/tourism/places-of-interest/ and https://sangrur.nic.in/public-utility-category/colleges/ . Use only gate/campus location facts; do not reuse historical administrative boundaries, distances, hours or institution counts. No partnership, transport-service, branch, installation-coverage or device guarantees added.
+- [ ] Publication: branch seo/sangrur-sunam-20261112 requires full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify live metadata, three sections/five matching FAQs per page, source and navigation links, unchanged sitemap, and Pathankot/Sujanpur regressions. PR records deployment/IndexNow evidence.
+- [ ] Next: assess existing Haryana Yamunanagar and Jagadhri guides for distinct useful gaps; verify canonical mapping and official geography first. District/town/locality coverage remains partial.
