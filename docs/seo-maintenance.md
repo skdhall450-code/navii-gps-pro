@@ -450,5 +450,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Sangrur: city gate names versus nearby towns, premises versus landmark geofences, and corrected dispatch records. Sunam: named college destinations, dated visitor pickups and replacement vehicles with limited personal-data sharing. Three detailed sections and two extra visible/schema FAQs each.
 - [x] Shared renderers supply descriptions/social metadata, headings, WebPage/FAQ data and source links; retain titles, H1, canonicals, Service geography and parent/town navigation. Add Sangrur-to-Sunam planning link.
 - [x] Sources checked 2026-11-12: https://sangrur.nic.in/tourism/places-of-interest/ and https://sangrur.nic.in/public-utility-category/colleges/ . Use only gate/campus location facts; do not reuse historical administrative boundaries, distances, hours or institution counts. No partnership, transport-service, branch, installation-coverage or device guarantees added.
-- [ ] Publication: branch seo/sangrur-sunam-20261112 requires full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify live metadata, three sections/five matching FAQs per page, source and navigation links, unchanged sitemap, and Pathankot/Sujanpur regressions. PR records deployment/IndexNow evidence.
+- [x] Published via PR #119; pre-merge CI 43219400042, main CI 43220345829 and IndexNow 43221202441 passed. Sangrur/Sunam and Pathankot/Sujanpur verified live; unchanged 2,036-URL sitemap accepted by IndexNow.
 - [ ] Next: assess existing Haryana Yamunanagar and Jagadhri guides for distinct useful gaps; verify canonical mapping and official geography first. District/town/locality coverage remains partial.
+
+
+### 2026-11-12 Yamunanagar / Jagadhri
+
+- [x] Inspected main e9baf5e, open PRs, route registries, prior ledger and 2,036-URL live sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/haryana/yamunanagar and /gps-tracker/haryana/yamunanagar/jagadhri; no duplicate district/city URLs or sitemap additions.
+- [x] Yamunanagar: plywood specifications and quantity units, receiving condition records, and factory-to-receiver reporting pilot. Jagadhri: utensil set/quantity units, workshop processing stages, and finished versus unused material returns. Three distinct sections and two extra visible/schema FAQs each.
+- [x] Shared renderers provide specific descriptions/social previews, headings, WebPage/FAQ data and sources; retain titles, H1, self-canonicals, Service geography and district/town navigation. Limit new guide selection to the intended district/town pair.
+- [x] Local context verified 2026-11-12 at https://yamunanagar.nic.in/economy/ and https://yamunanagar.nic.in/town-jagadhri/ . Use stable industry and geography only; no current production statistics, branch, customer affiliation, installation coverage or cargo-sensing guarantees added.
+- [ ] Publication: branch seo/yamunanagar-jagadhri-20261112 requires full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify live metadata, three sections and five matching FAQ pairs each, sources, parent/town links and unchanged sitemap; regression-check Sonipat/Gohana. PR records deployment/IndexNow evidence.
+- [ ] Next: assess existing Delhi Janakpuri and Vikaspuri guides; verify current district mapping, canonical inventory and distinct visitor needs before editing. Northern locality coverage remains partial.
