@@ -1,3 +1,4 @@
+import { sangrurGuide } from "@/lib/seo/sangrurSunamGuides";
 import { pathankotGuide } from "@/lib/seo/pathankotGuide";
 import { bathindaGuide } from "@/lib/seo/bathindaGuides";
 import { amritsarGuide } from "@/lib/seo/amritsarAjnalaGuides";
@@ -88,7 +89,7 @@ export function generatePunjabDistrictKeywords(district: PunjabDistrictSeo) {
 
 export function generatePunjabDistrictMetadata(district: PunjabDistrictSeo): Metadata {
   const url = `https://naviigps.com/gps-tracker/punjab/${district.slug}`;
-  const description = district.slug === "pathankot" ? pathankotGuide.description : district.slug === "bathinda" ? bathindaGuide.description : district.slug === "amritsar" ? amritsarGuide.description : district.slug === "jalandhar" ? jalandharGuide.description : district.slug === "ludhiana" ? ludhianaGuide.description : district.slug === "patiala" ? patialaGuide.description : `GPS trackers and fleet management software in ${district.name} district, Punjab, including ${district.cities.slice(0, 3).join(", ")} and nearby operating routes.`;
+  const description = district.slug === "sangrur" ? sangrurGuide.description : district.slug === "pathankot" ? pathankotGuide.description : district.slug === "bathinda" ? bathindaGuide.description : district.slug === "amritsar" ? amritsarGuide.description : district.slug === "jalandhar" ? jalandharGuide.description : district.slug === "ludhiana" ? ludhianaGuide.description : district.slug === "patiala" ? patialaGuide.description : `GPS trackers and fleet management software in ${district.name} district, Punjab, including ${district.cities.slice(0, 3).join(", ")} and nearby operating routes.`;
 
   return {
     title: `GPS Tracker in ${district.name} District, Punjab`,
