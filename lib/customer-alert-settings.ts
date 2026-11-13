@@ -7,10 +7,21 @@ export type CustomerCircle = CustomerCircleInput & { id: string; vehicleId: stri
 export const blankCustomerSetting = (): CustomerAlertInput => ({ revision: 0, overspeedEnabled: false, speedLimitKph: 80, cooldownMinutes: 10, emailRequested: false, emailRecipients: [] });
 export const blankCustomerCircle = (): CustomerCircleInput => ({ name: "", latitude: 0, longitude: 0, radius: 500, isActive: true, alertOnEntry: true, alertOnExit: true });
 export function parseCustomerRecipients(value: string): string[] { return [...new Set(value.split(/[,;\n]/).map(email => email.trim().toLowerCase()).filter(Boolean))]; }
+// Match the backend parser's accepted syntax before attempting a save.
+export function isValidCustomerRecipient(value: string): boolean {
+ const normalized = value.trim().toLowerCase();
+ return normalized.length <= 254 && /^[a-z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/.test(normalized);
+}
+export function customerAlertListsTruncated(settings: { truncated?: boolean }, areas: { truncated?: boolean }): boolean {
+ return settings.truncated === true || areas.truncated === true;
+}
+export function customerAlertListsComplete(settings: { truncated?: boolean }, areas: { truncated?: boolean }): boolean {
+ return settings.truncated === false && areas.truncated === false;
+}
 export function validateCustomerSetting(input: CustomerAlertInput): string | null {
  if (!Number.isInteger(input.speedLimitKph) || input.speedLimitKph < 1 || input.speedLimitKph > 250) return "Choose a speed limit from 1 to 250 km/h.";
  if (!Number.isInteger(input.cooldownMinutes) || input.cooldownMinutes < 1 || input.cooldownMinutes > 1440) return "Choose a repeat interval from 1 to 1,440 minutes.";
- if (input.emailRecipients.length > 5 || input.emailRecipients.some(email => email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) return "Enter up to five valid email addresses, separated by commas.";
+ if (input.emailRecipients.length > 5 || input.emailRecipients.some(email => !isValidCustomerRecipient(email))) return "Enter up to five valid email addresses, separated by commas.";
  if (input.emailRequested && !input.emailRecipients.length) return "Add an email address before requesting future email alerts.";
  return null;
 }

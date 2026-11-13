@@ -439,5 +439,49 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Sonipat: industrial site-to-site transfers, returnable packaging balances and repeated shuttle circuits. Gohana: grain lot assignment, weighing-slip/load-cycle matching and onward unloading instructions. Three distinct sections and two extra visible/schema FAQs each.
 - [x] Existing renderers provide titles, specific descriptions/social metadata, H1, canonicals, WebPage/FAQ/Service/Breadcrumb data and district/town navigation. Scope guide selection to Sonipat district and its Gohana town only.
 - [x] Sources verified 2026-11-11: https://sonipat.gov.in/department/hsidc/ , https://sonipat.gov.in/sub-division/ and https://hsamb.org.in/grain-market . Use stable local context only; no current procurement, crop prices, weighing equipment availability, access, local branch, installation coverage or device guarantees claimed.
-- [ ] Publication: branch seo/sonipat-gohana-20261111 requires full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify live metadata, three sections/five matching FAQs each, source/parent/town links and unchanged sitemap; regression-check Rohtak/Meham. PR records deployment and IndexNow evidence.
+- [x] Published via PR #117; pre-merge CI 42972812454, main CI 42973480171 and IndexNow 42974116837 passed. Both pages and Rohtak/Meham verified live; unchanged 2,036-URL sitemap accepted by IndexNow.
 - [ ] Next: assess existing Punjab Sangrur and Sunam guides for distinct useful gaps; verify canonical mapping and local sources first. District/town/locality coverage remains partial.
+
+
+### 2026-11-12 Sangrur / Sunam
+
+- [x] Inspected main a7c31f9, open PRs, prior progress, route registry and 2,036-URL live sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/punjab/sangrur and /gps-tracker/punjab/sangrur/sunam; no alternate gate/town routes or sitemap additions.
+- [x] Sangrur: city gate names versus nearby towns, premises versus landmark geofences, and corrected dispatch records. Sunam: named college destinations, dated visitor pickups and replacement vehicles with limited personal-data sharing. Three detailed sections and two extra visible/schema FAQs each.
+- [x] Shared renderers supply descriptions/social metadata, headings, WebPage/FAQ data and source links; retain titles, H1, canonicals, Service geography and parent/town navigation. Add Sangrur-to-Sunam planning link.
+- [x] Sources checked 2026-11-12: https://sangrur.nic.in/tourism/places-of-interest/ and https://sangrur.nic.in/public-utility-category/colleges/ . Use only gate/campus location facts; do not reuse historical administrative boundaries, distances, hours or institution counts. No partnership, transport-service, branch, installation-coverage or device guarantees added.
+- [x] Published via PR #119; pre-merge CI 43219400042, main CI 43220345829 and IndexNow 43221202441 passed. Sangrur/Sunam and Pathankot/Sujanpur verified live; unchanged 2,036-URL sitemap accepted by IndexNow.
+- [ ] Next: assess existing Haryana Yamunanagar and Jagadhri guides for distinct useful gaps; verify canonical mapping and official geography first. District/town/locality coverage remains partial.
+
+
+### 2026-11-12 Yamunanagar / Jagadhri
+
+- [x] Inspected main e9baf5e, open PRs, route registries, prior ledger and 2,036-URL live sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/haryana/yamunanagar and /gps-tracker/haryana/yamunanagar/jagadhri; no duplicate district/city URLs or sitemap additions.
+- [x] Yamunanagar: plywood specifications and quantity units, receiving condition records, and factory-to-receiver reporting pilot. Jagadhri: utensil set/quantity units, workshop processing stages, and finished versus unused material returns. Three distinct sections and two extra visible/schema FAQs each.
+- [x] Shared renderers provide specific descriptions/social previews, headings, WebPage/FAQ data and sources; retain titles, H1, self-canonicals, Service geography and district/town navigation. Limit new guide selection to the intended district/town pair.
+- [x] Local context verified 2026-11-12 at https://yamunanagar.nic.in/economy/ and https://yamunanagar.nic.in/town-jagadhri/ . Use stable industry and geography only; no current production statistics, branch, customer affiliation, installation coverage or cargo-sensing guarantees added.
+- [x] Published via PR #120; pre-merge CI 43263747922, main CI 43264915859 and IndexNow 43265786737 passed. Yamunanagar/Jagadhri and Sonipat/Gohana verified live; unchanged 2,036-URL sitemap accepted by IndexNow.
+- [ ] Next: assess existing Delhi Janakpuri and Vikaspuri guides; verify current district mapping, canonical inventory and distinct visitor needs before editing. Northern locality coverage remains partial.
+
+
+### 2026-11-13 Janakpuri / Vikaspuri, Delhi
+
+- [x] Inspected main 16d152c, open PRs, prior progress, existing routes and live sitemap. Previous Yamunanagar/Jagadhri publication reconciled above; no unfinished routine city batch. Unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/delhi/west/janakpuri and /gps-tracker/delhi/west/vikaspuri. Current Revenue list confirms both under West; no new URL or district migration.
+- [x] Janakpuri: office receiving requirements, sealed-packet references and undelivered returns. Vikaspuri: dated sports-session meeting points, consecutive group assignments and shared-kit reconciliation. Three substantive sections and two extra visible/schema FAQs each.
+- [x] Shared rendering supplies specific page/social/WebPage descriptions, headings, source links and five FAQ pairs each. Retain titles, H1, self-canonicals, Service geography, parent/sibling navigation and sitemap entries; add related planning links between both guides.
+- [x] Sources checked 2026-11-13: https://revenue.delhi.gov.in/revenue/list-villages , https://dda.gov.in/faq-1 and https://dda.gov.in/play-fields . Use only district/destination facts. No booking availability, venue affiliation, access permission, branches, installation coverage or device guarantees claimed.
+- [x] Published via PR #121; pre-merge CI 43354259958, main CI 43354885964 and IndexNow 43355471083 passed. Both pages, Rohini/Pitampura and unchanged 2,036-URL sitemap verified live. IndexNow accepted 2,036 URLs with HTTP 200; Google indexing/ranking unverified. DDA direct fetches returned temporary 503; official indexed sources supported the geography.
+- [ ] Next: inspect existing Himachal Pradesh Shimla and Solan coverage and prior authored content; select a useful missing improvement after route/source review. Northern district/town/locality coverage remains partial.
+
+
+### 2026-11-13 Shimla / Solan follow-up
+
+- [x] Inspected main f092135, open PRs, previous ledger, existing routes, shared metadata/schema flow and live sitemap. Janakpuri/Vikaspuri publication reconciled above. No unfinished authorized city batch; review-only and unrelated PRs untouched.
+- [x] Keep /gps-tracker/himachal-pradesh/shimla and /gps-tracker/himachal-pradesh/solan; no aliases or new sitemap entries.
+- [x] Shimla: distinguish Tutikandi ISBT from other city bus-stop references, confirm the incoming journey separately and retain changes to terminal/vehicle assignments. Solan: named receiving trader and produce lot, accepted/rejected quantities and onward instructions. Two additional sections and two visible/schema FAQs per page; preserve earlier useful guidance.
+- [x] Update page/social/WebPage descriptions; retain titles, H1, self-canonicals, City-in-State Service geography and existing hub links. Add official source links and Solan-to-Shimla navigation. FAQ rendering and JSON-LD use the same data.
+- [x] Sources checked 2026-11-13: https://hpshimla.nic.in/local-transportation-and-parking/ and https://hpsamb.hp.gov.in/solan_market . Use only stable terminal/market facts. Do not reproduce fares, schedules, seasonal arrival figures, parking/access promises, local branches or installation guarantees.
+- [ ] Publication: branch seo/shimla-solan-followup-20261113 requires full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify live descriptions, all six sections per page, six Shimla/five Solan visible-schema FAQ pairs, canonicals, sources, internal links and unchanged 2,036-URL sitemap; regression-check Baddi/Kangra. PR records deployment and IndexNow evidence.
+- [ ] Next: review Punjab Patiala and Rajpura existing coverage for distinct missing guidance, retaining established canonicals. District/town/locality coverage remains partial.
