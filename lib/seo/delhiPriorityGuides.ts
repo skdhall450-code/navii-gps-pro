@@ -1,4 +1,68 @@
 export const delhiPriorityGuides = {
+  "gandhiNagar": {
+    "name": "Gandhi Nagar",
+    "description": "Plan GPS tracking for Gandhi Nagar garment dispatches. Match size and colour assortments, separate buyer parcels and reconcile exchanges against the original order.",
+    "source": "https://delhiplanning.delhi.gov.in/sites/default/files/Planning/2026-27/2026-27/vol_i_2026-27_updated.pdf#page=79",
+    "sourceLabel": "Delhi Planning Department: Gandhi Nagar garment market (2026-27, PDF page 79)",
+    "related": "/gps-tracker/delhi/east/patparganj",
+    "relatedLabel": "Patparganj industrial service-vehicle planning",
+    "cases": [
+      {
+        "title": "Keep the garment assortment with the order reference",
+        "text": "Delhi's Planning Department identifies Gandhi Nagar as a readymade garment market. For a dispatch from the market, keep style, size and colour quantities with the buyer's order and parcel identifiers. Record whether the quantity means pieces, packs or cartons. A vehicle carrying the expected number of cartons does not establish that the requested size assortment is inside; use the packing record and buyer acknowledgement to resolve differences."
+      },
+      {
+        "title": "Separate buyer parcels when several orders share a vehicle",
+        "text": "A Gandhi Nagar collection run may combine parcels from several sellers for different buyers. Give each parcel a seller, buyer-order reference and agreed receiving point, then associate that manifest with the assigned vehicle journey. If a parcel changes vehicles at a consolidation point, retain both handovers under the same parcel reference. The first vehicle arriving at the transfer point does not mean that every buyer has received an order."
+      },
+      {
+        "title": "Link size exchanges to the original outward dispatch",
+        "text": "For a Gandhi Nagar size or colour exchange, record the original order, returned assortment and replacement assortment as separate movements. Keep any shortage or rejected item open until the seller and buyer reconcile it; do not close an exchange solely because the collection vehicle returned. Trial a delivery and an exchange pickup against the available trip export, checking that repeated visits can be matched to the right parcel records before selecting report access and retention."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can GPS confirm the size or colour mix in a Gandhi Nagar garment parcel?",
+        "answer": "No. Check the packing record, parcel identifier and buyer acknowledgement against the ordered assortment. GPS can help associate a vehicle journey with the parcel manifest, but it cannot inspect garments inside the packaging."
+      },
+      {
+        "question": "How should Gandhi Nagar garment exchanges be linked to vehicle trips?",
+        "answer": "Keep the original buyer-order reference, returned assortment and replacement dispatch separately. Match each movement to its parcel handover and available trip timestamps; a return to base alone does not complete the exchange."
+      }
+    ]
+  },
+  "patparganj": {
+    "name": "Patparganj",
+    "description": "Plan GPS tracking for Patparganj industrial service vans. Separate site waiting from repair time, record replacement-part returns and confirm job completion.",
+    "source": "https://industries.delhi.gov.in/industries/export-promotion-cell",
+    "sourceLabel": "Delhi Industries Department: Functional Industrial Estate at Patparganj",
+    "related": "/gps-tracker/delhi/east/gandhi-nagar",
+    "relatedLabel": "Gandhi Nagar garment dispatch planning",
+    "cases": [
+      {
+        "title": "Separate the service appointment from the production shutdown",
+        "text": "Delhi's Industries Department identifies a Functional Industrial Estate at Patparganj. For an industrial maintenance visit, record the plot or unit, machine or asset reference, service appointment and the customer's agreed work window. Confirm site access and the responsible contact before dispatch. The van reaching the estate does not establish that the machine is available for work; keep the customer's readiness confirmation with the job card."
+      },
+      {
+        "title": "Reconcile fitted, unused and removed parts after a visit",
+        "text": "When a Patparganj service van carries replacement parts, record which items were fitted, left unused or removed from the customer equipment. Link returned parts to the job and the agreed recipient, including any item held for inspection. Do not infer a completed repair from the parts van leaving the premises. Vehicle GPS cannot identify a fitted component or confirm that removed material was handed back."
+      },
+      {
+        "title": "Review vehicle dwell time alongside the signed service record",
+        "text": "A Patparganj industrial visit can include waiting for access, diagnosis, work and customer acceptance. Keep these stages in the service record and compare them with available vehicle trip timestamps; a parked van does not measure technician working time or prove the equipment is ready to restart. Pilot a completed visit and one requiring a return appointment, checking fresh versus delayed positions and report access before relying on fleet reports for service reviews."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Does a Patparganj vehicle stop measure the time spent repairing a machine?",
+        "answer": "No. A stop may include waiting, diagnosis and customer review as well as work. Compare supported vehicle timestamps with the job card and customer acknowledgement; location alone cannot establish labour time or repair completion."
+      },
+      {
+        "question": "How should unused or removed parts be recorded after a Patparganj visit?",
+        "answer": "List fitted, unused and removed items separately under the service-job reference, with the agreed return recipient and handover record. A van returning to base cannot identify the parts it carries or prove that a customer repair is complete."
+      }
+    ]
+  },
   "janakpuri": {
     "name": "Janakpuri",
     "description": "Plan GPS tracking for Janakpuri office courier rounds. Record sealed-packet references, recipient acknowledgements and undelivered items separately from vehicle stops.",
