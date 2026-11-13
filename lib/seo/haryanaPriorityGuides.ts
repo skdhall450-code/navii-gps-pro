@@ -1,5 +1,65 @@
 export type HaryanaPriorityGuide = { source?: string; sourceLabel?: string; title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
+  "kurukshetra": {
+    "title": "GPS Tracker in Kurukshetra District, Haryana",
+    "description": "Plan Kurukshetra GPS tracking for paddy and rice dispatches. Separate milling stages, by-product loads and tractor-trailer assignments in your trip records.",
+    "source": "https://kurukshetra.gov.in/economy/",
+    "sourceLabel": "Kurukshetra district administration: agricultural economy",
+    "cases": [
+      {
+        "title": "Separate incoming paddy from outgoing rice",
+        "text": "Kurukshetra's district economy guide identifies rice cultivation and rice-processing units. When planning a mill journey, label the load as incoming paddy, processed rice or another specified material, with its own dispatch reference and receiver. Keep the milling job separate from the transport job: a vehicle reaching the mill does not establish that processing has finished or that the resulting rice has been dispatched."
+      },
+      {
+        "title": "Give milling by-products their own dispatch record",
+        "text": "If a Kurukshetra milling operation sends husk or bran to a different buyer, create a separate load reference with the material, agreed quantity unit and receiving premises. Link that movement to the relevant milling record without treating it as the rice delivery. Reconcile the buyer acknowledgement against that specific load; a route trace cannot identify a by-product or calculate the milling yield."
+      },
+      {
+        "title": "Record tractor and trailer changes during a load cycle",
+        "text": "For a Kurukshetra agricultural journey using a detachable trailer, record the towing vehicle, trailer identifier and the time of any reassignment. If the tractor leaves a loaded trailer at a mill and takes another away, keep both handovers in the dispatch record. A tracker fitted only to the tractor reports that device position, not the detached trailer. Pilot a complete loading, uncoupling and return cycle and confirm any separate trailer hardware before relying on an asset-location report."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can GPS confirm that Kurukshetra paddy has become a completed rice order?",
+        "answer": "No. Keep the mill processing record and finished-rice dispatch acknowledgement separately from vehicle movements. Reaching or leaving a mill does not identify the material carried, its quantity or the milling yield."
+      },
+      {
+        "question": "Will a tractor GPS show a trailer left at a Kurukshetra mill?",
+        "answer": "A tracker installed only on the tractor follows that device, not the detached trailer. Record the trailer handover and reassignment, and confirm suitable separate hardware if you need to locate the trailer independently."
+      }
+    ]
+  },
+  "pehowa": {
+    "title": "GPS Tracker in Pehowa, Kurukshetra",
+    "description": "Plan GPS tracking for Pehowa dairy collection journeys. Match collection lots and receiving records, distinguish quality evidence and reconcile container returns.",
+    "source": "https://cisharyana.in/home/industries_list?dept_id=3&distt_id=11",
+    "sourceLabel": "Haryana Central Inspection System: Kurukshetra industry addresses",
+    "cases": [
+      {
+        "title": "Keep each dairy collection lot tied to its pickup record",
+        "text": "Haryana's industry register lists a milk-foods establishment on Kaithal Road in Pehowa. If planning dairy collection journeys around the town, give each pickup a supplier or collection-point reference, recorded time, quantity unit and receiving destination. Several collections on one vehicle journey need separate lot records. Compare supported trip timestamps with those records; a vehicle stop cannot identify whose milk was collected or how much was loaded."
+      },
+      {
+        "title": "Use receiving evidence for quality and temperature questions",
+        "text": "For a Pehowa dairy delivery, match the receiver's sample reference, accepted quantity and any rejection reason to the collection lots being handed over. Keep temperature readings with their measurement time and the equipment that produced them. GPS position or time on the road does not establish milk quality or temperature. Confirm any required sensor hardware and reporting integration separately; this location guide does not promise those capabilities."
+      },
+      {
+        "title": "Separate milk delivery from can returns and cleaning records",
+        "text": "Where a Pehowa collection round uses reusable cans, record can identifiers or counts issued, received and still outstanding separately from the milk quantity. Keep empty-can return and cleaning confirmation as distinct records even when they accompany the next pickup. Trial a complete collection, receipt and container-return round against the available trip export, and confirm fitting arrangements, report access and retention for the actual vehicle."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can Pehowa vehicle GPS confirm milk quality or temperature?",
+        "answer": "No. Use the receiver's quality checks and separately recorded temperature measurements, matched to the relevant collection lots. Confirm sensor hardware and reporting support independently; a route trace does not measure either quality or temperature."
+      },
+      {
+        "question": "Should a Pehowa milk delivery also close the empty-can balance?",
+        "answer": "Only reconcile cans from the actual container handover record. Record milk quantity, returned cans, outstanding cans and cleaning confirmation separately; vehicle arrival cannot count containers or prove they were cleaned."
+      }
+    ]
+  },
   "yamunanagar": {
     "title": "GPS Tracker in Yamunanagar District, Haryana",
     "description": "Plan GPS tracking for Yamunanagar plywood dispatches. Keep board specifications with load references, record receiving exceptions and test reporting on factory rounds.",
