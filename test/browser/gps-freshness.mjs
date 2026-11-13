@@ -21,7 +21,7 @@ function vehicle(){return {id:'test-vehicle',vehicleNo:'SYNTHETIC-QA',vehicleTyp
    await new Promise(resolve=>setTimeout(resolve,500));
   }
   assert.ok(ready,'Local Next server readiness timeout: '+serverLog);
-  browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+  browser=await chromium.launch({ headless: true, chromiumSandbox: true, ...(process.env.CI ? { channel: 'chrome' } : {}) });
   const context=await browser.newContext({viewport:{width:1440,height:1000}});
   const unexpected=[];
   await context.route('**/*',async route=>{
