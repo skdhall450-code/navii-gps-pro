@@ -6,7 +6,7 @@ import Footer from "@/components/layout/FooterV2";
 const guide = {
   "name": "Shimla",
   "title": "GPS Tracker in Shimla | Pickups & City Service Fleets",
-  "description": "Plan GPS tracking in Shimla for hotel pickups and city service visits. Review parking handovers, road access checks, trip records and fitting arrangements.",
+  "description": "Plan GPS tracking in Shimla for hotel and Tutikandi ISBT pickups. Confirm the terminal, revised transfer bookings, road access and vehicle-to-passenger handovers.",
   "intro": "Shimla, the capital of Himachal Pradesh, extends across hills and connecting ridges. This city-focused guide helps passenger and service fleets distinguish the vehicle stopping point from the final customer destination, then agree how each visit will be confirmed.",
   "source": "https://hpshimla.nic.in/history/",
   "cases": [
@@ -25,6 +25,14 @@ const guide = {
     [
       "City service rounds and a representative trial",
       "For several appointments across Shimla, give each job its own reference and record whether the vehicle waited while work was completed away from it. Test a representative round with a parking handover, a changed appointment and the return to base. Review location timestamps, actual stop records and supported exports with the dispatcher. Confirm device and SIM performance on those routes before extending the setup to the fleet."
+    ],
+    [
+      "Name Tutikandi ISBT on the transfer booking",
+      "Shimla district information identifies the inter-state bus terminal at Tutikandi and also refers to other city bus stops, including Lakkar Bazaar. Before dispatching a connecting vehicle, confirm the terminal on the passenger booking and the agreed road meeting point. A message saying only Shimla bus stand is not enough. Verify the actual arrival with the passenger or transport operator; the pickup vehicle tracker cannot report the incoming bus status."
+    ],
+    [
+      "Keep a changed terminal pickup under the original booking",
+      "If a passenger changes the arrival terminal or switches from a bus journey to another travel arrangement, retain the original transfer reference and record the accepted change time, meeting point and replacement vehicle. Confirm luggage and passenger handover separately. During a trial, compare both the cancelled vehicle assignment and the completed pickup with the booking record, so an unused journey is not counted as a passenger transfer."
     ]
   ],
   "faqs": [
@@ -43,6 +51,14 @@ const guide = {
     [
       "How do I plan GPS installation for a Shimla fleet?",
       "Share vehicle models, the exact fitting location and typical pickup or service routes with NAVII GPS. Confirm installation availability, compatible hardware, SIM and platform costs, supported reports and renewal responsibilities before booking."
+    ],
+    [
+      "What should a Tutikandi ISBT pickup instruction include?",
+      "Specify Tutikandi ISBT, the dated transfer reference, passenger contact and agreed road meeting point. Confirm arrival and boarding separately, and check stopping arrangements before travel. Do not rely on the general label Shimla bus stand."
+    ],
+    [
+      "Can the pickup vehicle GPS confirm an incoming Shimla bus arrival?",
+      "No. Verify the incoming journey through the passenger or transport operator. Use the assigned pickup vehicle location and timestamp only for that vehicle, then record passenger and luggage handover through the transfer booking."
     ]
   ]
 };
@@ -67,7 +83,7 @@ export default function Page() {
       <h1 className="max-w-4xl text-4xl font-extrabold leading-tight md:text-6xl">{guide.title}</h1><p className="mt-7 max-w-3xl text-lg leading-8 text-slate-200">{guide.intro}</p>
       <Link href="/contact" className="mt-8 inline-block rounded-xl bg-cyan-500 px-6 py-4 font-semibold text-slate-950">Discuss your {guide.name} fleet</Link>
     </div></section>
-    <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">Plan your {guide.name} vehicle operations</h2><div className="mt-8 grid gap-6 md:grid-cols-2">{guide.cases.map(([heading, text]) => <article key={heading} className="rounded-2xl border border-slate-200 bg-slate-50 p-7"><h3 className="text-xl font-bold text-slate-900">{heading}</h3><p className="mt-4 leading-7 text-slate-600">{text}</p></article>)}</div><p className="mt-6 text-sm text-slate-500">Local geography reference: <a href={guide.source} className="underline">Shimla district administration</a>. Road access reference: <a href="https://hpshimla.nic.in/service/permit/" className="underline">Restricted-road permit information</a>.</p></div></section>
+    <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">Plan your {guide.name} vehicle operations</h2><div className="mt-8 grid gap-6 md:grid-cols-2">{guide.cases.map(([heading, text]) => <article key={heading} className="rounded-2xl border border-slate-200 bg-slate-50 p-7"><h3 className="text-xl font-bold text-slate-900">{heading}</h3><p className="mt-4 leading-7 text-slate-600">{text}</p></article>)}</div><p className="mt-6 text-sm text-slate-500">Local geography reference: <a href={guide.source} className="underline">Shimla district administration</a>. Road access reference: <a href="https://hpshimla.nic.in/service/permit/" className="underline">Restricted-road permit information</a>. Additional planning reference: <a href="https://hpshimla.nic.in/local-transportation-and-parking/" className="underline">Shimla district: local transport and terminal locations</a>.</p></div></section>
     <section className="bg-[#06142E] py-16 text-white"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold">Compare the setup before booking</h2><p className="mt-5 max-w-3xl leading-8 text-slate-300">Share your fleet size, vehicle models, regular stops and fitting location with the NAVII GPS team in Dera Bassi. Confirm installation arrangements and complete costs for your actual location.</p><div className="mt-7 flex flex-wrap gap-6 text-cyan-200"><Link className="underline" href="/products">Compare GPS devices</Link><Link className="underline" href="/software">Fleet software</Link><Link className="underline" href="/gps-tracker/himachal-pradesh">Himachal Pradesh planning</Link><Link className="underline" href="/gps-tracker/himachal-pradesh/solan">Solan journey guide</Link><Link className="underline" href="/gps-tracker/chandigarh">Chandigarh routes</Link></div></div></section>
     <section className="bg-white py-20"><div className="mx-auto max-w-5xl px-6"><h2 className="text-3xl font-bold text-slate-900">{guide.name} GPS tracker questions</h2><div className="mt-8 space-y-5">{guide.faqs.map(([question, answer]) => <article key={question} className="rounded-2xl border border-slate-200 p-6"><h3 className="text-lg font-bold text-slate-900">{question}</h3><p className="mt-3 leading-7 text-slate-600">{answer}</p></article>)}</div></div></section>
   </main><Footer /></>;
