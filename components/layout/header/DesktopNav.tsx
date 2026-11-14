@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { shopNavigationProps } from "@/lib/shop-destination";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 
@@ -48,7 +49,7 @@ export default function DesktopNav() {
 
           <Link
             prefetch={false}
-            href={item.href}
+            {...shopNavigationProps(item.href)}
             aria-current={pathname === item.href ? "page" : undefined}
             className={`flex items-center gap-1 whitespace-nowrap rounded-lg px-1 py-2 font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 ${
               item.href === "/shop-now"
