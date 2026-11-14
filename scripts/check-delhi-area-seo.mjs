@@ -23,14 +23,15 @@ const areas = seeds.flatMap(([districtSlug, districtName, districtAreas]) =>
 );
 const publishedLocations = areas.filter((location) => location.slug !== location.districtSlug);
 
-assert.equal(areas.length, 61, "Expected all 61 Delhi area and city records");
-assert.equal(new Set(areas.map((area) => area.name)).size, 61, "Duplicate Delhi area names");
+assert.equal(areas.length, 62, "Expected all 62 Delhi area and city records");
+assert.equal(new Set(areas.map((area) => area.name)).size, 62, "Duplicate Delhi area names");
 assert.equal(
   new Set(areas.map((area) => `${area.districtSlug}/${area.slug}`)).size,
-  61,
+  62,
   "Duplicate Delhi district-area routes",
 );
 assert.equal(areas.find(area => area.slug === "pitampura")?.districtSlug, "central-north", "Pitampura must use the reviewed Central North mapping");
+assert.equal(areas.find(area => area.slug === "shahdara")?.districtSlug, "north-east", "Shahdara must use the reviewed North East mapping");
 for (const area of publishedLocations) {
   assert.match(area.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/, `Invalid Delhi area slug: ${area.slug}`);
   assert.ok(area.siblings.length >= 3, `Expected sibling areas for ${area.name}`);
@@ -51,7 +52,7 @@ assert.ok(districtPageSource.includes("areaGuides.map"), "Delhi district-to-area
 assert.ok(sitemapSource.includes("delhiAreaRoutes"), "Automatic Delhi area sitemap routes are missing");
 
 if (process.argv.includes("--source-only")) {
-  console.log("PASS: 61 Delhi area and city routes with automatic keywords, metadata, schema and links verified.");
+  console.log("PASS: 62 Delhi area and city routes with automatic keywords, metadata, schema and links verified.");
   process.exit(0);
 }
 
