@@ -22,6 +22,9 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import CustomerHome from "@/components/customer/CustomerHome";
+import { useCustomerSession } from "@/components/customer/CustomerSession";
+
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
 
 type Device = {
@@ -507,7 +510,7 @@ function DashboardContent() {
                         <td className="p-4">
                           <span
                             className={
-                              getTelemetry(vehicle, now).current && vehicle.ignition
+                              getTelemetry(vehicle, now).ignition === "ON"
                                 ? "text-emerald-400"
                                 : "text-slate-400"
                             }
@@ -604,6 +607,7 @@ function DashboardContent() {
 }
 
 export default function DashboardPage() {
+  const customer = useCustomerSession();
   return (
     <RoleRouteGuard
       allowedRoles={[
@@ -614,7 +618,7 @@ export default function DashboardPage() {
         "USER",
       ]}
     >
-      <DashboardContent />
+      {customer ? <CustomerHome /> : <DashboardContent />}
     </RoleRouteGuard>
   );
 }
