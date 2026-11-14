@@ -413,7 +413,7 @@ function VehicleDetailsContent({ vehicleId }: { vehicleId: string }) {
             value={telemetry.ignition}
             icon={<Power />}
             accent={
-              telemetry.current && vehicle.ignition
+              telemetry.ignition === "ON"
                 ? "green"
                 : "default"
             }

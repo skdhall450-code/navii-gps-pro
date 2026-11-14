@@ -19,6 +19,8 @@ function arrayValues(block, field) {
 }
 
 function objectBlocks(source) {
+  // Git checkouts on Windows may use CRLF; parse the same records on both platforms.
+  source = source.replace(/\r\n/g, "\n");
   return [...source.matchAll(/(?:^|\n)  (?:createInternationalCity\()?\{\n([\s\S]*?)\n  \}(?:\))?,/g)]
     .map((match) => match[1]);
 }

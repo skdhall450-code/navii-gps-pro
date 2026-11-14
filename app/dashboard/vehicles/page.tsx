@@ -1631,7 +1631,7 @@ function VehiclesPageContent() {
                       <td className="p-4">
                         <span
                           className={
-                            getTelemetry(vehicle, now).current && vehicle.ignition
+                            getTelemetry(vehicle, now).ignition === "ON"
                               ? "text-emerald-400"
                               : "text-slate-400"
                           }
