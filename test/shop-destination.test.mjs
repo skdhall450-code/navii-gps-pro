@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { NAVII_SHOP_URL, shopNavigationProps } from '../lib/shop-destination.ts';
 
 test('Shop Now opens the approved public store in an isolated new tab', () => {
-  assert.equal(NAVII_SHOP_URL, 'https://navii-gps-public-v2.skdhall450.chatgpt.site/');
+  assert.equal(NAVII_SHOP_URL, 'https://shop.naviigps.com/');
   assert.deepEqual(shopNavigationProps('/shop-now'), {
     href: NAVII_SHOP_URL,
     target: '_blank',

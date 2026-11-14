@@ -3,7 +3,7 @@ import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
 import { mkdir } from 'node:fs/promises';
 const base='http://127.0.0.1:39115';
-const shopDestination='https://navii-gps-public-v2.skdhall450.chatgpt.site/';
+const shopDestination='https://shop.naviigps.com/';
 const server=spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port','39115'],{stdio:['ignore','pipe','pipe']});
 let log='';
 for(const stream of [server.stdout,server.stderr]) stream.on('data',data=>{log=(log+data).slice(-6000);});
