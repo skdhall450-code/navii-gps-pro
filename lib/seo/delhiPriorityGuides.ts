@@ -1,4 +1,36 @@
 export const delhiPriorityGuides = {
+  "shahdara": {
+  "name": "Shahdara",
+  "description": "Plan GPS tracking for Shahdara appointment journeys. Confirm the actual office destination, keep return pickups separate and protect private document details.",
+  "source": "https://revenue.delhi.gov.in/revenue/sub-division-offices",
+  "sourceLabel": "Delhi Revenue Department: Shahdara subdivision office address",
+  "related": "/gps-tracker/delhi/north-east/nand-nagri",
+  "relatedLabel": "Nand Nagri vehicle-route planning",
+  "cases": [
+    {
+      "title": "Distinguish the Shahdara office name from its destination address",
+      "text": "The Delhi Revenue directory lists Shahdara subdivision under North East and gives its office address as the DC Office Complex in Nand Nagri. For a vehicle booking to that office, use the confirmed office address and meeting point rather than a general Shahdara locality pin. Reconfirm the destination against the appointment instructions before departure; the name of the subdivision does not by itself identify where the passenger needs to be dropped."
+    },
+    {
+      "title": "Separate the office drop from a later return pickup",
+      "text": "For a Shahdara office appointment, record whether the driver will wait, leave for another job or return after a passenger call. Keep the return pickup as its own assignment with an agreed meeting point and contact method. An appointment time is not a promised completion time, and a vehicle leaving the office area does not establish that the passenger has finished. Test a drop-and-return journey against supported trip timestamps before relying on reports to review missed pickups."
+    },
+    {
+      "title": "Use a trip reference without exposing document details",
+      "text": "When coordinating a Shahdara administrative visit, put a booking reference in the shared vehicle task and keep identity-document numbers, application scans and the reason for the visit in the authorised appointment record. Confirm who can see the trip and how long location records are retained. During a pilot, check that a dispatcher can distinguish fresh from delayed vehicle updates without sharing private paperwork. GPS arrival can support transport review but cannot prove an application was submitted, accepted or approved."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Should a Shahdara subdivision-office trip use a general Shahdara map pin?",
+      "answer": "No. The Revenue directory lists the Shahdara subdivision office at the DC Office Complex in Nand Nagri. Confirm the actual address and meeting point from the appointment instructions before assigning the vehicle."
+    },
+    {
+      "question": "Can GPS confirm that a Shahdara office application was accepted?",
+      "answer": "No. A trip record shows vehicle movement, not an administrative outcome. Keep the official acknowledgement with the authorised appointment record and use a booking reference, rather than private document details, for shared transport coordination."
+    }
+  ]
+},
   "gandhiNagar": {
     "name": "Gandhi Nagar",
     "description": "Plan GPS tracking for Gandhi Nagar garment dispatches. Match size and colour assortments, separate buyer parcels and reconcile exchanges against the original order.",
