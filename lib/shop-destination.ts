@@ -1,5 +1,5 @@
 /** Approved public NAVII storefront; legacy shop pages remain available. */
-export const NAVII_SHOP_URL = "https://navii-gps-public-v2.skdhall450.chatgpt.site/";
+export const NAVII_SHOP_URL = "https://shop.naviigps.com/";
 
 export function shopNavigationProps(href: string) {
   if (href !== "/shop-now") return { href };
