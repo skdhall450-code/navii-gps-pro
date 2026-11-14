@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { shopNavigationProps } from "@/lib/shop-destination";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
@@ -47,7 +48,7 @@ export default function Header() {
           {menu.map((item) => (
             <Link
               key={item.href}
-              href={item.href}
+              {...shopNavigationProps(item.href)}
               aria-current={pathname === item.href ? "page" : undefined}
               className={`whitespace-nowrap rounded-lg px-1 py-2 font-medium transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 ${
                 item.href === "/shop-now"
