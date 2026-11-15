@@ -29,8 +29,8 @@ export const director = {
 export const directorStats = [
   {
     id: 1,
-    value: "10+",
-    label: "Years Experience",
+    value: "GPS & IoT",
+    label: "Domain Expertise",
     icon: "🏆",
   },
   {

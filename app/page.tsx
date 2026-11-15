@@ -15,7 +15,6 @@ export const metadata: Metadata = {
 import Header from "@/components/layout/HeaderV2";
 import Footer from "@/components/layout/FooterV2";
 import HeroV2 from "@/components/home/HeroV2";
-import Stats from "@/components/home/Stats";
 import ProductsSection from "@/components/home/Products/ProductsSection";
 import WhyChoose from "@/components/home/WhyChoose/WhyChoose";
 import Software from "@/components/home/Software/Software";
@@ -33,7 +32,7 @@ const homeStructuredData = { "@context": "https://schema.org", "@graph": [
 export default function HomePage() {
   return (<><Header /><main>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData).replace(/</g, "\\u003c") }} />
-    <HeroV2 /><Stats /><ProductsSection /><WhyChoose /><Software />
+    <HeroV2 /><ProductsSection /><WhyChoose /><Software />
     <SolutionsShowcase />
     <Clients /><CTA /><FAQ /><Testimonials />
   </main><Footer /></>);

@@ -53,9 +53,10 @@ test('each WhatsApp enquiry uses its exact model, variant and correct GST total'
 test('invalid price inputs fail safely', () => {
   for (const amount of [-1,NaN,Infinity,Number.MAX_VALUE]) assert.throws(()=>getShopOfferPrice(amount),RangeError);
 });
-test('Shop Now uses canonical model prices without stale G17 package downloads', () => {
+test('Legacy Shop Now links to current storefront without stale package downloads', () => {
   const page=fs.readFileSync('app/shop-now/page.tsx','utf8');
-  assert.match(page,/<ShopOffers \/>/);
+  assert.match(page,/href=\{NAVII_SHOP_URL\}/);
+  assert.doesNotMatch(page,/<ShopOffers/);
   assert.doesNotMatch(page,/Request the current G17 quote|G17 first-year package/);
   assert.doesNotMatch(page,/More models coming/);
   const cards=fs.readFileSync('components/shop/ShopOffers.tsx','utf8');

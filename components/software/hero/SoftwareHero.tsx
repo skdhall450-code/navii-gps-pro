@@ -179,7 +179,7 @@ export default function SoftwareHero() {
                   <div>
 
                     <h4 className="font-semibold text-white">
-                      Android & iOS App
+                      Android App & Web
                     </h4>
 
                     <p className="text-sm text-slate-300">
