@@ -449,7 +449,7 @@ najafgarh: {
   },
   "connaughtPlace": {
     "name": "Connaught Place",
-    "description": "Plan GPS tracking in Connaught Place for block-specific deliveries and service visits. Separate vehicle parking, receiving entrances and proof of handover.",
+    "description": "Plan Connaught Place GPS trips with block-specific deliveries, Palika Bazaar handovers and Rajiv Chowk pickups. Confirm meeting points and update freshness.",
     "source": "https://www.ndmc.gov.in/departments/civil_i_cp_div_enquiry.aspx",
     "sourceLabel": "NDMC Connaught Place division",
     "related": "/gps-tracker/delhi/new-delhi",
@@ -466,6 +466,14 @@ najafgarh: {
       {
         "title": "Reconcile several customers served from one stop",
         "text": "When one vehicle stop supports visits to several Connaught Place customers, give each task its own reference and completion record. Do not count one parking event as one completed delivery or duplicate it across all customers automatically. During a pilot, compare the dispatch sheet with supported stop reports and note any return collection or unfinished visit."
+      },
+      {
+        "title": "Distinguish Palika Bazaar from the vehicle waiting point",
+        "text": "Delhi Tourism identifies Palika Bazaar as an underground market below the Inner Circle. For a collection there, record the shop reference and receiving contact separately from the agreed vehicle waiting point. If a vehicle update stops refreshing, check its timestamp and contact the driver before changing the assignment; do not infer an underground shop visit from the last map marker. Confirm the handover through the receiver and test reporting on the actual route without assuming continuous indoor or underground positioning."
+      },
+      {
+        "title": "Agree a street-level meeting point for Rajiv Chowk pickups",
+        "text": "Delhi Tourism lists Rajiv Chowk as the nearest Metro station for Connaught Place. For an onward vehicle booking, ask the passenger to confirm the exit they actually use and an agreed street-level meeting point where stopping is permitted. Keep reaching the station, reaching the meeting point and boarding as separate milestones. If members of a group emerge at different exits, agree who joins which vehicle before departure rather than treating a nearby vehicle marker as proof that everyone has boarded."
       }
     ],
     "faqs": [
@@ -476,6 +484,14 @@ najafgarh: {
       {
         "question": "Should a Connaught Place geofence use the whole commercial area?",
         "answer": "Choose the actual agreed vehicle stop or premises boundary where supported, then test it on a representative visit. Review arrival events alongside block and entrance details. A broad CP boundary may include passing traffic and does not prove delivery completion."
+      },
+      {
+        "question": "Does a last GPS position confirm a Palika Bazaar handover?",
+        "answer": "No. Check the location timestamp and obtain the receiver acknowledgement for the specific shop or collection. A last reported vehicle position cannot identify an underground shop, prove delivery or establish continuous positioning inside the market."
+      },
+      {
+        "question": "What should a Rajiv Chowk onward pickup booking record?",
+        "answer": "Record the passenger-confirmed exit, agreed permitted meeting point, assigned vehicle and boarding confirmation. Update the booking if the exit or vehicle changes. Vehicle GPS does not report the passenger location or confirm that a group has assembled."
       }
     ]
   }
