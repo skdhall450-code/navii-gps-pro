@@ -1,4 +1,100 @@
 export const delhiPriorityGuides = {
+  "shahdara": {
+  "name": "Shahdara",
+  "description": "Plan GPS tracking for Shahdara appointment journeys. Confirm the actual office destination, keep return pickups separate and protect private document details.",
+  "source": "https://revenue.delhi.gov.in/revenue/sub-division-offices",
+  "sourceLabel": "Delhi Revenue Department: Shahdara subdivision office address",
+  "related": "/gps-tracker/delhi/north-east/nand-nagri",
+  "relatedLabel": "Nand Nagri vehicle-route planning",
+  "cases": [
+    {
+      "title": "Distinguish the Shahdara office name from its destination address",
+      "text": "The Delhi Revenue directory lists Shahdara subdivision under North East and gives its office address as the DC Office Complex in Nand Nagri. For a vehicle booking to that office, use the confirmed office address and meeting point rather than a general Shahdara locality pin. Reconfirm the destination against the appointment instructions before departure; the name of the subdivision does not by itself identify where the passenger needs to be dropped."
+    },
+    {
+      "title": "Separate the office drop from a later return pickup",
+      "text": "For a Shahdara office appointment, record whether the driver will wait, leave for another job or return after a passenger call. Keep the return pickup as its own assignment with an agreed meeting point and contact method. An appointment time is not a promised completion time, and a vehicle leaving the office area does not establish that the passenger has finished. Test a drop-and-return journey against supported trip timestamps before relying on reports to review missed pickups."
+    },
+    {
+      "title": "Use a trip reference without exposing document details",
+      "text": "When coordinating a Shahdara administrative visit, put a booking reference in the shared vehicle task and keep identity-document numbers, application scans and the reason for the visit in the authorised appointment record. Confirm who can see the trip and how long location records are retained. During a pilot, check that a dispatcher can distinguish fresh from delayed vehicle updates without sharing private paperwork. GPS arrival can support transport review but cannot prove an application was submitted, accepted or approved."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Should a Shahdara subdivision-office trip use a general Shahdara map pin?",
+      "answer": "No. The Revenue directory lists the Shahdara subdivision office at the DC Office Complex in Nand Nagri. Confirm the actual address and meeting point from the appointment instructions before assigning the vehicle."
+    },
+    {
+      "question": "Can GPS confirm that a Shahdara office application was accepted?",
+      "answer": "No. A trip record shows vehicle movement, not an administrative outcome. Keep the official acknowledgement with the authorised appointment record and use a booking reference, rather than private document details, for shared transport coordination."
+    }
+  ]
+},
+  "gandhiNagar": {
+    "name": "Gandhi Nagar",
+    "description": "Plan GPS tracking for Gandhi Nagar garment dispatches. Match size and colour assortments, separate buyer parcels and reconcile exchanges against the original order.",
+    "source": "https://delhiplanning.delhi.gov.in/sites/default/files/Planning/2026-27/2026-27/vol_i_2026-27_updated.pdf#page=79",
+    "sourceLabel": "Delhi Planning Department: Gandhi Nagar garment market (2026-27, PDF page 79)",
+    "related": "/gps-tracker/delhi/east/patparganj",
+    "relatedLabel": "Patparganj industrial service-vehicle planning",
+    "cases": [
+      {
+        "title": "Keep the garment assortment with the order reference",
+        "text": "Delhi's Planning Department identifies Gandhi Nagar as a readymade garment market. For a dispatch from the market, keep style, size and colour quantities with the buyer's order and parcel identifiers. Record whether the quantity means pieces, packs or cartons. A vehicle carrying the expected number of cartons does not establish that the requested size assortment is inside; use the packing record and buyer acknowledgement to resolve differences."
+      },
+      {
+        "title": "Separate buyer parcels when several orders share a vehicle",
+        "text": "A Gandhi Nagar collection run may combine parcels from several sellers for different buyers. Give each parcel a seller, buyer-order reference and agreed receiving point, then associate that manifest with the assigned vehicle journey. If a parcel changes vehicles at a consolidation point, retain both handovers under the same parcel reference. The first vehicle arriving at the transfer point does not mean that every buyer has received an order."
+      },
+      {
+        "title": "Link size exchanges to the original outward dispatch",
+        "text": "For a Gandhi Nagar size or colour exchange, record the original order, returned assortment and replacement assortment as separate movements. Keep any shortage or rejected item open until the seller and buyer reconcile it; do not close an exchange solely because the collection vehicle returned. Trial a delivery and an exchange pickup against the available trip export, checking that repeated visits can be matched to the right parcel records before selecting report access and retention."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can GPS confirm the size or colour mix in a Gandhi Nagar garment parcel?",
+        "answer": "No. Check the packing record, parcel identifier and buyer acknowledgement against the ordered assortment. GPS can help associate a vehicle journey with the parcel manifest, but it cannot inspect garments inside the packaging."
+      },
+      {
+        "question": "How should Gandhi Nagar garment exchanges be linked to vehicle trips?",
+        "answer": "Keep the original buyer-order reference, returned assortment and replacement dispatch separately. Match each movement to its parcel handover and available trip timestamps; a return to base alone does not complete the exchange."
+      }
+    ]
+  },
+  "patparganj": {
+    "name": "Patparganj",
+    "description": "Plan GPS tracking for Patparganj industrial service vans. Separate site waiting from repair time, record replacement-part returns and confirm job completion.",
+    "source": "https://industries.delhi.gov.in/industries/export-promotion-cell",
+    "sourceLabel": "Delhi Industries Department: Functional Industrial Estate at Patparganj",
+    "related": "/gps-tracker/delhi/east/gandhi-nagar",
+    "relatedLabel": "Gandhi Nagar garment dispatch planning",
+    "cases": [
+      {
+        "title": "Separate the service appointment from the production shutdown",
+        "text": "Delhi's Industries Department identifies a Functional Industrial Estate at Patparganj. For an industrial maintenance visit, record the plot or unit, machine or asset reference, service appointment and the customer's agreed work window. Confirm site access and the responsible contact before dispatch. The van reaching the estate does not establish that the machine is available for work; keep the customer's readiness confirmation with the job card."
+      },
+      {
+        "title": "Reconcile fitted, unused and removed parts after a visit",
+        "text": "When a Patparganj service van carries replacement parts, record which items were fitted, left unused or removed from the customer equipment. Link returned parts to the job and the agreed recipient, including any item held for inspection. Do not infer a completed repair from the parts van leaving the premises. Vehicle GPS cannot identify a fitted component or confirm that removed material was handed back."
+      },
+      {
+        "title": "Review vehicle dwell time alongside the signed service record",
+        "text": "A Patparganj industrial visit can include waiting for access, diagnosis, work and customer acceptance. Keep these stages in the service record and compare them with available vehicle trip timestamps; a parked van does not measure technician working time or prove the equipment is ready to restart. Pilot a completed visit and one requiring a return appointment, checking fresh versus delayed positions and report access before relying on fleet reports for service reviews."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Does a Patparganj vehicle stop measure the time spent repairing a machine?",
+        "answer": "No. A stop may include waiting, diagnosis and customer review as well as work. Compare supported vehicle timestamps with the job card and customer acknowledgement; location alone cannot establish labour time or repair completion."
+      },
+      {
+        "question": "How should unused or removed parts be recorded after a Patparganj visit?",
+        "answer": "List fitted, unused and removed items separately under the service-job reference, with the agreed return recipient and handover record. A van returning to base cannot identify the parts it carries or prove that a customer repair is complete."
+      }
+    ]
+  },
   "janakpuri": {
     "name": "Janakpuri",
     "description": "Plan GPS tracking for Janakpuri office courier rounds. Record sealed-packet references, recipient acknowledgements and undelivered items separately from vehicle stops.",
@@ -353,7 +449,7 @@ najafgarh: {
   },
   "connaughtPlace": {
     "name": "Connaught Place",
-    "description": "Plan GPS tracking in Connaught Place for block-specific deliveries and service visits. Separate vehicle parking, receiving entrances and proof of handover.",
+    "description": "Plan Connaught Place GPS trips with block-specific deliveries, Palika Bazaar handovers and Rajiv Chowk pickups. Confirm meeting points and update freshness.",
     "source": "https://www.ndmc.gov.in/departments/civil_i_cp_div_enquiry.aspx",
     "sourceLabel": "NDMC Connaught Place division",
     "related": "/gps-tracker/delhi/new-delhi",
@@ -370,6 +466,14 @@ najafgarh: {
       {
         "title": "Reconcile several customers served from one stop",
         "text": "When one vehicle stop supports visits to several Connaught Place customers, give each task its own reference and completion record. Do not count one parking event as one completed delivery or duplicate it across all customers automatically. During a pilot, compare the dispatch sheet with supported stop reports and note any return collection or unfinished visit."
+      },
+      {
+        "title": "Distinguish Palika Bazaar from the vehicle waiting point",
+        "text": "Delhi Tourism identifies Palika Bazaar as an underground market below the Inner Circle. For a collection there, record the shop reference and receiving contact separately from the agreed vehicle waiting point. If a vehicle update stops refreshing, check its timestamp and contact the driver before changing the assignment; do not infer an underground shop visit from the last map marker. Confirm the handover through the receiver and test reporting on the actual route without assuming continuous indoor or underground positioning."
+      },
+      {
+        "title": "Agree a street-level meeting point for Rajiv Chowk pickups",
+        "text": "Delhi Tourism lists Rajiv Chowk as the nearest Metro station for Connaught Place. For an onward vehicle booking, ask the passenger to confirm the exit they actually use and an agreed street-level meeting point where stopping is permitted. Keep reaching the station, reaching the meeting point and boarding as separate milestones. If members of a group emerge at different exits, agree who joins which vehicle before departure rather than treating a nearby vehicle marker as proof that everyone has boarded."
       }
     ],
     "faqs": [
@@ -380,6 +484,14 @@ najafgarh: {
       {
         "question": "Should a Connaught Place geofence use the whole commercial area?",
         "answer": "Choose the actual agreed vehicle stop or premises boundary where supported, then test it on a representative visit. Review arrival events alongside block and entrance details. A broad CP boundary may include passing traffic and does not prove delivery completion."
+      },
+      {
+        "question": "Does a last GPS position confirm a Palika Bazaar handover?",
+        "answer": "No. Check the location timestamp and obtain the receiver acknowledgement for the specific shop or collection. A last reported vehicle position cannot identify an underground shop, prove delivery or establish continuous positioning inside the market."
+      },
+      {
+        "question": "What should a Rajiv Chowk onward pickup booking record?",
+        "answer": "Record the passenger-confirmed exit, agreed permitted meeting point, assigned vehicle and boarding confirmation. Update the booking if the exit or vehicle changes. Vehicle GPS does not report the passenger location or confirm that a group has assembled."
       }
     ]
   }

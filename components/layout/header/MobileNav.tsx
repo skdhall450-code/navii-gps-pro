@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import { shopNavigationProps } from "@/lib/shop-destination";
 import { usePathname } from "next/navigation";
 import { Menu, MessageCircle, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -131,7 +132,7 @@ export default function MobileNav() {
                   <Link
                     prefetch={false}
                     key={item.href}
-                    href={item.href}
+                    {...shopNavigationProps(item.href)}
                     aria-current={pathname === item.href ? "page" : undefined}
                     onClick={closeMenu}
                     className={`block rounded-xl px-4 py-3 font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${

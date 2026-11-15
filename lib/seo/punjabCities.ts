@@ -40,7 +40,7 @@ export function toPunjabCitySlug(name: string) {
 
 const priorityGuides: Record<string, NonNullable<PunjabCitySeo["guide"]>> = {
 "rajpura": {
-  "description": "Plan GPS tracking in Rajpura for dispatch vehicles and warehouse handovers. Review gate waiting, loading records, part deliveries and return assignments.",
+  "description": "Plan GPS tracking in Rajpura for warehouse dispatches and booked technical visits. Match equipment references, collection readiness and vehicle handover records.",
   "cases": [
     {
       "title": "Separate gate arrival from loading readiness",
@@ -53,6 +53,14 @@ const priorityGuides: Record<string, NonNullable<PunjabCitySeo["guide"]>> = {
     {
       "title": "Close part deliveries and returns independently",
       "text": "When a vehicle serves Rajpura and continues to another destination, record which goods were accepted locally and which remain for onward delivery. Mark rejected or returned items in the delivery record and give the return trip a clear destination. Pilot a representative round and compare available trip exports with acknowledgements before relying on reports for reconciliation."
+    },
+    {
+      "title": "Confirm the booked technical destination in Rajpura",
+      "text": "NSIC lists a Technical Services Centre in Rajpura, Punjab. For a booked technical visit in the area, record the actual organisation, receiving section, appointment or job reference and agreed vehicle entrance. Confirm the requested service and any item acceptance requirements with the receiving organisation before dispatch. The location reference does not establish an NSIC affiliation with NAVII GPS or guarantee a service for a particular item."
+    },
+    {
+      "title": "Keep equipment identity separate from vehicle movement",
+      "text": "When an authorised Rajpura visit includes leaving equipment or collecting it later, retain the item or serial reference, accessories list and handover acknowledgement under the job record. Confirm release readiness and the person authorised to collect before arranging another trip. A vehicle stop cannot identify an item, verify that work passed inspection or prove that the correct accessories returned. Pilot a drop-off and later collection, comparing supported trip reports with both handovers."
     }
   ],
   "faqs": [
@@ -63,6 +71,14 @@ const priorityGuides: Record<string, NonNullable<PunjabCitySeo["guide"]>> = {
     {
       "question": "How should Rajpura part deliveries be checked against GPS records?",
       "answer": "Keep a delivery reference and receiving acknowledgement for each stop, including rejected goods and returns. Review the relevant vehicle trip separately. GPS location alone cannot identify quantities delivered or remaining cargo."
+    },
+    {
+      "question": "Does a Rajpura technical-centre location mean a particular service is available?",
+      "answer": "No. Confirm the receiving organisation, requested work, appointment and acceptance requirements directly before dispatch. This is independent vehicle-planning guidance and does not claim a NAVII GPS partnership with NSIC or any technical centre."
+    },
+    {
+      "question": "Can GPS verify which equipment was collected in Rajpura?",
+      "answer": "No. Match the collection with the item or serial reference, accessories list and authorised handover acknowledgement. Vehicle trip history supports the journey review but cannot identify the equipment or verify completed technical work."
     }
   ],
   "source": "https://patiala.nic.in/tehsil/",

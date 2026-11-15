@@ -38,7 +38,7 @@ export const haryanaCities: HaryanaCitySeo[] = haryanaDistricts.flatMap(
     const operatingProfile = operatingProfiles[(districtIndex + cityIndex) % operatingProfiles.length];
 
     return {
-      guide: ((district.slug === "yamunanagar" && toHaryanaCitySlug(name) === "jagadhri") || (district.slug === "sonipat" && toHaryanaCitySlug(name) === "gohana") || (district.slug === "rohtak" && toHaryanaCitySlug(name) === "meham") || (district.slug === "panipat" && toHaryanaCitySlug(name) === "samalkha") || district.slug === "panchkula" || district.slug === "ambala" || (district.slug === "karnal" && toHaryanaCitySlug(name) === "gharaunda")) ? priorityGuides[toHaryanaCitySlug(name)] : undefined,
+      guide: ((district.slug === "kurukshetra" && toHaryanaCitySlug(name) === "pehowa") || (district.slug === "yamunanagar" && toHaryanaCitySlug(name) === "jagadhri") || (district.slug === "sonipat" && toHaryanaCitySlug(name) === "gohana") || (district.slug === "rohtak" && toHaryanaCitySlug(name) === "meham") || (district.slug === "panipat" && toHaryanaCitySlug(name) === "samalkha") || district.slug === "panchkula" || district.slug === "ambala" || (district.slug === "karnal" && toHaryanaCitySlug(name) === "gharaunda")) ? priorityGuides[toHaryanaCitySlug(name)] : undefined,
       slug: toHaryanaCitySlug(name),
       name,
       districtSlug: district.slug,

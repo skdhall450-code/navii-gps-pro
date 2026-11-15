@@ -6,7 +6,7 @@ import Footer from "@/components/layout/FooterV2";
 const guide = {
   "name": "Kangra district",
   "title": "GPS Tracker in Kangra District | Dharamshala Transfers & Fleets",
-  "description": "Plan GPS tracking for Kangra district fleets and Dharamshala transfers. Review vehicle reassignment, airport waiting, district rounds and installation checks.",
+  "description": "Plan Kangra and Dharamshala GPS tracking for airport transfers and heritage visits. Distinguish museum destinations, vehicle waiting and revised sightseeing stops.",
   "intro": "Kangra district includes varied hill terrain and journeys connecting Kangra town, Dharamshala and other destinations. This guide helps dispatch teams manage shared vehicles across transfer bookings and district service rounds. Confirm fitting and reporting for the actual locations you operate.",
   "source": "https://hpkangra.nic.in/about-district/",
   "cases": [
@@ -25,6 +25,14 @@ const guide = {
     [
       "Pilot the routes your team actually uses",
       "Test a representative transfer and service round with the selected device and SIM. Include recurring pickup points, a reassigned vehicle and the return to base. Check timestamps, supported trip records, access permissions and any recovery of records after a reporting gap. Agree who handles an overdue update before expanding the setup."
+    ],
+    [
+      "Name the museum as well as the town",
+      "Himachal Tourism places the Kangra Art Museum at Kotwali Bazar in Dharamshala; the Kangra district guide separately lists Kangra Fort. For a heritage itinerary, write the full attraction name and town against each stop instead of using only \"Kangra museum\". Confirm the agreed vehicle meeting point with the organiser before departure. A town-wide geofence cannot establish that the vehicle reached the intended attraction."
+    ],
+    [
+      "Keep a changed sightseeing stop separate from a completed visit",
+      "If a Kangra Fort or Dharamshala museum visit is skipped, shortened or replaced, record the change against that itinerary stop and confirm the next meeting point with the driver. Keep the passenger visit record separate from vehicle waiting: a parked vehicle does not show whether the group entered an attraction. Pilot an itinerary with one revised stop, comparing supported trip timestamps with the organiser's record before using reports to settle a missed-visit query."
     ]
   ],
   "faqs": [
@@ -43,6 +51,14 @@ const guide = {
     [
       "What should I confirm before installation in Kangra district?",
       "Share the exact fitting location, vehicle models and operating routes with NAVII GPS. Confirm installation arrangements, hardware compatibility, SIM, platform access, supported reports, complete costs and renewal responsibilities before booking."
+    ],
+    [
+      "Is the Kangra Art Museum destination the same as Kangra Fort?",
+      "No. Himachal Tourism identifies the Kangra Art Museum at Kotwali Bazar in Dharamshala, while Kangra Fort is a separate attraction. Record the full destination name, town and agreed vehicle meeting point for each booking."
+    ],
+    [
+      "Does a GPS stop confirm that a sightseeing group visited an attraction?",
+      "No. Keep the organiser's visit acknowledgement and any skipped or revised stop in the itinerary record. Vehicle waiting and movement can support journey review, but cannot establish admission, visitor attendance or time spent inside."
     ]
   ]
 };
@@ -67,7 +83,7 @@ export default function Page() {
       <h1 className="max-w-4xl text-4xl font-extrabold leading-tight md:text-6xl">{guide.title}</h1><p className="mt-7 max-w-3xl text-lg leading-8 text-slate-200">{guide.intro}</p>
       <a href="#dharamshala" className="mt-6 block text-cyan-200 underline">Dharamshala transfer checklist</a><Link href="/contact" className="mt-8 inline-block rounded-xl bg-cyan-500 px-6 py-4 font-semibold text-slate-950">Discuss your {guide.name} fleet</Link>
     </div></section>
-    <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">Plan your {guide.name} vehicle operations</h2><div className="mt-8 grid gap-6 md:grid-cols-2">{guide.cases.map(([heading, text]) => <article key={heading} className="rounded-2xl border border-slate-200 bg-slate-50 p-7"><h3 className="text-xl font-bold text-slate-900">{heading}</h3><p className="mt-4 leading-7 text-slate-600">{text}</p></article>)}</div><p className="mt-6 text-sm text-slate-500">Local geography reference: <a href={guide.source} className="underline">Kangra district administration</a>.</p></div></section>
+    <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-6"><h2 className="text-3xl font-bold text-slate-900">Plan your {guide.name} vehicle operations</h2><div className="mt-8 grid gap-6 md:grid-cols-2">{guide.cases.map(([heading, text]) => <article key={heading} className="rounded-2xl border border-slate-200 bg-slate-50 p-7"><h3 className="text-xl font-bold text-slate-900">{heading}</h3><p className="mt-4 leading-7 text-slate-600">{text}</p></article>)}</div><p className="mt-6 text-sm text-slate-500">Local geography reference: <a href={guide.source} className="underline">Kangra district administration</a>.</p><p className="mt-3 text-sm text-slate-500">Heritage destination references: <a href="https://himachaltourism.gov.in/destination/dharamshala/" className="underline">Himachal Tourism: Kangra Art Museum in Dharamshala</a> and <a href="https://hpkangra.nic.in/tourist-place/kangra-fort/" className="underline">Kangra district: Kangra Fort</a>.</p></div></section>
     <section id="dharamshala" className="scroll-mt-28 bg-slate-50 py-16"><div className="mx-auto max-w-7xl px-6">
       <h2 className="text-3xl font-bold text-slate-900">Dharamshala and Gaggal airport transfer checklist</h2>
       <p className="mt-5 max-w-4xl leading-8 text-slate-700">The district administration identifies Gaggal as the airport serving journeys to Dharamshala and Kangra town. For an airport transfer, keep the flight booking and the vehicle dispatch record separate.</p>
