@@ -412,8 +412,8 @@ function DashboardContent() {
           })}
         </div>
 
-        <div className="mt-6 grid gap-5 xl:grid-cols-[1.5fr_1fr]">
-          <section className="rounded-2xl border border-white/10 bg-[#0a1426] p-5">
+        <div className="mt-6 grid min-w-0 grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+          <section className="min-w-0 rounded-2xl border border-white/10 bg-[#0a1426] p-5">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-semibold">
@@ -542,7 +542,7 @@ function DashboardContent() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-white/10 bg-[#0a1426] p-5">
+          <section className="min-w-0 rounded-2xl border border-white/10 bg-[#0a1426] p-5">
             <h2 className="text-lg font-semibold">
               System Health
             </h2>

@@ -42,6 +42,7 @@ try {
    const cookie=page.getByRole('button',{name:'Open analytics cookie settings',exact:true});
    assert.equal(await cookie.evaluate(e=>getComputedStyle(e).position),'relative','Cookie control stays in normal flow');
    await page.evaluate(()=>window.scrollTo(0,0));
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true,`${path} has no page-level horizontal overflow at ${width}px`);
    const name=path.replaceAll('/','_')+'-'+width+'.png';
    await page.screenshot({path:output+'/'+name,fullPage:true});
    coverage.push({path,width,image:name,state:'SYNTHETIC_SERVICE_UNAVAILABLE',functionalAcceptance:false});
