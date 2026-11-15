@@ -138,6 +138,16 @@ try {
   await motionPage.locator('[aria-labelledby="home-hero-title"]').scrollIntoViewIfNeeded();
   await motionPage.mouse.move(0, 0);
   const transform = locator => locator.evaluate(el => getComputedStyle(el).transform);
+  const settledPause = async locator => {
+    await locator.evaluate(el => new Promise((resolve,reject) => {
+      const deadline=performance.now()+3000;
+      const check=()=>{
+        if(getComputedStyle(el).animationPlayState==='paused')requestAnimationFrame(()=>requestAnimationFrame(resolve));
+        else if(performance.now()>deadline)reject(new Error('Animation never entered paused state'));
+        else requestAnimationFrame(check);
+      };check();
+    }));
+  };
   const floatCard = motionPage.locator('[data-hero-feature="tracking"]');
   const glow = motionPage.locator('[data-hero-glow]');
   const beforeFloat = await transform(floatCard);
@@ -146,6 +156,8 @@ try {
   assert.notEqual(await transform(floatCard), beforeFloat, 'Hero floats beyond the old one-shot four-second animation');
   assert.notEqual(await transform(glow), beforeGlow, 'Decorative glow moves');
   await motionPage.getByRole('button',{name:'Pause hero animation',exact:true}).click();
+  await settledPause(floatCard);
+  await settledPause(glow);
   const pausedFloat = await transform(floatCard);
   const pausedGlow = await transform(glow);
   await motionPage.waitForTimeout(600);
@@ -163,6 +175,7 @@ try {
   await motionPage.waitForTimeout(2500);
   assert.notEqual(await transform(reviews),beforeReview,'Review cards actually scroll');
   await motionPage.getByRole('button',{name:'Pause reviews',exact:true}).click();
+  await settledPause(reviews);
   const stoppedReview = await transform(reviews);
   await motionPage.waitForTimeout(600);
   assert.equal(await transform(reviews),stoppedReview,'Pause freezes reviews');
@@ -171,6 +184,7 @@ try {
   await motionPage.waitForTimeout(600);
   assert.notEqual(await transform(reviews),stoppedReview,'Reviews resume');
   await motionPage.locator('[aria-label="Customer reviews"]').hover();
+  await settledPause(reviews);
   const hoveredReview = await transform(reviews);
   await motionPage.waitForTimeout(600);
   assert.equal(await transform(reviews),hoveredReview,'Hover pauses reviews for reading');
