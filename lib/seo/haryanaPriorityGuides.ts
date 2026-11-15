@@ -452,7 +452,7 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
 },
 "ambala-cantt": {
   "title": "GPS Tracker in Ambala Cantt, Ambala",
-  "description": "Plan GPS tracking in Ambala Cantt for passenger pickups and onward journeys. Separate arrival information, vehicle waiting, boarding and return assignments.",
+  "description": "Plan Ambala Cantt GPS trips for station pickups and instrument deliveries. Keep passenger readiness, equipment identity and receiving checks separate.",
   "source": "https://ambala.gov.in/how-to-reach/",
   "sourceLabel": "Ambala district travel information",
   "cases": [
@@ -467,6 +467,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "title": "Reassign a delayed pickup without losing the onward booking",
       "text": "If a delayed Ambala Cantt pickup affects another journey, record any replacement vehicle and effective assignment time in the booking sheet. Keep the passenger acknowledgement and onward destination with that assignment. Review each vehicle leg separately and test supported waiting and trip records on a representative journey before relying on them for dispatch."
+    },
+    {
+      "title": "Identify instruments before the vehicle leaves",
+      "text": "The Haryana industry register lists instrument businesses in Ambala Cantt. For an equipment delivery, record the instrument model or asset reference, case identifiers and accompanying accessories against the receiving order. Confirm the actual delivery premises rather than using a sales-office address by default. A vehicle tracker follows the assigned vehicle; it does not identify the instrument inside a case or establish that all accessories were loaded."
+    },
+    {
+      "title": "Separate equipment receipt from calibration or commissioning",
+      "text": "For an Ambala Cantt instrument delivery or service return, record who received the equipment, any packaging concerns and the accessories handed over. Keep calibration documents, functional checks and commissioning acceptance in the relevant equipment record. If the receiver has only accepted the sealed case, do not close a pending technical check from the GPS arrival. Agree a separate collection instruction for equipment that must return for service."
     }
   ],
   "faqs": [
@@ -477,6 +485,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "question": "What should I confirm before arranging GPS fitting for Ambala Cantt vehicles?",
       "answer": "Share the exact fitting location, vehicle models, recurring pickup points and reporting needs with NAVII GPS. Confirm access arrangements, hardware, SIM, platform, installation availability and complete costs before booking; this guide does not establish a local NAVII office."
+    },
+    {
+      "question": "Can GPS confirm that an Ambala Cantt instrument arrived calibrated?",
+      "answer": "No. Vehicle location cannot establish calibration, measurement accuracy or equipment condition. Use the instrument identity and relevant technical documentation, with the receiver recording which checks remain outstanding."
+    },
+    {
+      "question": "What should accompany an instrument service-return trip in Ambala Cantt?",
+      "answer": "Record the equipment or asset reference, case and accessory list, service-return reason and receiving contact. Link the vehicle assignment to that record and obtain a handover acknowledgement. Keep the repair or calibration outcome separate from completion of the vehicle trip."
     }
   ]
 },
