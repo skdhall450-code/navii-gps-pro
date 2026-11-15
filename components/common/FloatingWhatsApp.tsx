@@ -1,9 +1,14 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import { isPanelRoute } from "@/lib/panel-route";
+
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function FloatingWhatsApp() {
+  const pathname = usePathname();
+  if (isPanelRoute(pathname)) return null;
   const phone = "917717394007";
 
   return (

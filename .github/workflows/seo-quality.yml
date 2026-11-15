@@ -169,3 +169,17 @@ jobs:
           path: test-results/customer-settings
           if-no-files-found: ignore
           retention-days: 7
+
+      - name: Check non-overlapping panel controls and read-only page previews
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        timeout-minutes: 4
+        run: node test/browser/panel-page-previews.mjs
+
+      - name: Upload read-only panel page previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: panel-page-previews-${{ github.sha }}
+          path: test-results/panel-page-previews
+          if-no-files-found: ignore
+          retention-days: 7

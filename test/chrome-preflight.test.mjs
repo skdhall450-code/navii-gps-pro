@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { verifyInstalledChrome } from './browser/chrome-preflight.mjs';
 
-const suites = ['alert-report-contract', 'dashboard-session', 'gps-freshness', 'live-refresh', 'vehicle-detail-refresh', 'product-showcase', 'home-premium', 'shop-pricing', 'customer-portal', 'customer-settings'];
+const suites = ['alert-report-contract', 'dashboard-session', 'gps-freshness', 'live-refresh', 'vehicle-detail-refresh', 'product-showcase', 'home-premium', 'shop-pricing', 'customer-portal', 'customer-settings', 'panel-page-previews'];
 
-test('CI requires bounded real Chrome preflight and retains all ten browser suites', () => {
+test('CI requires bounded real Chrome preflight and retains the ten existing browser suites and read-only panel previews', () => {
   const workflow = readFileSync(new URL('../.github/workflows/seo-quality.yml', import.meta.url), 'utf8');
   const steps = workflow.split(/^      - name: /m);
   const preflight = steps.find(step => step.startsWith('Verify installed sandboxed Chrome\n'));

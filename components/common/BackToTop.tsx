@@ -1,10 +1,14 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import { isPanelRoute } from "@/lib/panel-route";
+
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowUp } from "react-icons/fa";
 
 export default function BackToTop() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -23,6 +27,8 @@ export default function BackToTop() {
       behavior: "smooth",
     });
   };
+
+  if (isPanelRoute(pathname)) return null;
 
   return (
     <AnimatePresence>
