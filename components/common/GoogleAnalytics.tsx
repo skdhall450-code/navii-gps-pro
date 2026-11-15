@@ -286,7 +286,7 @@ export default function GoogleAnalytics() {
   }
 
   return (
-    <>
+    <div className={panelRoute ? "flow-root bg-[#060e1c]" : "contents"}>
       {consent === "granted" && <AnalyticsScripts />}
 
       {consent === null ? (
@@ -340,6 +340,6 @@ export default function GoogleAnalytics() {
           Cookie settings
         </button>
       )}
-    </>
+    </div>
   );
 }
