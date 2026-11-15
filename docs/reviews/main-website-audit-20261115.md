@@ -17,3 +17,8 @@ Based on main `5672172` (15 November 2026). No production release.
 - Exact G17 hardware variant, label/spec sheet, current warranty, renewals and approved downloadable manuals. Do not restore unconditional voltage/network promises from historical notes.
 - Real desktop/mobile browser layout and Shop Now interaction checks. Local sandboxed Chromium fails before loading with OS `socket() failed: Operation not permitted`; no security bypass attempted.
 - A final render review and user approval before any production release. This document is a change review, not a live preview.
+
+## Requested motion restoration
+Fresh live HTML/CSS on 15 November showed a static review grid and a one-shot 4-second hero float, identical to the original PR134 motion source. Static preview screenshots were captured with reduced motion. The review motion was not removed by PR134.
+
+The user's subsequent direction explicitly asks for visible floating glow and running reviews. The draft now adds continuous decorative hero glow/float and a smoothly moving review strip. Both have pause/resume controls and respect live reduced-motion changes; reviews pause on hover/focus and retain an accessible static original list. No JavaScript means static content. Existing copy and original review records are unchanged. A normal browser test records actual movement, pause/resume, narrow-layout containment, reduced-motion behavior and a read-only live baseline video; videos are evidence, not a live deployment.

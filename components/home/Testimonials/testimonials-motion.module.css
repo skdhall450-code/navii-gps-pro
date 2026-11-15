@@ -1,0 +1,17 @@
+
+.controls {display:flex; justify-content:center; margin-top:24px;}
+.controls button {border:1px solid #526881;border-radius:999px;background:#0c1728;color:#d6e7ff;padding:10px 18px;font-size:14px;cursor:pointer;}
+.viewport {margin-top:40px;}
+.group {display:grid;gap:24px;grid-template-columns:repeat(3,minmax(0,1fr));}
+.item {min-width:0;}
+.duplicate {display:none;}
+@media(max-width:1023px){.group {grid-template-columns:1fr;}}
+@media(prefers-reduced-motion:no-preference){
+ .viewport[data-review-motion-ready="true"] {overflow:hidden;}
+ .viewport[data-review-motion-ready="true"] .track {display:flex;width:max-content;animation:reviews-run 36s linear infinite;}
+ .viewport[data-review-motion-ready="true"] .group {display:flex;gap:24px;padding-right:24px;}
+ .viewport[data-review-motion-ready="true"] .item {width:340px;max-width:calc(100vw - 48px);flex:none;}
+ .viewport[data-review-paused="true"] .track,.viewport:hover .track,.viewport:focus-within .track {animation-play-state:paused;}
+}
+@keyframes reviews-run {from {transform:translateX(0);}to {transform:translateX(-50%);}}
+@media(prefers-reduced-motion:reduce){.controls {display:none;}.track {animation:none !important;transform:none !important;}}

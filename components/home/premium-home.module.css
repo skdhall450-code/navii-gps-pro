@@ -66,10 +66,10 @@
 .fleetCard { bottom: 16px; right: 18px; }
 .connectedValue { color: #78f5bf; }
 @media (prefers-reduced-motion: no-preference) {
-  .floatingCard { animation: feature-float 4s ease-in-out 1; }
-  .experienceCard { animation-delay: .15s; }
-  .dashboardCard { animation-delay: .3s; }
-  .fleetCard { animation-delay: .45s; }
+  .hero[data-motion-ready="true"] .floatingCard { animation: feature-float 4s ease-in-out infinite; }
+  .hero[data-motion-ready="true"] .experienceCard { animation-delay: .15s; }
+  .hero[data-motion-ready="true"] .dashboardCard { animation-delay: .3s; }
+  .hero[data-motion-ready="true"] .fleetCard { animation-delay: .45s; }
 }
 @keyframes feature-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @media (max-width: 639px) {
@@ -89,3 +89,17 @@
   .fleetCard { bottom: 30px; left: 10px; right: auto; width: 96px; padding: 11px 9px; }
   .fleetCard .cardLabel { font-size: 9px; }
 }
+
+/* Decorative continuous motion stays optional and never hides content. */
+.heroGlow { position:absolute; pointer-events:none; width: min(65vw, 680px); height:480px; left:-12%; top:8%; border-radius:50%; background:radial-gradient(ellipse,#147bdc55,transparent 68%); filter:blur(65px); }
+.heroGlowSecondary { left:auto; right:-12%; top:20%; background:radial-gradient(ellipse,#35c7f048,transparent 68%); }
+.motionControlRow { position:relative; z-index:2; max-width:1280px; margin:0 auto; padding:0 24px 20px; }
+.motionControl { border:1px solid #526881; border-radius:999px; background:#0c1728; color:#d6e7ff; padding:8px 14px; font-size:12px; cursor:pointer; }
+.motionControl:focus-visible { outline:3px solid #99c5ff; outline-offset:4px; }
+@media (prefers-reduced-motion: no-preference) {
+ .hero[data-motion-ready="true"] .heroGlow { animation:hero-glow-drift 10s ease-in-out infinite alternate; }
+ .hero[data-motion-ready="true"] .heroGlowSecondary { animation-delay:-5s; }
+ .hero[data-motion-paused="true"] .floatingCard, .hero[data-motion-paused="true"] .heroGlow { animation-play-state:paused; }
+}
+@keyframes hero-glow-drift { from { transform:translate3d(0,0,0); opacity:.55; } to { transform:translate3d(35px,24px,0); opacity:1; } }
+@media (prefers-reduced-motion: reduce) { .motionControlRow {display:none;} .heroGlow, .floatingCard {animation:none !important;} }
