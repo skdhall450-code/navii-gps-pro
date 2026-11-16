@@ -589,5 +589,16 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Add Jalandhar team-kit venue receiving and event loan-equipment returns; Phagwara approved part substitutions and parts receipt versus repair completion. Two new sections and two visible/schema FAQs each (five sections/seven FAQ pairs per page). Preserve earlier useful guidance.
 - [x] Specific descriptions flow through page/social/WebPage metadata; existing titles, H1, self-canonicals, district/town Service geography, source links and internal navigation retained.
 - [x] Sources rechecked 2026-11-16: https://jalandhar.nic.in/sportshub/ and https://kapurthala.gov.in/about-district/ . Stable sports-goods/spare-parts and Phagwara geography only. New examples are conditional operating advice, not venue affiliation, current factory operations, parts compatibility, repair outcomes, branches or fitting guarantees. No dated statistics reused.
-- [ ] Publication: seo/jalandhar-phagwara-20261116 requires full source SEO, lint, regression, build, rendered SEO and browser CI before merge. Then verify exact deployment, both live pages with five sections/seven FAQ pairs, metadata/schema/navigation, Ludhiana/Khanna regressions and unchanged 2,037-URL sitemap; record IndexNow evidence in PR.
+- [x] PR #136 publication reconciled from its recorded evidence: merge 25dda2b473f8c9c92962760a01a7864052cca7c2; PR CI 43814762469 and main CI 43815472802 passed. Exact deployment, both live guides and 2,037-URL sitemap recorded verified. IndexNow 43816008659 accepted submission; Google indexing/ranking remains unverified.
 - [ ] Next: inspect Haryana Panipat/Samalkha existing guides for a distinct useful improvement, retaining established canonicals. Regional district/town/locality coverage remains partial.
+
+
+### 2026-11-16 Panipat / Samalkha review branch
+
+- [x] Continued from main 25dda2b and PR #136 handoff; inspected existing guides and prior PR #98. Preserved both canonical routes and existing navigation/schema rendering.
+- [x] Panipat: add partial textile acceptance and onward-carrier handovers. Samalkha: add staged casting collections and reworked-versus-replacement identification. Each guide now has five sections and four authored FAQs (seven with three shared FAQs).
+- [x] Update shared page/social/WebPage descriptions. No new routes, schema claims, branches, fitting guarantees or product capabilities.
+- [x] Official industry context rechecked 16 November 2026 at https://panipat.gov.in/industries/ . The source describes textile activity and Samalkha foundries; new workflows are conditional operating guidance, not assertions about individual businesses.
+- [x] Local validation: full source SEO checks, focused ESLint, 140/140 regression tests, production build, rendered Haryana district/town checks and the full 2,037-URL SEO audit passed. Both changed pages have seven matching visible/schema FAQs, one H1 and the existing canonical.
+- [ ] Review only: production/main/database/services/routing unchanged. Hosted CI and browser checks pending; no IndexNow submission for unpublished changes. Google indexing/ranking unverified.
+- [ ] Next: complete review checks for this batch; then assess existing Delhi locality guides for a distinct content gap, without creating duplicate routes.
