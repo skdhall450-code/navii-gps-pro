@@ -1,5 +1,6 @@
-import { formatLastSeen } from "@/lib/communication-time";
 "use client";
+
+import { formatLastSeen } from "@/lib/communication-time";
 
 import { useVisiblePoll } from "@/hooks/use-visible-poll";
 import { useTrackingNow } from "@/hooks/use-tracking-now";
