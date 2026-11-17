@@ -96,69 +96,85 @@ export const delhiPriorityGuides = {
     ]
   },
   "janakpuri": {
-    "name": "Janakpuri",
-    "description": "Plan GPS tracking for Janakpuri office courier rounds. Record sealed-packet references, recipient acknowledgements and undelivered items separately from vehicle stops.",
-    "source": "https://dda.gov.in/faq-1",
-    "sourceLabel": "DDA: district centres including Janakpuri",
-    "related": "/gps-tracker/delhi/west/vikaspuri",
-    "relatedLabel": "Vikaspuri group transport planning",
-    "cases": [
-      {
-        "title": "Identify the office within Janakpuri District Centre",
-        "text": "DDA lists Janakpuri among Delhi district centres. For an office courier round here, record the building, office or unit, receiving desk and appointment reference. Confirm whether reception can accept the packet or the named recipient must receive it. District Centre is a destination area, not a complete delivery address; agree the vehicle stopping arrangement with the receiver before dispatch."
-      },
-      {
-        "title": "Track sealed packets with references outside the GPS label",
-        "text": "Give each document packet its own dispatch reference and record who may acknowledge receipt. Keep confidential document contents and unnecessary recipient details out of shared vehicle labels. A vehicle arriving near a Janakpuri office can support the journey record, but it cannot verify a seal, identify the contents or establish that the authorised recipient accepted the packet. Retain that evidence in the courier handover record."
-      },
-      {
-        "title": "Reconcile undelivered packets when the courier returns",
-        "text": "If reception declines a packet or the recipient is unavailable, record the attempted visit and the agreed next action under the original reference. At return to base, reconcile delivered, returned and still-outstanding packets rather than closing every item when the vehicle reaches the depot. Pilot a round with both an accepted packet and a failed delivery, then compare supported trip records with acknowledgements before choosing reporting access and retention."
-      }
-    ],
-    "faqs": [
-      {
-        "question": "Can a Janakpuri GPS arrival prove that a confidential packet was delivered?",
-        "answer": "No. Keep the packet reference, authorised recipient acknowledgement and any seal-condition note in the courier record. Vehicle location supports journey review but does not prove document contents, acceptance or custody."
-      },
-      {
-        "question": "How should a failed Janakpuri office delivery appear in a fleet review?",
-        "answer": "Record the attempted visit, reason for non-delivery and agreed return or retry under the packet reference. Reconcile it when the courier returns; a completed vehicle trip does not make an undelivered packet a completed delivery."
-      }
-    ]
-  },
+  "name": "Janakpuri",
+  "description": "Plan Janakpuri courier GPS tracking with packet references, authorised handovers and delivery retries. Match office acknowledgements to vehicle journeys.",
+  "source": "https://dda.gov.in/faq-1",
+  "sourceLabel": "DDA: district centres including Janakpuri",
+  "related": "/gps-tracker/delhi/west/vikaspuri",
+  "relatedLabel": "Vikaspuri group transport planning",
+  "cases": [
+    {
+      "title": "Identify the office within Janakpuri District Centre",
+      "text": "DDA lists Janakpuri among Delhi district centres. For an office courier round here, record the building, office or unit, receiving desk and appointment reference. Confirm whether reception can accept the packet or the named recipient must receive it. District Centre is a destination area, not a complete delivery address; agree the vehicle stopping arrangement with the receiver before dispatch."
+    },
+    {
+      "title": "Track sealed packets with references outside the GPS label",
+      "text": "Give each document packet its own dispatch reference and record who may acknowledge receipt. Keep confidential document contents and unnecessary recipient details out of shared vehicle labels. A vehicle arriving near a Janakpuri office can support the journey record, but it cannot verify a seal, identify the contents or establish that the authorised recipient accepted the packet. Retain that evidence in the courier handover record."
+    },
+    {
+      "title": "Reconcile undelivered packets when the courier returns",
+      "text": "If reception declines a packet or the recipient is unavailable, record the attempted visit and the agreed next action under the original reference. At return to base, reconcile delivered, returned and still-outstanding packets rather than closing every item when the vehicle reaches the depot. Pilot a round with both an accepted packet and a failed delivery, then compare supported trip records with acknowledgements before choosing reporting access and retention."
+    },
+    {
+      "title": "Record a change of courier against the packet reference",
+      "text": "If a Janakpuri office round changes courier or vehicle part-way through, record the outgoing and incoming assignments and obtain a packet handover acknowledgement. Keep the original packet reference through any retry. Compare the two vehicle journeys separately; nearby map positions or a vehicle change cannot establish who accepted custody of the documents."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can a Janakpuri GPS arrival prove that a confidential packet was delivered?",
+      "answer": "No. Keep the packet reference, authorised recipient acknowledgement and any seal-condition note in the courier record. Vehicle location supports journey review but does not prove document contents, acceptance or custody."
+    },
+    {
+      "question": "How should a failed Janakpuri office delivery appear in a fleet review?",
+      "answer": "Record the attempted visit, reason for non-delivery and agreed return or retry under the packet reference. Reconcile it when the courier returns; a completed vehicle trip does not make an undelivered packet a completed delivery."
+    },
+    {
+      "question": "How should a courier change during a Janakpuri round be recorded?",
+      "answer": "Keep the original packet reference, both courier or vehicle assignments and the acknowledged handover time in the dispatch record. Review each supported vehicle journey separately; GPS proximity does not prove a custody transfer."
+    }
+  ]
+},
   "vikaspuri": {
-    "name": "Vikaspuri",
-    "description": "Plan GPS tracking for Vikaspuri sports-session transport. Match vehicles to dated sessions, confirm group departures and reconcile shared equipment on return.",
-    "source": "https://dda.gov.in/play-fields",
-    "sourceLabel": "DDA: Vikaspuri C Block play field",
-    "related": "/gps-tracker/delhi/west/janakpuri",
-    "relatedLabel": "Janakpuri office courier planning",
-    "cases": [
-      {
-        "title": "Agree the meeting point for the actual Vikaspuri session",
-        "text": "DDA lists a play field at Vikaspuri C Block. For transport to a booked sports session, record the specific venue, date, session reference and coordinator-approved road meeting point. Confirm current venue use and access arrangements directly; a listed play field does not establish an available booking or a vehicle entrance. Keep a session destination separate from the place where a group boards the vehicle."
-      },
-      {
-        "title": "Give consecutive sessions separate vehicle assignments",
-        "text": "If a Vikaspuri vehicle serves an earlier group and then a later session, record each assignment and its agreed departure separately. When a session finishes late or moves venue, update the coordinator and preserve the revised pickup instruction. Confirm boarding through the responsible group leader; a parked vehicle does not show which group is ready. Use session references rather than unnecessary participant details in shared tracking labels."
-      },
-      {
-        "title": "Check shared sports equipment before closing the return",
-        "text": "Where a group carries shared kit, use a separate outbound and return equipment list alongside the transport booking. Record items retained by the organiser, collected by another vehicle or still at the venue. GPS cannot count balls, bags or other equipment. Pilot consecutive sessions with a changed return pickup, comparing supported trip history with group departure confirmations and kit handovers before regular use."
-      }
-    ],
-    "faqs": [
-      {
-        "question": "Does a Vikaspuri vehicle marker confirm that a sports group is ready to leave?",
-        "answer": "No. The responsible group leader should confirm readiness and boarding for the dated session. Review that confirmation with the assigned vehicle and its latest update time; vehicle location cannot establish who has boarded."
-      },
-      {
-        "question": "Can GPS confirm that all shared kit returned from a Vikaspuri session?",
-        "answer": "No. Reconcile the return equipment list with the organiser and record items retained or moved in another vehicle. Supported trip records show vehicle journeys, not an inventory of sports equipment."
-      }
-    ]
-  },
+  "name": "Vikaspuri",
+  "description": "Plan Vikaspuri sports transport with dated vehicle assignments, revised pickup points and equipment returns. Confirm group boarding separately from GPS stops.",
+  "source": "https://dda.gov.in/play-fields",
+  "sourceLabel": "DDA: Vikaspuri C Block play field",
+  "related": "/gps-tracker/delhi/west/janakpuri",
+  "relatedLabel": "Janakpuri office courier planning",
+  "cases": [
+    {
+      "title": "Agree the meeting point for the actual Vikaspuri session",
+      "text": "DDA lists a play field at Vikaspuri C Block. For transport to a booked sports session, record the specific venue, date, session reference and coordinator-approved road meeting point. Confirm current venue use and access arrangements directly; a listed play field does not establish an available booking or a vehicle entrance. Keep a session destination separate from the place where a group boards the vehicle."
+    },
+    {
+      "title": "Give consecutive sessions separate vehicle assignments",
+      "text": "If a Vikaspuri vehicle serves an earlier group and then a later session, record each assignment and its agreed departure separately. When a session finishes late or moves venue, update the coordinator and preserve the revised pickup instruction. Confirm boarding through the responsible group leader; a parked vehicle does not show which group is ready. Use session references rather than unnecessary participant details in shared tracking labels."
+    },
+    {
+      "title": "Check shared sports equipment before closing the return",
+      "text": "Where a group carries shared kit, use a separate outbound and return equipment list alongside the transport booking. Record items retained by the organiser, collected by another vehicle or still at the venue. GPS cannot count balls, bags or other equipment. Pilot consecutive sessions with a changed return pickup, comparing supported trip history with group departure confirmations and kit handovers before regular use."
+    },
+    {
+      "title": "Confirm a revised pickup before redirecting the vehicle",
+      "text": "If a Vikaspuri session changes its return meeting point, have the responsible coordinator confirm the new road pickup location, time and assigned vehicle. Retain the earlier instruction with the change time so the dispatcher can explain the different return route. Confirm the group received the revised instruction before redirecting; a new pin on a vehicle map does not notify participants or confirm that they have moved there."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Does a Vikaspuri vehicle marker confirm that a sports group is ready to leave?",
+      "answer": "No. The responsible group leader should confirm readiness and boarding for the dated session. Review that confirmation with the assigned vehicle and its latest update time; vehicle location cannot establish who has boarded."
+    },
+    {
+      "question": "Can GPS confirm that all shared kit returned from a Vikaspuri session?",
+      "answer": "No. Reconcile the return equipment list with the organiser and record items retained or moved in another vehicle. Supported trip records show vehicle journeys, not an inventory of sports equipment."
+    },
+    {
+      "question": "What should happen when a Vikaspuri return pickup point changes?",
+      "answer": "Record the coordinator-approved location, time and vehicle assignment, and confirm the group received the revised instruction. Keep the original instruction and change time with the session booking. Vehicle location alone cannot establish group readiness or receipt of the update."
+    }
+  ]
+},
 pitampura: {
   "name": "Pitampura",
   "description": "Plan GPS tracking for Pitampura exhibition deliveries. Confirm the correct Dilli Haat venue, separate stall consignments and reconcile equipment returns after an event.",
