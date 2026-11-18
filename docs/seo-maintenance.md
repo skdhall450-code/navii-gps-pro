@@ -590,7 +590,7 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Specific descriptions flow through page/social/WebPage metadata; existing titles, H1, self-canonicals, district/town Service geography, source links and internal navigation retained.
 - [x] Sources rechecked 2026-11-16: https://jalandhar.nic.in/sportshub/ and https://kapurthala.gov.in/about-district/ . Stable sports-goods/spare-parts and Phagwara geography only. New examples are conditional operating advice, not venue affiliation, current factory operations, parts compatibility, repair outcomes, branches or fitting guarantees. No dated statistics reused.
 - [x] PR #136 publication reconciled from its recorded evidence: merge 25dda2b473f8c9c92962760a01a7864052cca7c2; PR CI 43814762469 and main CI 43815472802 passed. Exact deployment, both live guides and 2,037-URL sitemap recorded verified. IndexNow 43816008659 accepted submission; Google indexing/ranking remains unverified.
-- [ ] Next: inspect Haryana Panipat/Samalkha existing guides for a distinct useful improvement, retaining established canonicals. Regional district/town/locality coverage remains partial.
+- [x] Panipat/Samalkha guidance prepared in PR #138; publication continuation recorded below. Regional district/town/locality coverage remains partial.
 
 
 ### 2026-11-16 Panipat / Samalkha review branch
@@ -600,5 +600,7 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Update shared page/social/WebPage descriptions. No new routes, schema claims, branches, fitting guarantees or product capabilities.
 - [x] Official industry context rechecked 16 November 2026 at https://panipat.gov.in/industries/ . The source describes textile activity and Samalkha foundries; new workflows are conditional operating guidance, not assertions about individual businesses.
 - [x] Local validation: full source SEO checks, focused ESLint, 140/140 regression tests, production build, rendered Haryana district/town checks and the full 2,037-URL SEO audit passed. Both changed pages have seven matching visible/schema FAQs, one H1 and the existing canonical.
-- [ ] Review only: production/main/database/services/routing unchanged. Hosted CI and browser checks pending; no IndexNow submission for unpublished changes. Google indexing/ranking unverified.
-- [ ] Next: complete review checks for this batch; then assess existing Delhi locality guides for a distinct content gap, without creating duplicate routes.
+- [x] Original draft validation completed: hosted SEO and Build Quality run 43849520138 passed for b3b92ac0341cddaaadf75f7b63c588b90c9a3ae9. Publication had not occurred at that checkpoint.
+- [x] Resumed PR #138 on 18 November 2026 under this city-SEO chat's standing authorization for routine merge/publication after checks. Inspected current main 63131fe, open drafts #138/#139/#140 and existing URLs; no duplicate implementation or unrelated PR merge. Official Panipat industry source rechecked; conditional workflow guidance and existing canonical routes retained.
+- [ ] Publication gate: rerun hosted full source SEO, lint, regression, production build, rendered SEO and browser checks against current main before merging #138. Then verify production commit, both live guides, metadata/canonicals, seven visible/schema FAQs each, navigation and sitemap. Final CI/deployment/IndexNow evidence will be recorded in PR #138; reconcile here on the next repository change. Google indexing/ranking remains unverified.
+- [ ] Next: resume the existing priority-location homepage-discovery draft #140, then Delhi locality draft #139; do not create duplicate pages or reimplement these batches. Regional coverage remains partial.
