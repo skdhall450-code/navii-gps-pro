@@ -32,6 +32,7 @@ import {
 } from "react";
 
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
+import VehicleCameraPanel from "@/components/dashboard/VehicleCameraPanel";
 
 type Device = {
   id: string;
@@ -425,6 +426,10 @@ function VehicleDetailsContent({ vehicleId }: { vehicleId: string }) {
             icon={<Battery />}
           />
         </div>
+
+        {process.env.NEXT_PUBLIC_H20P_PREVIEW === "true" && (
+          <VehicleCameraPanel key={vehicle.id} vehicleNo={vehicle.vehicleNo} />
+        )}
 
         <div className="grid gap-5 xl:grid-cols-[1fr_1fr]">
           <section className="rounded-2xl border border-white/10 bg-[#0a1426] p-5">
