@@ -50,22 +50,34 @@ try {
     const stream=canvas.captureStream(10), recorder=new MediaRecorder(stream,{mimeType:'video/webm'}), chunks=[];
     recorder.ondataavailable=e=>chunks.push(e.data);
     const complete=new Promise(resolve=>recorder.onstop=async()=>resolve(Array.from(new Uint8Array(await new Blob(chunks).arrayBuffer()))));
-    recorder.start();const ctx=canvas.getContext('2d');ctx.fillStyle='#0369a1';ctx.fillRect(0,0,160,90);
-    await new Promise(r=>setTimeout(r,350));recorder.stop();stream.getTracks().forEach(t=>t.stop());return complete;
+    recorder.start();const ctx=canvas.getContext('2d');
+    for(let frame=0;frame<24;frame++){
+      ctx.fillStyle='#0369a1';ctx.fillRect(0,0,160,90);
+      ctx.fillStyle='#ffffff';ctx.fillRect(frame*5,30,20,20);
+      await new Promise(r=>setTimeout(r,100));
+    }
+    recorder.stop();stream.getTracks().forEach(t=>t.stop());return complete;
   });
   await panel.locator('input[type=file]').setInputFiles({name:'synthetic.webm',mimeType:'video/webm',buffer:Buffer.from(bytes)});
   await panel.getByText('LOCAL SAMPLE • NOT LIVE',{exact:true}).waitFor();
   await page.waitForFunction(()=>document.querySelector('video')?.readyState>=2);
   const url=await panel.locator('video').getAttribute('src');assert.ok(url.startsWith('blob:'));
   await panel.locator('video').evaluate(video=>video.play());
-  await page.waitForFunction(()=>document.querySelector('video')?.currentTime>0);
+  await page.waitForFunction(()=>document.querySelector('video')?.currentTime>0.1);
+  await panel.locator('video').evaluate(video=>video.pause());
+  await panel.getByRole('button',{name:'Remove sample',exact:true}).click();
+  assert.ok(await page.evaluate(url=>window.revoked.includes(url),url));
+  assert.equal(await panel.locator('input[type=file]').inputValue(),'');
+  await panel.locator('input[type=file]').setInputFiles({name:'synthetic.webm',mimeType:'video/webm',buffer:Buffer.from(bytes)});
+  await page.waitForFunction(()=>document.querySelector('video')?.readyState>=2);
+  const replacementUrl=await panel.locator('video').getAttribute('src');
   console.log('PASS unverified/live-disabled state, explicit demo, rejected file and real local sample playback');
   await page.setViewportSize({width:390,height:844});
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'mobile overflow');
   await mkdir('test-results/h20p',{recursive:true});await page.screenshot({path:'test-results/h20p/mobile.png',fullPage:true});
   await panel.getByRole('button',{name:'Cabin camera',exact:true}).click();
   assert.equal(await panel.locator('video').count(),0);
-  assert.ok(await page.evaluate(url=>window.revoked.includes(url),url));
+  assert.ok(await page.evaluate(url=>window.revoked.includes(url),replacementUrl));
   await panel.getByText('NOT CONNECTED',{exact:true}).waitFor();
   await panel.getByRole('button',{name:'Open demo',exact:true}).click();
   await panel.getByText('Cabin demo layout',{exact:true}).waitFor();

@@ -13,10 +13,12 @@ export default function VehicleCameraPanel({ vehicleNo }: { vehicleNo: string })
   const [sample, setSample] = useState<Sample | null>(null);
   const [error, setError] = useState("");
   const activeUrl = useRef<string | null>(null);
+  const fileInput = useRef<HTMLInputElement | null>(null);
 
   function clearSample() {
     if (activeUrl.current) URL.revokeObjectURL(activeUrl.current);
     activeUrl.current = null;
+    if (fileInput.current) fileInput.current.value = "";
     setSample(null);
     setError("");
   }
@@ -71,7 +73,7 @@ export default function VehicleCameraPanel({ vehicleNo }: { vehicleNo: string })
       {demo && (
         <div className="mt-4 rounded-xl border border-white/10 p-4">
           <label htmlFor="camera-local-sample" className="block text-sm font-semibold">Local sample video (optional, maximum 100 MB)</label>
-          <input id="camera-local-sample" key={channel} type="file" accept="video/mp4,video/webm" className="mt-3 block w-full max-w-full text-sm"
+          <input ref={fileInput} id="camera-local-sample" key={channel} type="file" accept="video/mp4,video/webm" className="mt-3 block w-full max-w-full text-sm"
             onChange={event => {
               const file = event.target.files?.[0];
               clearSample();
