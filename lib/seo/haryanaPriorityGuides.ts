@@ -302,7 +302,7 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
 },
 "panipat": {
   "title": "GPS Tracker in Panipat District, Haryana",
-  "description": "Plan GPS tracking in Panipat for textile dispatches. Match roll and bale references, loading sequences and customer receiving records to vehicle journeys.",
+  "description": "Plan Panipat textile GPS tracking with roll references, split deliveries and carrier handovers. Review vehicle journeys alongside receiving records.",
   "source": "https://panipat.gov.in/industries/",
   "sourceLabel": "Panipat district administration: textile and Samalkha foundry industries",
   "cases": [
@@ -317,6 +317,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "title": "Record packaging exceptions at the receiving point",
       "text": "Keep any wet, torn or missing packaging observations with the receiver record and the affected roll or bale reference. Compare the assigned vehicle journey with that record without treating location or waiting time as proof of cargo condition. Pilot a multi-customer round and confirm available trip exports, retention and fitting arrangements before fleet rollout."
+    },
+    {
+      "title": "Reconcile a partly accepted textile order",
+      "text": "If a Panipat receiver accepts only some rolls or bales, record accepted and returned identifiers separately against the original order. Give the remaining load an agreed destination before the vehicle leaves. Compare supported trip history with those acknowledgements; a stop at the customer does not close the entire order or establish the reason for a rejection."
+    },
+    {
+      "title": "Keep carrier transfers traceable",
+      "text": "When textile consignments move from a local pickup vehicle to an onward carrier, record both vehicle references, the transfer premises and the acknowledged handover time. Retain the roll or bale list for each leg. GPS from the first vehicle cannot show the onward load after transfer unless the second movement has its own supported tracking arrangement."
     }
   ],
   "faqs": [
@@ -327,12 +335,20 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "question": "How should a changed Panipat delivery sequence be reviewed?",
       "answer": "Retain the revised stop order and confirm that the planned consignment can be unloaded at each receiver. Reconcile supported stop timestamps with individual order acknowledgements; the first delivery does not close the remaining textile orders."
+    },
+    {
+      "question": "Does a Panipat delivery stop close a partly accepted textile order?",
+      "answer": "No. Reconcile the accepted roll or bale identifiers, returned items and remaining balance using the receiver acknowledgement. Vehicle stop records support journey review but do not establish accepted quantities."
+    },
+    {
+      "question": "Can the pickup vehicle tracker follow textiles after a carrier transfer?",
+      "answer": "No. Its position belongs to the tracked vehicle. Record the onward carrier and handover against the consignment, and confirm a separate tracking arrangement for the next leg if required."
     }
   ]
 },
 "samalkha": {
   "title": "GPS Tracker in Samalkha, Panipat",
-  "description": "Plan GPS tracking in Samalkha for foundry collections. Confirm release readiness, loading appointments and casting return references alongside vehicle trips.",
+  "description": "Plan Samalkha foundry GPS tracking with release checks, staged casting collections and rework returns. Match each vehicle trip to supplier records.",
   "source": "https://panipat.gov.in/industries/",
   "sourceLabel": "Panipat district administration: textile and Samalkha foundry industries",
   "cases": [
@@ -347,6 +363,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "title": "Keep rejected castings separate from the next collection",
       "text": "If castings return for inspection or rework, link the return reference to the original order and list the items accepted back by the supplier. Keep this return task separate from any fresh collection on the same vehicle. Trial the outward and return legs against available trip records and confirm hardware, reporting and installation requirements for the actual operating base."
+    },
+    {
+      "title": "Track staged casting collections against the order",
+      "text": "If a Samalkha supplier releases a casting order in stages, give each collection its own release reference, item list and vehicle assignment. Record the outstanding balance with the supplier before arranging another trip. Compare supported journey timestamps with each loading acknowledgement; a first collection does not prove the full order is available or complete."
+    },
+    {
+      "title": "Distinguish reworked items from replacement castings",
+      "text": "When collecting after a rework return, ask the supplier to identify whether each item is the original casting after rework or a replacement. Link the new release record to the earlier return and retain the inspection decision separately. A vehicle revisiting the foundry cannot establish that rework passed inspection, that an item was replaced or that it is suitable for use."
     }
   ],
   "faqs": [
@@ -357,6 +381,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "question": "Can GPS confirm casting weight or acceptance of a rework return?",
       "answer": "No. Use the relevant weighing, inspection and supplier acceptance records. Link a returned casting to its order and vehicle journey; location data alone cannot measure the load or prove acceptance for rework."
+    },
+    {
+      "question": "How should staged Samalkha casting collections be tracked?",
+      "answer": "Keep a release reference, item list and receiving acknowledgement for each vehicle trip, with the remaining order balance recorded separately. GPS timestamps do not measure the quantities collected or prove the entire order is complete."
+    },
+    {
+      "question": "Does collecting a casting after rework prove it passed inspection?",
+      "answer": "No. Obtain the supplier release and relevant inspection record, identifying the reworked or replacement item. Vehicle trip history can support the collection timeline but cannot establish product quality or suitability."
     }
   ]
 },
