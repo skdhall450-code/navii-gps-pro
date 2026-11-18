@@ -47,8 +47,9 @@ jobs:
       - name: Build production website
         run: npm run build
 
-      - name: Install Chromium for GPS display checks
-        run: npx playwright install --with-deps chromium
+      - name: Verify installed sandboxed Chrome
+        timeout-minutes: 2
+        run: node test/browser/chrome-preflight.mjs
 
       - name: Check GPS screens in a real browser using isolated fixtures
         run: node test/browser/gps-freshness.mjs

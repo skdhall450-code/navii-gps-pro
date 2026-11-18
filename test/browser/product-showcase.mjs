@@ -17,7 +17,7 @@ try {
     await new Promise(resolve => setTimeout(resolve, 500));
   }
   assert.ok(ready, 'Local server ready');
-  browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  browser = await chromium.launch({ headless: true, chromiumSandbox: true, ...(process.env.CI ? { channel: 'chrome' } : {}) });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   // Read-only local UI tests. Never contact analytics, WhatsApp, or production APIs.
   await context.route('**/*', route => new URL(route.request().url()).origin === base ? route.continue() : route.abort());
