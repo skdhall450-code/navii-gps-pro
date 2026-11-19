@@ -2,7 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
     "deploymentEnabled": {
-      "codex/panel-phase1-20261011": false
+      "codex/panel-phase1-20261011": false,
+      "codex/panel-provenance-print-20261106": false,
+      "local/reconcile-pr110-main-20261111": false,
+      "seo/crawlable-answers-main-20261105": false,
+      "local/seo-panel-review-20261112": false
     }
   }
 }

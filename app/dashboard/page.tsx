@@ -22,6 +22,9 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import CustomerHome from "@/components/customer/CustomerHome";
+import { useCustomerSession } from "@/components/customer/CustomerSession";
+
 import RoleRouteGuard from "@/components/auth/RoleRouteGuard";
 
 type Device = {
@@ -409,8 +412,8 @@ function DashboardContent() {
           })}
         </div>
 
-        <div className="mt-6 grid gap-5 xl:grid-cols-[1.5fr_1fr]">
-          <section className="rounded-2xl border border-white/10 bg-[#0a1426] p-5">
+        <div className="mt-6 grid min-w-0 grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+          <section className="min-w-0 rounded-2xl border border-white/10 bg-[#0a1426] p-5">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-semibold">
@@ -507,7 +510,7 @@ function DashboardContent() {
                         <td className="p-4">
                           <span
                             className={
-                              getTelemetry(vehicle, now).current && vehicle.ignition
+                              getTelemetry(vehicle, now).ignition === "ON"
                                 ? "text-emerald-400"
                                 : "text-slate-400"
                             }
@@ -539,7 +542,7 @@ function DashboardContent() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-white/10 bg-[#0a1426] p-5">
+          <section className="min-w-0 rounded-2xl border border-white/10 bg-[#0a1426] p-5">
             <h2 className="text-lg font-semibold">
               System Health
             </h2>
@@ -604,6 +607,7 @@ function DashboardContent() {
 }
 
 export default function DashboardPage() {
+  const customer = useCustomerSession();
   return (
     <RoleRouteGuard
       allowedRoles={[
@@ -614,7 +618,7 @@ export default function DashboardPage() {
         "USER",
       ]}
     >
-      <DashboardContent />
+      {customer ? <CustomerHome /> : <DashboardContent />}
     </RoleRouteGuard>
   );
 }

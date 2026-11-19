@@ -17,6 +17,7 @@ import {
 } from "react-leaflet";
 
 import L from "leaflet";
+import { historicalIgnitionLabel } from "@/lib/report-workspace";
 
 import {
   Battery,
@@ -55,6 +56,8 @@ type Position = {
   longitude: number;
   speed: number;
   ignition: boolean;
+  ignitionSource?: string | null;
+  ignitionObservedAt?: string | null;
   battery: number | null;
   recordedAt: string;
 };
@@ -1568,9 +1571,7 @@ export default function HistoryPlayback() {
                       <br />
 
                       Ignition:{" "}
-                      {currentPosition.ignition
-                        ? "ON"
-                        : "OFF"}
+                      {historicalIgnitionLabel(currentPosition)}
 
                       <br />
 
@@ -1692,10 +1693,8 @@ export default function HistoryPlayback() {
                 label="Ignition"
                 value={
                   currentPosition
-                    ? currentPosition.ignition
-                      ? "ON"
-                      : "OFF"
-                    : "—"
+                    ? historicalIgnitionLabel(currentPosition)
+                    : "Unavailable"
                 }
               />
 

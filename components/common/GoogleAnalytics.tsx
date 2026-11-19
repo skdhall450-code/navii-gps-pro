@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
+import { isPanelRoute } from "@/lib/panel-route";
 import { Cookie, Settings2 } from "lucide-react";
 
 const GA_MEASUREMENT_ID = "G-XCKRML3X4X";
@@ -99,6 +100,7 @@ export default function GoogleAnalytics() {
   const [hydrated, setHydrated] = useState(false);
 
   const pathname = usePathname();
+  const panelRoute = isPanelRoute(pathname);
 
   const previousPathname = useRef(pathname);
 
@@ -284,7 +286,7 @@ export default function GoogleAnalytics() {
   }
 
   return (
-    <>
+    <div className={panelRoute ? "flow-root bg-[#060e1c]" : "contents"}>
       {consent === "granted" && <AnalyticsScripts />}
 
       {consent === null ? (
@@ -294,7 +296,7 @@ export default function GoogleAnalytics() {
           aria-labelledby="analytics-consent-title"
           aria-describedby="analytics-consent-description"
           data-cookie-consent="banner"
-          className="fixed inset-x-3 bottom-3 z-[10000] mx-auto max-w-5xl rounded-2xl border border-cyan-300/40 bg-[#06142E]/95 p-4 text-white shadow-2xl shadow-slate-950/40 backdrop-blur-xl"
+          className={`${panelRoute ? "relative mx-4 mt-6 mb-28 lg:mb-6" : "fixed inset-x-3 bottom-3 z-[10000] mx-auto"} max-w-5xl rounded-2xl border border-cyan-300/40 bg-[#06142E]/95 p-4 text-white shadow-2xl shadow-slate-950/40 backdrop-blur-xl`}
         >
           <div className="flex flex-col gap-4 md:flex-row md:items-center">
             <div className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-400/15 text-cyan-300 sm:flex">
@@ -331,13 +333,13 @@ export default function GoogleAnalytics() {
           type="button"
           onClick={reopenSettings}
           data-cookie-settings="true"
-          className="fixed bottom-4 left-4 z-[90] flex items-center gap-2 rounded-full border border-slate-300 bg-white/95 px-4 py-2 text-xs font-semibold text-slate-700 shadow-lg backdrop-blur transition hover:border-cyan-400 hover:text-cyan-700"
+          className={`${panelRoute ? "relative mx-4 mt-6 mb-28 lg:mb-6" : "fixed bottom-4 left-4 z-[90]"} flex items-center gap-2 rounded-full border border-slate-300 bg-white/95 px-4 py-2 text-xs font-semibold text-slate-700 shadow-lg backdrop-blur transition hover:border-cyan-400 hover:text-cyan-700`}
           aria-label="Open analytics cookie settings"
         >
           <Settings2 size={15} aria-hidden="true" />
           Cookie settings
         </button>
       )}
-    </>
+    </div>
   );
 }

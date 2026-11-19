@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertTriangle, ArrowDownToLine, CalendarDays, FileBarChart, Loader2, Printer, Search } from "lucide-react";
-import { activityCsv, csvRows, durationLabel, formatReportTime, isActivityReport, presetRange, reportQuery, type ActivityReport, type ReportFilters, type ReportPreset, type ReportTimezone } from "@/lib/report-workspace";
+import { historicalIgnitionLabel, ENGINE_TOTALS_UNAVAILABLE, activityCsv, alertsCsv, isAlertReport, ALERT_RECORDS_NOTICE, ALERT_SOURCE_LABELS, alertResolutionLabel, filterAlertRecords, type AlertReport, type AlertSourceReport, type AlertResolution, durationLabel, formatReportTime, isActivityReport, presetRange, reportQuery, type ActivityReport, type ReportFilters, type ReportPreset, type ReportTimezone } from "@/lib/report-workspace";
 
 const API = (process.env.NEXT_PUBLIC_NAVII_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.naviigps.com").replace(/\/$/, "");
 const input = "[color-scheme:dark] mt-2 min-h-11 w-full rounded-xl border border-white/15 bg-[#091524] px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60 disabled:opacity-50";
@@ -11,17 +11,10 @@ const buttonBase = "inline-flex min-h-11 items-center justify-center gap-2 round
 const button = buttonBase + " border-white/15 text-slate-100 hover:bg-white/10";
 const primaryButton = buttonBase + " border-sky-400/50 bg-sky-500 text-slate-950 hover:bg-sky-400";
 type Vehicle = { id: string; vehicleNo: string; name?: string | null };
-type Alert = { id: string; type: string; message: string; isResolved: boolean; createdAt: string };
-type AlertReport = { definitionsVersion: string; data: Alert[]; period: { from: string; to: string }; coverage: { pointLimit: number; returnedCount: number; truncated: boolean; dataComplete: boolean; complete: boolean } };
 type Result = { filters: ReportFilters; vehicle: Vehicle; createdAt: string; activity?: ActivityReport; alerts?: AlertReport };
 
-function hasAlertReport(value: unknown): value is AlertReport {
-  if (!value || typeof value !== "object") return false;
-  const r = value as Partial<AlertReport>;
-  return r.definitionsVersion === "2026-10-11" && Array.isArray(r.data) && r.data.every(a => a && typeof a.id === "string" && typeof a.type === "string" && typeof a.message === "string" && typeof a.isResolved === "boolean" && Number.isFinite(Date.parse(a.createdAt))) && !!r.period && Number.isFinite(Date.parse(r.period.from)) && Number.isFinite(Date.parse(r.period.to)) && !!r.coverage && typeof r.coverage.truncated === "boolean";
-}
-
 export default function ReportsWorkspace() {
+  const reportControlId = useId();
   const router = useRouter();
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [vehiclesLoading, setVehiclesLoading] = useState(true);
@@ -76,10 +69,13 @@ export default function ReportsWorkspace() {
     try {
       const endpoint = snapshot.kind === "ACTIVITY" ? "trip" : "alerts";
       const response = await fetch(`${API}/api/gps/reports/v2/${endpoint}/${encodeURIComponent(snapshot.vehicleId)}?${qs}`, { headers: { Authorization: `Bearer ${token}` }, cache: "no-store", signal: controller.signal });
+      if (id !== sequence.current || controller.signal.aborted) return;
+      if (response.status === 401 || response.status === 403) setResult(null);
       if (response.status === 401) { router.replace("/login"); return; }
       const body = await response.json().catch(() => null);
-      if (!response.ok || !body?.success) throw new Error(response.status === 403 ? "This vehicle needs the right account access and an active subscription." : typeof body?.message === "string" ? body.message : "Report could not be generated. Try again.");
       if (id !== sequence.current || controller.signal.aborted) return;
+      if (body?.code === "LEGACY_ALERT_OWNERSHIP_UNVERIFIABLE" || body?.code === "POSITION_HISTORY_OWNERSHIP_UNVERIFIABLE") setResult(null);
+      if (!response.ok || !body?.success) throw new Error(response.status === 403 ? "This vehicle needs the right account access and an active subscription." : typeof body?.message === "string" ? body.message : "Report could not be generated. Try again.");
       const expected = new URLSearchParams(qs);
       const returnedPeriod = snapshot.kind === "ACTIVITY" ? body.data?.period : body.period;
       if (returnedPeriod?.from !== expected.get("from") || returnedPeriod?.to !== expected.get("to")) throw new Error("Report dates do not match the request. Generate again.");
@@ -87,7 +83,7 @@ export default function ReportsWorkspace() {
         if (!isActivityReport(body.data) || body.data.definitionsVersion !== "2026-10-11" || body.data.vehicle.id !== selected.id) throw new Error("The updated report service is required before accurate reports can be shown. Contact your administrator.");
         setResult({ filters: snapshot, vehicle: selected, createdAt: new Date().toISOString(), activity: body.data });
       } else {
-        if (!hasAlertReport(body)) throw new Error("The updated report service is required to show report completeness. Contact your administrator.");
+        if (!isAlertReport(body, snapshot)) throw new Error("Alert records are unavailable because the service contract or source coverage could not be verified. Contact your administrator.");
         setResult({ filters: snapshot, vehicle: selected, createdAt: new Date().toISOString(), alerts: body });
       }
       setQuery(""); setPage(0);
@@ -98,11 +94,7 @@ export default function ReportsWorkspace() {
   function download() {
     if (!result) return;
     const r = result;
-    const csv = r.activity ? activityCsv(r.activity, r.filters) : csvRows([
-      ["NAVII GPS alert history"], ["Vehicle", r.vehicle.vehicleNo], ["Timezone", r.filters.timezone], ["From inclusive", r.alerts!.period.from], ["To exclusive", r.alerts!.period.to], ["Truncated", r.alerts!.coverage.truncated], [],
-      ["Recorded at UTC", `Recorded at (${r.filters.timezone})`, "Type", "Message", "Status"],
-      ...r.alerts!.data.map(a => [a.createdAt, formatReportTime(a.createdAt, r.filters.timezone), a.type, a.message, a.isResolved ? "Resolved" : "Open"]),
-    ]);
+    const csv = r.activity ? activityCsv(r.activity, r.filters) : alertsCsv(r.alerts!, r.filters);
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
     const link = document.createElement("a"); link.href = url; link.download = `navii-${r.filters.kind.toLowerCase()}-${r.vehicle.vehicleNo.replace(/[^a-zA-Z0-9_-]/g, "_")}-${r.filters.fromLocal.slice(0, 10)}.csv`; link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000); setNotice("CSV download requested, including the generated dates and coverage details.");
@@ -110,19 +102,40 @@ export default function ReportsWorkspace() {
   const changed = !!result && JSON.stringify(result.filters) !== JSON.stringify(filters);
   const activity = result?.activity; const coverage = activity?.coverage;
   const positions = activity?.positions.filter(p => [p.recordedAt, p.latitude, p.longitude, p.speed].join(" ").toLowerCase().includes(query.toLowerCase())) ?? [];
-  const alerts = result?.alerts?.data.filter(a => [a.type, a.message, a.isResolved ? "resolved" : "open"].join(" ").toLowerCase().includes(query.toLowerCase())) ?? [];
-  const count = activity ? positions.length : alerts.length; const pages = Math.max(1, Math.ceil(count / 25)); const currentPage = Math.min(page, pages - 1);
+  const count = positions.length; const pages = Math.max(1, Math.ceil(count / 25)); const currentPage = Math.min(page, pages - 1);
 
   return <div className="navii-report-workspace mx-auto max-w-[1500px] p-4 text-slate-100 sm:p-6 lg:p-8">
-    <style>{`@media print { body { background: white !important; } .navii-report-workspace, .navii-report-workspace * { color: #111 !important; background: white !important; box-shadow: none !important; border-color: #bbb !important; } .navii-report-workspace { padding: 0; } .navii-report-workspace table { min-width: 0; font-size: 10px; } }`}</style>
+    <style>{`@media print {
+      body:has(.navii-report-workspace) { background: white !important; }
+      body:has(.navii-report-workspace) [data-cookie-settings],
+      body:has(.navii-report-workspace) [data-cookie-consent],
+      body:has(.navii-report-workspace) [data-customer-portal] > header,
+      body:has(.navii-report-workspace) [data-customer-portal] > nav,
+      body:has(.navii-report-workspace) [data-customer-portal] > a,
+      body:has(.navii-report-workspace) [data-customer-portal] > div > aside { display: none !important; }
+      body:has(.navii-report-workspace) [data-customer-portal],
+      body:has(.navii-report-workspace) [data-customer-portal] > div,
+      body:has(.navii-report-workspace) #customer-content {
+        display: block !important; min-height: 0 !important; width: 100% !important;
+        max-width: none !important; margin: 0 !important; padding: 0 !important;
+        background: white !important; color: #111 !important;
+      }
+      .navii-report-workspace, .navii-report-workspace * { color: #111 !important; background: white !important; box-shadow: none !important; border-color: #bbb !important; }
+      .navii-report-workspace { width: 100%; max-width: none; margin: 0; padding: 0; }
+      .navii-report-workspace .overflow-x-auto, .navii-report-workspace .overflow-hidden { overflow: visible !important; }
+      .navii-report-workspace table { width: 100% !important; min-width: 0 !important; table-layout: fixed; font-size: 10px; }
+      .navii-report-workspace th, .navii-report-workspace td { padding: 4px !important; white-space: normal !important; overflow-wrap: anywhere; }
+      .navii-report-workspace thead { display: table-header-group; }
+      .navii-report-workspace tr { break-inside: avoid; }
+    }`}</style>
     <header className="mb-6 flex flex-wrap items-start justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-400">Fleet operations</p><h1 className="mt-2 text-3xl font-semibold tracking-tight">Reports</h1><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-300">Vehicle activity and alerts, with clear dates and honest data coverage.</p></div>{result && <div className="flex flex-wrap gap-2 print:hidden"><button className={button} onClick={download}><ArrowDownToLine size={16} />Download CSV</button><button className={button} onClick={() => window.print()}><Printer size={16} />Print summary</button></div>}</header>
     <form onSubmit={generate} className="rounded-2xl border border-white/10 bg-[#0a1426] p-4 sm:p-5 print:hidden">
       <fieldset disabled={vehiclesLoading}><legend className="text-base font-semibold">Choose your report</legend>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">{([ ["ACTIVITY", "Vehicle activity", "GPS distance, movement, engine-on idle and parked time."], ["ALERTS", "Alert history", "Recorded alerts and their current resolution status."] ] as const).map(([kind, title, description]) => <label key={kind} className={`flex cursor-pointer gap-3 rounded-xl border p-4 ${filters.kind === kind ? "border-sky-400/60 bg-sky-500/10" : "border-white/10 hover:bg-white/5"}`}><input type="radio" name="report-kind" checked={filters.kind === kind} onChange={() => update({ kind })} className="mt-1 accent-sky-400" /><span><span className="block text-sm font-semibold">{title}</span><span className="mt-1 block text-xs leading-5 text-slate-300">{description}</span></span></label>)}</div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">{([ ["ACTIVITY", "Vehicle activity", "GPS distance, speed and recorded positions with data coverage."], ["ALERTS", "Alert history", "Separate stored alert sources, with resolution status only where available."] ] as const).map(([kind, title, description]) => <label key={kind} className={`flex cursor-pointer gap-3 rounded-xl border p-4 ${filters.kind === kind ? "border-sky-400/60 bg-sky-500/10" : "border-white/10 hover:bg-white/5"}`}><input type="radio" name="report-kind" checked={filters.kind === kind} onChange={() => update({ kind })} className="mt-1 accent-sky-400" /><span><span className="block text-sm font-semibold">{title}</span><span className="mt-1 block text-xs leading-5 text-slate-300">{description}</span></span></label>)}</div>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-          <label className="text-sm font-medium text-slate-300">Vehicle<select value={filters.vehicleId} onChange={e => update({ vehicleId: e.target.value })} className={input} required><option value="">{vehiclesLoading ? "Loading vehicles…" : "Choose a vehicle"}</option>{vehicles.map(v => <option key={v.id} value={v.id}>{v.vehicleNo}{v.name ? ` · ${v.name}` : ""}</option>)}</select></label>
-          <label className="text-sm font-medium text-slate-300">Period<select value={filters.preset} onChange={e => selectPreset(e.target.value as ReportPreset)} className={input}><option value="TODAY">Today</option><option value="LAST_7_DAYS">Last 7 days</option><option value="THIS_MONTH">This month</option><option value="CUSTOM">Custom dates</option></select></label>
-          <label className="text-sm font-medium text-slate-300">Timezone<select value={filters.timezone} onChange={e => selectPreset(filters.preset, e.target.value as ReportTimezone)} className={input}><option value="Asia/Kolkata">India · IST (UTC+05:30)</option><option value="UTC">UTC (UTC+00:00)</option></select></label>
+          <div className="text-sm font-medium text-slate-300"><label htmlFor={`${reportControlId}-vehicle`}>Vehicle</label><select id={`${reportControlId}-vehicle`} value={filters.vehicleId} onChange={e => update({ vehicleId: e.target.value })} className={input} required><option value="">{vehiclesLoading ? "Loading vehicles…" : "Choose a vehicle"}</option>{vehicles.map(v => <option key={v.id} value={v.id}>{v.vehicleNo}{v.name ? ` · ${v.name}` : ""}</option>)}</select></div>
+          <div className="text-sm font-medium text-slate-300"><label htmlFor={`${reportControlId}-period`}>Period</label><select id={`${reportControlId}-period`} value={filters.preset} onChange={e => selectPreset(e.target.value as ReportPreset)} className={input}><option value="TODAY">Today</option><option value="LAST_7_DAYS">Last 7 days</option><option value="THIS_MONTH">This month</option><option value="CUSTOM">Custom dates</option></select></div>
+          <div className="text-sm font-medium text-slate-300"><label htmlFor={`${reportControlId}-timezone`}>Timezone</label><select id={`${reportControlId}-timezone`} value={filters.timezone} onChange={e => selectPreset(filters.preset, e.target.value as ReportTimezone)} className={input}><option value="Asia/Kolkata">India · IST (UTC+05:30)</option><option value="UTC">UTC (UTC+00:00)</option></select></div>
           <label className="text-sm font-medium text-slate-300">Start date & time<input type="datetime-local" value={filters.fromLocal} onChange={e => update({ fromLocal: e.target.value, preset: "CUSTOM" })} className={input} required /></label>
           <label className="text-sm font-medium text-slate-300">End date & time<input type="datetime-local" value={filters.toLocal} onChange={e => update({ toLocal: e.target.value, preset: "CUSTOM" })} className={input} required /></label>
         </div>
@@ -137,19 +150,57 @@ export default function ReportsWorkspace() {
       {changed && <p role="status" className="rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-sm text-amber-200 print:hidden">Filters have changed. Generate again to update the report. Downloads use the dates below.</p>}
       <div className="border-b border-white/10 pb-4"><h2 className="text-xl font-semibold">{result.vehicle.vehicleNo} · {activity ? "Vehicle activity" : "Alert history"}</h2><p className="mt-2 flex items-center gap-2 text-sm text-slate-300"><CalendarDays size={16} className="shrink-0" />{formatReportTime(activity?.period.from ?? result.alerts?.period.from, result.filters.timezone)} → {formatReportTime(activity?.period.to ?? result.alerts?.period.to, result.filters.timezone)}</p><p className="mt-1 text-xs text-slate-400">{result.filters.timezone} · End excluded · Generated {formatReportTime(result.createdAt, result.filters.timezone)}</p></div>
       {activity && coverage && <>
-        <div className={`rounded-xl border p-4 ${coverage.complete ? "border-emerald-400/30 bg-emerald-500/10" : "border-amber-400/30 bg-amber-500/10"}`}><h3 className="font-semibold">{coverage.complete ? "Activity coverage complete" : "Partial activity coverage"}</h3><p className="mt-1 text-sm leading-6">{coverage.coveragePercent.toFixed(1)}% observed · {durationLabel(coverage.unobservedSeconds)} unobserved · {coverage.gapCount} telemetry gaps.</p>{(coverage.truncated || coverage.pathTruncated) && <p className="mt-1 text-sm text-amber-200">Point limit reached. {coverage.truncated ? "Totals cover only the loaded portion." : "The exported point list is partial."} Choose a shorter period.</p>}{coverage.distanceComplete === false && <p className="mt-1 text-sm text-amber-200">GPS distance is partial because gaps or rejected segments were excluded.</p>}{Date.parse(activity.period.to) > Date.parse(result.createdAt) && <p className="mt-1 text-sm leading-6">This period includes future time, which is counted as unobserved. Coverage cannot be complete yet.</p>}<p className="mt-1 text-xs leading-5 text-slate-300">GPS gaps are not counted as parked or idle time. Unknown state means readings cannot safely establish activity.</p></div>
+        <div className={`rounded-xl border p-4 ${coverage.complete ? "border-emerald-400/30 bg-emerald-500/10" : "border-amber-400/30 bg-amber-500/10"}`}><h3 className="font-semibold">{coverage.complete ? "Activity coverage complete" : "Partial activity coverage"}</h3><p className="mt-1 text-sm leading-6">{coverage.coveragePercent.toFixed(1)}% observed · {durationLabel(coverage.unobservedSeconds)} unobserved · {coverage.gapCount} telemetry gaps.</p>{(coverage.truncated || coverage.pathTruncated) && <p className="mt-1 text-sm text-amber-200">Point limit reached. {coverage.truncated ? "Totals cover only the loaded portion." : "The exported point list is partial."} Choose a shorter period.</p>}{coverage.distanceComplete === false && <p className="mt-1 text-sm text-amber-200">GPS distance is partial because gaps or rejected segments were excluded.</p>}{Date.parse(activity.period.to) > Date.parse(result.createdAt) && <p className="mt-1 text-sm leading-6">This period includes future time, which is counted as unobserved. Coverage cannot be complete yet.</p>}<p className="mt-1 text-xs leading-5 text-slate-300">This coverage describes stored GPS data, not verified engine state.</p></div>
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4"><Metric title="Estimated GPS distance" value={coverage.distanceObservedSeconds > 0 ? `${activity.summary.totalDistanceKm.toFixed(2)} km` : "Unavailable"} note="Not a vehicle odometer" /><Metric title="Time-weighted average speed" value={activity.summary.averageSpeedKph === null ? "Unavailable" : `${activity.summary.averageSpeedKph.toFixed(1)} km/h`} note="Observed intervals only" /><Metric title="Highest reported speed" value={activity.summary.maxSpeedKph === null ? "Unavailable" : `${activity.summary.maxSpeedKph.toFixed(1)} km/h`} note="Recorded GPS readings" /><Metric title="GPS readings" value={activity.summary.totalPoints.toLocaleString("en-IN")} note={coverage.truncated ? "Capped data set" : "Within selected period"} /></div>
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4"><Metric title="Moving" value={durationLabel(activity.summary.runningSeconds)} note="Ignition on, speed >2 km/h" /><Metric title="Engine-on idle" value={durationLabel(activity.summary.idleSeconds)} note="Ignition on, speed ≤2 km/h" /><Metric title="Parked" value={durationLabel(activity.summary.parkedSeconds)} note="Ignition off, speed ≤2 km/h" /><Metric title="Unknown state" value={durationLabel(activity.summary.unknownSeconds)} note="Observed, not classifiable" /></div>
-        <details className="rounded-xl border border-white/10 bg-[#0a1426] p-4"><summary className="cursor-pointer text-sm font-semibold text-sky-300">How these numbers are calculated</summary><div className="mt-3 space-y-2 text-sm leading-6 text-slate-300"><p>Distance is estimated between accepted GPS readings. Long gaps and rejected jumps break the route. Average speed is weighted by observed time, not the number of messages.</p><p>Ignition comes from stored device data. Older records may contain defaults or a previous reading; this report cannot verify historic sensor wiring. Fuel, savings and driver scores are not inferred.</p><p>First reading: {formatReportTime(coverage.firstRecordedAt, result.filters.timezone)}. Last reading: {formatReportTime(coverage.lastRecordedAt, result.filters.timezone)}. Rejected distance segments: {coverage.distanceRejectedSegments ?? 0}.</p></div></details>
+        <p className="rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-sm leading-6">{ENGINE_TOTALS_UNAVAILABLE}</p>
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4"><Metric title="Moving" value="Unavailable" note="ACC provenance not verified" /><Metric title="Engine-on idle" value="Unavailable" note="ACC provenance not verified" /><Metric title="Parked" value="Unavailable" note="ACC provenance not verified" /><Metric title="Unknown state" value="Unavailable" note="Classification not verified" /></div>
+        <details className="rounded-xl border border-white/10 bg-[#0a1426] p-4"><summary className="cursor-pointer text-sm font-semibold text-sky-300">How these numbers are calculated</summary><div className="mt-3 space-y-2 text-sm leading-6 text-slate-300"><p>Distance is estimated between accepted GPS readings. Long gaps and rejected jumps break the route. Average speed is weighted by observed time, not the number of messages.</p><p>Stored ignition booleans may contain defaults or carried values. Only explicit ACC observations with their own valid timestamps are shown for individual rows. Engine-derived totals remain unavailable until aggregate provenance is verified. Fuel, savings and driver scores are not inferred.</p><p>First reading: {formatReportTime(coverage.firstRecordedAt, result.filters.timezone)}. Last reading: {formatReportTime(coverage.lastRecordedAt, result.filters.timezone)}. Rejected distance segments: {coverage.distanceRejectedSegments ?? 0}.</p></div></details>
       </>}
-      {result.alerts && <div className="rounded-xl border border-white/10 bg-[#0a1426] p-4"><p className="font-semibold">{result.alerts.data.length} recorded alerts</p><p className="mt-1 text-sm text-slate-300">{result.alerts.coverage.truncated ? "Partial result: record limit reached. Choose a shorter period." : "All matching records in this period are included."} Resolution status is current at generation time; this does not prove notification delivery.</p></div>}
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0a1426]">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 p-4"><h3 className="font-semibold">{activity ? "Recorded positions" : "Recorded alerts"}</h3><label className="relative print:hidden"><span className="sr-only">Search report rows</span><Search size={16} className="absolute left-3 top-3 text-slate-400" /><input value={query} onChange={e => { setQuery(e.target.value); setPage(0); }} placeholder="Search report rows" className="min-h-10 w-full rounded-lg border border-white/15 bg-[#091524] py-2 pl-9 pr-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-sky-400 sm:w-72" /></label></div>
-        {!count ? <div className="p-8 text-center"><p className="font-medium">{query ? "No matching rows" : "No recorded data in this period"}</p><p className="mt-2 text-sm text-slate-400">{query ? "Try a different search." : "Try another period or check the device connection. No data does not establish that the vehicle was stationary."}</p></div> : <div className="overflow-x-auto"><table className="w-full min-w-[680px] text-left text-sm"><caption className="sr-only">Generated report, 25 rows per page. CSV contains every returned row.</caption><thead className="border-b border-white/10 bg-white/[0.03] text-xs text-slate-300"><tr><th className="px-4 py-3">Time ({result.filters.timezone})</th>{activity ? <><th className="px-4 py-3">Latitude / longitude</th><th className="px-4 py-3">Reported speed</th><th className="px-4 py-3">Ignition</th><th className="px-4 py-3">Battery</th></> : <><th className="px-4 py-3">Type</th><th className="px-4 py-3">Message</th><th className="px-4 py-3">Status</th></>}</tr></thead><tbody>{activity ? positions.slice(currentPage * 25, (currentPage + 1) * 25).map(p => <tr key={p.id} className="border-b border-white/5 last:border-0"><td className="whitespace-nowrap px-4 py-3 text-slate-300">{formatReportTime(p.recordedAt, result.filters.timezone)}</td><td className="px-4 py-3 font-mono text-xs">{p.latitude === null || p.longitude === null ? "Unavailable" : `${p.latitude.toFixed(5)}, ${p.longitude.toFixed(5)}`}</td><td className="px-4 py-3">{p.speed === null ? "Unknown" : `${p.speed.toFixed(1)} km/h`}</td><td className="px-4 py-3">{p.ignition === null ? "Unknown" : p.ignition ? "On" : "Off"}</td><td className="px-4 py-3">{p.battery === null ? "Unavailable" : `${p.battery.toFixed(2)} V`}</td></tr>) : alerts.slice(currentPage * 25, (currentPage + 1) * 25).map(a => <tr key={a.id} className="border-b border-white/5 last:border-0"><td className="whitespace-nowrap px-4 py-3 text-slate-300">{formatReportTime(a.createdAt, result.filters.timezone)}</td><td className="px-4 py-3">{a.type.replaceAll("_", " ")}</td><td className="max-w-md px-4 py-3 leading-6 text-slate-300">{a.message}</td><td className="px-4 py-3"><span className={`rounded-full px-2 py-1 text-xs ${a.isResolved ? "bg-emerald-500/10 text-emerald-300" : "bg-amber-500/10 text-amber-200"}`}>{a.isResolved ? "Resolved" : "Open"}</span></td></tr>)}</tbody></table></div>}
+      {result.alerts && <>
+        <p className="rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-sm leading-6">{ALERT_RECORDS_NOTICE} Both sources below must be available before this report is shown.</p>
+        {result.alerts.sources.map(source => <AlertSourceSection key={`${result.createdAt}:${source.source}`} source={source} timezone={result.filters.timezone} />)}
+      </>}
+      {activity && <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0a1426]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 p-4"><h3 className="font-semibold">Recorded positions</h3><label className="relative print:hidden"><span className="sr-only">Search report rows</span><Search size={16} className="absolute left-3 top-3 text-slate-400" /><input value={query} onChange={e => { setQuery(e.target.value); setPage(0); }} placeholder="Search report rows" className="min-h-10 w-full rounded-lg border border-white/15 bg-[#091524] py-2 pl-9 pr-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-sky-400 sm:w-72" /></label></div>
+        {!count ? <div className="p-8 text-center"><p className="font-medium">{query ? "No matching rows" : "No recorded data in this period"}</p><p className="mt-2 text-sm text-slate-400">{query ? "Try a different search." : "Try another period or check the device connection. No data does not establish that the vehicle was stationary."}</p></div> : <div className="overflow-x-auto"><table className="w-full min-w-[680px] text-left text-sm"><caption className="sr-only">Generated report, 25 rows per page. CSV contains every returned row.</caption><thead className="border-b border-white/10 bg-white/[0.03] text-xs text-slate-300"><tr><th className="px-4 py-3">Time ({result.filters.timezone})</th><><th className="px-4 py-3">Latitude / longitude</th><th className="px-4 py-3">Reported speed</th><th className="px-4 py-3">Ignition</th><th className="px-4 py-3">Battery</th></></tr></thead><tbody>{positions.slice(currentPage * 25, (currentPage + 1) * 25).map(p => <tr key={p.id} className="border-b border-white/5 last:border-0"><td className="whitespace-nowrap px-4 py-3 text-slate-300">{formatReportTime(p.recordedAt, result.filters.timezone)}</td><td className="px-4 py-3 font-mono text-xs">{p.latitude === null || p.longitude === null ? "Unavailable" : `${p.latitude.toFixed(5)}, ${p.longitude.toFixed(5)}`}</td><td className="px-4 py-3">{p.speed === null ? "Unknown" : `${p.speed.toFixed(1)} km/h`}</td><td className="px-4 py-3">{historicalIgnitionLabel(p)}</td><td className="px-4 py-3">{p.battery === null ? "Unavailable" : `${p.battery.toFixed(2)} V`}</td></tr>)}</tbody></table></div>}
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 p-4 text-xs text-slate-400"><p>{count} matching rows · Page {currentPage + 1} of {pages}. CSV includes every returned row.</p><div className="flex gap-2 print:hidden"><button className={button} disabled={currentPage === 0} onClick={() => setPage(currentPage - 1)}>Previous</button><button className={button} disabled={currentPage >= pages - 1} onClick={() => setPage(currentPage + 1)}>Next</button></div></div>
-      </div>
+      </div>}
     </section>}
   </div>;
 }
 function Metric({ title, value, note }: { title: string; value: string; note: string }) { return <div className="rounded-xl border border-white/10 bg-[#0a1426] p-4"><p className="text-xs font-medium leading-5 text-slate-300">{title}</p><p className="mt-2 break-words text-2xl font-semibold tracking-tight">{value}</p><p className="mt-1 text-xs leading-5 text-slate-400">{note}</p></div>; }
 function Empty({ title, description }: { title: string; description: string }) { return <div className="mt-6 rounded-2xl border border-dashed border-white/15 px-6 py-12 text-center"><FileBarChart size={30} className="mx-auto text-sky-400" /><h2 className="mt-4 text-lg font-semibold">{title}</h2><p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-slate-300">{description}</p></div>; }
+
+
+export function AlertSourceSection({ source, timezone }: { source: AlertSourceReport; timezone: ReportTimezone }) {
+  const resolutionControlId = useId();
+  const [query, setQuery] = useState("");
+  const [status, setStatus] = useState<AlertResolution | "ALL">("ALL");
+  const [page, setPage] = useState(0);
+  const labels = ALERT_SOURCE_LABELS[source.source]; const c = source.coverage;
+  const rows = filterAlertRecords(source.data, query, status);
+  const pages = Math.max(1, Math.ceil(rows.length / 25)); const currentPage = Math.min(page, pages - 1);
+  return <section className="overflow-hidden rounded-2xl border border-white/10 bg-[#0a1426]" aria-label={labels.title}>
+    <div className="space-y-2 border-b border-white/10 p-4">
+      <h3 className="font-semibold">{labels.title} · {source.source}</h3>
+      <p className="text-sm">{c.returnedCount} stored records returned from this source · Limit {c.pointLimit} per source.</p>
+      <p className="text-sm text-slate-300">Time basis: {labels.timeBasis}. Scope: {labels.scope}</p>
+      <p className="text-sm text-slate-300">{c.truncated ? "Partial stored result: record limit reached. Omitted records remain; choose a shorter period." : "All stored records matching this source scope and time basis at generation are returned. This is not complete real-world history."}</p>
+      {source.source === "LEGACY_ALERT" && <p className="text-sm text-slate-300">Resolution is the stored current state at generation, not necessarily the state during the selected period.</p>}
+      <p className="text-xs text-slate-400">CSV exports all returned records from both sources, independent of search, status or page. Print includes this source coverage and the visible page.</p>
+      <div className="flex flex-wrap gap-3 print:hidden">
+        <label className="text-sm">Search {labels.title.toLowerCase()}<input value={query} onChange={event => { setQuery(event.target.value); setPage(0); }} className={input} /></label>
+        <div className="text-sm"><label htmlFor={resolutionControlId}>Resolution filter</label><select id={resolutionControlId} value={status} onChange={event => { setStatus(event.target.value as AlertResolution | "ALL"); setPage(0); }} className={input}>
+          <option value="ALL">All returned statuses</option>{source.source === "LEGACY_ALERT" ? <><option value="OPEN">Open</option><option value="RESOLVED">Resolved</option></> : <option value="UNAVAILABLE">Unavailable</option>}
+        </select></div>
+      </div>
+      <p className="text-xs text-slate-400">Visible filter: {status === "ALL" ? "All returned statuses" : alertResolutionLabel(status)}{query ? ` · Search: ${query}` : ""}</p>
+    </div>
+    {!rows.length ? <div className="p-6 text-sm"><p>{query || status !== "ALL" ? "No matching returned records in this source." : "No stored records in this source for the selected scope and period."}</p><p className="mt-2 text-slate-400">An empty source does not establish that no real-world alerts occurred.</p></div> : <div className="overflow-x-auto"><table className="w-full min-w-[760px] text-left text-sm">
+      <caption className="sr-only">{labels.title}. {labels.timeBasis}. 25 returned source records per page.</caption>
+      <thead className="border-b border-white/10 text-xs text-slate-300"><tr><th className="px-4 py-3">Report time ({timezone})</th><th className="px-4 py-3">Stored at ({timezone})</th><th className="px-4 py-3">Type</th><th className="px-4 py-3">Message</th><th className="px-4 py-3">Resolution status</th></tr></thead>
+      <tbody>{rows.slice(currentPage * 25, (currentPage + 1) * 25).map(row => <tr key={row.id} className="border-b border-white/5"><td className="px-4 py-3">{formatReportTime(row.reportTime, timezone)}</td><td className="px-4 py-3">{formatReportTime(row.storedAt, timezone)}</td><td className="px-4 py-3">{row.type.replaceAll("_", " ")}</td><td className="max-w-md px-4 py-3 leading-6">{row.message}</td><td className="px-4 py-3"><span className={`rounded-full px-2 py-1 text-xs ${row.resolutionStatus === "UNAVAILABLE" ? "bg-slate-500/10 text-slate-300" : row.resolutionStatus === "RESOLVED" ? "bg-emerald-500/10 text-emerald-300" : "bg-amber-500/10 text-amber-200"}`}>{alertResolutionLabel(row.resolutionStatus)}</span></td></tr>)}</tbody>
+    </table></div>}
+    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 p-4 text-xs text-slate-400"><p>{rows.length} matching among {c.returnedCount} returned source records · Page {currentPage + 1} of {pages}.</p><div className="flex gap-2 print:hidden"><button className={button} disabled={currentPage === 0} onClick={() => setPage(currentPage - 1)}>Previous</button><button className={button} disabled={currentPage >= pages - 1} onClick={() => setPage(currentPage + 1)}>Next</button></div></div>
+  </section>;
+}

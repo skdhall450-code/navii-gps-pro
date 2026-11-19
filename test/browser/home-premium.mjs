@@ -61,7 +61,7 @@ try {
     await new Promise(resolve => setTimeout(resolve, 500));
   }
   assert.ok(ready, 'Local Home server ready');
-  browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  browser = await chromium.launch({ headless: true, chromiumSandbox: true, ...(process.env.CI ? { channel: 'chrome' } : {}) });
   await mkdir(output, { recursive: true });
   const context = await isolatedContext();
   const page = await context.newPage();

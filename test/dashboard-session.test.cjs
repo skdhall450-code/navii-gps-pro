@@ -41,7 +41,7 @@ function deferred() {
 const settled = () => new Promise((resolve) => setImmediate(resolve));
 const validResponse = () => ({ ok: true, json: async () => ({ data: profile }) });
 
-function mountLayout({ hasToken = true } = {}) {
+function mountLayout({ hasToken = true, storageDenied = false } = {}) {
   const storage = new Map([["navii_user", savedProfile]]);
   if (hasToken) storage.set("navii_access_token", token);
   const removed = [];
@@ -50,12 +50,23 @@ function mountLayout({ hasToken = true } = {}) {
   const states = [];
   const effects = [];
   const requests = [];
-  const router = { replace: (href) => redirects.push(href) };
+  const navigationCalls = [];
+  const router = {
+    replace(href) { redirects.push(href); navigationCalls.push(["replace", href]); },
+    refresh() { navigationCalls.push(["refresh"]); },
+  };
+  const listeners = new Map();
+  const events = {
+    addEventListener(name, callback) { if (!listeners.has(name)) listeners.set(name, new Set()); listeners.get(name).add(callback); },
+    removeEventListener(name, callback) { listeners.get(name)?.delete(callback); },
+    dispatchEvent(event) { for (const callback of listeners.get(event.type) || []) callback(event); },
+  };
+  let stateCursor = 0, rerendering = false;
   const hooks = {
     useState(initial) {
-      const state = { value: initial, updates: [] };
-      states.push(state);
-      return [initial, (value) => {
+      const state = rerendering ? states[stateCursor++] : { value: initial, updates: [] };
+      if (!rerendering) states.push(state);
+      return [state.value, (value) => {
         state.value = value;
         state.updates.push(value);
       }];
@@ -69,6 +80,8 @@ function mountLayout({ hasToken = true } = {}) {
     "next/link": () => null,
     "next/navigation": { usePathname: () => "/dashboard", useRouter: () => router },
     "lucide-react": require("lucide-react"),
+    // Presentation-only wrapper; keep exercising the actual layout session effect.
+    "@/components/customer/CustomerShell": ({ children }) => children,
   };
   const exports = {};
   vm.runInNewContext(compiled, {
@@ -77,9 +90,10 @@ function mountLayout({ hasToken = true } = {}) {
       assert.ok(Object.hasOwn(modules, name), `Unexpected component import: ${name}`);
       return modules[name];
     },
+    window: events, document: events, Event: class { constructor(type) { this.type = type; } },
     process: { env: { NEXT_PUBLIC_API_URL: "https://api.example.invalid" } },
     localStorage: {
-      getItem: (key) => storage.get(key) ?? null,
+      getItem: (key) => { if (storageDenied) throw new Error("Storage denied"); return storage.get(key) ?? null; },
       setItem(key, value) {
         written.push([key, value]);
         storage.set(key, value);
@@ -97,17 +111,21 @@ function mountLayout({ hasToken = true } = {}) {
   }, { filename });
   exports.default({ children: null });
   assert.equal(effects.length, 1, "Capture the layout's actual session effect");
-  assert.equal(states.length, 2);
+  assert.equal(states.length, 3);
   const cleanup = effects[0]();
   assert.equal(typeof cleanup, "function");
-  return { storage, removed, written, redirects, states, requests, cleanup, restart: effects[0] };
+  return { storage, removed, written, redirects, navigationCalls, states, requests, cleanup, restart: effects[0],
+    dispatch: (type, detail = {}) => events.dispatchEvent({ type, ...detail }), listeners,
+    denyStorage() { storageDenied = true; },
+    render() { rerendering = true; stateCursor = 0; return exports.default({ children: "private child" }); },
+  };
 }
 
 function assertNoUpdates(layout) {
   assert.deepEqual(layout.removed, []);
   assert.deepEqual(layout.written, []);
   assert.deepEqual(layout.redirects, []);
-  assert.deepEqual(layout.states.map((state) => state.updates), [[], []]);
+  assert.deepEqual(layout.states.map((state) => state.updates), [[], [], []]);
   assert.equal(layout.storage.get("navii_access_token"), token);
   assert.equal(layout.storage.get("navii_user"), savedProfile);
 }
@@ -141,7 +159,7 @@ for (const [name, fail] of failures) {
     assert.equal(layout.storage.has("navii_user"), false);
     assert.deepEqual(layout.redirects, ["/login"]);
     assert.deepEqual(layout.written, []);
-    assert.deepEqual(layout.states.map((state) => state.updates), [[], []]);
+    assert.deepEqual(layout.states.map((state) => state.updates), [[], [], []]);
     layout.cleanup();
   });
 }
@@ -157,7 +175,7 @@ test("active verification retains the token, caches the user and shows the dashb
   await settled();
   assert.equal(layout.storage.get("navii_access_token"), token);
   assert.equal(layout.storage.get("navii_user"), JSON.stringify(profile));
-  assert.deepEqual(layout.states.map((state) => state.value), [profile, false]);
+  assert.deepEqual(layout.states.map((state) => state.value), [profile, false, token]);
   assert.deepEqual(layout.removed, []);
   assert.deepEqual(layout.redirects, []);
   layout.cleanup();
@@ -193,7 +211,7 @@ test("a cancelled effect cannot clear the session verified by its replacement", 
   await settled();
   assert.equal(layout.storage.get("navii_access_token"), token);
   assert.equal(layout.storage.get("navii_user"), JSON.stringify(profile));
-  assert.deepEqual(layout.states.map((state) => state.updates), [[profile], [false]]);
+  assert.deepEqual(layout.states.map((state) => state.updates), [[profile], [false], [token]]);
   assert.deepEqual(layout.removed, []);
   assert.deepEqual(layout.redirects, []);
   cleanupReplacement();
@@ -204,5 +222,101 @@ test("a missing token still redirects without requesting a profile", async () =>
   await settled();
   assert.deepEqual(layout.requests, []);
   assert.deepEqual(layout.redirects, ["/login"]);
+  layout.cleanup();
+});
+
+
+test("late successful verification never binds a replacement token to the old profile", async () => {
+  const layout = mountLayout();
+  layout.storage.set("navii_access_token", "replacement-synthetic-token");
+  layout.requests[0].resolve(validResponse());
+  await settled();
+  assert.deepEqual(layout.states.map(state => state.updates), [[], [], []]);
+  assert.equal(layout.storage.get("navii_access_token"), "replacement-synthetic-token");
+});
+
+
+test("late failed verification never clears a replacement session", async () => {
+  const layout = mountLayout();
+  layout.storage.set("navii_access_token", "replacement-synthetic-token");
+  layout.requests[0].reject(new Error("old request failed"));
+  await settled();
+  assert.deepEqual(layout.removed, []);
+  assert.deepEqual(layout.written, []);
+  assert.deepEqual(layout.redirects, []);
+  assert.deepEqual(layout.states.map(state => state.updates), [[], [], []]);
+  assert.equal(layout.storage.get("navii_access_token"), "replacement-synthetic-token");
+});
+
+for (const event of ["storage", "focus", "pageshow", "visibilitychange", "navii-session-changed"]) {
+  for (const replacement of [null, "account-B-token"]) {
+    test(`${event} invalidates loaded account on ${replacement ? "replacement" : "logout"}`, async () => {
+      const layout = mountLayout(); layout.requests[0].resolve(validResponse()); await settled();
+      if (replacement) layout.storage.set("navii_access_token", replacement); else layout.storage.delete("navii_access_token");
+      layout.dispatch(event, { key: "navii_access_token" });
+      assert.deepEqual(layout.states.map(state => state.value), [null, true, null]);
+      assert.equal(layout.render().props.children.props.children[1].props.children, "Verifying secure session...");
+      assert.deepEqual(layout.removed, []); assert.deepEqual(layout.redirects, ["/login"]);
+      assert.equal(layout.storage.get("navii_access_token") ?? null, replacement);
+      layout.cleanup();
+    });
+  }
+}
+test("session invalidation rejects late auth completion and removes listeners on unmount", async () => {
+  const layout = mountLayout();
+  layout.storage.set("navii_access_token", "account-B-token");
+  layout.dispatch("storage", { key: null });
+  layout.requests[0].resolve(validResponse()); await settled();
+  assert.deepEqual(layout.states.map(state => state.value), [null, true, null]);
+  assert.deepEqual(layout.written, []);
+  layout.cleanup();
+  assert.equal([...layout.listeners.values()].reduce((sum, callbacks) => sum + callbacks.size, 0), 0);
+});
+test("unchanged token focus does not unmount or repeat verification", async () => {
+  const layout = mountLayout(); layout.requests[0].resolve(validResponse()); await settled();
+  layout.dispatch("focus"); layout.dispatch("storage", { key: "navii_user" });
+  assert.deepEqual(layout.states.map(state => state.value), [profile, false, token]);
+  assert.equal(layout.requests.length, 1); assert.deepEqual(layout.redirects, []);
+  layout.cleanup();
+});
+for (const replacement of [false, true]) test(`logout ${replacement ? "preserves newer account" : "removes own credentials"}`, async () => {
+  const layout = mountLayout(); layout.requests[0].resolve(validResponse()); await settled();
+  const shell = layout.render();
+  if (replacement) { layout.storage.set("navii_access_token", "account-B-token"); layout.storage.set("navii_user", "account B"); }
+  shell.props.onLogout();
+  assert.deepEqual(layout.states.map(state => state.value), [null, true, null]);
+  assert.equal(layout.storage.get("navii_access_token"), replacement ? "account-B-token" : undefined);
+  assert.equal(layout.storage.get("navii_user"), replacement ? "account B" : undefined);
+  layout.cleanup();
+});
+
+test("storage denial on mount redirects without an unhandled rejection or API request", async () => {
+ const layout = mountLayout({ storageDenied: true }); await settled();
+ assert.deepEqual(layout.requests, []); assert.deepEqual(layout.redirects, ["/login"]);
+ assert.equal(layout.states[1].value, true); layout.cleanup();
+});
+test("storage denial after verification hides private content without clearing credentials", async () => {
+ const layout = mountLayout(); layout.requests[0].resolve(validResponse()); await settled();
+ layout.denyStorage(); layout.dispatch("focus");
+ assert.deepEqual(layout.states.map(state => state.value), [null, true, null]);
+ assert.deepEqual(layout.removed, []); assert.deepEqual(layout.redirects, ["/login"]); layout.cleanup();
+});
+test("logout with denied storage still hides its subtree", async () => {
+ const layout = mountLayout(); layout.requests[0].resolve(validResponse()); await settled();
+ const shell = layout.render(); layout.denyStorage(); shell.props.onLogout();
+ assert.deepEqual(layout.states.map(state => state.value), [null, true, null]);
+ assert.deepEqual(layout.removed, []); layout.cleanup();
+});
+
+for (const replacement of [false, true]) test(`logout navigation is not followed by a competing refresh (${replacement ? "replacement account" : "own account"})`, async () => {
+  const layout = mountLayout(); layout.requests[0].resolve(validResponse()); await settled();
+  const shell = layout.render();
+  if (replacement) layout.storage.set("navii_access_token", "account-B-token");
+  shell.props.onLogout();
+  assert.ok(layout.navigationCalls.length > 0, "Logout must navigate");
+  assert.ok(layout.navigationCalls.every(call => call[0] === "replace" && call[1] === "/login"),
+    "Do not refresh the current dashboard after scheduling the login transition");
+  assert.deepEqual(layout.states.map(state => state.value), [null, true, null]);
+  assert.equal(layout.storage.get("navii_access_token"), replacement ? "account-B-token" : undefined);
   layout.cleanup();
 });

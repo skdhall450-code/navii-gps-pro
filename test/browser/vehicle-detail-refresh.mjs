@@ -24,7 +24,7 @@ try {
     assert.equal(server.exitCode, null, serverLog);
     try { return (await fetch(base + '/login')).ok; } catch { return false; }
   }, 'Local server readiness');
-  browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  browser = await chromium.launch({ headless: true, chromiumSandbox: true, ...(process.env.CI ? { channel: 'chrome' } : {}) });
   const context = await browser.newContext();
   await context.route('**/*', async route => {
     const req = route.request(), url = new URL(req.url());

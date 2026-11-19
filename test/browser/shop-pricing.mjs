@@ -12,7 +12,7 @@ try {
   const deadline=Date.now()+45000; let ready=false;
   while(Date.now()<deadline){if(server.exitCode!==null)throw new Error(log);try{if((await fetch(base+'/shop-now')).ok){ready=true;break;}}catch{}await new Promise(r=>setTimeout(r,500));}
   assert.ok(ready,'Local Shop Now server ready');
-  browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+  browser=await chromium.launch({ headless: true, chromiumSandbox: true, ...(process.env.CI ? { channel: 'chrome' } : {}) });
   const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
   await context.route('**/*',route=>{
     if(route.request().url()===shopDestination&&route.request().method()==='GET')return route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><title>Isolated store destination</title><h1>NAVII Shop test destination</h1>'});
