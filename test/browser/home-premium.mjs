@@ -39,6 +39,24 @@ async function verifyMobileTarget(locator, label) {
   // Playwright actionability also checks that a sticky header/overlay does not intercept it.
   await locator.click({ trial: true });
 }
+async function verifyPublicPhone(page) {
+  const phones = await page.locator('a[href^="tel:"]').evaluateAll(links => links.map(link => link.getAttribute('href')));
+  assert.ok(phones.length > 0, 'Public page offers a call contact');
+  assert.ok(phones.every(phone => phone === 'tel:+917717394007'), 'All public call links use the owner-confirmed number');
+  const schemaPhones = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => {
+    const phones = [];
+    function visit(value) {
+      if (!value || typeof value !== 'object') return;
+      for (const [key, child] of Object.entries(value)) {
+        if (key === 'telephone') phones.push(child);
+        else visit(child);
+      }
+    }
+    for (const script of scripts) visit(JSON.parse(script.textContent));
+    return phones;
+  });
+  assert.ok(schemaPhones.length > 0 && schemaPhones.every(phone => phone === '+917717394007'), 'Business schema agrees with call links');
+}
 async function verifyLocalMobileJourney() {
   const results = [];
   for (const width of [320, 390]) {
@@ -60,6 +78,7 @@ async function verifyLocalMobileJourney() {
         await verifyMobileTarget(link, `${name} homepage link at ${width}`);
         await link.click();
         await page.waitForURL(base + path);
+        await verifyPublicPhone(page);
         assert.equal(await page.locator('h1').count(), 1);
         assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://naviigps.com' + path);
         assert.ok(await page.evaluate(limit => document.documentElement.scrollWidth <= limit, width), `${name}: no overflow at ${width}`);
@@ -69,6 +88,7 @@ async function verifyLocalMobileJourney() {
         await page.screenshot({ path: `${output}/local-${name.toLowerCase().replaceAll(' ', '-')}-${width}.png` });
         await enquiry.click();
         await page.waitForURL(base + '/contact');
+        await verifyPublicPhone(page);
         assert.ok(await page.getByRole('heading', { name: 'Request a Free Consultation', exact: true }).isVisible());
         results.push({ name, width, discovery: 'pass', canonical: 'pass', enquiryNavigation: 'pass' });
       }
@@ -153,6 +173,7 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(base, { waitUntil: 'networkidle' });
   await dismissConsent(page);
+  await verifyPublicPhone(page);
   assert.equal(await page.locator('h1').count(), 1);
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://naviigps.com');
   const hero = page.locator('[aria-labelledby="home-hero-title"]');
@@ -163,7 +184,7 @@ try {
   assert.equal(await hero.getByRole('link', { name: 'Book a free NAVII GPS product and software demo' }).getAttribute('href'), '/contact');
   const cta = page.locator('section').filter({ has: page.getByRole('heading', { name: headings.cta }) });
   assert.equal(await cta.getByRole('link', { name: /Get Free Demo/ }).getAttribute('href'), '/contact');
-  assert.equal(await cta.getByRole('link', { name: /Call Now/ }).getAttribute('href'), 'tel:+918899729705');
+  assert.equal(await cta.getByRole('link', { name: /Call Now/ }).getAttribute('href'), 'tel:+917717394007');
   assert.equal(await cta.getByRole('link', { name: /WhatsApp/ }).getAttribute('href'), 'https://wa.me/917717394007');
   await verifyFAQ(page);
   await hero.getByRole('link', { name: 'Explore Products', exact: true }).click();
