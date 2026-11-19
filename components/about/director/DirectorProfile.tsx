@@ -50,11 +50,11 @@ export default function DirectorProfile() {
       >
 
         <div className="text-3xl font-extrabold text-cyan-300">
-          10+
+          GPS &amp; IoT
         </div>
 
         <div className="mt-1 text-sm text-white">
-          Years Experience
+          Domain Expertise
         </div>
 
       </motion.div>

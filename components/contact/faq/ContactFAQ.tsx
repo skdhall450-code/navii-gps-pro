@@ -17,7 +17,7 @@ const faqs = [
   {
     question: "Can I monitor vehicles from mobile?",
     answer:
-      "Yes. Our Android, iOS and Web Platform allow real-time tracking from anywhere.",
+      "Yes. Our Android app and web platform allow real-time tracking from anywhere.",
   },
   {
     question: "Do you provide fleet management software?",

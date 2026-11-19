@@ -53,8 +53,8 @@ export const stats = [
   {
     id: 3,
     icon: "⭐",
-    value: "98%",
-    label: "Satisfaction",
+    value: "Fleet",
+    label: "Solutions",
   },
   {
     id: 4,
@@ -65,13 +65,13 @@ export const stats = [
   {
     id: 5,
     icon: "📅",
-    value: "10+",
-    label: "Years",
+    value: "GPS",
+    label: "& IoT Expertise",
   },
   {
     id: 6,
     icon: "🔒",
-    value: "100%",
-    label: "Secure",
+    value: "Access",
+    label: "Controls",
   },
 ];

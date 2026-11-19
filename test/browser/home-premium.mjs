@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, writeFile, rename } from 'node:fs/promises';
 
 const base = 'http://127.0.0.1:39114';
 const output = 'test-results/home-browser';
@@ -124,15 +124,110 @@ try {
   assert.deepEqual(errors, [], 'No Home runtime errors');
   await context.close();
 
-  const motionContext = await isolatedContext({ reducedMotion: 'no-preference' });
+  const motionContext = await isolatedContext({ reducedMotion: 'no-preference', recordVideo: {dir: output, size:{width:1440,height:1000}} });
   const motionPage = await motionContext.newPage();
+  const motionErrors=[];
+  motionPage.on("pageerror",error=>motionErrors.push(error.message));
   await motionPage.goto(base, { waitUntil: 'networkidle' });
   await motionPage.waitForFunction(() => window.__premiumRevealAnimations > 0);
   const initialAnimations = await motionPage.evaluate(() => window.__premiumRevealAnimations);
   await motionPage.getByRole('heading', { name: headings.why }).scrollIntoViewIfNeeded();
   await motionPage.waitForFunction(before => window.__premiumRevealAnimations > before, initialAnimations);
   assert.ok(await motionPage.getByRole('heading', { name: headings.why }).isVisible(), 'Scrolled reveal content visible');
+  await dismissConsent(motionPage);
+  await motionPage.locator('[aria-labelledby="home-hero-title"]').scrollIntoViewIfNeeded();
+  await motionPage.mouse.move(0, 0);
+  const transform = locator => locator.evaluate(el => getComputedStyle(el).transform);
+  const settledPause = async locator => {
+    await locator.evaluate(el => new Promise((resolve,reject) => {
+      const deadline=performance.now()+3000;
+      const check=()=>{
+        if(getComputedStyle(el).animationPlayState==='paused')requestAnimationFrame(()=>requestAnimationFrame(resolve));
+        else if(performance.now()>deadline)reject(new Error('Animation never entered paused state'));
+        else requestAnimationFrame(check);
+      };check();
+    }));
+  };
+  const floatCard = motionPage.locator('[data-hero-feature="tracking"]');
+  const glow = motionPage.locator('[data-hero-glow]');
+  const beforeFloat = await transform(floatCard);
+  const beforeGlow = await transform(glow);
+  await motionPage.waitForTimeout(5500);
+  assert.notEqual(await transform(floatCard), beforeFloat, 'Hero floats beyond the old one-shot four-second animation');
+  assert.notEqual(await transform(glow), beforeGlow, 'Decorative glow moves');
+  await motionPage.getByRole('button',{name:'Pause hero animation',exact:true}).click();
+  await settledPause(floatCard);
+  await settledPause(glow);
+  const pausedFloat = await transform(floatCard);
+  const pausedGlow = await transform(glow);
+  await motionPage.waitForTimeout(600);
+  assert.equal(await transform(floatCard),pausedFloat,'Pause freezes hero float');
+  assert.equal(await transform(glow),pausedGlow,'Pause freezes glow');
+  await motionPage.getByRole('button',{name:'Resume hero animation',exact:true}).click();
+  await motionPage.waitForTimeout(700);
+  assert.notEqual(await transform(floatCard),pausedFloat,'Resume restarts hero float');
+  const reviews = motionPage.locator('[data-review-track]');
+  await motionPage.getByRole('heading',{name:/What Our.*Clients Say/}).scrollIntoViewIfNeeded();
+  await motionPage.mouse.move(0,0);
+  const seam=await reviews.evaluate(el=>({track:el.getBoundingClientRect().width,groups:Array.from(el.children).map(child=>child.getBoundingClientRect().width)}));
+  assert.ok(Math.abs(seam.groups[0]-seam.groups[1])<1 && Math.abs(seam.track-2*seam.groups[0])<1,'Two equal review groups create seamless -50% loop');
+  const beforeReview = await transform(reviews);
+  await motionPage.waitForTimeout(2500);
+  assert.notEqual(await transform(reviews),beforeReview,'Review cards actually scroll');
+  await motionPage.getByRole('button',{name:'Pause reviews',exact:true}).click();
+  await settledPause(reviews);
+  const stoppedReview = await transform(reviews);
+  await motionPage.waitForTimeout(600);
+  assert.equal(await transform(reviews),stoppedReview,'Pause freezes reviews');
+  await motionPage.getByRole('button',{name:'Resume reviews',exact:true}).click();
+  await motionPage.mouse.move(0,0);
+  await motionPage.waitForTimeout(600);
+  assert.notEqual(await transform(reviews),stoppedReview,'Reviews resume');
+  await motionPage.locator('[aria-label="Customer reviews"]').hover();
+  await settledPause(reviews);
+  const hoveredReview = await transform(reviews);
+  await motionPage.waitForTimeout(600);
+  assert.equal(await transform(reviews),hoveredReview,'Hover pauses reviews for reading');
+  await motionPage.mouse.move(0,0);
+  await motionPage.emulateMedia({reducedMotion:'reduce'});
+  assert.equal(await transform(reviews),'none','Live reduced-motion preference stops reviews');
+  assert.equal(await transform(floatCard),'none','Live reduced-motion preference stops hero');
+  assert.equal(await motionPage.locator('[aria-label="Customer reviews"] [role="listitem"]').count(),3,'All original reviews remain accessible');
+  assert.equal(await motionPage.getByRole('button',{name:'Pause reviews',exact:true}).isVisible(),false,'Unneeded motion control hidden with reduced motion');
+  await motionPage.emulateMedia({reducedMotion:'no-preference'});
+  await motionPage.setViewportSize({width:390,height:844});
+  await motionPage.mouse.move(0,0);
+  await motionPage.waitForTimeout(2500);
+  assert.ok(await motionPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Moving reviews contained on mobile');
+  assert.deepEqual(motionErrors,[],"No motion-page JavaScript errors");
+  const motionVideo = motionPage.video();
   await motionContext.close();
+  await rename(await motionVideo.path(),`${output}/draft-motion-preview.webm`);
+  // Read-only baseline capture: public page/assets only; no API, forms or external services.
+  const liveContext = await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'no-preference',serviceWorkers:'block',recordVideo:{dir:output,size:{width:1440,height:1000}}});
+  await liveContext.route('**/*',route=>{
+    const request=route.request(), url=new URL(request.url());
+    return url.origin==='https://naviigps.com' && !url.pathname.startsWith('/api/') && ['GET','HEAD'].includes(request.method()) ? route.continue() : route.abort();
+  });
+  const live = await liveContext.newPage();
+  try {
+  await live.goto('https://naviigps.com/',{waitUntil:'networkidle',timeout:15000});
+  await dismissConsent(live);
+  await live.waitForTimeout(5500);
+  const liveFloat=live.locator('[data-hero-feature="tracking"]');
+  const baseline={url:live.url(),capturedAt:new Date().toISOString(),floatAnimation:await liveFloat.evaluate(el=>({name:getComputedStyle(el).animationName,iterations:getComputedStyle(el).animationIterationCount,transform:getComputedStyle(el).transform})),reviewText:[]};
+  await live.getByRole('heading',{name:/What Our.*Clients Say/}).scrollIntoViewIfNeeded();
+  await live.waitForTimeout(2500);
+  baseline.reviewText=await live.getByRole('heading',{name:/What Our.*Clients Say/}).evaluate(el=>({section:el.closest('section').innerText,animations:el.closest('section').getAnimations({subtree:true}).map(a=>({playState:a.playState,currentTime:a.currentTime}))}));
+  await writeFile(`${output}/live-motion-baseline.json`,JSON.stringify(baseline,null,2));
+  } catch (error) {
+    await writeFile(`${output}/live-motion-baseline-unavailable.json`,JSON.stringify({capturedAt:new Date().toISOString(),reason:String(error)},null,2));
+  } finally {
+    const liveVideo=live.video();
+    await liveContext.close();
+    await rename(await liveVideo.path(),`${output}/live-baseline-motion.webm`);
+  }
+
 
   const noJS = await isolatedContext({ javaScriptEnabled: false });
   const staticPage = await noJS.newPage();
@@ -151,6 +246,12 @@ try {
   }
   assert.ok(await staticPage.locator('details[name="navii-home-faq"]').first().locator('p').isVisible(), 'Initial FAQ answer visible without JavaScript');
   await verifyFAQ(staticPage);
+  const staticReviews=staticPage.locator('[data-review-track]');
+  assert.equal(await staticReviews.evaluate(el=>getComputedStyle(el).animationName),'none','No-JS reviews are static');
+  assert.equal(await staticReviews.locator('[aria-hidden="true"]').first().isVisible(),false,'No-JS duplicate group hidden');
+  const originalReviews=staticReviews.getByRole('listitem');
+  assert.equal(await originalReviews.count(),3);
+  for(const review of await originalReviews.all())assert.ok(await review.isVisible(),'No-JS original review visible');
   await noJS.close();
   console.log('PASS premium Home: original hero asset, original CTA URLs, products/back, FAQ keyboard/repeated/native no-JS toggles, responsive overflow/screenshots, reduced-motion and progressive reveal. No forms submitted or external API calls.');
 } finally {

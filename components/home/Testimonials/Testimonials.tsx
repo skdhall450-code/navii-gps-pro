@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import motionStyles from "./testimonials-motion.module.css";
+
 import PremiumReveal from "../PremiumReveal";
 import styles from "../sections-premium.module.css";
 
@@ -7,6 +10,9 @@ import TestimonialCard from "./TestimonialCard";
 import { testimonials } from "./testimonialsData";
 
 export default function Testimonials() {
+  const [paused, setPaused] = useState(false);
+  const [ready, setReady] = useState(false);
+  useEffect(() => { setReady(true); }, []);
   return (
     <section className={`${styles.section} relative overflow-hidden py-20 sm:py-24`}>
       {/* Background Glow */}
@@ -52,21 +58,15 @@ export default function Testimonials() {
 
         {/* Testimonials */}
 
-        <div className="mt-12 sm:mt-16">
-          <div
-            className="grid gap-8 lg:grid-cols-3"
-          >
-            {testimonials.map((item, index) => (
-              <div
-                key={item.id}
-                className="min-w-0"
-              >
-                <TestimonialCard
-                  testimonial={item}
-                  index={index}
-                />
-              </div>
-            ))}
+        {ready && <div className={motionStyles.controls}><button type="button" aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? "Resume reviews" : "Pause reviews"}</button></div>}
+        <div className={motionStyles.viewport} data-review-motion-ready={ready} data-review-paused={paused} aria-label="Customer reviews">
+          <div className={motionStyles.track} data-review-track>
+            <div className={motionStyles.group} role="list">
+              {testimonials.map((item, index) => <div key={item.id} className={motionStyles.item} role="listitem"><TestimonialCard testimonial={item} index={index} /></div>)}
+            </div>
+            <div className={`${motionStyles.group} ${motionStyles.duplicate}`} aria-hidden="true" inert>
+              {testimonials.map((item, index) => <div key={item.id} className={motionStyles.item}><TestimonialCard testimonial={item} index={index} /></div>)}
+            </div>
           </div>
         </div>
       </div>

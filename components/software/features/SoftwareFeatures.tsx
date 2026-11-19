@@ -33,7 +33,7 @@ const features = [
     icon: Fuel,
   },
   {
-    title: "Instant Alerts",
+    title: "Configurable Alerts",
     description: "Configure supported overspeed, ignition and geofence alerts. Other events depend on the installed device.",
     icon: Bell,
   },
@@ -44,7 +44,7 @@ const features = [
   },
   {
     title: "Mobile Apps",
-    description: "Android & iOS apps for fleet monitoring anywhere.",
+    description: "Android and web apps for fleet monitoring anywhere.",
     icon: Smartphone,
   },
   {

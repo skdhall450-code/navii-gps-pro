@@ -29,31 +29,15 @@ try {
   };
   await page.goto(base+'/shop-now',{waitUntil:'networkidle'});
   const consent=page.getByRole('button',{name:'Necessary Only',exact:true});if(await consent.isVisible())await consent.click();
-  assert.equal(await page.locator('[data-offer]').count(),9);
-  assert.equal(await page.locator('[data-variant]').count(),10);
+  assert.equal(await page.locator('[data-offer]').count(),0,'Legacy prices retired');
+  assert.equal(await page.getByText('Product photo coming soon',{exact:true}).count(),0);
   assert.equal(await page.locator('h1').count(),1);
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://naviigps.com/shop-now');
-  for(const [id,amount] of [['g17','₹2,525.00'],['bt50','₹2,525.00'],['gx03','₹2,879.00'],['gs900','₹2,879.00'],['s15','₹4,649.00'],['obd','₹3,469.00'],['ai-dashcam','₹8,555.00'],['non-ai-dashcam','₹6,195.00']])assert.ok((await page.locator(`[data-offer="${id}"]`).innerText()).includes(amount));
-  assert.ok((await page.locator('[data-offer="ais140"]').innerText()).includes('₹7,009.00'));
-  assert.ok((await page.locator('[data-offer="ais140"]').innerText()).includes('₹8,779.00'));
-  assert.ok(!(await page.locator('[data-offer="ais140"]').innerText()).includes('MRP'));
-  assert.equal(await page.getByText('−₹0.20',{exact:true}).count(),8);
-  assert.equal(await page.getByText('Product photo coming soon',{exact:true}).count(),6);
-  for(const id of ['ai-dashcam','non-ai-dashcam']){
-    const card=page.locator(`[data-offer="${id}"]`);
-    assert.doesNotMatch(await card.innerText(),/Airtel SIM|Software platform fee/);
-    assert.match(await card.innerText(),/Shipping & handling/);
-    const enquiry=new URL(await card.locator('a[href^="https://wa.me/"]').getAttribute('href')).searchParams.get('text');
-    assert.doesNotMatch(enquiry,/Airtel SIM|Software platform fee/);
+  await assertStoreTab(()=>page.getByRole('link',{name:'Open NAVII Shop',exact:true}).click(),'/shop-now');
+  for(const route of ['/about','/products/g17-gps-tracker']){
+    await page.goto(base+route,{waitUntil:'networkidle'});
+    await assertStoreTab(()=>page.locator('footer').getByRole('link',{name:'Shop Now',exact:true}).click(),route);
   }
-  assert.equal(await page.getByText('+₹0.00',{exact:true}).count(),2);
-  assert.ok((await page.locator('#g17').innerText()).includes('₹2,500.00'));
-  assert.ok(!(await page.locator('main').innerText()).includes('500 km'));
-  for(const link of await page.locator('#device-offers a[href^="https://wa.me/"]').all()){
-    const url=new URL(await link.getAttribute('href'));assert.equal(url.pathname,'/917717394007');
-    assert.ok(url.searchParams.get('text').includes('Shipping & handling: INR 250.00 + GST INR 45.00'));
-  }
-  await page.getByRole('link',{name:'View BT-50 GPS specifications'}).click();await page.waitForURL('**/products/bt50-vehicle-gps-tracker');await page.goBack({waitUntil:'domcontentloaded'});
   await mkdir('test-results/shop-browser',{recursive:true});
   // Both shared headers open the approved store in a new tab.
   // The store is fulfilled by an isolated fixture; all other external requests are blocked.
@@ -144,15 +128,12 @@ try {
     await page.setViewportSize({width,height:1000});
     for(const image of await page.locator('main img').all()){await image.scrollIntoViewIfNeeded();await image.evaluate(image=>image.decode());}
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`No overflow ${width}`);
-    for(const card of await page.locator('[data-offer]').all()){
-      const bounds=await card.boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=width,`Card contained ${width}`);
-    }
+    const storeLink=await page.getByRole('link',{name:'Open NAVII Shop',exact:true}).boundingBox();
+    assert.ok(storeLink&&storeLink.x>=0&&storeLink.x+storeLink.width<=width,`Store link contained ${width}`);
     await page.evaluate(()=>window.scrollTo(0,0));
     await page.screenshot({path:`test-results/shop-browser/hero-${width}.png`});
-    await page.locator('#device-offers').scrollIntoViewIfNeeded();
-    await page.screenshot({path:`test-results/shop-browser/offers-${width}.png`});
-    await page.locator('[data-offer="ais140"]').scrollIntoViewIfNeeded();
-    await page.screenshot({path:`test-results/shop-browser/ais140-${width}.png`});
+    await page.getByRole('link',{name:'Open NAVII Shop',exact:true}).scrollIntoViewIfNeeded();
+    await page.screenshot({path:`test-results/shop-browser/store-link-${width}.png`});
   }
   // Verify published app-access destinations without visiting external services.
   await page.goto(base+'/software',{waitUntil:'networkidle'});
@@ -199,6 +180,6 @@ try {
     await apps.screenshot({path:`test-results/shop-browser/apps-${width}.png`});
   }
   assert.deepEqual(errors,[]);
-  const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});await nojs.route('**/*',r=>new URL(r.request().url()).origin===base?r.continue():r.abort());const staticPage=await nojs.newPage();await staticPage.goto(base+'/shop-now');assert.equal(await staticPage.locator('[data-offer]').count(),9);assert.ok((await staticPage.locator('[data-offer="bt50"]').innerText()).includes('₹2,525.20'));await nojs.close();
-  console.log('Shop pricing: ten options, arithmetic, links, responsive cards, both shared headers, keyboard/mobile navigation and no-JS PASS. No WhatsApp message sent.');
+  const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});await nojs.route('**/*',r=>new URL(r.request().url()).origin===base?r.continue():r.abort());const staticPage=await nojs.newPage();await staticPage.goto(base+'/shop-now');assert.equal(await staticPage.locator('[data-offer]').count(),0);assert.equal(await staticPage.locator('h1').count(),1);assert.equal(await staticPage.locator('link[rel="canonical"]').getAttribute('href'),'https://naviigps.com/shop-now');assert.equal(await staticPage.getByRole('link',{name:'Open NAVII Shop',exact:true}).getAttribute('href'),shopDestination);await nojs.close();
+  console.log('Store routing: legacy prices retired, official store links, both shared headers, footer links, keyboard/mobile navigation and no-JS PASS. No payment or WhatsApp message sent.');
 }finally{if(browser)await browser.close();server.kill('SIGTERM');}

@@ -27,7 +27,7 @@ export const faqs = [
     id: 5,
     question: "Is there a mobile application?",
     answer:
-      "Yes. NAVII GPS offers Android and iOS applications along with a responsive web dashboard for complete fleet management.",
+      "NAVII GPS offers an Android app and a responsive web dashboard. Confirm device compatibility and available features for your account with our team.",
   },
   {
     id: 6,
@@ -39,7 +39,7 @@ export const faqs = [
     id: 7,
     question: "Can I track school buses?",
     answer:
-      "Yes. Parents and school administrators can monitor school buses in real time with arrival notifications and safety alerts.",
+      "School-bus tracking is available for configured deployments. Parent access, arrival notifications and safety alerts depend on the selected solution, permissions and device connectivity; confirm these requirements before ordering.",
   },
   {
     id: 8,

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { shopNavigationProps } from "@/lib/shop-destination";
 import { motion } from "framer-motion";
 import { quickLinks, products, contactInfo } from "./footerData";
 
@@ -69,7 +70,7 @@ export default function Footer() {
               {quickLinks.map((item) => (
                 <Link
                   key={item.name}
-                  href={item.href}
+                  {...shopNavigationProps(item.href)}
                   className="block text-slate-300 transition hover:text-cyan-300"
                 >
                   {item.name}
@@ -92,7 +93,7 @@ export default function Footer() {
               {products.map((item) => (
                 <Link
                   key={item.name}
-                  href={item.href}
+                  {...shopNavigationProps(item.href)}
                   className="block text-slate-300 transition hover:text-cyan-300"
                 >
                   {item.name}

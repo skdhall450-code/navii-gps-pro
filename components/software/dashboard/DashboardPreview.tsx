@@ -181,7 +181,7 @@ export default function DashboardPreview() {
 
             <p className="mt-3 text-slate-600">
               View accurate GPS locations, trip history and
-              geo-fence events instantly.
+              geo-fence events when supported by your configuration and connectivity.
             </p>
 
           </div>
@@ -191,7 +191,7 @@ export default function DashboardPreview() {
             <Bell className="text-cyan-600" size={34} />
 
             <h3 className="mt-5 text-xl font-bold">
-              Instant Alerts
+              Configurable Alerts
             </h3>
 
             <p className="mt-3 text-slate-600">

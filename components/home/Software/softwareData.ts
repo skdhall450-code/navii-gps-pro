@@ -30,15 +30,15 @@ export const softwareFeatures = [
   {
     id: 5,
     icon: "🔔",
-    title: "Instant Alerts",
+    title: "Configurable Alerts",
     description:
-      "Receive overspeed, geo-fence, ignition and SOS notifications instantly.",
+      "Available alert types and delivery depend on the device, plan, permissions and connectivity.",
   },
   {
     id: 6,
     icon: "📱",
     title: "Mobile App",
     description:
-      "Monitor your fleet anytime using Android, iPhone and Web Dashboard.",
+      "Monitor your fleet anytime using the Android app and web dashboard.",
   },
 ];

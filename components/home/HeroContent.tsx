@@ -75,11 +75,11 @@ export default function HeroContent() {
 
         <div>
           <h2 className={styles.heroStatNumber}>
-            98%
+            GPS &amp; IoT
           </h2>
 
           <p className={styles.heroStatLabel}>
-            Satisfaction
+            Tracking Solutions
           </p>
         </div>
 

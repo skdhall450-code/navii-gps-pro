@@ -27,7 +27,7 @@ const features = [
   {
     title: "Mobile App",
     icon: "📱",
-    description: "Track your vehicles anytime using Android & iOS.",
+    description: "Track your vehicles anytime using Android and web.",
   },
 ];
 

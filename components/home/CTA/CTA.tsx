@@ -3,7 +3,7 @@
 import styles from "../sections-premium.module.css";
 
 import CTAButtons from "./CTAButtons";
-import CTAStats from "./CTAStats";
+
 
 export default function CTA() {
   return (
@@ -53,11 +53,7 @@ export default function CTA() {
             <CTAButtons />
           </div>
 
-          {/* Stats */}
 
-          <div className="mt-14">
-            <CTAStats />
-          </div>
 
         </div>
 
