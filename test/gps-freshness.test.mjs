@@ -22,7 +22,7 @@ test('reported stale GPS speeds remain unavailable despite recent heartbeats', (
 test('fresh data retains measured speed, including genuine zero', () => {
   assert.equal(getTelemetry({ ...vehicle, lastUpdate: '2026-10-24T16:51:06Z' }, now).speed, '67.0 km/h');
   const result = getTelemetry({ ...vehicle, speed: 0, ignition: false, battery: 0 }, now);
-  assert.deepEqual([result.speed, result.ignition, result.battery, result.state], ['0.0 km/h', 'OFF', '0.000 V', 'IDLE']);
+  assert.deepEqual([result.speed, result.ignition, result.battery, result.state], ['0.0 km/h', 'Unavailable', '0.000 V', 'IDLE']);
 });
 test('missing, invalid or implausibly future GPS never presents current telemetry', () => {
   for (const patch of [{ latitude: null }, { latitude: NaN }, { latitude: 91 }, { longitude: 181 },

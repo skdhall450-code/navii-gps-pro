@@ -2,9 +2,13 @@
 // has its own ten-minute expiry and cannot make an older fix current.
 export const FRESHNESS_MS = 120_000;
 export const COMMUNICATION_FRESHNESS_MS = 600_000;
+// Match the mobile ACC contract; GPS fixes/heartbeats are not ACC observations.
+export const IGNITION_FRESHNESS_MS = 300_000;
+export const IGNITION_FUTURE_TOLERANCE_MS = 30_000;
 export type TrackingVehicle = {
   latitude: number | null; longitude: number | null; lastUpdate: string | null;
   speed?: number | null; ignition?: boolean | null; battery?: number | null;
+  ignitionSource?: string | null; ignitionObservedAt?: string | null;
   device?: { isActive: boolean; lastSeenAt?: string | null } | null;
 };
 export type TrackingState = 'MOVING' | 'IDLE' | 'GPS_STALE' | 'OFFLINE';
@@ -34,7 +38,16 @@ export function getTelemetry(vehicle: TrackingVehicle, now: number) {
   return {
     ...tracking,
     speed: tracking.current && typeof vehicle.speed === 'number' && Number.isFinite(vehicle.speed) && vehicle.speed >= 0 ? `${vehicle.speed.toFixed(1)} km/h` : 'Unavailable',
-    ignition: tracking.current && typeof vehicle.ignition === 'boolean' ? vehicle.ignition ? 'ON' : 'OFF' : 'Unavailable',
+    ignition: getIgnitionTelemetry(vehicle, now),
     battery: tracking.current && typeof vehicle.battery === 'number' && Number.isFinite(vehicle.battery) ? `${vehicle.battery.toFixed(3)} V` : 'Unavailable',
   };
+}
+
+export function getIgnitionTelemetry(vehicle: TrackingVehicle, now: number): 'ON' | 'OFF' | 'Stale' | 'Unavailable' {
+  const observedAt = typeof vehicle.ignitionObservedAt === 'string' ? Date.parse(vehicle.ignitionObservedAt) : NaN;
+  if (!Number.isFinite(now) || typeof vehicle.ignition !== 'boolean' || vehicle.ignitionSource !== 'ACC' ||
+    !Number.isFinite(observedAt) || observedAt > now + IGNITION_FUTURE_TOLERANCE_MS ||
+    !getTrackingDetails(vehicle, now).connected) return 'Unavailable';
+  if (now - observedAt > IGNITION_FRESHNESS_MS) return 'Stale';
+  return vehicle.ignition ? 'ON' : 'OFF';
 }

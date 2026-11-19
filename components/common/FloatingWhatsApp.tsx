@@ -7,7 +7,7 @@ export default function FloatingWhatsApp() {
   const phone = "917717394007";
 
   return (
-    <motion.a
+    <motion.a data-public-widget
       href={`https://wa.me/${phone}`}
       target="_blank"
       rel="noopener noreferrer"

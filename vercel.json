@@ -2,7 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
     "deploymentEnabled": {
-      "codex/panel-phase1-20261011": false
+      "codex/panel-phase1-20261011": false,
+      "codex/panel-provenance-print-20261106": false
     }
   }
 }
