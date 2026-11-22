@@ -140,29 +140,29 @@ export default function ContactForm() {
           className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl sm:rounded-[32px] sm:p-10"
         >
           <div className="grid gap-6 md:grid-cols-2">
-            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
               Full Name <span className="sr-only">(required)</span>
-              <input type="text" name="name" autoComplete="name" maxLength={80} placeholder="Your full name" value={form.name} onChange={handleChange} className="rounded-xl border border-slate-400 bg-white p-4 font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" required />
+              <input type="text" name="name" autoComplete="name" maxLength={80} placeholder="Your full name" value={form.name} onChange={handleChange} className="w-full min-w-0 rounded-xl border border-slate-400 bg-white p-4 text-base font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" required />
             </label>
-            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
               Company Name <span className="font-normal text-slate-500">(optional)</span>
-              <input type="text" name="company" autoComplete="organization" maxLength={120} placeholder="Your company" value={form.company} onChange={handleChange} className="rounded-xl border border-slate-400 bg-white p-4 font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" />
+              <input type="text" name="company" autoComplete="organization" maxLength={120} placeholder="Your company" value={form.company} onChange={handleChange} className="w-full min-w-0 rounded-xl border border-slate-400 bg-white p-4 text-base font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" />
             </label>
-            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
               Email Address <span className="sr-only">(required)</span>
-              <input type="email" name="email" autoComplete="email" maxLength={160} placeholder="name@company.com" value={form.email} onChange={handleChange} className="rounded-xl border border-slate-400 bg-white p-4 font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" required />
+              <input type="email" name="email" autoComplete="email" maxLength={160} placeholder="name@company.com" value={form.email} onChange={handleChange} className="w-full min-w-0 rounded-xl border border-slate-400 bg-white p-4 text-base font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" required />
             </label>
-            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
               Mobile Number <span className="sr-only">(required)</span>
-              <input type="tel" name="phone" autoComplete="tel" inputMode="tel" maxLength={24} placeholder="+91 98765 43210" value={form.phone} onChange={handleChange} className="rounded-xl border border-slate-400 bg-white p-4 font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" required />
+              <input type="tel" name="phone" autoComplete="tel" inputMode="tel" maxLength={24} placeholder="+91 98765 43210" value={form.phone} onChange={handleChange} className="w-full min-w-0 rounded-xl border border-slate-400 bg-white p-4 text-base font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" required />
             </label>
-            <label className="grid gap-2 text-sm font-semibold text-slate-700 md:col-span-2">
+            <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700 md:col-span-2">
               Number of Vehicles <span className="font-normal text-slate-500">(optional)</span>
-              <input type="number" name="vehicles" inputMode="numeric" min="1" max="999999" placeholder="Example: 25" value={form.vehicles} onChange={handleChange} className="rounded-xl border border-slate-400 bg-white p-4 font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" />
+              <input type="number" name="vehicles" inputMode="numeric" min="1" max="999999" placeholder="Example: 25" value={form.vehicles} onChange={handleChange} className="w-full min-w-0 rounded-xl border border-slate-400 bg-white p-4 text-base font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" />
             </label>
-            <label className="grid gap-2 text-sm font-semibold text-slate-700 md:col-span-2">
+            <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700 md:col-span-2">
               Requirement <span className="font-normal text-slate-500">(optional)</span>
-              <textarea name="message" rows={6} maxLength={2000} placeholder="Tell us about the vehicles, products or software you need..." value={form.message} onChange={handleChange} className="rounded-xl border border-slate-400 bg-white p-4 font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" />
+              <textarea name="message" rows={6} maxLength={2000} placeholder="Tell us about the vehicles, products or software you need..." value={form.message} onChange={handleChange} className="w-full min-w-0 rounded-xl border border-slate-400 bg-white p-4 text-base font-normal text-slate-900 outline-none placeholder:text-slate-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10" />
             </label>
             <label className="absolute -left-[10000px] h-px w-px overflow-hidden" aria-hidden="true">
               Website

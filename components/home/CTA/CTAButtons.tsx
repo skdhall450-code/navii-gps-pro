@@ -17,7 +17,7 @@ export default function CTAButtons() {
       {/* Call */}
 
       <a
-        href="tel:+918899729705"
+        href="tel:+917717394007"
         className="rounded-2xl border border-cyan-400/30 bg-white/5 px-6 py-4 text-base font-semibold text-white  transition hover:border-cyan-300 hover:bg-cyan-400/10"
       >
         📞 Call Now
