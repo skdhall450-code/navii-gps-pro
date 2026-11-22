@@ -13,7 +13,7 @@ const cards = [
   },
   {
     title: "Sales Enquiries",
-    value: "+91 88997 29705",
+    value: "+91 77173 94007",
     description: "Call us for product consultation",
     icon: Phone,
   },

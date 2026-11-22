@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 import type { Metadata } from "next";
 
@@ -35,6 +36,26 @@ export default function HomePage() {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData).replace(/</g, "\\u003c") }} />
     <HeroV2 /><Stats /><ProductsSection /><WhyChoose /><Software />
     <SolutionsShowcase />
+
+    <section aria-labelledby="local-gps-heading" className="bg-[#06142E] py-16 text-white">
+      <div className="mx-auto max-w-7xl px-6">
+        <h2 id="local-gps-heading" className="text-3xl font-bold md:text-4xl">GPS tracking enquiries in Chandigarh and nearby Punjab</h2>
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">Contact our Dera Bassi office to discuss GPS trackers for your car or fleet. Choose your location for vehicle requirements and local journey planning, then confirm device compatibility, installation arrangements and the complete quotation with our team.</p>
+        <nav aria-label="Local GPS tracking guides" className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ["Chandigarh", "/gps-tracker/chandigarh"],
+            ["Dera Bassi", "/gps-tracker/punjab/sahibzada-ajit-singh-nagar/dera-bassi"],
+            ["Mohali", "/gps-tracker/punjab/sahibzada-ajit-singh-nagar/mohali"],
+            ["Zirakpur", "/gps-tracker/punjab/sahibzada-ajit-singh-nagar/zirakpur"],
+            ["Kharar", "/gps-tracker/punjab/sahibzada-ajit-singh-nagar/kharar"],
+          ].map(([name, href]) => <Link key={href} href={href} className="rounded-xl border border-cyan-300/30 px-5 py-4 text-lg font-semibold text-cyan-100 hover:bg-cyan-300/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">GPS tracker in {name}</Link>)}
+        </nav>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link href="/contact" className="rounded-xl bg-cyan-400 px-6 py-4 font-semibold text-slate-950">Request a local GPS quotation</Link>
+          <Link href="/products" className="rounded-xl border border-slate-500 px-6 py-4 font-semibold">Compare GPS tracker models</Link>
+        </div>
+      </div>
+    </section>
     <Clients /><CTA /><FAQ /><Testimonials />
   </main><Footer /></>);
 }
