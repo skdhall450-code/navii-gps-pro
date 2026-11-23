@@ -632,6 +632,7 @@ function StatusBadge({
       "bg-amber-500/10 text-amber-400",
 
     GPS_STALE: "bg-orange-500/10 text-orange-400",
+    SPEED_UNKNOWN: "bg-slate-500/10 text-slate-400",
     OFFLINE:
       "bg-red-500/10 text-red-400",
   };

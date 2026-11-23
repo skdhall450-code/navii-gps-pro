@@ -399,7 +399,7 @@ function VehicleDetailsContent({ vehicleId }: { vehicleId: string }) {
                 : telemetry.state ===
                     "IDLE"
                   ? "amber"
-                  : "red"
+                  : telemetry.state === "OFFLINE" ? "red" : "default"
             }
           />
 
