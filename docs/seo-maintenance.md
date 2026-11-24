@@ -613,3 +613,11 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] User expanded scope to Pan India. Inspected current main, open SEO drafts, route registries and live sitemap; the first national batch improves existing `/gps-tracker-india` navigation, rollout planning and schema without adding duplicate routes.
 - [x] [Pan-India inventory and ordered backlog](pan-india-seo-progress.md) now tracks all state/UT hubs, five missing UT guides, existing draft continuation and publication checks. Follow that ledger in subsequent national batches; northern locality coverage remains active and partial.
 - [ ] Finish current national batch checks/publication and reconcile its PR evidence before moving to missing UTs or existing East India improvements. Existing #108 and #139 remain pending; unrelated and combined-review PRs are untouched.
+
+
+### 2026-11-24 shared buyer-information SEO continuation
+
+- [x] National hub PR #144 published and verified; final evidence reconciled in [Pan-India progress](pan-india-seo-progress.md). Keep the 31-hub inventory and five missing UTs as partial coverage.
+- [x] Resume existing PR #108 with current main 51b6981, preserving current homepage/mobile/contact improvements and both panel deployment guards. Add its existing preview guard without disabling main. No unrelated PR merge or duplicate URL.
+- [x] Reuse the existing native four-answer FAQ, server-rendered product specifications/descriptive Product schema and school-bus software-intent fixes. Carry the previously validated #142 native FAQ browser coverage into the current Home test without importing other #142 changes.
+- [ ] Complete full hosted validation and live publication checks; final evidence belongs in PR #108, then reconcile here on the next source edit. Next existing city draft: #139; next missing UT: Puducherry. Google indexing/ranking unverified.

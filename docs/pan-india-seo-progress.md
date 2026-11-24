@@ -64,7 +64,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 - [x] Add two FAQs to the four existing answers; use the same six records for visible content and FAQ schema. Add an ItemList of the actual 31 linked state/UT guides.
 - [x] Update shared page/social/CollectionPage description; retain contact paths and all existing regional/city links.
 - [x] Record complete state/UT hub inventory and explicit missing coverage above. No new office, fitting coverage, price, device capability or guaranteed live reporting claim.
-- [ ] Publication gate: hosted full source SEO, lint, 141 regression tests, build, rendered 2,037-URL SEO audit and existing browser checks must pass. Then verify exact production commit, hub metadata, all six region targets, 31 ItemList destinations, six visible/schema FAQ pairs and unchanged sitemap. Record final run/deployment/IndexNow evidence in the batch PR and reconcile this checkbox during the next code batch.
+- [x] Published via PR #144, merge `51b6981c6a6cbd9d4e6d56bea24155af47ea93cb`. PR CI 45315657632 and main CI 45316995480 passed 141 tests, lint/build, all 2,037 rendered URLs and browser suites. Exact live commit, six regional targets, three rollout sections, six visible/schema FAQ pairs, 31 ItemList destinations and unchanged sitemap verified. Browser India -> East India -> Bihar -> India journey passed. IndexNow 45317824546 accepted 2,037 URLs (HTTP 200); Google indexing/ranking unverified.
 
 ## Ordered continuation
 
@@ -75,3 +75,11 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 5. Continue Chandigarh, Dera Bassi, Mohali, Zirakpur and Kharar maintenance and existing Punjab/Haryana/Himachal/Delhi locality improvements. Avoid duplicate locality URLs.
 
 For every batch record changed canonical URLs, source dates, tests, merge SHA, exact deployed SHA and live checks. IndexNow acceptance is submission evidence only. Google indexing and rankings remain unverified without direct evidence. Use no GSC Wizard. Never alter tracking-panel/backend behaviour as part of this programme.
+
+## 24 November 2026 shared buyer-information continuation
+
+- [x] Resume existing PR #108, rather than reimplementing its public SEO fixes. Inspect current main 51b6981, open SEO drafts, existing route/sitemap inventory and prior publication evidence.
+- [x] Preserve all current main changes and both panel deployment guards; retain the exact SEO draft's preview-disable entry. Resolve only the two overlapping deployment-map/test conflicts.
+- [x] Contact: all four qualified answers in initial HTML with native disclosure controls. Products: existing specifications rendered as server definition lists and descriptive Product schema, without prices/offers/ratings. School-bus software route: distinct software-evaluation heading and qualified parent-access wording; both established canonicals retained.
+- [ ] Revalidate refreshed PR #108 with full required CI; then merge, verify exact production commit, Contact disclosures, product specifications/schema, both school-bus pages and national-hub regression. Record evidence in PR #108 and reconcile this gate on next source edit.
+- [ ] Next: resume existing Delhi locality PR #139; then Puducherry missing-UT guide and existing East India quality backlog. Do not merge the combined review PR #142 as a substitute.

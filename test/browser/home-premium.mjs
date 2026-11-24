@@ -119,6 +119,38 @@ async function verifyLocalMobileJourney() {
     }
   }
 }
+async function verifyContactProgressiveDisclosure() {
+  for (const javaScriptEnabled of [true, false]) {
+    for (const width of [320, 390]) {
+      const context = await isolatedContext({ javaScriptEnabled, viewport: { width, height: 844 }, isMobile: true, hasTouch: true });
+      try {
+        const page = await context.newPage();
+        await page.goto(base + '/contact', { waitUntil: 'networkidle' });
+        await dismissConsent(page);
+        await verifyPublicPhone(page);
+        const details = page.locator('details');
+        assert.equal(await details.count(), 4, 'All four buyer answers are available');
+        for (const item of await details.all()) {
+          const answer = item.locator('p');
+          assert.ok((await answer.textContent()).length > 60, 'Answer text exists before interaction');
+          const summary = item.locator('summary');
+          if (await item.evaluate(element => element.open)) await summary.click();
+          assert.equal(await answer.isVisible(), false);
+          await verifyMobileTarget(summary, `Contact disclosure at ${width}, JavaScript ${javaScriptEnabled}`);
+          await summary.focus();
+          await summary.press('Enter');
+          assert.ok(await answer.isVisible(), 'Keyboard opens native answer');
+          await summary.press('Space');
+          assert.equal(await answer.isVisible(), false, 'Keyboard closes native answer');
+        }
+        assert.ok(await page.evaluate(limit => document.documentElement.scrollWidth <= limit, width), 'Contact FAQ fits mobile viewport');
+        await page.screenshot({ path: `${output}/contact-faq-${width}-js-${javaScriptEnabled}.png` });
+      } finally {
+        await context.close();
+      }
+    }
+  }
+}
 async function isolatedContext(options = {}) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', serviceWorkers: 'block', ...options });
   // Local document/assets only. Never submit forms, call production, or invoke local APIs.
@@ -230,6 +262,7 @@ try {
   await context.close();
 
   await verifyLocalMobileJourney();
+  await verifyContactProgressiveDisclosure();
 
   const motionContext = await isolatedContext({ reducedMotion: 'no-preference' });
   const motionPage = await motionContext.newPage();
