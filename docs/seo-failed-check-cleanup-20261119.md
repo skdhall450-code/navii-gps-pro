@@ -29,3 +29,14 @@ Final validation and workflow links are recorded in PR #140 to avoid an extra do
 - #140 and #139 remain draft under the explicit no-main/no-production release hold. No database, service or infrastructure routing change, IndexNow submission, paid spend or outreach.
 - Cleanup closes or fixes active tasks; historical failed logs and source branches are retained, not relabelled successful.
 - Next: verify the latest #102/#140 CI, then review remaining buyer-information gaps. Production verification requires explicit release authorization.
+
+## 24 November 2026 — focused publication continuation
+
+Resume existing PR #140 under the city-SEO conversation's standing user authorization for routine SEO changes, merge and publication after checks. This supersedes the earlier review-only checkpoint for this focused batch. Current main is 857ad0898f5be83bd99350c92e5e6c325ba1317f. Inspected open #140/#142/#139/#108 and the main ledger; #142 remains a separate combined review candidate and no other draft is included in this release.
+
+Panipat/Samalkha PR #138 is published as 29a11316165b7f4f0358c00ae802ec44de06dfa7: PR CI 44323181698, main CI 44324514090 and IndexNow 44325729817 succeeded; its recorded live verification covers both guides and 2,037 sitemap URLs. Google indexing/ranking remains unverified.
+
+- [x] Review #140 source scope: five contextual homepage links, readable constrained contact fields and public Call/schema consistency with the existing WhatsApp number. Submission and validation behaviour are unchanged; no new city URL or installation guarantee.
+- [ ] Fresh full hosted validation against current main, including 320/390px five-city journeys, no-JS links, contact controls, Call/schema consistency, all regressions and 2,037 rendered URLs.
+- [ ] Review retained mobile screenshots, then verify production commit, homepage discovery, five live guides, contact field markup, Call/schema number and sitemap after publication. Final workflow/deployment/IndexNow evidence belongs in PR #140; reconcile on the next source change.
+- [ ] Next: resume the existing qualified Contact FAQ/product-information work in #108, reconciling the #142 integration candidate with current main; then existing Delhi draft #139. Do not recreate covered locations. Coverage and Google search outcomes remain separate.
