@@ -361,5 +361,263 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Hisar: responsible dispatch desk, competing vehicle requests and shift handovers. Hansi: exact district destinations, older Hisar-labelled customer records and historical address-version reconciliation. Three distinct cards and two additional shared visible/schema FAQs per page.
 - [x] Reuse Haryana guide metadata and rendering for descriptions, headings, WebPage/FAQ schema and official sources; retain titles, H1, canonicals, district Service scope and existing navigation. Add mutual Hisar/Hansi links.
 - [x] Geography verified 2026-11-05 at https://commhsr.haryana.gov.in/about-division/ and https://hansi.haryana.gov.in/administrative-setup/ ; separate-district status corroborated by https://hansi.haryana.gov.in/about-district/ . No officeholders, travel times, local branches, installation availability or device guarantees added.
-- [ ] Branch seo/hisar-hansi-20261105: require full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify both live pages, five matching FAQs each, metadata, source/mutual links and sitemap; regression-check Panipat and Karnal. PR/deployment evidence records publication.
+- [x] Published via PR #107; main CI 41958973172 and IndexNow 41959509147 succeeded. Both district URLs and Panipat/Karnal regressions verified live. Branch seo/hisar-hansi-20261105: require full source SEO, lint, regressions, build, rendered SEO and browser CI before merge. Verify both live pages, five matching FAQs each, metadata, source/mutual links and sitemap; regression-check Panipat and Karnal. PR/deployment evidence records publication.
 - [ ] Next: assess existing Delhi Dwarka and Najafgarh guides for useful distinct gaps, verifying current route mapping first. Northern town/locality coverage remains partial.
+
+### 2026-11-06 Dwarka / Najafgarh, Delhi
+
+- [x] Checked main 6f174ac, open PRs, area registry and sitemap. Product/contact/school-bus PR #108 is a separate review-only batch. Keep both existing South West URLs; Gujarat's Dwarka guide is a different destination.
+- [x] Dwarka: sector and society gate, multiple passenger bookings at one stop, changed return gate. Najafgarh: village and premises, van stop versus work site, unfinished jobs on depot return.
+- [x] Add specific descriptions, three visible planning sections, two extra visible/schema FAQs each and links between both guides. Keep the existing titles, H1, district links, canonicals and sitemap entries.
+- [x] Official geography: https://revenue.delhi.gov.in/revenue/list-villages and https://dmsouthwest.delhi.gov.in/about-district/administrative-setup/village-panchayats/ . No new access, installation, product or travel-time claims.
+- [x] Published via PR #109; main CI 42155241217 and IndexNow 42155813936 succeeded. Both pages and Delhi/Tricity regressions verified live.
+- [ ] Next: inspect existing Punjab Bathinda district and Talwandi Sabo town guides for distinct visitor needs before editing; retain canonical URLs.
+
+### 2026-11-07 Bathinda / Talwandi Sabo
+
+- [x] Inspected main 0c135e4, open PRs, route inventory, prior ledger and sitemap. Separate review-only PR #108 and panel/payment PRs remain untouched.
+- [x] Keep /gps-tracker/punjab/bathinda and /gps-tracker/punjab/bathinda/talwandi-sabo; no duplicate Bathinda city route or new sitemap entries.
+- [x] Bathinda: train versus road-vehicle status, delayed-arrival instructions and onward destination. Talwandi Sabo: group reunion, changed return bookings and coach repositioning versus departure. Three authored cards and two shared visible/schema FAQs each.
+- [x] Retain titles, H1, canonicals, Service geography, parent/sibling links; shared guide rendering supplies new descriptions, social metadata, WebPage and FAQ data. Add Bathinda-to-Talwandi planning link.
+- [x] Geography checked 2026-11-07 at https://bathinda.nic.in/how-to-reach/ and https://bathinda.nic.in/tourist-place/takhat-sri-damdama-sahib/ . Use only station/destination facts; no schedules, distances, parking permissions, branch or installation guarantees.
+- [x] Published via PR #111; main CI 42331014106 and IndexNow 42331342115 passed. Bathinda/Talwandi Sabo and Amritsar/Ajnala live checks passed; 2,035 URLs accepted by IndexNow (not evidence of Google indexing).
+- [ ] Next: review existing Haryana Rohtak and Meham guides for substantive gaps; verify geography and existing canonical inventory first.
+
+### 2026-11-08 Rohtak / Meham
+
+- [x] Checked main 8325d1f, open PRs, prior ledger, registry and 2,035-URL sitemap. No unfinished routine city SEO batch; unrelated/review-only PRs untouched.
+- [x] Keep /gps-tracker/haryana/rohtak and /gps-tracker/haryana/rohtak/meham; no new aliases or sitemap entries.
+- [x] Rohtak: campus department, gate versus handover, unreceived items. Meham: exact office, document receipt, separate return collection. Three distinct sections and two additional visible/schema FAQs each.
+- [x] Existing renderers provide specific titles/descriptions, social previews, WebPage/FAQ data, H1, self-canonicals and district/town navigation.
+- [x] Sources checked 2026-11-08: https://rohtak.gov.in/public-utility-category/universities/ and https://rohtak.gov.in/divisions/sub-division/ . No officeholder, opening-time, access, branch, institutional partnership, installation or device guarantees.
+- [x] Published PR #112; full pre-merge CI 42440378068 passed on retry after a test-server port collision. Main CI 42441050479 and IndexNow 42441368157 passed. Rohtak/Meham and Hisar/Samalkha live checks passed.
+- [ ] Next: review existing Delhi Rohini and Pitampura guides, verify canonical mapping and distinct useful gaps. Northern town/locality backlog remains partial.
+
+### 2026-11-09 Rohini commercial service guide
+
+- [x] Inspected main 63267a8, open PRs, existing area registry, shared renderer, previous progress and 2,035-URL sitemap. No unfinished routine city batch; review-only/unrelated PRs untouched.
+- [x] Preserve /gps-tracker/delhi/north-west/rohini. Pitampura is absent from registry and sitemap, contrary to the previous next-batch assumption; do not invent an existing URL.
+- [x] Add distinct guidance for Mangalam Place versus Sector 10 district centre, equipment job versus service-van movement, and separate replacement/return handovers. Three visible sections, two additional visible/schema FAQs and specific page/social/WebPage description; retain title, H1, canonical and district/sibling navigation.
+- [x] Geography checked 2026-11-09: https://dda.gov.in/architecture/district-centre . Source lists Mangalam Place Sector 3 and Twin District Centre Sector 10; no access, parking, affiliation, branch, installation or device guarantees.
+- [x] Published PR #113; pre-merge CI 42553636138, main CI 42554163900 and IndexNow 42554654249 passed. Rohini and Dwarka/Najafgarh live verification passed.
+- [ ] Next: verify Pitampura district mapping and distinct visitor need before proposing a new canonical; if mapping remains uncertain, improve an existing Punjab guide instead. Coverage remains partial.
+
+### 2026-11-10 Pathankot / Delhi mapping finding
+
+- [x] Inspected main 4d7efc6, open PRs, ledger, route registry and sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/punjab/pathankot. Add three onward-transfer sections and two matching visible/schema FAQs; specific descriptions use shared metadata/rendering. Retain titles, H1, canonical and town navigation; link to Himachal planning. No new URLs.
+- [x] Stable travel-hub context checked at https://pathankot.nic.in/ on 2026-11-10. No current road status, schedules, times, permits, branches, guaranteed installation or device claims.
+- [x] Pitampura blocker identified: https://revenue.delhi.gov.in/sites/default/files/revenue/generic_multiple_files/central_north.pdf lists Pitampura revenue village under Central North/Shalimar Bagh. https://revenue.delhi.gov.in/revenue/district-offices lists 13 districts; Correction after full registry inspection: all 13 districts, including Central North, already exist; Pitampura was the missing area record. Other locality mappings have not been comprehensively revalidated. Do not add Pitampura under North West based on older tourism pages.
+- [x] Pitampura prerequisite resolved below: use existing Central North district; no district rename or URL migration is required for this new locality.
+- [x] Pathankot published via PR #114; CI 42745399578 / 42746066878 and IndexNow 42746896882 passed; Pathankot, Bathinda and Amritsar live verified.
+
+### 2026-11-10 Pitampura new locality
+
+- [x] Inspected main 8d73984, open PRs, route inventory, sitemap, prior progress and repository SEO requirements. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Correct previous assumption: Central North already exists in the 13-district registry. Add only /gps-tracker/delhi/central-north/pitampura, absent from source and live sitemap. Preserve every existing URL.
+- [x] Mapping source checked 2026-11-10: https://revenue.delhi.gov.in/sites/default/files/revenue/generic_multiple_files/central_north.pdf (Pitampura revenue village, Shalimar Bagh subdivision); district confirmed at https://revenue.delhi.gov.in/revenue/district-offices . Do not infer precise neighbourhood boundaries from the village table.
+- [x] Distinct content: selecting the Pitampura Dilli Haat venue, exhibitor-specific consignments, and later equipment returns. Source: https://delhitourism.gov.in/tourist_place/pitampura.html . No prices, opening hours, parking availability, entry permissions, branch, partnership or installation guarantees added.
+- [x] Shared route generator provides title, description/social metadata, canonical, H1, visible/schema FAQs, Service/Breadcrumb data, parent/sibling links and sitemap entry. Update source inventory to 61 records and assert Pitampura's district explicitly. Existing district/sibling navigation discovers the new guide.
+- [x] Published via PR #115; pre-merge CI 42782319611, main CI 42783137281 and IndexNow 42783918866 passed. Pitampura, Central North, Shalimar Bagh and Rohini verified live; sitemap increased only by Pitampura to 2,036 URLs.
+- [ ] Next: review existing Sujanpur and Dhar Kalan (Pathankot) for distinct useful town guidance. Broader district/locality coverage remains partial; no comprehensive Delhi-boundary audit claimed.
+
+### 2026-11-11 Sujanpur / Dhar Kalan, Pathankot
+
+- [x] Inspected main 67ac81c, open PRs, previous ledger, route registry and live 2,036-URL sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/punjab/pathankot/sujanpur and /gps-tracker/punjab/pathankot/dhar-kalan; no aliases or new sitemap entries.
+- [x] Sujanpur: complete delivery addresses, several customer handovers at one vehicle stop, and dated address corrections. Dhar Kalan: camp road meeting point, vehicle versus activity schedules, and overnight hire assignments. Three distinct sections and two extra visible/schema FAQs each.
+- [x] Shared renderer supplies specific page/social/WebPage descriptions, visible headings, source links and five FAQ pairs each; retain titles, H1, canonicals, Service geography, parent/sibling navigation and existing sitemap entries.
+- [x] Geography verified 2026-11-11: https://pathankot.nic.in/public-utility/municipal-council-sujanpur/ and https://pathankot.nic.in/tourist-place/dhar-nature-retreat-and-awareness-camp/ . Use only municipality/camp location facts; no current activities, hours, prices, access permissions, branches, installation coverage or device guarantees claimed.
+- [x] Published via PR #116; pre-merge CI 42948933373, main CI 42949530485 and IndexNow 42950037039 passed. Both pages and Talwandi Sabo/Ajnala regressions verified live; unchanged 2,036-URL sitemap accepted by IndexNow. Tricity basic HTTP/canonical/H1/indexability checks also passed.
+- [ ] Next: assess existing Haryana Sonipat and Gohana guides for useful distinct gaps; verify exact route mapping first. Northern district/town/locality coverage remains partial.
+
+
+### 2026-11-11 Sonipat / Gohana
+
+- [x] Inspected main c3551f9, open PRs, previous ledger, existing routes and 2,036-URL live sitemap. No unfinished routine city SEO batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/haryana/sonipat and /gps-tracker/haryana/sonipat/gohana; no alternate city route or new sitemap entries.
+- [x] Sonipat: industrial site-to-site transfers, returnable packaging balances and repeated shuttle circuits. Gohana: grain lot assignment, weighing-slip/load-cycle matching and onward unloading instructions. Three distinct sections and two extra visible/schema FAQs each.
+- [x] Existing renderers provide titles, specific descriptions/social metadata, H1, canonicals, WebPage/FAQ/Service/Breadcrumb data and district/town navigation. Scope guide selection to Sonipat district and its Gohana town only.
+- [x] Sources verified 2026-11-11: https://sonipat.gov.in/department/hsidc/ , https://sonipat.gov.in/sub-division/ and https://hsamb.org.in/grain-market . Use stable local context only; no current procurement, crop prices, weighing equipment availability, access, local branch, installation coverage or device guarantees claimed.
+- [x] Published via PR #117; pre-merge CI 42972812454, main CI 42973480171 and IndexNow 42974116837 passed. Both pages and Rohtak/Meham verified live; unchanged 2,036-URL sitemap accepted by IndexNow.
+- [ ] Next: assess existing Punjab Sangrur and Sunam guides for distinct useful gaps; verify canonical mapping and local sources first. District/town/locality coverage remains partial.
+
+
+### 2026-11-12 Sangrur / Sunam
+
+- [x] Inspected main a7c31f9, open PRs, prior progress, route registry and 2,036-URL live sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/punjab/sangrur and /gps-tracker/punjab/sangrur/sunam; no alternate gate/town routes or sitemap additions.
+- [x] Sangrur: city gate names versus nearby towns, premises versus landmark geofences, and corrected dispatch records. Sunam: named college destinations, dated visitor pickups and replacement vehicles with limited personal-data sharing. Three detailed sections and two extra visible/schema FAQs each.
+- [x] Shared renderers supply descriptions/social metadata, headings, WebPage/FAQ data and source links; retain titles, H1, canonicals, Service geography and parent/town navigation. Add Sangrur-to-Sunam planning link.
+- [x] Sources checked 2026-11-12: https://sangrur.nic.in/tourism/places-of-interest/ and https://sangrur.nic.in/public-utility-category/colleges/ . Use only gate/campus location facts; do not reuse historical administrative boundaries, distances, hours or institution counts. No partnership, transport-service, branch, installation-coverage or device guarantees added.
+- [x] Published via PR #119; pre-merge CI 43219400042, main CI 43220345829 and IndexNow 43221202441 passed. Sangrur/Sunam and Pathankot/Sujanpur verified live; unchanged 2,036-URL sitemap accepted by IndexNow.
+- [ ] Next: assess existing Haryana Yamunanagar and Jagadhri guides for distinct useful gaps; verify canonical mapping and official geography first. District/town/locality coverage remains partial.
+
+
+### 2026-11-12 Yamunanagar / Jagadhri
+
+- [x] Inspected main e9baf5e, open PRs, route registries, prior ledger and 2,036-URL live sitemap. No unfinished routine city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/haryana/yamunanagar and /gps-tracker/haryana/yamunanagar/jagadhri; no duplicate district/city URLs or sitemap additions.
+- [x] Yamunanagar: plywood specifications and quantity units, receiving condition records, and factory-to-receiver reporting pilot. Jagadhri: utensil set/quantity units, workshop processing stages, and finished versus unused material returns. Three distinct sections and two extra visible/schema FAQs each.
+- [x] Shared renderers provide specific descriptions/social previews, headings, WebPage/FAQ data and sources; retain titles, H1, self-canonicals, Service geography and district/town navigation. Limit new guide selection to the intended district/town pair.
+- [x] Local context verified 2026-11-12 at https://yamunanagar.nic.in/economy/ and https://yamunanagar.nic.in/town-jagadhri/ . Use stable industry and geography only; no current production statistics, branch, customer affiliation, installation coverage or cargo-sensing guarantees added.
+- [x] Published via PR #120; pre-merge CI 43263747922, main CI 43264915859 and IndexNow 43265786737 passed. Yamunanagar/Jagadhri and Sonipat/Gohana verified live; unchanged 2,036-URL sitemap accepted by IndexNow.
+- [ ] Next: assess existing Delhi Janakpuri and Vikaspuri guides; verify current district mapping, canonical inventory and distinct visitor needs before editing. Northern locality coverage remains partial.
+
+
+### 2026-11-13 Janakpuri / Vikaspuri, Delhi
+
+- [x] Inspected main 16d152c, open PRs, prior progress, existing routes and live sitemap. Previous Yamunanagar/Jagadhri publication reconciled above; no unfinished routine city batch. Unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/delhi/west/janakpuri and /gps-tracker/delhi/west/vikaspuri. Current Revenue list confirms both under West; no new URL or district migration.
+- [x] Janakpuri: office receiving requirements, sealed-packet references and undelivered returns. Vikaspuri: dated sports-session meeting points, consecutive group assignments and shared-kit reconciliation. Three substantive sections and two extra visible/schema FAQs each.
+- [x] Shared rendering supplies specific page/social/WebPage descriptions, headings, source links and five FAQ pairs each. Retain titles, H1, self-canonicals, Service geography, parent/sibling navigation and sitemap entries; add related planning links between both guides.
+- [x] Sources checked 2026-11-13: https://revenue.delhi.gov.in/revenue/list-villages , https://dda.gov.in/faq-1 and https://dda.gov.in/play-fields . Use only district/destination facts. No booking availability, venue affiliation, access permission, branches, installation coverage or device guarantees claimed.
+- [x] Published via PR #121; pre-merge CI 43354259958, main CI 43354885964 and IndexNow 43355471083 passed. Both pages, Rohini/Pitampura and unchanged 2,036-URL sitemap verified live. IndexNow accepted 2,036 URLs with HTTP 200; Google indexing/ranking unverified. DDA direct fetches returned temporary 503; official indexed sources supported the geography.
+- [ ] Next: inspect existing Himachal Pradesh Shimla and Solan coverage and prior authored content; select a useful missing improvement after route/source review. Northern district/town/locality coverage remains partial.
+
+
+### 2026-11-13 Shimla / Solan follow-up
+
+- [x] Inspected main f092135, open PRs, previous ledger, existing routes, shared metadata/schema flow and live sitemap. Janakpuri/Vikaspuri publication reconciled above. No unfinished authorized city batch; review-only and unrelated PRs untouched.
+- [x] Keep /gps-tracker/himachal-pradesh/shimla and /gps-tracker/himachal-pradesh/solan; no aliases or new sitemap entries.
+- [x] Shimla: distinguish Tutikandi ISBT from other city bus-stop references, confirm the incoming journey separately and retain changes to terminal/vehicle assignments. Solan: named receiving trader and produce lot, accepted/rejected quantities and onward instructions. Two additional sections and two visible/schema FAQs per page; preserve earlier useful guidance.
+- [x] Update page/social/WebPage descriptions; retain titles, H1, self-canonicals, City-in-State Service geography and existing hub links. Add official source links and Solan-to-Shimla navigation. FAQ rendering and JSON-LD use the same data.
+- [x] Sources checked 2026-11-13: https://hpshimla.nic.in/local-transportation-and-parking/ and https://hpsamb.hp.gov.in/solan_market . Use only stable terminal/market facts. Do not reproduce fares, schedules, seasonal arrival figures, parking/access promises, local branches or installation guarantees.
+- [x] Published via PR #122; pre-merge CI 43358482129, main CI 43359145837 and IndexNow 43359770629 passed. Shimla/Solan full live checks, Baddi/Kangra regressions and unchanged 2,036-URL sitemap passed. IndexNow accepted all URLs with HTTP 200; Google indexing/ranking unverified. Solan official reference was readable via web retrieval but direct fetch returned temporary 503.
+- [ ] Next: review Punjab Patiala and Rajpura existing coverage for distinct missing guidance, retaining established canonicals. District/town/locality coverage remains partial.
+
+
+### 2026-11-13 Patiala / Rajpura follow-up
+
+- [x] Inspected main 80be1a8, open PRs, existing district/town guides, route inventory, previous ledger and live 2,036-URL sitemap. Prior Shimla/Solan publication reconciled above. No unfinished routine SEO batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/punjab/patiala and /gps-tracker/punjab/patiala/rajpura; no alternate Patiala city URL or sitemap additions.
+- [x] Keep earlier service-round/warehouse guidance. Add Patiala named heritage itineraries and split-group return bookings; Rajpura booked technical destinations and equipment-identity/collection records. Two additional sections and two additional shared visible/schema FAQ pairs per page, for five authored sections and seven FAQs each.
+- [x] Specific descriptions flow through existing page/social/WebPage metadata. Retain titles, H1, self-canonicals, correct district/town Service geography and internal links. Add location-specific official reference links only on the intended district/town pages.
+- [x] Sources checked 2026-11-13: https://patiala.nic.in/tehsil/ , https://patiala.nic.in/architecture/ and https://www.nsic.co.in/NTSC/Index . Use stable place names only. No visitor hours, fees, access or parking availability, NSIC affiliation, service eligibility, local branches or installation guarantees claimed. Earlier ITI search was not used because its direct source returned 404.
+- [x] Published via PR #123; pre-merge CI 43456499258, main CI 43457426012 and IndexNow 43458330079 passed. Patiala/Rajpura full live checks and Sangrur/Sunam regressions passed; unchanged 2,036-URL sitemap. IndexNow verified merge 2dfa1d21dba7d8ff380aaf24e989e6f7aca017d4 and accepted all URLs with HTTP 200; Google indexing/ranking unverified.
+- [ ] Next: inspect existing Haryana Kurukshetra and Pehowa guides for missing authored local guidance, preserving established canonical routes. Regional district/town/locality coverage remains partial.
+
+
+### 2026-11-13 Kurukshetra / Pehowa
+
+- [x] Inspected main 2dfa1d2, open PRs, previous ledger, route registries, metadata/schema rendering and live sitemap. Patiala/Rajpura publication reconciled above. No unfinished routine city SEO batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/haryana/kurukshetra and /gps-tracker/haryana/kurukshetra/pehowa; no alternate URLs or sitemap additions.
+- [x] Kurukshetra: incoming paddy versus processed rice, milling by-product dispatches and tractor/trailer reassignment. Pehowa: individual dairy collection lots, receiving quality/temperature evidence and reusable-can returns. Three authored sections and two extra visible/schema FAQs per page.
+- [x] Scope guide selection to Kurukshetra district and Pehowa town. Existing renderers supply specific descriptions/social previews, headings, WebPage/FAQ data and source links. Retain titles, H1, self-canonicals, Service geography and parent/town navigation.
+- [x] Sources verified 2026-11-13: https://kurukshetra.gov.in/economy/ , https://kurukshetra.gov.in/subdivision-pehowa-district-kurukshetra/ and https://cisharyana.in/home/industries_list?dept_id=3&distt_id=11 . Use only stable crop/industry/address context; the economy page includes historical Gazetteer material, so no production figures or old highway numbers are reused. The registry supports a Pehowa milk-foods address, not current operations, customer affiliation or transport-service availability. No branches, installation coverage, temperature sensors or trailer-tracking guarantees added.
+- [x] Published via PR #124; pre-merge CI 43459645001, main CI 43460622964 and IndexNow 43461529392 passed. Both pages, Yamunanagar/Jagadhri regressions, Thanesar guide isolation and unchanged 2,036-URL sitemap verified live. IndexNow verified production merge 3eb40244f30b56ef27398e6ebf325daa9f800a91 and accepted all URLs with HTTP 200; Google indexing/ranking unverified.
+- [x] Next-batch mapping review completed below: Shahdara is a North East subdivision in the current Revenue list, not an existing district route. Improve verified East Delhi pages first; do not add a Shahdara district URL.
+
+
+### 2026-11-13 Gandhi Nagar / Patparganj, East Delhi
+
+- [x] Inspected main 3eb4024, open PRs, previous ledger, route registries, metadata/schema rendering, repository requirements and live 2,036-URL sitemap. Reconciled Kurukshetra/Pehowa publication above. No unfinished authorized SEO batch; unrelated/review-only PRs untouched.
+- [x] Mapping correction: https://revenue.delhi.gov.in/revenue/list-villages lists Shahdara under North East and Gandhi Nagar/Patparganj under East. The 13-district registry and https://revenue.delhi.gov.in/revenue/district-offices contain no Shahdara district. Shahdara is also absent from the locality registry/sitemap. No invented district route, boundary migration or broad Delhi mapping audit claimed.
+- [x] Preserve /gps-tracker/delhi/east/gandhi-nagar and /gps-tracker/delhi/east/patparganj. Add three distinct sections and two additional visible/schema FAQs each: Gandhi Nagar garment assortments, multi-buyer parcel transfers and exchanges; Patparganj maintenance appointments, fitted/unused/removed parts and vehicle dwell versus service work.
+- [x] Existing renderers supply specific page/social/WebPage descriptions, headings, source links and five FAQ pairs per page. Retain titles, H1, self-canonicals, Place-in-East-District Service geography, parent/sibling links and existing sitemap entries. Add related planning links between both guides and scope selection to East district.
+- [x] Sources checked 2026-11-13: https://delhiplanning.delhi.gov.in/sites/default/files/Planning/2026-27/2026-27/vol_i_2026-27_updated.pdf (Gandhi Nagar garment market only) and https://industries.delhi.gov.in/industries/export-promotion-cell (Patparganj industrial estate only), plus Revenue mapping above. No redevelopment completion, market rankings, current estate occupancy, opening hours, access rights, branch, partnership, fitting coverage or device guarantees claimed. Both references subsequently returned direct HTTP 200; the downloaded PDF and Industries HTML confirmed the cited context after intermittent web-tool timeouts.
+- [x] Published via PR #125; pre-merge CI 43462776738, main CI 43463923093 and IndexNow 43464682654 passed. Gandhi Nagar/Patparganj and Janakpuri/Vikaspuri/Vishwas Nagar verified live. IndexNow verified d331f5dbe704510787798530d38d7bd2cd19e83d and accepted 2,036 URLs with HTTP 200; Google indexing/ranking unverified.
+- [ ] Next: assess a useful Shahdara locality guide under North East, using the current Revenue mapping and a distinct verified visitor need; check for intervening coverage before adding any route. Regional district/town/locality coverage remains partial.
+
+
+### 2026-11-14 Shahdara locality
+
+- [x] Inspected main d331f5d, open PRs, prior ledger, source routes, sitemap and required checks. PR #125 publication reconciled above; no unfinished routine SEO batch. Unrelated/review-only work untouched.
+- [x] Shahdara absent from existing registry/sitemap. Add only /gps-tracker/delhi/north-east/shahdara; preserve all existing URLs and do not create a Shahdara district route.
+- [x] Mapping/address verified 2026-11-14 at https://revenue.delhi.gov.in/revenue/list-villages and https://revenue.delhi.gov.in/revenue/sub-division-offices ; corroboration: https://dmnortheast.delhi.gov.in/administrative-setup/ . Use the current North East mapping and distinguish the Shahdara subdivision name from the Nand Nagri office address. No precise neighbourhood-boundary claim.
+- [x] Three authored sections and two additional visible/schema FAQs: actual appointment destination, separate return assignment and private document handling. No office affiliation, appointment outcome, entry/parking availability, branch, installation coverage, device specifications or pricing promises.
+- [x] Shared rendering supplies title, description/social metadata, canonical, H1, WebPage/Service/FAQ/Breadcrumb data, parent/sibling navigation and sitemap entry. Add Nand Nagri related link; inventory assertion now 62 records and explicit North East mapping.
+- [x] Published via PR #127; pre-merge CI 43551221482, main CI 43551726806 and IndexNow 43552150120 passed. Shahdara content/schema, parent/sibling discovery, Gandhi Nagar/Patparganj regressions and 2,037 unique sitemap URLs verified live. Exact production merge 697d247d6c3ae100d07eb5b83b502d62f581bb1e confirmed; IndexNow HTTP 200. Google indexing/ranking unverified.
+- [ ] Next: inspect existing Himachal Kangra/Dharamshala content for a distinct substantive improvement, retaining established canonical routes. Regional coverage remains partial.
+
+
+### 2026-11-14 Kangra / Dharamshala heritage follow-up
+
+- [x] Inspected main 697d247, open PRs, existing content, source routes, live sitemap and required checks. Reconciled Shahdara publication above. No unfinished authorized city batch; unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/himachal-pradesh/kangra and its #dharamshala section; no separate Dharamshala, museum or fort URL. Existing airport and district guidance retained.
+- [x] Add two substantive sections and two visible/schema FAQs: Kangra Art Museum in Dharamshala versus Kangra Fort destination naming, and revised sightseeing stops versus completed visits. Six authored cards and six FAQ pairs total; update shared page/social/WebPage description and add official source links. Preserve title, H1, canonical, Service geography, navigation and sitemap.
+- [x] Sources checked 2026-11-14: https://himachaltourism.gov.in/destination/dharamshala/ and https://hpkangra.nic.in/tourist-place/kangra-fort/ . Use only attraction names/location; no current opening hours, ticket prices, parking availability, journey times, access, venue affiliation, branches or fitting guarantees. Tourism search retrieval supports the museum location; subsequent open timed out, so no availability claim.
+- [x] Published via PR #128; pre-merge CI 43568891563, main CI 43569295814 and IndexNow 43569742147 passed. Kangra full live checks (six cards/six FAQ pairs and retained airport section), Shimla/Solan regressions and unchanged 2,037-URL sitemap passed. Production merge 60af611218d250cf01aa16e1b030da806ca56ab6 verified; IndexNow accepted 2,037 URLs with HTTP 200. Google indexing/ranking unverified.
+- [ ] Next: review existing Punjab Ludhiana and Khanna content for distinct useful gaps; verify route inventory and sources before editing. Regional coverage remains partial.
+
+
+### 2026-11-14 Ludhiana / Khanna follow-up
+
+- [x] Inspected main 787cd978, open PRs, prior ledger, route registries, shared metadata/schema flow, live sitemap and current required workflow. Reconciled Kangra/Dharamshala publication above. No unfinished authorized city batch; retain intervening Shop changes and leave unrelated/review-only PRs untouched.
+- [x] Preserve /gps-tracker/punjab/ludhiana and /gps-tracker/punjab/ludhiana/khanna; no alternate city URLs or sitemap additions.
+- [x] Retain supplier/job-work and market/weight/return guidance. Add Ludhiana cycle-parts carton-to-order reconciliation and damaged/short package decisions; Khanna conditional sampling holds and split-load receiving records. Two additional sections and two additional visible/schema FAQs each: five authored sections and seven FAQ pairs per page.
+- [x] Updated shared page/social/WebPage descriptions. Existing renderers preserve titles, H1, self-canonicals, district/town Service geography, source links and parent/town navigation; FAQ rendering and JSON-LD use the same records.
+- [x] Official sources checked 2026-11-14: https://mcludhiana.gov.in/ (stable cycle-parts industry context only) and https://ludhiana.nic.in/about-district/district-at-a-glance/ (Khanna market-committee context only). Do not reuse dated office holders, population, statistics or schedules. New operating examples are conditional planning guidance, not regulatory sampling requirements, local branches, fitting coverage, cargo-sensor features or quality guarantees.
+- [x] Published via PR #131, merge 0e287b6dd14ae5d115a453497cc643ce33cb71e5. PR CI 43621933652 and main CI 43622423361 passed 140 tests and the 2,037-URL SEO audit; both live guides and Patiala/Rajpura regressions passed. IndexNow 43622933712 verified production and accepted 2,037 URLs (HTTP 200). Google indexing/ranking unverified.
+- [ ] Next: inspect existing Haryana Ambala district and Ambala Cantt coverage for distinct missing local guidance; retain established canonical routes. Regional district/town/locality coverage remains partial.
+
+
+### 2026-11-15 Ambala Cantt instrument-delivery follow-up
+
+- [x] Inspected main 0e287b6, open PRs, route registries, existing district/City/Cantt content, sitemap and CI requirements. No unfinished authorized city batch; unrelated and review-only PRs untouched. Reconciled PR #131 publication above.
+- [x] Preserve /gps-tracker/haryana/ambala/ambala-cantt and earlier station-pickup guidance. Add instrument identity/accessory reconciliation and receipt versus calibration/commissioning handovers: five authored sections and seven visible/schema FAQs total. Ambala district and Ambala City retain their existing scope; no new route or alternate spelling.
+- [x] Updated description flows to page/social/WebPage metadata; retain title, H1, self-canonical, City Service geography, district/sibling navigation and sitemap. Additional official industry source is shown only on Ambala Cantt.
+- [x] Source checked 2026-11-15: https://cisharyana.in/home/industries_list?dept_id=&distt_id=&per_page=650 identifies instrument-business addresses in Ambala Cantt; https://www.sipconinstrument.com/contact/ corroborates the Cantt industrial-estate location. Use address context only, not operating status, supplier affiliation, calibration accreditation, installation availability or cargo-sensor guarantees. Existing district travel source retained.
+- [x] Published via PR #132, merge d816d38ff22096e11242cd5082500acbd9c4af60. PR CI 43669508570 and main CI 43669884218 passed 140 tests and the 2,037-URL audit. Exact production commit, Ambala Cantt content/schema, district/City regressions and unchanged sitemap verified. IndexNow 43670338559 accepted 2,037 URLs with HTTP 200; Google indexing/ranking unverified.
+- [ ] Next: inspect existing Delhi New Delhi/Connaught Place guides for distinct missing guidance, preserving existing routes. Northern district/town/locality coverage remains partial.
+
+
+### 2026-11-15 Connaught Place pickup and market follow-up
+
+- [x] Inspected main d816d38, open PRs, prior progress, New Delhi/Connaught Place content, existing routes, sitemap and required checks. No unfinished authorized city batch; unrelated/review-only work untouched. Reconciled PR #132 publication above.
+- [x] Preserve /gps-tracker/delhi/new-delhi/connaught-place and earlier delivery sections. Add Palika Bazaar shop/vehicle separation and stale-update handling, plus Rajiv Chowk exit/meeting/boarding coordination. Five authored sections and seven shared visible/schema FAQs total; no separate Palika/Rajiv Chowk URL.
+- [x] Updated page/social/WebPage description, retained title/H1/self-canonical, Service geography, parent/sibling links and sitemap entry. Additional official destination links render only on Connaught Place.
+- [x] Geography verified 2026-11-15: https://delhitourism.gov.in/shopping/palika_bazar.html (underground market below Inner Circle) and https://delhitourism.gov.in/dt/delhi_delicacies/connaught_place.html (Rajiv Chowk connection). Do not reuse opening hours, prices, crowd estimates, parking availability or access rights. No branch, installation or uninterrupted underground positioning guarantee.
+- [x] Published via PR #133, merge 5672172f7ba826e93ddcf7f9ae531880249d7df9. PR CI 43679355193 and main CI 43679837143 passed 140 tests and full 2,037-URL SEO audit. Exact production commit, Connaught Place content/schema, New Delhi/Chanakyapuri regressions and unchanged sitemap verified. IndexNow 43680255444 accepted 2,037 URLs with HTTP 200; Google indexing/ranking unverified.
+- [ ] Next: review Himachal Mandi/Kullu existing guides and district backlog for a distinct useful improvement; retain existing routes and avoid duplicate locality pages. Regional coverage remains partial.
+
+
+### 2026-11-15 Mandi / Kullu destination follow-up
+
+- [x] Inspected main 5672172, open PRs (including unrelated draft #134), earlier progress, Himachal routes, existing Mandi/Kullu plans and sitemap. No unfinished authorized city batch. PR #133 publication reconciled above.
+- [x] Preserve /gps-tracker/himachal-pradesh#mandi and #kullu on the state canonical. No new district, Rewalsar, Naggar or spelling-alias URLs; these remain substantive hub sections, not complete locality coverage.
+- [x] Retain distribution and passenger guidance. Add two steps each for named Rewalsar shrine/group regrouping and Naggar attraction/approved itinerary changes; six steps per existing section. Add two shared visible/schema FAQs (18 total), update headings and shared descriptions, and scope additional official links to the relevant section. Existing title, H1, canonical, State Service geography, navigation and sitemap retained.
+- [x] Sources checked 2026-11-15: https://hpmandi.nic.in/tourist-place/riwalsar/ and https://hpkullu.nic.in/places-of-interest/ . Use stable attraction names/location only; no travel times, road openings, prices, access/parking availability, affiliations, branches or fitting guarantees.
+- [x] Published via PR #135, merge a7233fa6cff9654d71992d462159d088c553f0ad. PR CI 43694339338 and main CI 43694938216 passed 140 tests and the full 2,037-URL audit. Exact production commit, Mandi/Kullu sections, 18 FAQs, Kangra/Shimla regressions and unchanged sitemap verified. IndexNow 43695399126 accepted 2,037 URLs (HTTP 200); Google indexing/ranking unverified.
+- [ ] Next: review Punjab Jalandhar/Phagwara existing guidance for a distinct substantive gap; keep established canonicals. Northern district/town/locality coverage remains partial.
+
+
+### 2026-11-16 Jalandhar / Phagwara follow-up
+
+- [x] Inspected main a7233fa, open PRs, existing routes/content, metadata/schema rendering, prior progress and required CI. No unfinished authorized city batch; unrelated/review-only PRs remain untouched. Reconciled PR #135 publication above.
+- [x] Preserve /gps-tracker/punjab/jalandhar and /gps-tracker/punjab/kapurthala/phagwara. No duplicate Jalandhar city URL or Phagwara district remapping; sitemap entries retained.
+- [x] Add Jalandhar team-kit venue receiving and event loan-equipment returns; Phagwara approved part substitutions and parts receipt versus repair completion. Two new sections and two visible/schema FAQs each (five sections/seven FAQ pairs per page). Preserve earlier useful guidance.
+- [x] Specific descriptions flow through page/social/WebPage metadata; existing titles, H1, self-canonicals, district/town Service geography, source links and internal navigation retained.
+- [x] Sources rechecked 2026-11-16: https://jalandhar.nic.in/sportshub/ and https://kapurthala.gov.in/about-district/ . Stable sports-goods/spare-parts and Phagwara geography only. New examples are conditional operating advice, not venue affiliation, current factory operations, parts compatibility, repair outcomes, branches or fitting guarantees. No dated statistics reused.
+- [x] PR #136 publication reconciled from its recorded evidence: merge 25dda2b473f8c9c92962760a01a7864052cca7c2; PR CI 43814762469 and main CI 43815472802 passed. Exact deployment, both live guides and 2,037-URL sitemap recorded verified. IndexNow 43816008659 accepted submission; Google indexing/ranking remains unverified.
+- [x] Panipat/Samalkha guidance prepared in PR #138; publication continuation recorded below. Regional district/town/locality coverage remains partial.
+
+
+### 2026-11-16 Panipat / Samalkha review branch
+
+- [x] Continued from main 25dda2b and PR #136 handoff; inspected existing guides and prior PR #98. Preserved both canonical routes and existing navigation/schema rendering.
+- [x] Panipat: add partial textile acceptance and onward-carrier handovers. Samalkha: add staged casting collections and reworked-versus-replacement identification. Each guide now has five sections and four authored FAQs (seven with three shared FAQs).
+- [x] Update shared page/social/WebPage descriptions. No new routes, schema claims, branches, fitting guarantees or product capabilities.
+- [x] Official industry context rechecked 16 November 2026 at https://panipat.gov.in/industries/ . The source describes textile activity and Samalkha foundries; new workflows are conditional operating guidance, not assertions about individual businesses.
+- [x] Local validation: full source SEO checks, focused ESLint, 140/140 regression tests, production build, rendered Haryana district/town checks and the full 2,037-URL SEO audit passed. Both changed pages have seven matching visible/schema FAQs, one H1 and the existing canonical.
+- [x] Original draft validation completed: hosted SEO and Build Quality run 43849520138 passed for b3b92ac0341cddaaadf75f7b63c588b90c9a3ae9. Publication had not occurred at that checkpoint.
+- [x] Resumed PR #138 on 18 November 2026 under this city-SEO chat's standing authorization for routine merge/publication after checks. Inspected current main 63131fe, open drafts #138/#139/#140 and existing URLs; no duplicate implementation or unrelated PR merge. Official Panipat industry source rechecked; conditional workflow guidance and existing canonical routes retained.
+- [ ] Publication gate: rerun hosted full source SEO, lint, regression, production build, rendered SEO and browser checks against current main before merging #138. Then verify production commit, both live guides, metadata/canonicals, seven visible/schema FAQs each, navigation and sitemap. Final CI/deployment/IndexNow evidence will be recorded in PR #138; reconcile here on the next repository change. Google indexing/ranking remains unverified.
+- [ ] Next: resume the existing priority-location homepage-discovery draft #140, then Delhi locality draft #139; do not create duplicate pages or reimplement these batches. Regional coverage remains partial.
+
+
+### 2026-11-24 Pan-India expansion and prior publication reconciliation
+
+- [x] PR #138 published: merge `29a11316165b7f4f0358c00ae802ec44de06dfa7`; PR CI 44323181698, main CI 44324514090 and IndexNow 44325729817 passed. Panipat/Samalkha live content, seven FAQ pairs each, exact deployment and 2,037-URL sitemap verified. This supersedes the earlier pending #138 publication gate.
+- [x] PR #140 published: merge `a7fd38241814ac80c81c1c71da3ea9e1364168f4`; PR CI 45311868241 and main CI 45312722919 passed 141 tests and the 2,037-URL audit. Five priority-city homepage links, contact form mobile inputs and public-phone consistency verified on production, with mobile/no-JavaScript journeys and exact deployment. IndexNow 45313525154 accepted 2,037 URLs with HTTP 200. Google indexing/ranking unverified.
+- [x] User expanded scope to Pan India. Inspected current main, open SEO drafts, route registries and live sitemap; the first national batch improves existing `/gps-tracker-india` navigation, rollout planning and schema without adding duplicate routes.
+- [x] [Pan-India inventory and ordered backlog](pan-india-seo-progress.md) now tracks all state/UT hubs, five missing UT guides, existing draft continuation and publication checks. Follow that ledger in subsequent national batches; northern locality coverage remains active and partial.
+- [ ] Finish current national batch checks/publication and reconcile its PR evidence before moving to missing UTs or existing East India improvements. Existing #108 and #139 remain pending; unrelated and combined-review PRs are untouched.
+
+
+### 2026-11-24 shared buyer-information SEO continuation
+
+- [x] National hub PR #144 published and verified; final evidence reconciled in [Pan-India progress](pan-india-seo-progress.md). Keep the 31-hub inventory and five missing UTs as partial coverage.
+- [x] Resume existing PR #108 with current main 51b6981, preserving current homepage/mobile/contact improvements and both panel deployment guards. Add its existing preview guard without disabling main. No unrelated PR merge or duplicate URL.
+- [x] Reuse the existing native four-answer FAQ, server-rendered product specifications/descriptive Product schema and school-bus software-intent fixes. Carry the previously validated #142 native FAQ browser coverage into the current Home test without importing other #142 changes.
+- [ ] Complete full hosted validation and live publication checks; final evidence belongs in PR #108, then reconcile here on the next source edit. Next existing city draft: #139; next missing UT: Puducherry. Google indexing/ranking unverified.

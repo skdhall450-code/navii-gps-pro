@@ -3,6 +3,7 @@ import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
 import { mkdir } from 'node:fs/promises';
 const base='http://127.0.0.1:39115';
+const shopDestination='https://shop.naviigps.com/';
 const server=spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port','39115'],{stdio:['ignore','pipe','pipe']});
 let log='';
 for(const stream of [server.stdout,server.stderr]) stream.on('data',data=>{log=(log+data).slice(-6000);});
@@ -13,8 +14,19 @@ try {
   assert.ok(ready,'Local Shop Now server ready');
   browser=await chromium.launch({headless:true,args:['--no-sandbox']});
   const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
-  await context.route('**/*',route=>new URL(route.request().url()).origin===base?route.continue():route.abort());
+  await context.route('**/*',route=>{
+    if(route.request().url()===shopDestination&&route.request().method()==='GET')return route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><title>Isolated store destination</title><h1>NAVII Shop test destination</h1>'});
+    return new URL(route.request().url()).origin===base?route.continue():route.abort();
+  });
   const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  const assertStoreTab=async(action,currentRoute)=>{
+    const [popup]=await Promise.all([context.waitForEvent('page'),action()]);
+    await popup.waitForURL(shopDestination);
+    await popup.getByRole('heading',{name:'NAVII Shop test destination',exact:true}).waitFor();
+    assert.equal(await popup.evaluate(()=>window.opener===null),true,'Store tab has no opener access');
+    assert.equal(new URL(page.url()).pathname,currentRoute,'Corporate page stays open');
+    await popup.close();
+  };
   await page.goto(base+'/shop-now',{waitUntil:'networkidle'});
   const consent=page.getByRole('button',{name:'Necessary Only',exact:true});if(await consent.isVisible())await consent.click();
   assert.equal(await page.locator('[data-offer]').count(),9);
@@ -43,8 +55,8 @@ try {
   }
   await page.getByRole('link',{name:'View BT-50 GPS specifications'}).click();await page.waitForURL('**/products/bt50-vehicle-gps-tracker');await page.goBack({waitUntil:'domcontentloaded'});
   await mkdir('test-results/shop-browser',{recursive:true});
-  // Both shared header implementations must expose Shop Now as a direct route.
-  // Keep all requests loopback-only: no WhatsApp enquiry or external action is sent.
+  // Both shared headers open the approved store in a new tab.
+  // The store is fulfilled by an isolated fixture; all other external requests are blocked.
   for(const width of [320,390,768,1024,1440]){
     await page.setViewportSize({width,height:1000});
     for(const route of ['/', '/software', '/products', '/shop-now', '/about', '/contact']){
@@ -64,7 +76,9 @@ try {
         assert.equal(await trigger.isVisible(),false,`Desktop hides burger ${route}`);
         assert.equal(await desktopShop.count(),1,`One top-level desktop Shop Now ${route}`);
         assert.equal(await desktopShop.isVisible(),true);
-        assert.equal(await desktopShop.getAttribute('href'),'/shop-now');
+        assert.equal(await desktopShop.getAttribute('href'),shopDestination);
+        assert.equal(await desktopShop.getAttribute('target'),'_blank');
+        assert.equal(await desktopShop.getAttribute('rel'),'noopener noreferrer');
         assert.equal(await desktopShop.getAttribute('aria-current'),route==='/shop-now'?'page':null);
         await assertContained(desktopShop);
         // Reach the actual link by keyboard rather than programmatic focus.
@@ -80,12 +94,7 @@ try {
           return (css.outlineStyle!=='none'&&parseFloat(css.outlineWidth)>0)||css.boxShadow!=='none';
         }),`Visible keyboard focus ${route}`);
         await page.screenshot({path:`test-results/shop-browser/header-${tag}-${width}.png`});
-        if(route!=='/shop-now'){
-          await page.keyboard.press('Enter');
-          await page.waitForURL(base+'/shop-now');
-          await page.goBack({waitUntil:'domcontentloaded'});
-          assert.equal(new URL(page.url()).pathname,route,`Back restores ${route}`);
-        }
+        await assertStoreTab(()=>page.keyboard.press('Enter'),route);
       }else{
         assert.equal(await trigger.isVisible(),true,`Mobile/tablet burger ${route} at ${width}`);
         assert.equal(await desktopShop.isVisible(),false,`No crowded desktop nav ${route} at ${width}`);
@@ -97,7 +106,9 @@ try {
         const mobileShop=drawer.getByRole('link',{name:'Shop Now',exact:true});
         assert.equal(await mobileShop.count(),1);
         assert.equal(await mobileShop.isVisible(),true);
-        assert.equal(await mobileShop.getAttribute('href'),'/shop-now');
+        assert.equal(await mobileShop.getAttribute('href'),shopDestination);
+        assert.equal(await mobileShop.getAttribute('target'),'_blank');
+        assert.equal(await mobileShop.getAttribute('rel'),'noopener noreferrer');
         assert.equal(await mobileShop.getAttribute('aria-current'),route==='/shop-now'?'page':null);
         assert.equal(await trigger.getAttribute('aria-expanded'),'true');
         await page.waitForFunction(()=>document.querySelector('[role="dialog"]')?.contains(document.activeElement));
@@ -121,15 +132,10 @@ try {
         await drawer.waitFor({state:'detached'});
         await trigger.click();
         await drawer.waitFor({state:'visible'});
-        await drawer.getByRole('link',{name:'Shop Now',exact:true}).click();
-        await page.waitForURL(base+'/shop-now');
+        await assertStoreTab(()=>drawer.getByRole('link',{name:'Shop Now',exact:true}).click(),route);
         await page.getByRole('dialog',{name:'Mobile navigation',exact:true}).waitFor({state:'detached'});
-        assert.notEqual(await page.evaluate(()=>document.body.style.overflow),'hidden','Route navigation restores body scroll');
-        if(route!=='/shop-now'){
-          await page.goBack({waitUntil:'domcontentloaded'});
-          assert.equal(new URL(page.url()).pathname,route,`Mobile Back restores ${route}`);
-          assert.equal(await page.getByRole('dialog',{name:'Mobile navigation',exact:true}).count(),0,'Back does not reopen menu');
-        }
+        assert.notEqual(await page.evaluate(()=>document.body.style.overflow),'hidden','Opening store restores body scroll');
+        assert.equal(await page.getByRole('dialog',{name:'Mobile navigation',exact:true}).count(),0,'Opening store closes menu');
       }
     }
   }

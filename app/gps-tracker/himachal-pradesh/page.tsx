@@ -7,7 +7,7 @@ import { uniqueKeywords } from "@/lib/seo/trackingSolutions";
 
 const url = "https://naviigps.com/gps-tracker/himachal-pradesh";
 const title = "GPS Tracker in Himachal Pradesh | Hill & Industrial Fleets";
-const description = "Plan vehicle GPS tracking in Himachal Pradesh with local fleet checklists, delivery and passenger workflows, reporting checks and installation questions.";
+const description = "Plan Himachal Pradesh GPS tracking for industrial deliveries and hill transfers, including Mandi, Rewalsar, Kullu and Naggar journey checks.";
 const sectors = ["industrial logistics", "tourism transport", "commercial delivery", "school transport"];
 const social = { title, description, images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "NAVII GPS vehicle tracking in Himachal Pradesh" }] };
 export const metadata: Metadata = {
@@ -157,13 +157,15 @@ const localPlans = [
   },
 {
   "id": "mandi",
-  "name": "Mandi distribution rounds and consignment reconciliation",
+  "name": "Mandi distribution rounds and Rewalsar group visits",
   "intro": "Treat Mandi town and destinations elsewhere in Mandi district as different delivery instructions. A district name alone does not identify the receiving premises, and a vehicle passing through town may have no local delivery scheduled.",
   "steps": [
     "Before dispatch, separate local Mandi drops from consignments continuing to another district. Give each delivery an address, receiving contact and consignment reference. Use the receiver-confirmed entrance when planning a supported geofence rather than a broad town boundary.",
     "If goods are consolidated or transferred between vehicles, record the incoming and outgoing vehicle assignments against the same consignment reference. Review their journeys separately; two nearby GPS positions do not establish that a load was transferred.",
     "Record partial deliveries, refused consignments and returns in the dispatch sheet. Reconcile those exceptions with available stop records at the end of the round. Vehicle distance and waiting time cannot determine the quantity delivered or returned.",
-    "Trial a round that includes a local drop and an onward consignment. Check whether timestamps and supported exports allow the dispatcher to reconstruct both legs, including a vehicle change or repeat visit. Confirm reporting retention and fitting arrangements before expanding the fleet."
+    "Trial a round that includes a local drop and an onward consignment. Check whether timestamps and supported exports allow the dispatcher to reconstruct both legs, including a vehicle change or repeat visit. Confirm reporting retention and fitting arrangements before expanding the fleet.",
+    "For a group visit to Rewalsar, identify the particular shrine or lakeside meeting point in the booking. The Mandi district tourism guide describes Hindu, Sikh and Buddhist shrines around the lake; the lake name alone is not a complete pickup instruction. Confirm a permitted vehicle meeting point and keep any walking visit separate from the vehicle stop record.",
+    "If members of a Rewalsar group visit different shrines, agree a coordinator, regrouping point and return vehicle assignment before they separate. Record a changed return time and confirm the party is ready before releasing the vehicle to another job. GPS shows the assigned vehicle, not where individual visitors are or whether their visits have finished."
   ],
   "related": "/commercial-vehicle-tracking",
   "relatedLabel": "Commercial vehicle tracking requirements",
@@ -172,13 +174,15 @@ const localPlans = [
 },
 {
   "id": "kullu",
-  "name": "Kullu and Manali passenger itinerary handovers",
+  "name": "Kullu, Manali and Naggar passenger itinerary handovers",
   "intro": "Kullu and Manali are towns in Kullu district. Keep each booked destination and meeting point explicit: a Kullu district booking is not necessarily a pickup in Kullu town, and reaching Manali does not establish that every itinerary stop was completed.",
   "steps": [
     "Create a booking sheet with the actual pickup, accommodation entrance, planned stops and final drop. Confirm vehicle access and meeting arrangements with the receiving property before departure. Use current local information for route decisions; a GPS map is not a road-opening or access-permission service.",
     "Separate a passenger-requested wait from an unplanned delay in the booking notes. Compare those notes with supported stop records instead of treating every stationary period as driver inactivity. A parked vehicle does not prove passengers have boarded.",
     "For a multi-day itinerary, record the vehicle assigned to each day and any replacement with its effective time. Review trips against that dated assignment so the current vehicle label does not obscure which vehicle performed an earlier journey. Restrict passenger details to authorised coordination staff.",
-    "Before confirming a return pickup, check both the agreed meeting time and the age of the latest vehicle update. Where updates are delayed, use the agreed safe dispatcher follow-up process. Test the actual recurring route and confirm device/SIM behaviour, reporting gaps and installation availability before purchase."
+    "Before confirming a return pickup, check both the agreed meeting time and the age of the latest vehicle update. Where updates are delayed, use the agreed safe dispatcher follow-up process. Test the actual recurring route and confirm device/SIM behaviour, reporting gaps and installation availability before purchase.",
+    "For a Naggar excursion, name the actual attraction rather than using Kullu or Manali as the entire destination. The Kullu district guide lists Naggar Castle and the Gauri-Shankar Temple below it as separate places. Record the intended visit sequence and agreed vehicle meeting point for each; confirm current access with the host instead of treating a map route as permission to drive to an entrance.",
+    "When a Naggar visit is shortened, skipped or replaced with another stop, retain the original itinerary and the time the passenger or coordinator approved the change. Keep a drive past an attraction distinct from a completed visit. Confirm the revised final drop and any separately booked return vehicle so the dispatch record explains why actual trip history differs from the original plan."
   ],
   "related": "/gps-tracker/himachal-pradesh/kangra",
   "relatedLabel": "Kangra and Dharamshala transfer planning",
@@ -202,6 +206,8 @@ const districts = [
   { slug: "una", name: "Una", note: "For regional and Punjab-connected routes, review complete trips across state boundaries and confirm SIM coverage for recurring destinations." },
 ];
 const faqs = [
+{"question": "Can a Rewalsar vehicle stop confirm that a group has regrouped?", "answer": "No. Agree the shrine or lakeside meeting point and obtain confirmation from the group coordinator before departure. Vehicle location cannot identify individual visitors or show that their visits are complete."},
+{"question": "How should a changed Naggar sightseeing itinerary be reviewed?", "answer": "Keep the approved change and its time with the booking, then compare supported trip records with that revised plan. Record skipped attractions and confirm the final drop or return assignment separately; passing an attraction does not prove a completed visit."},
 {"question": "Can GPS confirm the quantities delivered on a Kinnaur supply run?", "answer": "No. Compare supported vehicle journey records with the loaded quantities, receiving acknowledgements and returns for each order. A location or stop event does not measure stock, confirm acceptance or settle a partial-delivery balance."},
 {"question": "When is a Lahaul or Spiti vehicle ready for its next assignment?", "answer": "Confirm completion of the current assignment, the agreed return point or base handover, and the receiving coordinator’s acknowledgement. Check the age of the latest vehicle update as supporting evidence. A completed outward trip or a last-reported map position alone does not establish availability."},
 {"question": "Does a Chamba vehicle reporting gap mean the vehicle has stopped?", "answer": "No. Check the timestamp of the last received update and use the agreed dispatcher check-in procedure. A stale map position cannot establish the current location, journey completion or the reason updates are missing."},
@@ -252,7 +258,7 @@ export default function HimachalPradeshPage() {
         <ol className="mt-6 list-decimal space-y-5 pl-5 leading-7 text-slate-700">{plan.steps.map(step => <li key={step}>{step}</li>)}</ol>
         <Link href={plan.related} className="mt-6 block font-semibold text-blue-700 underline">{plan.relatedLabel}</Link>
         <a href="#installation" className="mt-4 block text-blue-700 underline">Confirm fitting arrangements for your location</a>
-        <p className="mt-5 text-sm text-slate-500">Geography reference: <a href={plan.source} className="underline">{plan.sourceLabel}</a>.</p>
+        <p className="mt-5 text-sm text-slate-500">Geography reference: <a href={plan.source} className="underline">{plan.sourceLabel}</a>{plan.id === "mandi" && <>. Visitor destinations: <a href="https://hpmandi.nic.in/tourist-place/riwalsar/" className="underline">Mandi district Rewalsar guide</a></>}{plan.id === "kullu" && <>. Visitor destinations: <a href="https://hpkullu.nic.in/places-of-interest/" className="underline">Kullu district places of interest</a></>}.</p>
       </article>)}</div>
     </div></section>
     <section className="bg-slate-50 py-20"><div className="mx-auto max-w-7xl px-6">
@@ -271,7 +277,7 @@ export default function HimachalPradeshPage() {
         <ol className="mt-6 list-decimal space-y-4 pl-5 leading-7 text-slate-700"><li>Share the vehicle model, power supply, fleet size, district and exact fitting location.</li><li>List recurring routes, reporting intervals, required trip records and who receives alerts.</li><li>Confirm device, SIM, platform, installation and renewal charges, plus any accessories.</li><li>Test a real journey after fitting, including location timestamps, available alert events and dispatcher access.</li></ol>
         <div className="mt-7 flex flex-wrap gap-5"><Link href="/products/g17-gps-tracker" className="font-semibold text-blue-700 underline">Review G17 specifications</Link><Link href="/software" className="font-semibold text-blue-700 underline">Explore fleet software</Link></div>
       </div>
-      <aside className="rounded-3xl bg-[#06142E] p-8 text-white"><h2 className="text-2xl font-bold">Discuss your Himachal vehicle setup</h2><p className="mt-5 leading-7 text-slate-300">Contact our Dera Bassi office with the actual installation location to confirm arrangements and compatible products.</p><p className="mt-5 leading-7 text-slate-300">NAVII GPS INDIA (OPC) PRIVATE LIMITED<br />SCO 46, Barwala Road,<br />Dera Bassi, Punjab – 140507, India</p><a href="tel:+918899729705" className="mt-6 inline-block rounded-xl bg-cyan-500 px-5 py-3 font-semibold text-slate-950">Call +91 88997 29705</a><Link href="/contact" className="mt-5 block text-cyan-200 underline">Request a Himachal quotation</Link></aside>
+      <aside className="rounded-3xl bg-[#06142E] p-8 text-white"><h2 className="text-2xl font-bold">Discuss your Himachal vehicle setup</h2><p className="mt-5 leading-7 text-slate-300">Contact our Dera Bassi office with the actual installation location to confirm arrangements and compatible products.</p><p className="mt-5 leading-7 text-slate-300">NAVII GPS INDIA (OPC) PRIVATE LIMITED<br />SCO 46, Barwala Road,<br />Dera Bassi, Punjab – 140507, India</p><a href="tel:+917717394007" className="mt-6 inline-block rounded-xl bg-cyan-500 px-5 py-3 font-semibold text-slate-950">Call +91 77173 94007</a><Link href="/contact" className="mt-5 block text-cyan-200 underline">Request a Himachal quotation</Link></aside>
     </div></section>
     <TrackingSolutionLinks location="Himachal Pradesh" sectors={sectors} />
     <section className="bg-white py-20"><div className="mx-auto max-w-5xl px-6"><h2 className="text-3xl font-bold text-slate-900">Himachal Pradesh GPS tracker questions</h2><div className="mt-8 space-y-5">{faqs.map(faq => <article key={faq.question} className="rounded-2xl border border-slate-200 p-6"><h3 className="text-lg font-bold text-slate-900">{faq.question}</h3><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></article>)}</div></div></section>

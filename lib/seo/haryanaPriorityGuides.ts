@@ -1,5 +1,245 @@
 export type HaryanaPriorityGuide = { source?: string; sourceLabel?: string; title: string; description: string; cases: { title: string; text: string }[]; faqs: { question: string; answer: string }[] };
 export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
+  "kurukshetra": {
+    "title": "GPS Tracker in Kurukshetra District, Haryana",
+    "description": "Plan Kurukshetra GPS tracking for paddy and rice dispatches. Separate milling stages, by-product loads and tractor-trailer assignments in your trip records.",
+    "source": "https://kurukshetra.gov.in/economy/",
+    "sourceLabel": "Kurukshetra district administration: agricultural economy",
+    "cases": [
+      {
+        "title": "Separate incoming paddy from outgoing rice",
+        "text": "Kurukshetra's district economy guide identifies rice cultivation and rice-processing units. When planning a mill journey, label the load as incoming paddy, processed rice or another specified material, with its own dispatch reference and receiver. Keep the milling job separate from the transport job: a vehicle reaching the mill does not establish that processing has finished or that the resulting rice has been dispatched."
+      },
+      {
+        "title": "Give milling by-products their own dispatch record",
+        "text": "If a Kurukshetra milling operation sends husk or bran to a different buyer, create a separate load reference with the material, agreed quantity unit and receiving premises. Link that movement to the relevant milling record without treating it as the rice delivery. Reconcile the buyer acknowledgement against that specific load; a route trace cannot identify a by-product or calculate the milling yield."
+      },
+      {
+        "title": "Record tractor and trailer changes during a load cycle",
+        "text": "For a Kurukshetra agricultural journey using a detachable trailer, record the towing vehicle, trailer identifier and the time of any reassignment. If the tractor leaves a loaded trailer at a mill and takes another away, keep both handovers in the dispatch record. A tracker fitted only to the tractor reports that device position, not the detached trailer. Pilot a complete loading, uncoupling and return cycle and confirm any separate trailer hardware before relying on an asset-location report."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can GPS confirm that Kurukshetra paddy has become a completed rice order?",
+        "answer": "No. Keep the mill processing record and finished-rice dispatch acknowledgement separately from vehicle movements. Reaching or leaving a mill does not identify the material carried, its quantity or the milling yield."
+      },
+      {
+        "question": "Will a tractor GPS show a trailer left at a Kurukshetra mill?",
+        "answer": "A tracker installed only on the tractor follows that device, not the detached trailer. Record the trailer handover and reassignment, and confirm suitable separate hardware if you need to locate the trailer independently."
+      }
+    ]
+  },
+  "pehowa": {
+    "title": "GPS Tracker in Pehowa, Kurukshetra",
+    "description": "Plan GPS tracking for Pehowa dairy collection journeys. Match collection lots and receiving records, distinguish quality evidence and reconcile container returns.",
+    "source": "https://cisharyana.in/home/industries_list?dept_id=3&distt_id=11",
+    "sourceLabel": "Haryana Central Inspection System: Kurukshetra industry addresses",
+    "cases": [
+      {
+        "title": "Keep each dairy collection lot tied to its pickup record",
+        "text": "Haryana's industry register lists a milk-foods establishment on Kaithal Road in Pehowa. If planning dairy collection journeys around the town, give each pickup a supplier or collection-point reference, recorded time, quantity unit and receiving destination. Several collections on one vehicle journey need separate lot records. Compare supported trip timestamps with those records; a vehicle stop cannot identify whose milk was collected or how much was loaded."
+      },
+      {
+        "title": "Use receiving evidence for quality and temperature questions",
+        "text": "For a Pehowa dairy delivery, match the receiver's sample reference, accepted quantity and any rejection reason to the collection lots being handed over. Keep temperature readings with their measurement time and the equipment that produced them. GPS position or time on the road does not establish milk quality or temperature. Confirm any required sensor hardware and reporting integration separately; this location guide does not promise those capabilities."
+      },
+      {
+        "title": "Separate milk delivery from can returns and cleaning records",
+        "text": "Where a Pehowa collection round uses reusable cans, record can identifiers or counts issued, received and still outstanding separately from the milk quantity. Keep empty-can return and cleaning confirmation as distinct records even when they accompany the next pickup. Trial a complete collection, receipt and container-return round against the available trip export, and confirm fitting arrangements, report access and retention for the actual vehicle."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can Pehowa vehicle GPS confirm milk quality or temperature?",
+        "answer": "No. Use the receiver's quality checks and separately recorded temperature measurements, matched to the relevant collection lots. Confirm sensor hardware and reporting support independently; a route trace does not measure either quality or temperature."
+      },
+      {
+        "question": "Should a Pehowa milk delivery also close the empty-can balance?",
+        "answer": "Only reconcile cans from the actual container handover record. Record milk quantity, returned cans, outstanding cans and cleaning confirmation separately; vehicle arrival cannot count containers or prove they were cleaned."
+      }
+    ]
+  },
+  "yamunanagar": {
+    "title": "GPS Tracker in Yamunanagar District, Haryana",
+    "description": "Plan GPS tracking for Yamunanagar plywood dispatches. Keep board specifications with load references, record receiving exceptions and test reporting on factory rounds.",
+    "source": "https://yamunanagar.nic.in/economy/",
+    "sourceLabel": "Yamunanagar district administration: local industries",
+    "cases": [
+      {
+        "title": "Identify the plywood load beyond the vehicle number",
+        "text": "Yamunanagar's district economy page identifies plywood manufacturing among its industries. For a board dispatch, keep the supplier's grade, thickness, sheet dimensions and bundle or sheet quantity with the load reference. Specify which unit is being counted so a bundle total is not mistaken for a sheet total. Link the assigned vehicle to that record; the vehicle marker cannot identify the board specification or quantity on board."
+      },
+      {
+        "title": "Record sheet and packaging exceptions at receipt",
+        "text": "For a Yamunanagar plywood delivery, ask the receiver to record any count difference or visible edge, surface or wrapping issue against the affected load reference. Keep the receiving note and any authorised photographs with the order. Compare the relevant trip and stop timestamps with that evidence, without treating a route trace as proof of cargo condition or when damage occurred. GPS alone does not measure board moisture or verify weather protection."
+      },
+      {
+        "title": "Test reporting at the factory loading point and receiver",
+        "text": "Pilot the actual Yamunanagar factory-to-receiver route before adding more vehicles. Compare reported position timestamps at loading, departure and receipt with the dispatch record, and check whether delayed updates remain distinguishable from current positions. Review the available trip export with the person handling delivery disputes. Confirm hardware placement, mobile-network availability, report retention and fitting access for the operating vehicle rather than assuming every industrial premises has the same conditions."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can GPS confirm a Yamunanagar plywood grade or sheet count?",
+        "answer": "No. Retain the supplier specification and quantity unit in the load record, then reconcile them with the receiver's acknowledgement. GPS helps associate a vehicle journey with the dispatch but cannot identify the boards carried."
+      },
+      {
+        "question": "Does a plywood delivery route prove when damage occurred?",
+        "answer": "No. Review receiving notes and authorised condition photographs alongside the relevant trip timestamps. Location records alone cannot establish cargo condition, moisture or the time and cause of damage."
+      }
+    ]
+  },
+  "jagadhri": {
+    "title": "GPS Tracker in Jagadhri, Yamunanagar",
+    "description": "Plan GPS tracking for Jagadhri metal and utensil jobs. Distinguish pieces from sets, track workshop processing stages and reconcile finished goods with unused material.",
+    "source": "https://yamunanagar.nic.in/town-jagadhri/",
+    "sourceLabel": "Yamunanagar district administration: Jagadhri town and industry",
+    "cases": [
+      {
+        "title": "State the quantity unit for each utensil dispatch",
+        "text": "The district's Jagadhri guide describes its metal industry, including brassware and stainless steel products. For a utensil order, record the item or set reference and whether the dispatch quantity means individual pieces, complete sets or cartons. Keep the pack composition with the order where it matters. A carton count or vehicle visit alone cannot establish that each requested set is complete."
+      },
+      {
+        "title": "Keep workshop processing stages separate from customer delivery",
+        "text": "If a Jagadhri metal job moves to another workshop for polishing or another agreed process, label that journey with the job reference and expected processing stage. Record what the workshop accepted and which items remain due back. Keep the workshop stop distinct from the final customer destination; reaching the processor does not prove that the work has finished or that finished goods have reached the buyer."
+      },
+      {
+        "title": "Reconcile finished pieces and unused material on return",
+        "text": "When a Jagadhri processing job returns, record finished pieces, rejected items and unused material separately, using the agreed quantity or weight units. Do not classify everything arriving on the return vehicle as completed stock. Trial an outward workshop job and its return against supported trip records and the job ledger, then confirm who can access reports, how long records are retained and how the actual vehicle will be fitted."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can a Jagadhri GPS stop prove a utensil set is complete?",
+        "answer": "No. Use the order's set composition, packing record and receiving acknowledgement to verify completeness. Vehicle location cannot count the pieces inside a carton or identify missing components."
+      },
+      {
+        "question": "How should a Jagadhri workshop return be reconciled?",
+        "answer": "Link it to the original processing job and record finished pieces, rejected items and unused material separately. Compare the return journey with the workshop handover record; vehicle arrival is not proof that all returned material is finished stock."
+      }
+    ]
+  },
+  "sonipat": {
+    "title": "GPS Tracker in Sonipat District, Haryana",
+    "description": "Plan GPS tracking for Sonipat industrial transfers. Match dispatch and receiving sites, reconcile returnable pallets or crates, and review repeat shuttle journeys.",
+    "source": "https://sonipat.gov.in/department/hsidc/",
+    "sourceLabel": "Sonipat district administration: HSIIDC Kundli directory",
+    "cases": [
+      {
+        "title": "Identify both ends of an industrial transfer",
+        "text": "Kundli is part of Sonipat district's industrial setting, with an HSIIDC office listed in the district directory. For a transfer between a Kundli premises and another Sonipat location, record separate dispatch and receiving site codes, exact entrances and the transfer reference. Two sites belonging to the same business still need separate journey endpoints; an office address is not automatically the loading premises."
+      },
+      {
+        "title": "Reconcile returnable pallets and crates separately",
+        "text": "If a Sonipat industrial delivery uses returnable pallets or crates, record the number issued, accepted back and left outstanding against the transfer. Keep empty-container collection distinct from the goods delivery, even when both happen on one vehicle visit. Vehicle GPS cannot count packaging or prove that it was returned. Use the signed exchange record to resolve a container balance rather than closing it from a geofence event."
+      },
+      {
+        "title": "Give each shuttle circuit its own transfer reference",
+        "text": "A vehicle shuttling repeatedly between Sonipat sites may follow the same route several times. Pair each outward movement with its own receiving record and return assignment; do not reuse the first completed transfer for later circuits. Pilot a working shift with a goods delivery and an empty-container collection, comparing supported trip timestamps with the transfer register before choosing reporting access and fitting arrangements."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can GPS confirm a Sonipat pallet or crate balance?",
+        "answer": "No. Keep issued, returned and outstanding quantities in the container exchange record. GPS can help match a vehicle visit to that record, but cannot count packaging or confirm its condition."
+      },
+      {
+        "question": "How can repeated Sonipat shuttle trips be distinguished?",
+        "answer": "Assign a separate transfer reference to each circuit, with dispatch and receiving sites, handover records and the return task. Match those references to supported trip timestamps instead of treating all visits between the same sites as one transfer."
+      }
+    ]
+  },
+  "gohana": {
+    "title": "GPS Tracker in Gohana, Sonipat",
+    "description": "Plan GPS tracking for Gohana grain-market transport. Keep crop lots separate, match weighing slips to the right journey and confirm onward unloading instructions.",
+    "source": "https://hsamb.org.in/grain-market",
+    "sourceLabel": "Haryana State Agricultural Marketing Board: grain markets",
+    "cases": [
+      {
+        "title": "Keep each grain lot tied to its vehicle assignment",
+        "text": "The Haryana State Agricultural Marketing Board lists Gohana as a grain market. For a market-bound load, record the crop lot reference, originating pickup and assigned vehicle, and confirm the actual receiving yard with the coordinator. If several lots share a vehicle, keep their records distinct. A Gohana map position cannot identify the grower, crop grade or lot carried, and this guide does not state current procurement arrangements."
+      },
+      {
+        "title": "Match weighing records to the correct load cycle",
+        "text": "Where the Gohana transport job includes weighing, retain the weighbridge slip reference, vehicle registration, recorded weight and timestamp with that load. If loaded and empty readings are required, pair the readings for the same load cycle rather than combining slips from different trips. GPS movement can help review the visit sequence; it cannot measure crop weight, moisture or quality, or replace the weighing record."
+      },
+      {
+        "title": "Confirm the unloading destination after the market visit",
+        "text": "A Gohana market visit may be followed by an instructed journey to storage or another receiver. Record that destination and who authorised it before dispatching the next leg. Keep unloading acknowledgement separate from market arrival and vehicle departure. Trial a market-to-receiver journey with supported trip records, checking location freshness and access for the coordinator, then confirm compatible hardware, installation and renewal costs for the actual vehicle."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can vehicle GPS measure a Gohana grain load?",
+        "answer": "No. Use the relevant weighing records for weight and the authorised inspection records for crop quality. Associate the slips and lot reference with the correct vehicle journey; a location event cannot replace those records."
+      },
+      {
+        "question": "Does arrival at Gohana grain market complete the transport job?",
+        "answer": "Only if the agreed task ends there and its handover is confirmed. If onward unloading is required, retain the receiver instruction and track that journey leg separately until its own acknowledgement is recorded."
+      }
+    ]
+  },
+"rohtak": {
+  "title": "GPS Tracker in Rohtak District, Haryana",
+  "description": "Plan GPS tracking for Rohtak campus deliveries. Separate gate arrival, department handover and unreceived consignments when reviewing vehicle journeys.",
+  "source": "https://rohtak.gov.in/public-utility-category/universities/",
+  "sourceLabel": "Rohtak district administration: universities",
+  "cases": [
+    {
+      "title": "Identify the campus department receiving the delivery",
+      "text": "Rohtak's university directory includes Maharshi Dayanand University and other institutions. For a campus delivery, record the institution, department, receiving contact and agreed vehicle entrance. Confirm entry arrangements directly before dispatch. A university address or map pin does not identify the department store or grant vehicle access; this planning example does not imply a NAVII GPS institutional partnership."
+    },
+    {
+      "title": "Separate the gate stop from the consignment handover",
+      "text": "A Rohtak delivery vehicle may stop at an entrance before proceeding to the receiving department. Keep the gate arrival and actual handover as separate events in the delivery record. Match the receiver acknowledgement to the consignment reference. GPS stop history supports movement review but cannot establish that staff checked or accepted the items."
+    },
+    {
+      "title": "Keep unreceived items open when the vehicle returns",
+      "text": "If a campus receiver is unavailable, record which items remain on the vehicle and the agreed next action. Do not mark the order delivered merely because the vehicle entered the campus or returned to its depot. Trial a partly completed delivery round and compare supported trip exports with individual handover records before selecting reporting access, retention and installation arrangements."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Does a GPS stop at a Rohtak campus prove delivery?",
+      "answer": "No. A stop records vehicle movement, not acceptance of a consignment. Keep the department, order reference and receiver acknowledgement alongside the trip record; an entrance stop may precede the actual handover."
+    },
+    {
+      "question": "How should an unsuccessful Rohtak campus delivery be recorded?",
+      "answer": "Keep the unreceived items and reason against the original order, confirm their return or next delivery instruction, and retain the receiver response. Vehicle return to the depot does not close the delivery."
+    }
+  ]
+},
+"meham": {
+  "title": "GPS Tracker in Meham, Rohtak",
+  "description": "Plan GPS tracking for Meham document courier rounds. Confirm the receiving office, distinguish a vehicle visit from a receipt and record return collections.",
+  "source": "https://rohtak.gov.in/divisions/sub-division/",
+  "sourceLabel": "Rohtak district administration: subdivision offices",
+  "cases": [
+    {
+      "title": "Confirm the office before sending a Meham courier",
+      "text": "Rohtak district's subdivision directory lists an SDM office at Meham. For a document courier journey, confirm the exact receiving office, department and appointment directly with the recipient. A Meham-area address is not automatically a booking at the SDM office. Keep current opening times and acceptance requirements separate from the vehicle route plan."
+    },
+    {
+      "title": "Match the receipt to the envelope reference",
+      "text": "For a Meham courier carrying several document packets, use a separate dispatch reference and receipt for each handover. Keep confidential document details in the authorised work record rather than a shared vehicle-location link. A GPS visit cannot prove that a packet was submitted, checked or accepted, and should not replace the recipient's acknowledgement."
+    },
+    {
+      "title": "Treat the return collection as a separate task",
+      "text": "If a document must be collected later from Meham, confirm that it is ready and assign a collection instruction linked to the original dispatch. Do not infer readiness from a previous visit. Pilot an outward submission and later collection with supported trip records, checking timestamps, user access and fitting arrangements for the courier's actual vehicle."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Can a Meham GPS visit replace a document receipt?",
+      "answer": "No. Keep the recipient's acknowledgement against the packet reference. Vehicle location can support journey review, but cannot confirm submission, acceptance or processing of documents."
+    },
+    {
+      "question": "Should a Meham return collection be inferred from the original trip?",
+      "answer": "No. Confirm readiness with the receiving office and record a separate collection task. Link it to the original dispatch reference and reconcile the actual collection acknowledgement with the assigned vehicle journey."
+    }
+  ]
+},
 "hisar": {
   "title": "GPS Tracker in Hisar District, Haryana",
   "description": "Plan GPS tracking in Hisar for multi-desk fleet dispatch. Review vehicle responsibility, overlapping orders and shift handovers across district destinations.",
@@ -62,7 +302,7 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
 },
 "panipat": {
   "title": "GPS Tracker in Panipat District, Haryana",
-  "description": "Plan GPS tracking in Panipat for textile dispatches. Match roll and bale references, loading sequences and customer receiving records to vehicle journeys.",
+  "description": "Plan Panipat textile GPS tracking with roll references, split deliveries and carrier handovers. Review vehicle journeys alongside receiving records.",
   "source": "https://panipat.gov.in/industries/",
   "sourceLabel": "Panipat district administration: textile and Samalkha foundry industries",
   "cases": [
@@ -77,6 +317,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "title": "Record packaging exceptions at the receiving point",
       "text": "Keep any wet, torn or missing packaging observations with the receiver record and the affected roll or bale reference. Compare the assigned vehicle journey with that record without treating location or waiting time as proof of cargo condition. Pilot a multi-customer round and confirm available trip exports, retention and fitting arrangements before fleet rollout."
+    },
+    {
+      "title": "Reconcile a partly accepted textile order",
+      "text": "If a Panipat receiver accepts only some rolls or bales, record accepted and returned identifiers separately against the original order. Give the remaining load an agreed destination before the vehicle leaves. Compare supported trip history with those acknowledgements; a stop at the customer does not close the entire order or establish the reason for a rejection."
+    },
+    {
+      "title": "Keep carrier transfers traceable",
+      "text": "When textile consignments move from a local pickup vehicle to an onward carrier, record both vehicle references, the transfer premises and the acknowledged handover time. Retain the roll or bale list for each leg. GPS from the first vehicle cannot show the onward load after transfer unless the second movement has its own supported tracking arrangement."
     }
   ],
   "faqs": [
@@ -87,12 +335,20 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "question": "How should a changed Panipat delivery sequence be reviewed?",
       "answer": "Retain the revised stop order and confirm that the planned consignment can be unloaded at each receiver. Reconcile supported stop timestamps with individual order acknowledgements; the first delivery does not close the remaining textile orders."
+    },
+    {
+      "question": "Does a Panipat delivery stop close a partly accepted textile order?",
+      "answer": "No. Reconcile the accepted roll or bale identifiers, returned items and remaining balance using the receiver acknowledgement. Vehicle stop records support journey review but do not establish accepted quantities."
+    },
+    {
+      "question": "Can the pickup vehicle tracker follow textiles after a carrier transfer?",
+      "answer": "No. Its position belongs to the tracked vehicle. Record the onward carrier and handover against the consignment, and confirm a separate tracking arrangement for the next leg if required."
     }
   ]
 },
 "samalkha": {
   "title": "GPS Tracker in Samalkha, Panipat",
-  "description": "Plan GPS tracking in Samalkha for foundry collections. Confirm release readiness, loading appointments and casting return references alongside vehicle trips.",
+  "description": "Plan Samalkha foundry GPS tracking with release checks, staged casting collections and rework returns. Match each vehicle trip to supplier records.",
   "source": "https://panipat.gov.in/industries/",
   "sourceLabel": "Panipat district administration: textile and Samalkha foundry industries",
   "cases": [
@@ -107,6 +363,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "title": "Keep rejected castings separate from the next collection",
       "text": "If castings return for inspection or rework, link the return reference to the original order and list the items accepted back by the supplier. Keep this return task separate from any fresh collection on the same vehicle. Trial the outward and return legs against available trip records and confirm hardware, reporting and installation requirements for the actual operating base."
+    },
+    {
+      "title": "Track staged casting collections against the order",
+      "text": "If a Samalkha supplier releases a casting order in stages, give each collection its own release reference, item list and vehicle assignment. Record the outstanding balance with the supplier before arranging another trip. Compare supported journey timestamps with each loading acknowledgement; a first collection does not prove the full order is available or complete."
+    },
+    {
+      "title": "Distinguish reworked items from replacement castings",
+      "text": "When collecting after a rework return, ask the supplier to identify whether each item is the original casting after rework or a replacement. Link the new release record to the earlier return and retain the inspection decision separately. A vehicle revisiting the foundry cannot establish that rework passed inspection, that an item was replaced or that it is suitable for use."
     }
   ],
   "faqs": [
@@ -117,6 +381,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "question": "Can GPS confirm casting weight or acceptance of a rework return?",
       "answer": "No. Use the relevant weighing, inspection and supplier acceptance records. Link a returned casting to its order and vehicle journey; location data alone cannot measure the load or prove acceptance for rework."
+    },
+    {
+      "question": "How should staged Samalkha casting collections be tracked?",
+      "answer": "Keep a release reference, item list and receiving acknowledgement for each vehicle trip, with the remaining order balance recorded separately. GPS timestamps do not measure the quantities collected or prove the entire order is complete."
+    },
+    {
+      "question": "Does collecting a casting after rework prove it passed inspection?",
+      "answer": "No. Obtain the supplier release and relevant inspection record, identifying the reworked or replacement item. Vehicle trip history can support the collection timeline but cannot establish product quality or suitability."
     }
   ]
 },
@@ -212,7 +484,7 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
 },
 "ambala-cantt": {
   "title": "GPS Tracker in Ambala Cantt, Ambala",
-  "description": "Plan GPS tracking in Ambala Cantt for passenger pickups and onward journeys. Separate arrival information, vehicle waiting, boarding and return assignments.",
+  "description": "Plan Ambala Cantt GPS trips for station pickups and instrument deliveries. Keep passenger readiness, equipment identity and receiving checks separate.",
   "source": "https://ambala.gov.in/how-to-reach/",
   "sourceLabel": "Ambala district travel information",
   "cases": [
@@ -227,6 +499,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "title": "Reassign a delayed pickup without losing the onward booking",
       "text": "If a delayed Ambala Cantt pickup affects another journey, record any replacement vehicle and effective assignment time in the booking sheet. Keep the passenger acknowledgement and onward destination with that assignment. Review each vehicle leg separately and test supported waiting and trip records on a representative journey before relying on them for dispatch."
+    },
+    {
+      "title": "Identify instruments before the vehicle leaves",
+      "text": "The Haryana industry register lists instrument businesses in Ambala Cantt. For an equipment delivery, record the instrument model or asset reference, case identifiers and accompanying accessories against the receiving order. Confirm the actual delivery premises rather than using a sales-office address by default. A vehicle tracker follows the assigned vehicle; it does not identify the instrument inside a case or establish that all accessories were loaded."
+    },
+    {
+      "title": "Separate equipment receipt from calibration or commissioning",
+      "text": "For an Ambala Cantt instrument delivery or service return, record who received the equipment, any packaging concerns and the accessories handed over. Keep calibration documents, functional checks and commissioning acceptance in the relevant equipment record. If the receiver has only accepted the sealed case, do not close a pending technical check from the GPS arrival. Agree a separate collection instruction for equipment that must return for service."
     }
   ],
   "faqs": [
@@ -237,6 +517,14 @@ export const priorityGuides: Record<string, HaryanaPriorityGuide> = {
     {
       "question": "What should I confirm before arranging GPS fitting for Ambala Cantt vehicles?",
       "answer": "Share the exact fitting location, vehicle models, recurring pickup points and reporting needs with NAVII GPS. Confirm access arrangements, hardware, SIM, platform, installation availability and complete costs before booking; this guide does not establish a local NAVII office."
+    },
+    {
+      "question": "Can GPS confirm that an Ambala Cantt instrument arrived calibrated?",
+      "answer": "No. Vehicle location cannot establish calibration, measurement accuracy or equipment condition. Use the instrument identity and relevant technical documentation, with the receiver recording which checks remain outstanding."
+    },
+    {
+      "question": "What should accompany an instrument service-return trip in Ambala Cantt?",
+      "answer": "Record the equipment or asset reference, case and accessory list, service-return reason and receiving contact. Link the vehicle assignment to that record and obtain a handover acknowledgement. Keep the repair or calibration outcome separate from completion of the vehicle trip."
     }
   ]
 },

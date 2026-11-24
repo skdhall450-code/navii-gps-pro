@@ -50,3 +50,15 @@ final handoff, so evidence updates do not alter the tested source commit.
 The user subsequently authorized a public draft PR and CI. The exact SEO branch
 is disabled in vercel.json's existing branch-specific deployment map before its
 first push. No merge, deployment or indexing submission is authorized.
+
+
+24 November 2026 release continuation
+The city-SEO chat explicitly authorizes routine SEO merge/publication after checks.
+Resume this existing PR under that authorization, superseding its earlier draft-only
+release hold for these public SEO changes. Reconciled with main 51b6981 (PR144).
+Keep both existing panel deployment guards and this SEO branch's preview guard;
+main production remains enabled. No panel, backend, checkout or payment changes.
+Validate the refreshed exact head before merge, then check live Contact answers,
+product specifications/schema, school-bus canonicals and the preserved India hub.
+Final CI, deployment and IndexNow evidence will be recorded in PR108 and reconciled
+in the progress ledger on the next source change. No Google ranking claim.

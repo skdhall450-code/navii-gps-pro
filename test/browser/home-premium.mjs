@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 
 const base = 'http://127.0.0.1:39114';
 const output = 'test-results/home-browser';
@@ -15,6 +15,142 @@ const headings = {
   cta: /Transform Your Fleet With.*NAVII GPS Platform/,
   faq: /Got Questions\?.*We've Got Answers/,
 };
+const priorityGuides = [
+  ['Chandigarh', '/gps-tracker/chandigarh'],
+  ['Dera Bassi', '/gps-tracker/punjab/sahibzada-ajit-singh-nagar/dera-bassi'],
+  ['Mohali', '/gps-tracker/punjab/sahibzada-ajit-singh-nagar/mohali'],
+  ['Zirakpur', '/gps-tracker/punjab/sahibzada-ajit-singh-nagar/zirakpur'],
+  ['Kharar', '/gps-tracker/punjab/sahibzada-ajit-singh-nagar/kharar'],
+];
+async function verifyLocalLinks(page) {
+  const nav = page.getByRole('navigation', { name: 'Local GPS tracking guides', exact: true });
+  assert.equal(await nav.getByRole('link').count(), priorityGuides.length);
+  for (const [name, path] of priorityGuides) {
+    const link = nav.getByRole('link', { name: `GPS tracker in ${name}`, exact: true });
+    assert.equal(await link.getAttribute('href'), path);
+    assert.ok(await link.isVisible(), `${name} discovery link visible`);
+  }
+}
+async function verifyMobileTarget(locator, label) {
+  await locator.scrollIntoViewIfNeeded();
+  const box = await locator.boundingBox();
+  assert.ok(box && box.width >= 44 && box.height >= 44, `${label}: at least 44px tap target`);
+  assert.ok(box.x >= 0 && box.x + box.width <= locator.page().viewportSize().width + 1, `${label}: fits viewport`);
+  // Playwright actionability also checks that a sticky header/overlay does not intercept it.
+  await locator.click({ trial: true });
+}
+async function verifyPublicPhone(page) {
+  const phones = await page.locator('a[href^="tel:"]').evaluateAll(links => links.map(link => link.getAttribute('href')));
+  assert.ok(phones.length > 0, 'Public page offers a call contact');
+  assert.ok(phones.every(phone => phone === 'tel:+917717394007'), 'All public call links use the owner-confirmed number');
+  const schemaPhones = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => {
+    const phones = [];
+    function visit(value) {
+      if (!value || typeof value !== 'object') return;
+      for (const [key, child] of Object.entries(value)) {
+        if (key === 'telephone') phones.push(child);
+        else visit(child);
+      }
+    }
+    for (const script of scripts) visit(JSON.parse(script.textContent));
+    return phones;
+  });
+  assert.ok(schemaPhones.length > 0 && schemaPhones.every(phone => phone === '+917717394007'), 'Business schema agrees with call links');
+}
+async function verifyLocalMobileJourney() {
+  const results = [];
+  for (const width of [320, 390]) {
+    const context = await isolatedContext({ viewport: { width, height: 844 }, isMobile: true, hasTouch: true });
+    const page = await context.newPage();
+    const errors = [];
+    const writes = [];
+    page.on('pageerror', error => errors.push(error.message));
+    context.on('request', request => {
+      if (!['GET', 'HEAD'].includes(request.method())) writes.push(request.method() + ' ' + request.url());
+    });
+    try {
+      for (const [name, path] of priorityGuides) {
+        await page.goto(base, { waitUntil: 'networkidle' });
+        await dismissConsent(page);
+        await verifyLocalLinks(page);
+        const link = page.getByRole('navigation', { name: 'Local GPS tracking guides', exact: true })
+          .getByRole('link', { name: `GPS tracker in ${name}`, exact: true });
+        await verifyMobileTarget(link, `${name} homepage link at ${width}`);
+        await link.click();
+        await page.waitForURL(base + path);
+        await verifyPublicPhone(page);
+        assert.equal(await page.locator('h1').count(), 1);
+        assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://naviigps.com' + path);
+        assert.ok(await page.evaluate(limit => document.documentElement.scrollWidth <= limit, width), `${name}: no overflow at ${width}`);
+        const enquiry = page.getByRole('link', { name: name === 'Chandigarh' ? 'Discuss your Chandigarh fleet' : 'Request a Consultation', exact: true });
+        assert.equal(await enquiry.getAttribute('href'), '/contact');
+        await verifyMobileTarget(enquiry, `${name} enquiry at ${width}`);
+        await page.screenshot({ path: `${output}/local-${name.toLowerCase().replaceAll(' ', '-')}-${width}.png` });
+        await enquiry.click();
+        await page.waitForURL(base + '/contact');
+        await verifyPublicPhone(page);
+        assert.ok(await page.getByRole('heading', { name: 'Request a Free Consultation', exact: true }).isVisible());
+        results.push({ name, width, discovery: 'pass', canonical: 'pass', enquiryNavigation: 'pass' });
+      }
+      const anchor = page.getByRole('link', { name: 'Get Free Consultation', exact: true });
+      await anchor.click();
+      await page.waitForURL(base + '/contact#contact-form');
+      assert.ok(await page.evaluate(limit => document.documentElement.scrollWidth <= limit, width), `Contact: no overflow at ${width}`);
+      for (const [label, type, autocomplete] of [['Full Name', 'text', 'name'], ['Email Address', 'email', 'email'], ['Mobile Number', 'tel', 'tel']]) {
+        const input = page.getByLabel(label, { exact: false });
+        assert.equal(await input.getAttribute('type'), type);
+        assert.equal(await input.getAttribute('autocomplete'), autocomplete);
+        assert.equal(await input.evaluate(element => element.required), true);
+      }
+      assert.equal(await page.getByLabel('Mobile Number').getAttribute('inputmode'), 'tel');
+      const fields = page.locator('#contact-form input:not([name="website"]), #contact-form textarea');
+      assert.equal(await fields.count(), 6);
+      for (const field of await fields.all()) {
+        await verifyMobileTarget(field, `Contact ${await field.getAttribute('name')} at ${width}`);
+        assert.ok(await field.evaluate(element => parseFloat(getComputedStyle(element).fontSize) >= 16), 'Form fields use at least 16px text');
+      }
+      await verifyMobileTarget(page.getByRole('button', { name: 'Submit Enquiry', exact: true }), `Submit control at ${width}`);
+      await page.locator('#contact-form').screenshot({ path: `${output}/local-contact-${width}.png` });
+      assert.deepEqual(errors, [], `No journey runtime errors at ${width}`);
+      assert.deepEqual(writes, [], 'No enquiry or other write request attempted');
+    } finally {
+      await writeFile(`${output}/local-mobile-results.json`, JSON.stringify(results, null, 2));
+      await context.close();
+    }
+  }
+}
+async function verifyContactProgressiveDisclosure() {
+  for (const javaScriptEnabled of [true, false]) {
+    for (const width of [320, 390]) {
+      const context = await isolatedContext({ javaScriptEnabled, viewport: { width, height: 844 }, isMobile: true, hasTouch: true });
+      try {
+        const page = await context.newPage();
+        await page.goto(base + '/contact', { waitUntil: 'networkidle' });
+        await dismissConsent(page);
+        await verifyPublicPhone(page);
+        const details = page.locator('details');
+        assert.equal(await details.count(), 4, 'All four buyer answers are available');
+        for (const item of await details.all()) {
+          const answer = item.locator('p');
+          assert.ok((await answer.textContent()).length > 60, 'Answer text exists before interaction');
+          const summary = item.locator('summary');
+          if (await item.evaluate(element => element.open)) await summary.click();
+          assert.equal(await answer.isVisible(), false);
+          await verifyMobileTarget(summary, `Contact disclosure at ${width}, JavaScript ${javaScriptEnabled}`);
+          await summary.focus();
+          await summary.press('Enter');
+          assert.ok(await answer.isVisible(), 'Keyboard opens native answer');
+          await summary.press('Space');
+          assert.equal(await answer.isVisible(), false, 'Keyboard closes native answer');
+        }
+        assert.ok(await page.evaluate(limit => document.documentElement.scrollWidth <= limit, width), 'Contact FAQ fits mobile viewport');
+        await page.screenshot({ path: `${output}/contact-faq-${width}-js-${javaScriptEnabled}.png` });
+      } finally {
+        await context.close();
+      }
+    }
+  }
+}
 async function isolatedContext(options = {}) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', serviceWorkers: 'block', ...options });
   // Local document/assets only. Never submit forms, call production, or invoke local APIs.
@@ -69,6 +205,7 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(base, { waitUntil: 'networkidle' });
   await dismissConsent(page);
+  await verifyPublicPhone(page);
   assert.equal(await page.locator('h1').count(), 1);
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://naviigps.com');
   const hero = page.locator('[aria-labelledby="home-hero-title"]');
@@ -79,7 +216,7 @@ try {
   assert.equal(await hero.getByRole('link', { name: 'Book a free NAVII GPS product and software demo' }).getAttribute('href'), '/contact');
   const cta = page.locator('section').filter({ has: page.getByRole('heading', { name: headings.cta }) });
   assert.equal(await cta.getByRole('link', { name: /Get Free Demo/ }).getAttribute('href'), '/contact');
-  assert.equal(await cta.getByRole('link', { name: /Call Now/ }).getAttribute('href'), 'tel:+918899729705');
+  assert.equal(await cta.getByRole('link', { name: /Call Now/ }).getAttribute('href'), 'tel:+917717394007');
   assert.equal(await cta.getByRole('link', { name: /WhatsApp/ }).getAttribute('href'), 'https://wa.me/917717394007');
   await verifyFAQ(page);
   await hero.getByRole('link', { name: 'Explore Products', exact: true }).click();
@@ -124,6 +261,9 @@ try {
   assert.deepEqual(errors, [], 'No Home runtime errors');
   await context.close();
 
+  await verifyLocalMobileJourney();
+  await verifyContactProgressiveDisclosure();
+
   const motionContext = await isolatedContext({ reducedMotion: 'no-preference' });
   const motionPage = await motionContext.newPage();
   await motionPage.goto(base, { waitUntil: 'networkidle' });
@@ -137,6 +277,7 @@ try {
   const noJS = await isolatedContext({ javaScriptEnabled: false });
   const staticPage = await noJS.newPage();
   await staticPage.goto(base, { waitUntil: 'networkidle' });
+  await verifyLocalLinks(staticPage);
   assert.ok(await staticPage.locator('#home-hero-title').isVisible(), 'Hero available without JavaScript');
   assert.equal(await staticPage.locator('[data-hero-feature] svg').count(), 3, 'Floating icons present in server HTML');
   for (const pattern of Object.values(headings)) {
@@ -152,7 +293,7 @@ try {
   assert.ok(await staticPage.locator('details[name="navii-home-faq"]').first().locator('p').isVisible(), 'Initial FAQ answer visible without JavaScript');
   await verifyFAQ(staticPage);
   await noJS.close();
-  console.log('PASS premium Home: original hero asset, original CTA URLs, products/back, FAQ keyboard/repeated/native no-JS toggles, responsive overflow/screenshots, reduced-motion and progressive reveal. No forms submitted or external API calls.');
+  console.log('PASS premium Home: original hero asset, original CTA URLs, products/back, FAQ keyboard/repeated/native no-JS toggles, responsive overflow/screenshots, five local guide journeys at 320/390px with readable contact controls and no-JS discovery, reduced-motion and progressive reveal. No forms submitted or external API calls.');
 } finally {
   if (browser) await browser.close();
   server.kill('SIGTERM');
