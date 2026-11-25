@@ -621,3 +621,11 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Resume existing PR #108 with current main 51b6981, preserving current homepage/mobile/contact improvements and both panel deployment guards. Add its existing preview guard without disabling main. No unrelated PR merge or duplicate URL.
 - [x] Reuse the existing native four-answer FAQ, server-rendered product specifications/descriptive Product schema and school-bus software-intent fixes. Carry the previously validated #142 native FAQ browser coverage into the current Home test without importing other #142 changes.
 - [ ] Complete full hosted validation and live publication checks; final evidence belongs in PR #108, then reconcile here on the next source edit. Next existing city draft: #139; next missing UT: Puducherry. Google indexing/ranking unverified.
+
+
+### 2026-11-25 Delhi handover continuation
+
+- [x] PR #108 published at `816e77570f2980fbc21e239fab3db4b38c3f6f93`; PR CI 45360016920 / main CI 45360998315 passed 147 regressions, build/lint/source/rendered SEO (2,037 URLs) and browser suites. Exact live commit and buyer pages verified; IndexNow 45361863485 accepted 2,037 URLs with HTTP 200. This supersedes the earlier pending #108 publication gate.
+- [x] Resume existing #139 on that current main, retaining both Delhi canonical routes and all current shared changes. Current standing user release authorization supersedes the original draft's review-only hold; no combined #142 or unrelated PR merge.
+- [x] Four authored planning sections and six visible/schema FAQs each; descriptions, existing titles/H1, self-canonicals, parent/sibling navigation and sitemap entries retained. No new geographic, device or installation promises. Source facts and mobile verification plan recorded in [Pan-India progress](pan-india-seo-progress.md).
+- [ ] Finish hosted checks, exact deployment and live acceptance for #139; final evidence in the PR is authoritative until reconciled here on the next source change. Next missing UT: Puducherry, then existing East India guides. Google indexing/ranking unverified.

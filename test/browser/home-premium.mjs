@@ -151,6 +151,57 @@ async function verifyContactProgressiveDisclosure() {
     }
   }
 }
+async function verifyDelhiGuideMobileJourney() {
+  for (const javaScriptEnabled of [true, false]) {
+    for (const width of [320, 390]) {
+      const context = await isolatedContext({ javaScriptEnabled, viewport: { width, height: 844 }, isMobile: true, hasTouch: true });
+      try {
+        const page = await context.newPage();
+        const errors = [];
+        page.on('pageerror', error => errors.push(error.message));
+        for (const [slug, name, sibling] of [['janakpuri', 'Janakpuri', 'vikaspuri'], ['vikaspuri', 'Vikaspuri', 'janakpuri']]) {
+          const path = `/gps-tracker/delhi/west/${slug}`;
+          await page.goto(base + path, { waitUntil: 'networkidle' });
+          await dismissConsent(page);
+          assert.equal(await page.locator('h1').count(), 1);
+          assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://naviigps.com' + path);
+          const checklist = page.locator('section').filter({ has: page.getByRole('heading', { name: `${name} fleet planning checklist`, exact: true }) });
+          assert.equal(await checklist.locator('article').count(), 4);
+          for (const article of await checklist.locator('article').all()) {
+            await article.scrollIntoViewIfNeeded();
+            assert.ok(await article.locator('h3').isVisible());
+            assert.ok(await article.locator('p').isVisible());
+          }
+          const faq = page.locator('section').filter({ has: page.getByRole('heading', { name: `GPS Tracking in ${name}: FAQs`, exact: true }) });
+          const structured = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => scripts.flatMap(script => {
+            const value = JSON.parse(script.textContent);
+            return value['@graph'] || [value];
+          }).find(value => value['@type'] === 'FAQPage').mainEntity);
+          assert.equal(structured.length, 6);
+          assert.equal(await faq.locator('article').count(), structured.length);
+          for (const item of structured) {
+            const article = faq.locator('article').filter({ has: page.getByRole('heading', { name: item.name, exact: true }) });
+            assert.equal(await article.locator('p').textContent(), item.acceptedAnswer.text);
+            await article.scrollIntoViewIfNeeded();
+            assert.ok(await article.locator('p').isVisible(), 'FAQ is readable with and without JavaScript');
+          }
+          assert.ok(await page.evaluate(limit => document.documentElement.scrollWidth <= limit, width), `${name}: no mobile overflow`);
+          await page.screenshot({ path: `${output}/delhi-${slug}-${width}-js-${javaScriptEnabled}.png` });
+          const related = page.getByRole('navigation', { name: 'Related fleet planning', exact: true }).locator(`a[href="/gps-tracker/delhi/west/${sibling}"]`);
+          await related.click();
+          await page.waitForURL(base + `/gps-tracker/delhi/west/${sibling}`);
+          await page.getByRole('navigation', { name: 'Breadcrumb', exact: true }).getByRole('link', { name: 'West', exact: true }).click();
+          await page.waitForURL(base + '/gps-tracker/delhi/west');
+          assert.ok(await page.locator(`main a[href="${path}"]`).first().isVisible(), 'District exposes the existing guide');
+        }
+        assert.deepEqual(errors, [], 'No Delhi guide runtime errors');
+      } finally {
+        await context.close();
+      }
+    }
+  }
+  console.log('PASS Delhi guides: Janakpuri/Vikaspuri 320/390px, JS on/off, four readable sections, six visible/schema FAQs, no overflow, sibling and district navigation.');
+}
 async function isolatedContext(options = {}) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', serviceWorkers: 'block', ...options });
   // Local document/assets only. Never submit forms, call production, or invoke local APIs.
@@ -263,6 +314,7 @@ try {
 
   await verifyLocalMobileJourney();
   await verifyContactProgressiveDisclosure();
+  await verifyDelhiGuideMobileJourney();
 
   const motionContext = await isolatedContext({ reducedMotion: 'no-preference' });
   const motionPage = await motionContext.newPage();
