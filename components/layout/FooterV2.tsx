@@ -176,12 +176,12 @@ export default function FooterV2() {
 
             <div className="space-y-5">
               <a
-                href="tel:+918899729705"
+                href="tel:+917717394007"
                 className="flex items-start gap-3 text-slate-300 transition hover:text-cyan-300"
               >
                 <Phone size={20} className="mt-1 text-cyan-400" />
 
-                <span>Sales: +91 88997 29705</span>
+                <span>Sales: +91 77173 94007</span>
               </a>
 
               <a

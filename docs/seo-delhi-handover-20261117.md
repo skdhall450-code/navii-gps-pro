@@ -9,3 +9,8 @@ Janakpuri adds courier/vehicle reassignment and acknowledged packet custody; Vik
 Delhi source checks (13 districts and 62 area records), focused ESLint and diff whitespace checks passed. Build/rendered validation and hosted CI must be recorded in the PR before treating review as complete. Existing DDA references retained; no fresh availability or access claim is made.
 
 Review only: no merge, production publication, IndexNow submission, database, services or routing changes. Google indexing/ranking unverified. Next: finish this batch's validation, then assess existing Himachal sections for useful gaps. Keep published status separate from review readiness.
+
+
+## Release continuation — 25 November 2026
+
+The original review-only checkpoint above is historical. The user's current Pan-India SEO instruction authorizes routine release after checks. Resume this exact batch via PR #139 on main `816e77570f2980fbc21e239fab3db4b38c3f6f93`; do not merge combined #142. [Pan-India progress](pan-india-seo-progress.md) records sources, scope and required release gates. Current source SEO/lint and 147 regressions pass; full hosted build/rendered/browser validation and post-merge production/IndexNow evidence must be recorded in #139 before claiming publication. Next batch is Puducherry under the national ordered backlog, superseding the earlier Himachal suggestion.

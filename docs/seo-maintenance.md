@@ -589,5 +589,43 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Add Jalandhar team-kit venue receiving and event loan-equipment returns; Phagwara approved part substitutions and parts receipt versus repair completion. Two new sections and two visible/schema FAQs each (five sections/seven FAQ pairs per page). Preserve earlier useful guidance.
 - [x] Specific descriptions flow through page/social/WebPage metadata; existing titles, H1, self-canonicals, district/town Service geography, source links and internal navigation retained.
 - [x] Sources rechecked 2026-11-16: https://jalandhar.nic.in/sportshub/ and https://kapurthala.gov.in/about-district/ . Stable sports-goods/spare-parts and Phagwara geography only. New examples are conditional operating advice, not venue affiliation, current factory operations, parts compatibility, repair outcomes, branches or fitting guarantees. No dated statistics reused.
-- [ ] Publication: seo/jalandhar-phagwara-20261116 requires full source SEO, lint, regression, build, rendered SEO and browser CI before merge. Then verify exact deployment, both live pages with five sections/seven FAQ pairs, metadata/schema/navigation, Ludhiana/Khanna regressions and unchanged 2,037-URL sitemap; record IndexNow evidence in PR.
-- [ ] Next: inspect Haryana Panipat/Samalkha existing guides for a distinct useful improvement, retaining established canonicals. Regional district/town/locality coverage remains partial.
+- [x] PR #136 publication reconciled from its recorded evidence: merge 25dda2b473f8c9c92962760a01a7864052cca7c2; PR CI 43814762469 and main CI 43815472802 passed. Exact deployment, both live guides and 2,037-URL sitemap recorded verified. IndexNow 43816008659 accepted submission; Google indexing/ranking remains unverified.
+- [x] Panipat/Samalkha guidance prepared in PR #138; publication continuation recorded below. Regional district/town/locality coverage remains partial.
+
+
+### 2026-11-16 Panipat / Samalkha review branch
+
+- [x] Continued from main 25dda2b and PR #136 handoff; inspected existing guides and prior PR #98. Preserved both canonical routes and existing navigation/schema rendering.
+- [x] Panipat: add partial textile acceptance and onward-carrier handovers. Samalkha: add staged casting collections and reworked-versus-replacement identification. Each guide now has five sections and four authored FAQs (seven with three shared FAQs).
+- [x] Update shared page/social/WebPage descriptions. No new routes, schema claims, branches, fitting guarantees or product capabilities.
+- [x] Official industry context rechecked 16 November 2026 at https://panipat.gov.in/industries/ . The source describes textile activity and Samalkha foundries; new workflows are conditional operating guidance, not assertions about individual businesses.
+- [x] Local validation: full source SEO checks, focused ESLint, 140/140 regression tests, production build, rendered Haryana district/town checks and the full 2,037-URL SEO audit passed. Both changed pages have seven matching visible/schema FAQs, one H1 and the existing canonical.
+- [x] Original draft validation completed: hosted SEO and Build Quality run 43849520138 passed for b3b92ac0341cddaaadf75f7b63c588b90c9a3ae9. Publication had not occurred at that checkpoint.
+- [x] Resumed PR #138 on 18 November 2026 under this city-SEO chat's standing authorization for routine merge/publication after checks. Inspected current main 63131fe, open drafts #138/#139/#140 and existing URLs; no duplicate implementation or unrelated PR merge. Official Panipat industry source rechecked; conditional workflow guidance and existing canonical routes retained.
+- [ ] Publication gate: rerun hosted full source SEO, lint, regression, production build, rendered SEO and browser checks against current main before merging #138. Then verify production commit, both live guides, metadata/canonicals, seven visible/schema FAQs each, navigation and sitemap. Final CI/deployment/IndexNow evidence will be recorded in PR #138; reconcile here on the next repository change. Google indexing/ranking remains unverified.
+- [ ] Next: resume the existing priority-location homepage-discovery draft #140, then Delhi locality draft #139; do not create duplicate pages or reimplement these batches. Regional coverage remains partial.
+
+
+### 2026-11-24 Pan-India expansion and prior publication reconciliation
+
+- [x] PR #138 published: merge `29a11316165b7f4f0358c00ae802ec44de06dfa7`; PR CI 44323181698, main CI 44324514090 and IndexNow 44325729817 passed. Panipat/Samalkha live content, seven FAQ pairs each, exact deployment and 2,037-URL sitemap verified. This supersedes the earlier pending #138 publication gate.
+- [x] PR #140 published: merge `a7fd38241814ac80c81c1c71da3ea9e1364168f4`; PR CI 45311868241 and main CI 45312722919 passed 141 tests and the 2,037-URL audit. Five priority-city homepage links, contact form mobile inputs and public-phone consistency verified on production, with mobile/no-JavaScript journeys and exact deployment. IndexNow 45313525154 accepted 2,037 URLs with HTTP 200. Google indexing/ranking unverified.
+- [x] User expanded scope to Pan India. Inspected current main, open SEO drafts, route registries and live sitemap; the first national batch improves existing `/gps-tracker-india` navigation, rollout planning and schema without adding duplicate routes.
+- [x] [Pan-India inventory and ordered backlog](pan-india-seo-progress.md) now tracks all state/UT hubs, five missing UT guides, existing draft continuation and publication checks. Follow that ledger in subsequent national batches; northern locality coverage remains active and partial.
+- [ ] Finish current national batch checks/publication and reconcile its PR evidence before moving to missing UTs or existing East India improvements. Existing #108 and #139 remain pending; unrelated and combined-review PRs are untouched.
+
+
+### 2026-11-24 shared buyer-information SEO continuation
+
+- [x] National hub PR #144 published and verified; final evidence reconciled in [Pan-India progress](pan-india-seo-progress.md). Keep the 31-hub inventory and five missing UTs as partial coverage.
+- [x] Resume existing PR #108 with current main 51b6981, preserving current homepage/mobile/contact improvements and both panel deployment guards. Add its existing preview guard without disabling main. No unrelated PR merge or duplicate URL.
+- [x] Reuse the existing native four-answer FAQ, server-rendered product specifications/descriptive Product schema and school-bus software-intent fixes. Carry the previously validated #142 native FAQ browser coverage into the current Home test without importing other #142 changes.
+- [ ] Complete full hosted validation and live publication checks; final evidence belongs in PR #108, then reconcile here on the next source edit. Next existing city draft: #139; next missing UT: Puducherry. Google indexing/ranking unverified.
+
+
+### 2026-11-25 Delhi handover continuation
+
+- [x] PR #108 published at `816e77570f2980fbc21e239fab3db4b38c3f6f93`; PR CI 45360016920 / main CI 45360998315 passed 147 regressions, build/lint/source/rendered SEO (2,037 URLs) and browser suites. Exact live commit and buyer pages verified; IndexNow 45361863485 accepted 2,037 URLs with HTTP 200. This supersedes the earlier pending #108 publication gate.
+- [x] Resume existing #139 on that current main, retaining both Delhi canonical routes and all current shared changes. Current standing user release authorization supersedes the original draft's review-only hold; no combined #142 or unrelated PR merge.
+- [x] Four authored planning sections and six visible/schema FAQs each; descriptions, existing titles/H1, self-canonicals, parent/sibling navigation and sitemap entries retained. No new geographic, device or installation promises. Source facts and mobile verification plan recorded in [Pan-India progress](pan-india-seo-progress.md).
+- [ ] Finish hosted checks, exact deployment and live acceptance for #139; final evidence in the PR is authoritative until reconciled here on the next source change. Next missing UT: Puducherry, then existing East India guides. Google indexing/ranking unverified.

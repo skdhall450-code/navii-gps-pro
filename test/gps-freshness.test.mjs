@@ -45,5 +45,21 @@ test('cached response expires even if the vehicle object never changes', () => {
   assert.equal(isFresh(new Date(now + 60_001).toISOString(), now), false);
 });
 test('non-finite, negative and missing speed are unavailable rather than invented zero', () => {
-  for (const speed of [NaN, Infinity, -1, null, undefined]) assert.equal(getTelemetry({ ...vehicle, speed }, now).speed, 'Unavailable');
+  for (const speed of [NaN, Infinity, -1, null, undefined, '0']) {
+    const reading = getTelemetry({ ...vehicle, speed }, now);
+    assert.equal(reading.speed, 'Unavailable');
+    assert.equal(reading.state, 'SPEED_UNKNOWN');
+  }
+  assert.equal(getTelemetry({ ...vehicle, speed: 0 }, now).state, 'IDLE');
+  assert.equal(getTelemetry({ ...vehicle, speed: 12.34 }, now).speed, '12.3 km/h');
+});
+
+test('positive speeds that would round to zero are not shown as measured zero', () => {
+  for (const speed of [0.01, 0.049]) {
+    const reading = getTelemetry({ ...vehicle, speed }, now);
+    assert.equal(reading.speed, '<0.1 km/h');
+    assert.equal(reading.state, 'IDLE');
+  }
+  assert.equal(getTelemetry({ ...vehicle, speed: 0 }, now).speed, '0.0 km/h');
+  for (const speed of [0.05, 0.09, 0.1]) assert.equal(getTelemetry({ ...vehicle, speed }, now).speed, '0.1 km/h');
 });
