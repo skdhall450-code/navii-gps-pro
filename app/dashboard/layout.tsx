@@ -23,6 +23,7 @@ import {
   FileBarChart,
   LayoutDashboard,
   LogOut,
+  Mail,
   Map,
   MapPin,
   Radio,
@@ -217,6 +218,15 @@ const managementNavigation: NavItem[] = [
     name: "Dealers",
     href: "/dashboard/dealers",
     icon: Store,
+    roles: [
+      "SUPER_ADMIN",
+      "ADMIN",
+    ],
+  },
+  {
+    name: "Dealer Email Marketing",
+    href: "/dashboard/dealer-email",
+    icon: Mail,
     roles: [
       "SUPER_ADMIN",
       "ADMIN",
