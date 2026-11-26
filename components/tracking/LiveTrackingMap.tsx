@@ -1,5 +1,7 @@
 "use client";
 
+import { formatLastSeen } from "@/lib/communication-time";
+
 import { useVisiblePoll } from "@/hooks/use-visible-poll";
 import { useTrackingNow } from "@/hooks/use-tracking-now";
 import { getTelemetry, getTrackingDetails, hasCoordinates, TRACKING_LABELS } from "@/lib/tracking-state";
@@ -159,68 +161,6 @@ function getCommunicationTimestamp(vehicle: Vehicle): string | null {
 function getCommunicationState(vehicle: Vehicle, now: number): CommunicationState {
   const tracking = getTrackingDetails(vehicle, now);
   return !tracking.connected ? "OFFLINE" : tracking.current ? "LIVE" : "STALE";
-}
-
-function formatLastSeen(
-  value: string | null,
-) {
-  if (!value) {
-    return "Never";
-  }
-
-  const timestamp =
-    new Date(
-      value,
-    ).getTime();
-
-  if (
-    Number.isNaN(timestamp)
-  ) {
-    return "Unknown";
-  }
-
-  const seconds =
-    Math.max(
-      0,
-      Math.floor(
-        (Date.now() -
-          timestamp) /
-          1000,
-      ),
-    );
-
-  if (seconds < 10) {
-    return "Just now";
-  }
-
-  if (seconds < 60) {
-    return `${seconds}s ago`;
-  }
-
-  const minutes =
-    Math.floor(
-      seconds / 60,
-    );
-
-  if (minutes < 60) {
-    return `${minutes}m ago`;
-  }
-
-  const hours =
-    Math.floor(
-      minutes / 60,
-    );
-
-  if (hours < 24) {
-    return `${hours}h ago`;
-  }
-
-  const days =
-    Math.floor(
-      hours / 24,
-    );
-
-  return `${days}d ago`;
 }
 
 function createVehicleIcon(
@@ -823,7 +763,7 @@ export default function LiveTrackingMap() {
 
                           <span>
                             {formatLastSeen(
-                              getCommunicationTimestamp(vehicle),
+                              getCommunicationTimestamp(vehicle), now,
                             )}
                           </span>
                         </div>
@@ -944,7 +884,7 @@ export default function LiveTrackingMap() {
                 <InfoLine
                   label="Last communication"
                   value={formatLastSeen(
-                    getCommunicationTimestamp(selectedVehicle),
+                    getCommunicationTimestamp(selectedVehicle), now,
                   )}
                 />
 
@@ -1226,7 +1166,7 @@ export default function LiveTrackingMap() {
                             <br />
                             Last communication:{" "}
                             {formatLastSeen(
-                              getCommunicationTimestamp(vehicle),
+                              getCommunicationTimestamp(vehicle), now,
                             )}
                           </div>
                         </Popup>
