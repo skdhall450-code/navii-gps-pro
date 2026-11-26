@@ -27,6 +27,9 @@ const mocked = new Map([
   ['next/link', moduleUrl(`export default function Link(props) { return globalThis.__panelTests.React.createElement('a', { href: props.href }, props.children); }`)],
   ['next/navigation', moduleUrl(`export const useParams = () => ({ id: 'v-2' }); export const useRouter = () => ({ replace() {} });`)],
   ['@/components/auth/RoleRouteGuard', moduleUrl(`export default props => props.children;`)],
+  // These tests retain the actual legacy admin dashboard. Customer UI is browser-tested separately.
+  ['@/components/customer/CustomerSession', moduleUrl(`export const useCustomerSession = () => null;`)],
+  ['@/components/customer/CustomerHome', moduleUrl(`export default function CustomerHome() { throw new Error('Legacy dashboard must not render customer Home'); }`)],
   ['@/hooks/use-tracking-now', moduleUrl(`export const useTrackingNow = () => globalThis.__panelTests.now;`)],
   ['@/hooks/use-visible-poll', moduleUrl(`export const useVisiblePoll = () => ({ refresh() {}, pending: false, initialLoading: false });`)],
 ]);

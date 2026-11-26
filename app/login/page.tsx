@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   Eye,
@@ -10,7 +11,6 @@ import {
   LockKeyhole,
   LogIn,
   Mail,
-  MapPin,
   ShieldCheck,
 } from "lucide-react";
 
@@ -201,7 +201,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#050b16] text-white">
+    <main className="min-h-screen bg-[#050b16] text-white" style={{fontFamily:"var(--font-geist-sans), Arial, sans-serif"}}>
       <div className="relative flex min-h-screen overflow-hidden">
         {/* Background */}
         <div className="pointer-events-none absolute inset-0">
@@ -225,7 +225,7 @@ export default function LoginPage() {
             <div>
               <div className="flex items-center gap-4">
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-400/30 bg-blue-500/10 shadow-lg shadow-blue-500/10">
-                  <MapPin className="h-7 w-7 text-blue-400" />
+                  <Image src="/assets/logo/logo.png" width={72} height={45} alt="NAVII GPS" priority className="rounded-lg bg-white p-1" />
                 </div>
 
                 <div>
@@ -246,12 +246,12 @@ export default function LoginPage() {
                 </div>
 
                 <h1 className="text-5xl font-black leading-[1.08] xl:text-6xl">
-                  Track.
+                  Every journey.
                   <br />
-                  Monitor.
+                  One clear
                   <br />
                   <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-                    Control.
+                    view.
                   </span>
                 </h1>
 
@@ -263,7 +263,7 @@ export default function LoginPage() {
                 <div className="mt-10 grid max-w-lg grid-cols-3 gap-4">
                   <Feature title="Live" text="Tracking" />
 
-                  <Feature title="Smart" text="Alerts" />
+                  <Feature title="Journey" text="History" />
 
                   <Feature title="Secure" text="Access" />
                 </div>
@@ -281,7 +281,7 @@ export default function LoginPage() {
               {/* Mobile branding */}
               <div className="mb-10 flex items-center gap-3 lg:hidden">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
-                  <MapPin className="h-6 w-6" />
+                  <Image src="/assets/logo/logo.png" width={64} height={42} alt="NAVII GPS" priority className="rounded-lg bg-white p-1" />
                 </div>
 
                 <div>
