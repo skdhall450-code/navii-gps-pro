@@ -82,7 +82,7 @@ For every batch record changed canonical URLs, source dates, tests, merge SHA, e
 - [x] Preserve all current main changes and both panel deployment guards; retain the exact SEO draft's preview-disable entry. Resolve only the two overlapping deployment-map/test conflicts.
 - [x] Contact: all four qualified answers in initial HTML with native disclosure controls. Products: existing specifications rendered as server definition lists and descriptive Product schema, without prices/offers/ratings. School-bus software route: distinct software-evaluation heading and qualified parent-access wording; both established canonicals retained.
 - [x] PR #108 published 24 November: merge `816e77570f2980fbc21e239fab3db4b38c3f6f93`; PR CI 45360016920 and main CI 45360998315 passed all 147 regressions, source SEO/lint/QR/build, 2,037 rendered URLs and browser suites. Exact production commit, Contact initial HTML/native disclosures, seven product specification/schema pairs and both school-bus routes verified. National hub regression passed. IndexNow 45361863485 accepted 2,037 URLs (HTTP 200). Google indexing/ranking unverified.
-- [ ] Next: resume existing Delhi locality PR #139; then Puducherry missing-UT guide and existing East India quality backlog. Do not merge the combined review PR #142 as a substitute.
+- [x] PR #139 is published and verified on 25 November; exact merge `2eb3bd6f97f00cafb5131b67ffd60a8179abc8cf`. See the release evidence below. Do not merge combined review PR #142 as a substitute.\n- [ ] Next: prepare the substantive Puducherry four-region guide, then existing East India quality backlog. Google indexing/ranking remains unverified.
 
 ## 25 November 2026 Janakpuri / Vikaspuri release continuation
 
