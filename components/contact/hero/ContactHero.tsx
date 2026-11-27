@@ -49,8 +49,8 @@ export default function ContactHero() {
             </Link>
 
             <a
-              href="tel:+917717394007"
-              aria-label="Call NAVII GPS sales on +91 77173 94007"
+              href="tel:+918899729705"
+              aria-label="Call NAVII GPS sales on +91 88997 29705"
               className="flex items-center gap-2 rounded-xl border border-cyan-400/30 px-8 py-4 font-semibold text-white transition hover:bg-white/10"
             >
               <Phone size={18} />

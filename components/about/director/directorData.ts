@@ -13,7 +13,7 @@ export const director = {
 
   email: "helpline@naviigps.com",
 
-  phone: "+91 77173 94007",
+  phone: "+91 88997 29705",
 
   qrImage: "/website-qr.png",
 

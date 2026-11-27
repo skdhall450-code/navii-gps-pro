@@ -143,7 +143,7 @@ export default function LegalPage({
 
               <div className="mt-6 space-y-5 text-sm">
                 <a
-                  href="tel:+917717394007"
+                  href="tel:+918899729705"
                   className="flex gap-3 text-slate-700 transition hover:text-cyan-700"
                 >
                   <Phone
