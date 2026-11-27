@@ -42,7 +42,7 @@ async function verifyMobileTarget(locator, label) {
 async function verifyPublicPhone(page) {
   const phones = await page.locator('a[href^="tel:"]').evaluateAll(links => links.map(link => link.getAttribute('href')));
   assert.ok(phones.length > 0, 'Public page offers a call contact');
-  assert.ok(phones.every(phone => phone === 'tel:+917717394007'), 'All public call links use the owner-confirmed number');
+  assert.ok(phones.every(phone => phone === 'tel:+918899729705'), 'All public call links use the owner-confirmed calling number');
   const schemaPhones = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => {
     const phones = [];
     function visit(value) {
@@ -55,7 +55,7 @@ async function verifyPublicPhone(page) {
     for (const script of scripts) visit(JSON.parse(script.textContent));
     return phones;
   });
-  assert.ok(schemaPhones.length > 0 && schemaPhones.every(phone => phone === '+917717394007'), 'Business schema agrees with call links');
+  assert.ok(schemaPhones.length > 0 && schemaPhones.every(phone => phone === '+918899729705'), 'Business schema agrees with call links');
 }
 async function verifyLocalMobileJourney() {
   const results = [];
@@ -267,7 +267,7 @@ try {
   assert.equal(await hero.getByRole('link', { name: 'Book a free NAVII GPS product and software demo' }).getAttribute('href'), '/contact');
   const cta = page.locator('section').filter({ has: page.getByRole('heading', { name: headings.cta }) });
   assert.equal(await cta.getByRole('link', { name: /Get Free Demo/ }).getAttribute('href'), '/contact');
-  assert.equal(await cta.getByRole('link', { name: /Call Now/ }).getAttribute('href'), 'tel:+917717394007');
+  assert.equal(await cta.getByRole('link', { name: /Call Now/ }).getAttribute('href'), 'tel:+918899729705');
   assert.equal(await cta.getByRole('link', { name: /WhatsApp/ }).getAttribute('href'), 'https://wa.me/917717394007');
   await verifyFAQ(page);
   await hero.getByRole('link', { name: 'Explore Products', exact: true }).click();

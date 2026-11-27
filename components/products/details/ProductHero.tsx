@@ -96,8 +96,8 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </a>
 
             <a
-              href="tel:+917717394007"
-              aria-label="Call NAVII GPS sales at +91 77173 94007"
+              href="tel:+918899729705"
+              aria-label="Call NAVII GPS sales at +91 88997 29705"
               className="flex items-center gap-2 rounded-xl bg-cyan-500 px-7 py-4 font-semibold text-white transition hover:bg-cyan-600"
             >
               <Phone size={20} />
