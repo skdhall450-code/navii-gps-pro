@@ -21,7 +21,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 | Chandigarh | [/gps-tracker/chandigarh](https://naviigps.com/gps-tracker/chandigarh) | 0 | 0 | Review substantive state/city gaps; preserve URLs |
 | Chhattisgarh | [/gps-tracker/chhattisgarh](https://naviigps.com/gps-tracker/chhattisgarh) | 99 | 0 | Review substantive state/city gaps; preserve URLs |
 | Dadra and Nagar Haveli and Daman and Diu | [/gps-tracker/dadra-nagar-haveli-daman-diu](https://naviigps.com/gps-tracker/dadra-nagar-haveli-daman-diu) | 0 | 4 | Review substantive state/city gaps; preserve URLs |
-| Delhi | [/gps-tracker/delhi](https://naviigps.com/gps-tracker/delhi) | 74 | 1 | Resume #139 release verification; then preserve existing locality guides |
+| Delhi | [/gps-tracker/delhi](https://naviigps.com/gps-tracker/delhi) | 74 | 1 | Review existing locality guides; preserve canonical routes |
 | Goa | [/gps-tracker/goa](https://naviigps.com/gps-tracker/goa) | 0 | 14 | Review substantive state/city gaps; preserve URLs |
 | Gujarat | [/gps-tracker/gujarat](https://naviigps.com/gps-tracker/gujarat) | 102 | 25 | Review substantive state/city gaps; preserve URLs |
 | Haryana | [/gps-tracker/haryana](https://naviigps.com/gps-tracker/haryana) | 98 | 1 | Review substantive state/city gaps; preserve URLs |
@@ -69,7 +69,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 ## Ordered continuation
 
 1. Resume any unfinished national-discovery batch before adding another route. Read its PR evidence and current main first.
-2. Shared buyer-information PR #108 is published (evidence below). Complete Delhi locality PR #139 release verification first. Do not merge combined review branch #142 or unrelated panel/shop work without inspecting its scope and exact base.
+2. Shared buyer-information PR #108 and Delhi locality PR #139 are published (evidence below). Do not merge combined review branch #142 or unrelated panel/shop work without inspecting its scope and exact base.
 3. Prepare one substantive missing-UT guide at a time, starting with Puducherry; inspect aliases and existing city coverage again, verify primary sources, and establish a useful local purpose before adding route, metadata, canonical, headings, links, sitemap and accurate schema.
 4. Improve existing Bihar, Odisha, West Bengal and Jharkhand guides in small locally distinct batches, then fill useful gaps in other state/city hierarchies. Route counts alone are not completion criteria.
 5. Continue Chandigarh, Dera Bassi, Mohali, Zirakpur and Kharar maintenance and existing Punjab/Haryana/Himachal/Delhi locality improvements. Avoid duplicate locality URLs.
