@@ -402,6 +402,75 @@ async function verifyLadakhGuideMobileJourney() {
   console.log('PASS Ladakh guide: eight notified districts, four visible/schema FAQs, canonical/metadata, national-directory discovery and mobile layout at 320/390px with JavaScript on/off.');
 }
 
+
+async function verifyAndamanNicobarGuideMobileJourney() {
+  const path = '/gps-tracker/andaman-and-nicobar-islands';
+  const expectedDistricts = [
+    ['South Andaman', 'Sri Vijaya Puram'],
+    ['North & Middle Andaman', 'Mayabunder'],
+    ['Nicobar', 'Car Nicobar'],
+  ];
+  for (const javaScriptEnabled of [true, false]) {
+    for (const width of [320, 390]) {
+      const context = await isolatedContext({ javaScriptEnabled, viewport: { width, height: 844 }, isMobile: true, hasTouch: true });
+      try {
+        const page = await context.newPage();
+        const errors = [];
+        page.on('pageerror', error => errors.push(error.message));
+        await page.goto(base + path, { waitUntil: 'networkidle' });
+        await dismissConsent(page);
+        assert.equal(await page.locator('h1').count(), 1);
+        assert.match(await page.locator('h1').textContent(), /GPS Tracker in Andaman and Nicobar Islands/);
+        assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://naviigps.com' + path);
+        assert.equal(await page.locator('meta[name="description"]').getAttribute('content'), await page.locator('meta[property="og:description"]').getAttribute('content'));
+        const districtSection = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Three districts, two very different transport realities', exact: true }) });
+        const cards = districtSection.locator('article');
+        assert.equal(await cards.count(), 3);
+        for (const [index, [name, headquarters]] of expectedDistricts.entries()) {
+          const card = cards.nth(index);
+          assert.equal(await card.locator('h3').textContent(), name);
+          assert.equal(await card.locator('p').filter({ hasText: 'Headquarters:' }).textContent(), 'Headquarters: ' + headquarters);
+        }
+        const graph = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => scripts.flatMap(script => {
+          const value = JSON.parse(script.textContent);
+          return value['@graph'] || [value];
+        }));
+        assert.ok(graph.some(item => item['@type'] === 'WebPage' && item.url === 'https://naviigps.com' + path));
+        assert.ok(graph.some(item => item['@type'] === 'Service' && item.url === 'https://naviigps.com' + path && item.areaServed?.name === 'Andaman and Nicobar Islands'));
+        const faqSchema = graph.find(item => item['@type'] === 'FAQPage');
+        assert.ok(faqSchema);
+        assert.equal(faqSchema.mainEntity.length, 5);
+        const faqSection = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Andaman and Nicobar GPS tracking FAQs', exact: true }) });
+        const details = faqSection.locator('details');
+        assert.equal(await details.count(), 5);
+        for (const [index, item] of faqSchema.mainEntity.entries()) {
+          const disclosure = details.nth(index);
+          assert.equal(await disclosure.locator('summary').textContent(), item.name);
+          assert.equal(await disclosure.locator('p').textContent(), item.acceptedAnswer.text);
+          await disclosure.locator('summary').click();
+          assert.ok(await disclosure.locator('p').isVisible());
+        }
+        assert.equal(await page.getByRole('link', { name: 'Discuss Your Fleet', exact: true }).getAttribute('href'), '/contact');
+        assert.equal(await page.getByRole('link', { name: 'View India Coverage', exact: true }).getAttribute('href'), '/gps-tracker-india');
+        assert.ok(await page.evaluate(limit => document.documentElement.scrollWidth <= limit, width), 'No horizontal overflow');
+        await page.screenshot({ path: `${output}/andaman-nicobar-${width}-js-${javaScriptEnabled}.png` });
+        await page.getByRole('link', { name: 'View India Coverage', exact: true }).click();
+        await page.waitForURL(base + '/gps-tracker-india');
+        const northSection = page.locator('#south-india');
+        const directoryLink = page.locator('a[href="' + path + '"]').first();
+        await directoryLink.scrollIntoViewIfNeeded();
+        assert.ok(await directoryLink.isVisible(), 'India directory links to canonical Andaman and Nicobar guide');
+        await directoryLink.click();
+        await page.waitForURL(base + path);
+        assert.deepEqual(errors, [], 'No Andaman and Nicobar guide runtime errors');
+      } finally {
+        await context.close();
+      }
+    }
+  }
+  console.log('PASS Andaman and Nicobar guide: three districts, five visible/schema FAQs, canonical/metadata, national directory discovery and mobile layout at 320/390px with JavaScript on/off.');
+}
+
 async function isolatedContext(options = {}) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', serviceWorkers: 'block', ...options });
   // Local document/assets only. Never submit forms, call production, or invoke local APIs.
@@ -518,6 +587,7 @@ try {
   await verifyPuducherryGuideMobileJourney();
   await verifyJammuKashmirGuideMobileJourney();
   await verifyLadakhGuideMobileJourney();
+  await verifyAndamanNicobarGuideMobileJourney();
 
   const motionContext = await isolatedContext({ reducedMotion: 'no-preference' });
   const motionPage = await motionContext.newPage();
