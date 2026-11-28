@@ -8,7 +8,7 @@ Main inspected: `a7fd38241814ac80c81c1c71da3ea9e1364168f4`. Inspected existing r
 
 Scoped children counts URLs beneath each hub path, excluding that hub. Flat city counts deduplicated published entries from `priorityCities` and `westIndiaCities` for that state; they do not measure all cities or verify every child page's content quality. Zero means no routes in that category, not no content: some districts have sections on the state page. Preserve established routes and anchors, including the Punjab priority-town routes.
 
-Eight UT names cross-checked against the Ministry of Home Affairs directory on 24 November 2026: https://www.mha.gov.in/union-territories-divisions . Five were missing at the 24 November baseline. Puducherry has since been published through PR #146, leaving four UT hubs to research and implement. Do not pre-publish empty URLs.
+Eight UT names cross-checked against the Ministry of Home Affairs directory on 24 November 2026: https://www.mha.gov.in/union-territories-divisions . Five were missing at the 24 November baseline. Puducherry (#146) and Jammu and Kashmir (#147) have since been published. Three UT hubs remain to research and implement; Ladakh is now in review. Do not pre-publish empty URLs.
 
 ## Existing guide inventory
 
@@ -52,8 +52,8 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 | UT | Status | Distinct research needed before implementation |
 | --- | --- | --- |
 | Puducherry | Published 28 Nov 2026 via PR #146; one canonical four-region hub | Four regions; preserve one UT route and avoid a Pondicherry alias or thin region pages |
-| Jammu and Kashmir | Candidate in branch `seo/jammu-kashmir-ut-guide-20261128`; not published | One two-division hub for 20 verified districts; no district subpages or unsupported route/access claims. Complete hosted CI and production verification before marking published |
-| Ladakh | Pending, no route published | Long-route planning and mobile-update limitations; no road-opening or fitting guarantees |
+| Jammu and Kashmir | [/gps-tracker/jammu-and-kashmir](https://naviigps.com/gps-tracker/jammu-and-kashmir) | 0 | 0 | Published 28 Nov via PR #147; two-division guide for 20 districts |
+| Ladakh | Candidate `/gps-tracker/ladakh` in `seo/ladakh-eight-district-guide-20261128` | — | — | Review eight notified districts including Sankoo; exact PR-head CI and production gates pending |
 | Andaman and Nicobar Islands | Pending, no route published | Island-specific vehicle bases, road/sea handovers and permitted journey scope |
 | Lakshadweep | Pending, no route published | Island-specific relevance and whether a substantive vehicle guide is useful before creating a page |
 
@@ -71,7 +71,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 
 1. Resume any unfinished national-discovery batch before adding another route. Read its PR evidence and current main first.
 2. Shared buyer-information PR #108 and Delhi locality PR #139 are published (evidence below). Do not merge combined review branch #142 or unrelated panel/shop work without inspecting its scope and exact base.
-3. Complete the Jammu and Kashmir candidate in branch `seo/jammu-kashmir-ut-guide-20261128` through hosted CI and publication verification; then continue Ladakh and Andaman and Nicobar Islands one at a time. Research whether Lakshadweep merits a substantive vehicle/fleet guide before creating a route.
+3. Complete the Ladakh candidate in branch `seo/ladakh-eight-district-guide-20261128` through hosted CI and publication verification; then continue Andaman and Nicobar Islands. Research whether Lakshadweep merits a substantive vehicle/fleet guide before creating a route.
 4. Improve existing Bihar, Odisha, West Bengal and Jharkhand guides in small locally distinct batches, then fill useful gaps in other state/city hierarchies. Route counts alone are not completion criteria.
 5. Continue Chandigarh, Dera Bassi, Mohali, Zirakpur and Kharar maintenance and existing Punjab/Haryana/Himachal/Delhi locality improvements. Avoid duplicate locality URLs.
 
@@ -124,3 +124,12 @@ For every batch record changed canonical URLs, source dates, tests, merge SHA, e
 - [ ] Added hosted Home browser acceptance at 320/390px with JavaScript on/off: both divisions and all 20 districts, four visible/schema FAQ pairs, metadata/canonical, national North India directory discovery, contact/coverage navigation and no horizontal overflow. Added the new review branch to the existing Vercel preview-disable guard and its regression assertion; all CI checks remain enabled.
 - [ ] Await PR CI, full source SEO/lint/build/147+ regression suite, 2,039+ rendered URL audit, hosted browser checks, merge, exact production deployment verification, live page/sitemap checks and IndexNow acknowledgement. Do not claim Google indexing or rankings from IndexNow acceptance.
 - [ ] International expansion remains on hold. Preserve the five northern priority locations and all existing Punjab, Himachal Pradesh, Haryana and Delhi canonical routes. Next missing UTs after this batch: Ladakh, then Andaman and Nicobar Islands; assess Lakshadweep only for substantive fleet intent.
+
+
+## 28 November 2026 Jammu and Kashmir two-division release
+
+- [x] Published via PR #147, exact merge and production commit `be4183d8381e25123611a639804a6eeec6980906`, one canonical route `/gps-tracker/jammu-and-kashmir`.
+- [x] PR CI [46102466858](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46102466858) passed source SEO, lint, 147 regression tests, customer QR, production build, 2,039-URL rendered audit and all browser suites. The dedicated mobile/no-JS journey checked both divisions, all 20 districts, four visible/schema FAQs, metadata, directory discovery and no overflow at 320/390px.
+- [x] Main CI [46103014527](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46103014527) passed. Vercel commit status for the exact merge SHA was success. IndexNow [46103644362](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46103644362) accepted the exact production sitemap of 2,039 URLs. This is submission acknowledgement only; Google indexing/ranking remains unverified.
+- [x] Direct live page/robots/sitemap fetch was unavailable; no direct page HTTP 200 or Google indexing is claimed. No www/DNS settings changed.
+- [ ] Next: complete Ladakh's eight-district guide, then Andaman and Nicobar Islands. Preserve all five northern priority locations; no panel/backend/database/service changes.
