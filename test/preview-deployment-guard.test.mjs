@@ -8,5 +8,6 @@ test('Panel review and SEO draft branches disable Vercel deployment; other branc
     'codex/panel-phase1-20261011': false,
     'codex/panel-motion-parity-20261122': false,
     'seo/crawlable-answers-main-20261105': false,
+    'seo/puducherry-four-region-guide-20261127': false,
   });
 });
