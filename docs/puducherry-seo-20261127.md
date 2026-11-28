@@ -13,6 +13,8 @@ Prepared 27 November 2026 for review on branch `seo/puducherry-four-region-guide
 
 - Government of Puducherry, About Puducherry: https://www.py.gov.in/about-puducherry
 - Government of Puducherry, Districts: https://www.py.gov.in/districts
+- Department of Rural Development, District Profile: https://drda.py.gov.in/district-profile (four separate regions; Puducherry's 12 scattered areas; the neighbouring Tamil Nadu, Kerala and Andhra Pradesh district context)
+- Local Administration Department, Oulgaret Municipality: https://lad.py.gov.in/node/1501 (supports the Oulgaret municipality entry in the national directory)
 - Government of Puducherry, Rural Development / four-region administrative overview: https://py.gov.in/rural-development
 - Directorate of Economics and Statistics, Season and Crop Report 2024–25: https://statistics.py.gov.in/sites/default/files/season-and-crop-report-2024-25.pdf
 
@@ -27,13 +29,13 @@ These sources describe four geographically separate regions: Puducherry, Karaika
 - Unique title/description, canonical, Open Graph and Twitter metadata.
 - Automatic sitemap inclusion through the existing state registry and sitemap pipeline.
 - Dedicated route is excluded from the generic dynamic state route by the existing dedicated-route discovery logic.
-- Exact review branch is disabled in `vercel.json`; do not deploy or merge this branch merely because CI passes.
+- The exact review branch remains preview-disabled in `vercel.json`. The user's standing instruction now authorizes routine public SEO merge/publication after all required checks pass; retain the preview guard and merge only after full CI, rendered audit and browser verification. No panel/backend/database/service changes.
 
 ## Validation gates
 
 Run the repository's existing `npm run seo:check:source`, `npm run lint`, `npm run build` and `npm run seo:check` workflow. Hosted CI must pass on the exact PR head. Inspect the rendered audit for the new canonical, title, description, one H1, self-canonical, indexability, Open Graph/Twitter metadata, WebPage/Service schema, all internal links and unique page metadata. Verify the built sitemap includes exactly one Puducherry URL and the dedicated route owns its prerendered page.
 
-After any separately authorized publication, verify the exact production deployment SHA and live URL, then check the national directory, robots, sitemap and the new page's visible/schema FAQ parity. IndexNow acceptance is submission acknowledgement only; Google indexing and rankings remain unverified.
+After the authorized publication, verify the exact production deployment SHA and live URL, then check the national directory, robots, sitemap and the new page's visible/schema FAQ parity. IndexNow acceptance is submission acknowledgement only; Google indexing and rankings remain unverified.
 
 ## Next backlog
 
