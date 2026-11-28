@@ -1,6 +1,6 @@
 # Puducherry four-region SEO guide
 
-Prepared 27 November 2026 for review on branch `seo/puducherry-four-region-guide-20261127`.
+Prepared 27 November 2026 and published 28 November 2026 through PR #146 (merge/production commit `a9043d2656d1bf83caa4bf64bcf44a16971d6c3a`).
 
 ## Purpose and route
 
@@ -9,7 +9,7 @@ Prepared 27 November 2026 for review on branch `seo/puducherry-four-region-guide
 - The existing route inventory and sitemap had no Puducherry hub. The state/UT directory now includes Puducherry as a South India Union Territory and links it from the existing national directory.
 - Existing city, district and other state/UT URLs remain unchanged.
 
-## Primary geography sources checked 27 November 2026
+## Primary geography sources checked 28 November 2026
 
 - Government of Puducherry, About Puducherry: https://www.py.gov.in/about-puducherry
 - Government of Puducherry, Districts: https://www.py.gov.in/districts
@@ -33,10 +33,15 @@ These sources describe four geographically separate regions: Puducherry, Karaika
 
 ## Validation gates
 
-Run the repository's existing `npm run seo:check:source`, `npm run lint`, `npm run build` and `npm run seo:check` workflow. Hosted CI must pass on the exact PR head. Inspect the rendered audit for the new canonical, title, description, one H1, self-canonical, indexability, Open Graph/Twitter metadata, WebPage/Service schema, all internal links and unique page metadata. Verify the built sitemap includes exactly one Puducherry URL and the dedicated route owns its prerendered page.
+Validation completed:
 
-After the authorized publication, verify the exact production deployment SHA and live URL, then check the national directory, robots, sitemap and the new page's visible/schema FAQ parity. IndexNow acceptance is submission acknowledgement only; Google indexing and rankings remain unverified.
+- [x] Exact PR-head CI [46100185366](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46100185366) passed source SEO, lint, 147/147 regression tests, customer-app QR verification, production build and full rendered audit of all 2,038 public URLs.
+- [x] The dedicated route was prerendered. The audit confirmed metadata, canonical/indexability, schema, internal links and homepage reachability.
+- [x] Added hosted browser checks passed at 320px and 390px with JavaScript enabled and disabled: four region sections, four visible/schema FAQ pairs, metadata/canonical, one national-directory link, contact/coverage navigation and no horizontal overflow.
+- [x] Main CI [46100692156](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46100692156) passed on production merge commit. Vercel commit status reported deployment success.
+- [x] IndexNow [46101244412](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46101244412) verified production commit `a9043d2656d1bf83caa4bf64bcf44a16971d6c3a` and accepted 2,038 URLs with HTTP 200.
+- [ ] Direct page, robots.txt and sitemap.xml retrieval was unavailable from the web/container tools in this run (the container DNS resolver could not resolve naviigps.com). Therefore no direct page HTTP 200 or Google indexing/ranking claim is made. Deployment status and IndexNow exact-commit/sitemap acknowledgement are separately verified.
 
 ## Next backlog
 
-After Puducherry, prepare one missing UT guide at a time: Jammu and Kashmir, Ladakh, Andaman and Nicobar Islands, then Lakshadweep only if research supports a substantive vehicle/fleet guide. Continue the existing Bihar, Odisha, West Bengal and Jharkhand quality backlog. Keep northern priority locations active and preserve all established canonical URLs.
+After Puducherry's publication, prepare one missing UT guide at a time: Jammu and Kashmir, Ladakh and Andaman and Nicobar Islands. Assess Lakshadweep only if research supports a substantive vehicle/fleet guide. Continue the existing Bihar, Odisha, West Bengal and Jharkhand quality backlog. Keep northern priority locations active, preserve all established canonical URLs and keep international expansion on hold.

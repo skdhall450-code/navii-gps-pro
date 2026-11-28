@@ -1,6 +1,6 @@
 # Pan-India SEO coverage and continuation
 
-Updated 25 November 2026. This inventory expands the earlier northern-city programme; it is not a claim of full locality coverage, local offices, installation availability, Google indexing or rankings.
+Updated 28 November 2026. This inventory expands the earlier northern-city programme; it is not a claim of full locality coverage, local offices, installation availability, Google indexing or rankings.
 
 ## Baseline and counting method
 
@@ -8,7 +8,7 @@ Main inspected: `a7fd38241814ac80c81c1c71da3ea9e1364168f4`. Inspected existing r
 
 Scoped children counts URLs beneath each hub path, excluding that hub. Flat city counts deduplicated published entries from `priorityCities` and `westIndiaCities` for that state; they do not measure all cities or verify every child page's content quality. Zero means no routes in that category, not no content: some districts have sections on the state page. Preserve established routes and anchors, including the Punjab priority-town routes.
 
-Eight UT names cross-checked against the Ministry of Home Affairs directory on 24 November 2026: https://www.mha.gov.in/union-territories-divisions . Five have no existing hub in the state registry, dedicated sitemap routes or matching location sitemap slugs. They remain unimplemented; do not pre-publish empty URLs.
+Eight UT names cross-checked against the Ministry of Home Affairs directory on 24 November 2026: https://www.mha.gov.in/union-territories-divisions . Five were missing at the 24 November baseline. Puducherry has since been published through PR #146, leaving four UT hubs to research and implement. Do not pre-publish empty URLs.
 
 ## Existing guide inventory
 
@@ -36,6 +36,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 | Mizoram | [/gps-tracker/mizoram](https://naviigps.com/gps-tracker/mizoram) | 0 | 2 | Review substantive state/city gaps; preserve URLs |
 | Nagaland | [/gps-tracker/nagaland](https://naviigps.com/gps-tracker/nagaland) | 0 | 2 | Review substantive state/city gaps; preserve URLs |
 | Odisha | [/gps-tracker/odisha](https://naviigps.com/gps-tracker/odisha) | 0 | 1 | Priority: deepen existing state/city guidance |
+| Puducherry | [/gps-tracker/puducherry](https://naviigps.com/gps-tracker/puducherry) | 0 | 0 | Published 28 Nov via PR #146; four-region UT guide |
 | Punjab | [/gps-tracker/punjab](https://naviigps.com/gps-tracker/punjab) | 107 | 0 | Review substantive state/city gaps; preserve URLs |
 | Rajasthan | [/gps-tracker/rajasthan](https://naviigps.com/gps-tracker/rajasthan) | 123 | 22 | Review substantive state/city gaps; preserve URLs |
 | Sikkim | [/gps-tracker/sikkim](https://naviigps.com/gps-tracker/sikkim) | 0 | 2 | Review substantive state/city gaps; preserve URLs |
@@ -50,7 +51,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 
 | UT | Status | Distinct research needed before implementation |
 | --- | --- | --- |
-| Puducherry | Pending, no route published | Discontiguous regions and vehicle-base versus destination planning; verify official geography |
+| Puducherry | Published 28 Nov 2026 via PR #146; one canonical four-region hub | Four regions; preserve one UT route and avoid a Pondicherry alias or thin region pages |
 | Jammu and Kashmir | Pending, no route published | Separate operating bases, permitted itineraries and conditional connectivity planning; verify current geography |
 | Ladakh | Pending, no route published | Long-route planning and mobile-update limitations; no road-opening or fitting guarantees |
 | Andaman and Nicobar Islands | Pending, no route published | Island-specific vehicle bases, road/sea handovers and permitted journey scope |
@@ -70,7 +71,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 
 1. Resume any unfinished national-discovery batch before adding another route. Read its PR evidence and current main first.
 2. Shared buyer-information PR #108 and Delhi locality PR #139 are published (evidence below). Do not merge combined review branch #142 or unrelated panel/shop work without inspecting its scope and exact base.
-3. Prepare one substantive missing-UT guide at a time, starting with Puducherry; inspect aliases and existing city coverage again, verify primary sources, and establish a useful local purpose before adding route, metadata, canonical, headings, links, sitemap and accurate schema.
+3. Continue missing-UT guides one at a time, next Jammu and Kashmir, then Ladakh and Andaman and Nicobar Islands. Research whether Lakshadweep merits a substantive vehicle/fleet guide before creating a route.
 4. Improve existing Bihar, Odisha, West Bengal and Jharkhand guides in small locally distinct batches, then fill useful gaps in other state/city hierarchies. Route counts alone are not completion criteria.
 5. Continue Chandigarh, Dera Bassi, Mohali, Zirakpur and Kharar maintenance and existing Punjab/Haryana/Himachal/Delhi locality improvements. Avoid duplicate locality URLs.
 
@@ -83,7 +84,8 @@ For every batch record changed canonical URLs, source dates, tests, merge SHA, e
 - [x] Contact: all four qualified answers in initial HTML with native disclosure controls. Products: existing specifications rendered as server definition lists and descriptive Product schema, without prices/offers/ratings. School-bus software route: distinct software-evaluation heading and qualified parent-access wording; both established canonicals retained.
 - [x] PR #108 published 24 November: merge `816e77570f2980fbc21e239fab3db4b38c3f6f93`; PR CI 45360016920 and main CI 45360998315 passed all 147 regressions, source SEO/lint/QR/build, 2,037 rendered URLs and browser suites. Exact production commit, Contact initial HTML/native disclosures, seven product specification/schema pairs and both school-bus routes verified. National hub regression passed. IndexNow 45361863485 accepted 2,037 URLs (HTTP 200). Google indexing/ranking unverified.
 - [x] PR #139 is published and verified on 25 November; exact merge `2eb3bd6f97f00cafb5131b67ffd60a8179abc8cf`. See the release evidence below. Do not merge combined review PR #142 as a substitute.
-- [ ] Next: prepare the substantive Puducherry four-region guide, then existing East India quality backlog. Google indexing/ranking remains unverified.
+- [x] Published the Puducherry four-region guide via PR #146 on 28 November; see the release evidence below.
+- [ ] Next: Jammu and Kashmir missing-UT guide, then Ladakh and Andaman and Nicobar Islands; continue East India quality improvements after the missing-UT sequence. Google indexing/ranking remains unverified.
 
 ## 25 November 2026 Janakpuri / Vikaspuri release continuation
 
@@ -95,4 +97,18 @@ For every batch record changed canonical URLs, source dates, tests, merge SHA, e
 - [x] Pre-release live check: exact main commit 816e775 confirmed; homepage, India hub, West Delhi parent, both changed guides, all five priority locations, Kangra, Ambala Cantt and Bihar returned HTTP 200 with unique sampled titles/descriptions/H1, self-canonicals, indexability, matching visible/schema FAQs, mobile viewport metadata and sitemap entries. Robots permits public guides; sitemap has 2,037 unique URLs. Both Delhi pages still have five FAQ pairs before release, as expected. Internal parent links and district discovery verified. Mobile interaction is a separate hosted gate below.
 - [x] Published 25 November via PR #139; merge and production commit `2eb3bd6f97f00cafb5131b67ffd60a8179abc8cf`. Janakpuri and Vikaspuri live pages, canonical metadata, six visible/schema FAQs each, parent/sibling navigation, 2,037-URL sitemap, exact deployment SHA and mobile/no-JavaScript hosted browser checks verified. PR CI 45535253385, main CI 45536061902 and IndexNow 45536728011 passed; IndexNow accepted 2,037 URLs (HTTP 200). Google indexing/ranking remains unverified. See PR #139 for complete evidence and source limitations.
 - [x] Reconciled the original Delhi locality release hold; no duplicate city routes or alternate URLs were created.
-- [ ] Next: publish one substantive missing-UT guide, beginning with Puducherry's four geographically separate regions, then existing East India quality improvements. International expansion stays on hold; all state/UT locality coverage remains partial.
+- [x] Published the first missing-UT guide, Puducherry, through PR #146; one canonical four-region page only. International expansion stays on hold; all state/UT locality coverage remains partial.
+- [ ] Next: Jammu and Kashmir, then Ladakh and Andaman and Nicobar Islands; continue East India improvements after this missing-UT sequence.
+
+
+## 28 November 2026 Puducherry four-region release
+
+- [x] Resumed the existing Puducherry review branch after checking current main `2eb3bd6f97f00cafb5131b67ffd60a8179abc8cf`, open SEO PRs, route registries, sitemap and both maintenance guides. Confirmed no existing Puducherry/Pondicherry city or state route alias in the route registry; combined review PR #142 and unrelated PRs were left untouched.
+- [x] Published one canonical UT guide, `/gps-tracker/puducherry`, through [PR #146](https://github.com/skdhall450-code/navii-gps-pro/pull/146), merge/production commit `a9043d2656d1bf83caa4bf64bcf44a16971d6c3a`. Registry discovery and sitemap pipeline now contain the single canonical Puducherry hub. The four region sections cover Puducherry, Karaikal, Mahe and Yanam; no separate region URLs or Pondicherry alias were created.
+- [x] Page includes a three-step multi-region rollout checklist, four visible/schema FAQs, unique metadata, self-canonical, WebPage/Service/BreadcrumbList schema and official geography links. It avoids local-office, fitting availability, device/network guarantee, price and customer-deployment claims.
+- [x] Official sources rechecked 28 November 2026: Government of Puducherry Districts (two districts plus Mahe/Yanam administrative units) https://www.py.gov.in/districts ; Department of Rural Development District Profile (four geographically separate regions and 12 scattered Puducherry areas) https://drda.py.gov.in/district-profile ; Oulgaret Municipality https://lad.py.gov.in/node/1501 . Direct fetch of the About page timed out; no fact was inferred from the timeout.
+- [x] Exact PR-head CI [46100185366](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46100185366) passed source SEO, lint, 147/147 regression tests, QR verification, production build, full 2,038-URL rendered audit and GPS/product/Home/Shop browser suites. Added Puducherry 320/390px browser coverage with JavaScript on/off verified all four regions, four visible/schema FAQs, canonical/metadata, one national-directory link, contact/coverage navigation and no horizontal overflow.
+- [x] Main CI [46100692156](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46100692156) passed on the exact production merge commit. GitHub's Vercel commit status reported deployment success. [IndexNow run 46101244412](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46101244412) verified production commit `a9043d2656d1bf83caa4bf64bcf44a16971d6c3a` and accepted 2,038 URLs with HTTP 200.
+- [x] Search/live retrieval tools could not directly fetch the new page, robots.txt or sitemap.xml in this run; the container's DNS resolver also failed for naviigps.com. Therefore this record does not claim a direct page HTTP 200 or Google indexing. Production deployment status and IndexNow's exact-commit/sitemap acknowledgement are verified; direct HTML inspection remains a tool/network limitation, not evidence of an outage.
+- [x] Five northern priority links and existing Punjab, Himachal Pradesh, Haryana and Delhi canonical routes remain preserved. No GSC Wizard, panel/backend, database, service or device changes.
+- [ ] Next: Jammu and Kashmir, then Ladakh and Andaman and Nicobar Islands; assess Lakshadweep for substantive vehicle/fleet intent. Continue existing Bihar/Odisha/West Bengal/Jharkhand improvements after the ordered missing-UT work. Keep international expansion on hold.
