@@ -6,7 +6,7 @@ import Footer from "@/components/layout/FooterV2";
 
 const url = "https://naviigps.com/gps-tracker/jammu-and-kashmir";
 const title = "GPS Tracker in Jammu and Kashmir | Vehicle Tracking System";
-const description = "Plan vehicle GPS tracking across Jammu and Kashmir's Jammu and Kashmir divisions with district-based fleet groups, route handovers and location-specific connectivity checks.";
+const description = "Plan vehicle GPS tracking across Jammu and Kashmir's two administrative divisions with district-based fleet groups, route handovers and location-specific connectivity checks.";
 
 const divisions = [
   {
