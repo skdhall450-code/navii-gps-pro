@@ -36,7 +36,7 @@ const faqs = [
   },
   {
     question: "Can a GPS tracker follow vehicles across all the islands?",
-    answer: "A platform can organise compatible devices into fleet groups, but a map cannot make a vehicle travel between islands or guarantee uninterrupted data. Confirm the vehicle&apos;s actual island, permitted route, ferry or vessel handover, device power and SIM/network behaviour. A last reported location should not be treated as proof of arrival after a sea transfer.",
+    answer: "A platform can organise compatible devices into fleet groups, but a map cannot make a vehicle travel between islands or guarantee uninterrupted data. Confirm the vehicle's actual island, permitted route, ferry or vessel handover, device power and SIM/network behaviour. A last reported location should not be treated as proof of arrival after a sea transfer.",
   },
   {
     question: "Is AIS-140 GPS/VLTD required for public service vehicles?",
@@ -120,7 +120,7 @@ export default function AndamanNicobarGpsPage() {
           <div className="mx-auto max-w-7xl px-6">
             <span className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100">ISLANDS · UNION TERRITORY</span>
             <h1 className="mt-7 max-w-5xl text-4xl font-extrabold leading-tight md:text-6xl">GPS Tracker in Andaman and Nicobar Islands for Cars and Commercial Fleets</h1>
-            <p className="mt-7 max-w-3xl text-lg leading-8 text-slate-200">Plan tracking around the vehicle's actual island, parking base and permitted route. Keep road journeys, ferry transfers, device reporting and dispatch handovers distinct.</p>
+            <p className="mt-7 max-w-3xl text-lg leading-8 text-slate-200">Plan tracking around the vehicle&apos;s actual island, parking base and permitted route. Keep road journeys, ferry transfers, device reporting and dispatch handovers distinct.</p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href="/contact" className="rounded-xl bg-cyan-500 px-7 py-4 font-semibold text-slate-950">Discuss Your Fleet</Link>
               <Link href="/gps-tracker-india" className="rounded-xl border border-white/30 px-7 py-4 font-semibold text-white">View India Coverage</Link>
