@@ -10,5 +10,6 @@ test('Panel review and SEO draft branches disable Vercel deployment; other branc
     'seo/crawlable-answers-main-20261105': false,
     'seo/puducherry-four-region-guide-20261127': false,
     'seo/jammu-kashmir-ut-guide-20261128': false,
+    'seo/ladakh-eight-district-guide-20261128': false,
   });
 });
