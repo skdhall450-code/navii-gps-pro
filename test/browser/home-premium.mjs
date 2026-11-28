@@ -202,6 +202,64 @@ async function verifyDelhiGuideMobileJourney() {
   }
   console.log('PASS Delhi guides: Janakpuri/Vikaspuri 320/390px, JS on/off, four readable sections, six visible/schema FAQs, no overflow, sibling and district navigation.');
 }
+async function verifyPuducherryGuideMobileJourney() {
+  const path = '/gps-tracker/puducherry';
+  const expectedRegions = ['Puducherry region', 'Karaikal region', 'Mahe region', 'Yanam region'];
+  for (const javaScriptEnabled of [true, false]) {
+    for (const width of [320, 390]) {
+      const context = await isolatedContext({ javaScriptEnabled, viewport: { width, height: 844 }, isMobile: true, hasTouch: true });
+      try {
+        const page = await context.newPage();
+        const errors = [];
+        page.on('pageerror', error => errors.push(error.message));
+        await page.goto(base + path, { waitUntil: 'networkidle' });
+        await dismissConsent(page);
+        assert.equal(await page.locator('h1').count(), 1);
+        assert.match(await page.locator('h1').textContent(), /GPS Tracker in Puducherry/);
+        assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://naviigps.com' + path);
+        assert.equal(await page.locator('meta[name="description"]').getAttribute('content'), await page.locator('meta[property="og:description"]').getAttribute('content'));
+        const regionSection = page.locator('section').filter({ has: page.getByRole('heading', { name: 'One Union Territory, four separate operating regions', exact: true }) });
+        assert.equal(await regionSection.locator('article').count(), 4);
+        assert.deepEqual(await regionSection.locator('article h3').allTextContents(), expectedRegions);
+        const graph = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => scripts.flatMap(script => {
+          const value = JSON.parse(script.textContent);
+          return value['@graph'] || [value];
+        }));
+        assert.ok(graph.some(item => item['@type'] === 'WebPage' && item.url === 'https://naviigps.com' + path));
+        assert.ok(graph.some(item => item['@type'] === 'Service' && item.url === 'https://naviigps.com' + path && item.areaServed?.name === 'Puducherry'));
+        const faqSchema = graph.find(item => item['@type'] === 'FAQPage');
+        assert.ok(faqSchema);
+        assert.equal(faqSchema.mainEntity.length, 4);
+        const faqSection = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Puducherry GPS tracking FAQs', exact: true }) });
+        const details = faqSection.locator('details');
+        assert.equal(await details.count(), 4);
+        for (const [index, item] of faqSchema.mainEntity.entries()) {
+          const disclosure = details.nth(index);
+          assert.equal(await disclosure.locator('summary').textContent(), item.name);
+          assert.equal(await disclosure.locator('p').textContent(), item.acceptedAnswer.text);
+          await disclosure.locator('summary').click();
+          assert.ok(await disclosure.locator('p').isVisible(), 'FAQ answer readable with JavaScript on/off');
+        }
+        assert.equal(await page.getByRole('link', { name: 'Discuss Your Fleet', exact: true }).getAttribute('href'), '/contact');
+        assert.equal(await page.getByRole('link', { name: 'View India Coverage', exact: true }).getAttribute('href'), '/gps-tracker-india');
+        assert.ok(await page.evaluate(limit => document.documentElement.scrollWidth <= limit, width), 'No horizontal overflow');
+        await page.screenshot({ path: `${output}/puducherry-${width}-js-${javaScriptEnabled}.png` });
+        await page.getByRole('link', { name: 'View India Coverage', exact: true }).click();
+        await page.waitForURL(base + '/gps-tracker-india');
+        const directoryLink = page.locator('a[href="/gps-tracker/puducherry"]');
+        assert.equal(await directoryLink.count(), 1, 'National directory links to exactly one Puducherry canonical');
+        assert.ok(await directoryLink.isVisible());
+        await directoryLink.click();
+        await page.waitForURL(base + path);
+        assert.equal(await page.locator('h1').count(), 1);
+        assert.deepEqual(errors, [], 'No Puducherry guide runtime errors');
+      } finally {
+        await context.close();
+      }
+    }
+  }
+  console.log('PASS Puducherry guide: four regions, four visible/schema FAQs, metadata/canonical, national-directory discovery and contact links at 320/390px with JavaScript on/off.');
+}
 async function isolatedContext(options = {}) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', serviceWorkers: 'block', ...options });
   // Local document/assets only. Never submit forms, call production, or invoke local APIs.
@@ -315,6 +373,7 @@ try {
   await verifyLocalMobileJourney();
   await verifyContactProgressiveDisclosure();
   await verifyDelhiGuideMobileJourney();
+  await verifyPuducherryGuideMobileJourney();
 
   const motionContext = await isolatedContext({ reducedMotion: 'no-preference' });
   const motionPage = await motionContext.newPage();
