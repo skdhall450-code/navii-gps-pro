@@ -11,7 +11,7 @@ const description = "Plan vehicle GPS tracking across Puducherry, Karaikal, Mahe
 const regions = [
   {
     name: "Puducherry region",
-    geography: "The principal east-coast region includes the Puducherry urban area and outlying pockets interspersed with parts of Tamil Nadu.",
+    geography: "The largest east-coast region includes Puducherry town and 12 scattered areas interspersed with parts of Villupuram and Cuddalore districts of Tamil Nadu.",
     planning: "Group vehicles by their actual parking or dispatch base. For collections and deliveries that cross into Tamil Nadu, record the receiving team, route legs and vehicle handover separately instead of treating every destination as a Puducherry-based vehicle.",
   },
   {
@@ -128,7 +128,7 @@ export default function PuducherryGpsPage() {
         <section className="bg-white py-16 md:py-20">
           <div className="mx-auto max-w-6xl px-6">
             <h2 className="text-3xl font-extrabold text-slate-900 md:text-4xl">One Union Territory, four separate operating regions</h2>
-            <p className="mt-5 max-w-4xl text-base leading-8 text-slate-600">Official Government of Puducherry information describes Puducherry, Karaikal, Mahe and Yanam as geographically separated regions. A fleet plan should therefore distinguish the vehicle&apos;s home base from the places it visits. See the <a className="font-semibold text-blue-700 underline" href="https://www.py.gov.in/about-puducherry" target="_blank" rel="noreferrer">official Puducherry overview</a> and <a className="font-semibold text-blue-700 underline" href="https://www.py.gov.in/districts" target="_blank" rel="noreferrer">district and administrative-unit directory</a>.</p>
+            <p className="mt-5 max-w-4xl text-base leading-8 text-slate-600">Official Government of Puducherry information describes Puducherry, Karaikal, Mahe and Yanam as geographically separated regions. A fleet plan should therefore distinguish the vehicle&apos;s home base from the places it visits. See the <a className="font-semibold text-blue-700 underline" href="https://www.py.gov.in/about-puducherry" target="_blank" rel="noreferrer">official Puducherry overview</a> and <a className="font-semibold text-blue-700 underline" href="https://www.py.gov.in/districts" target="_blank" rel="noreferrer">district and administrative-unit directory</a>, plus the <a className="font-semibold text-blue-700 underline" href="https://drda.py.gov.in/district-profile" target="_blank" rel="noreferrer">Government district profile</a> for the region boundaries.</p>
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               {regions.map((region, index) => (
                 <article key={region.name} className="rounded-2xl border border-slate-200 bg-slate-50 p-7">
