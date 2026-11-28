@@ -653,3 +653,13 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [ ] Browser acceptance added to the existing Home suite for 320/390px with JavaScript enabled/disabled; it verifies both division groups, all 20 district names, visible/schema FAQ parity, canonical/metadata, India directory discovery and no horizontal overflow. The new SEO branch is included in the existing Vercel preview-disabled guard; the guard regression is updated, not bypassed.
 - [ ] Publication remains pending until exact PR-head CI, source SEO, lint, full regression/build/rendered audit and hosted browser checks pass. Then merge under the user's standing public SEO authorization and verify exact production commit, live page and sitemap. IndexNow acceptance is only submission evidence; Google indexing/ranking remains unverified.
 - [ ] Next backlog after this batch: Ladakh, then Andaman and Nicobar Islands; assess Lakshadweep for substantive fleet intent. Continue Bihar/Odisha/West Bengal/Jharkhand improvements after the ordered missing-UT sequence. Preserve Chandigarh, Dera Bassi, Mohali, Zirakpur, Kharar and existing Punjab/Himachal/Haryana/Delhi routes. International expansion remains on hold.
+
+
+### 2026-11-28 Ladakh eight-district candidate
+
+- [x] Research confirms the current eight notified district names: Leh, Kargil, Sham, Nubra, Changthang, Zanskar, Drass and Sankoo. April 2026 Gazette S.O.180 created five new districts; October 2026 S.O.284 created Sankoo from Kargil. The earlier seven-district count is no longer current.
+- [x] Candidate branch `seo/ladakh-eight-district-guide-20261128` adds one canonical `/gps-tracker/ladakh` page and one North India UT registry entry; no district subpages or alternate spellings.
+- [x] Page includes source-backed district/headquarters cards, four visible/schema FAQs, unique metadata, self-canonical, WebPage/Service/FAQ/Breadcrumb schema, official government links, and cautious route/SIM/device reporting guidance. It makes no continuous coverage, road access, local office or fitting availability claims.
+- [x] Browser acceptance covers eight districts, four FAQ pairs, canonical/metadata, directory discovery and responsive no-JS layout at 320/390px; exact branch remains preview-disabled in Vercel and regression guard.
+- [ ] Await exact-head CI, source SEO/lint/build, full rendered audit and hosted browser checks. Do not merge on a partial check; verify exact production SHA and deployment separately after publication.
+- [ ] Next: Andaman and Nicobar Islands; assess Lakshadweep only if official evidence supports substantive fleet intent. Preserve all five northern priority locations and existing canonicals.
