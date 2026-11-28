@@ -5,7 +5,7 @@ import Header from "@/components/layout/HeaderV2";
 import Footer from "@/components/layout/FooterV2";
 
 const url = "https://naviigps.com/gps-tracker/andaman-and-nicobar-islands";
-const title = "GPS Tracker in Andaman and Nicobar Islands | NAVII GPS";
+const title = "GPS Tracker in Andaman and Nicobar Islands | Vehicle Tracking System";
 const description = "Plan vehicle tracking across South Andaman, North & Middle Andaman and Nicobar with island-specific route, ferry handover, AIS-140 and device-connectivity checks.";
 
 const districts = [
