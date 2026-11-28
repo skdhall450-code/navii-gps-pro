@@ -8,7 +8,7 @@ Main inspected: `a7fd38241814ac80c81c1c71da3ea9e1364168f4`. Inspected existing r
 
 Scoped children counts URLs beneath each hub path, excluding that hub. Flat city counts deduplicated published entries from `priorityCities` and `westIndiaCities` for that state; they do not measure all cities or verify every child page's content quality. Zero means no routes in that category, not no content: some districts have sections on the state page. Preserve established routes and anchors, including the Punjab priority-town routes.
 
-Eight UT names cross-checked against the Ministry of Home Affairs directory on 24 November 2026: https://www.mha.gov.in/union-territories-divisions . Five were missing at the 24 November baseline. Puducherry (#146) and Jammu and Kashmir (#147) have since been published. Three UT hubs remain to research and implement; Ladakh is now in review. Do not pre-publish empty URLs.
+Eight UT names cross-checked against the Ministry of Home Affairs directory on 24 November 2026: https://www.mha.gov.in/union-territories-divisions . Five were missing at the 24 November baseline. Puducherry (#146) and Jammu and Kashmir (#147) have since been published. Two UT hubs remain to research and implement; Ladakh has merged and Andaman & Nicobar is now in review. Do not pre-publish empty URLs.
 
 ## Existing guide inventory
 
@@ -133,3 +133,14 @@ For every batch record changed canonical URLs, source dates, tests, merge SHA, e
 - [x] Main CI [46103014527](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46103014527) passed. Vercel commit status for the exact merge SHA was success. IndexNow [46103644362](https://github.com/skdhall450-code/navii-gps-pro/actions/runs/46103644362) accepted the exact production sitemap of 2,039 URLs. This is submission acknowledgement only; Google indexing/ranking remains unverified.
 - [x] Direct live page/robots/sitemap fetch was unavailable; no direct page HTTP 200 or Google indexing is claimed. No www/DNS settings changed.
 - [ ] Next: complete Ladakh's eight-district guide, then Andaman and Nicobar Islands. Preserve all five northern priority locations; no panel/backend/database/service changes.
+
+
+## 28 November 2026 Ladakh and Andaman & Nicobar continuation
+
+- [x] Ladakh PR #148 merged as `3304778b81452a86747d6c00e916a46528c0082b`; exact PR-head CI `46117720945` passed. Vercel production deployment for this SHA was observed in BUILDING state; do not claim READY until separately verified.
+- [x] Researched Andaman & Nicobar using UT Administration, district administration, State Transport Authority and the official VLT & EAS portal. Three districts: South Andaman, North & Middle Andaman and Nicobar.
+- [x] Research distinguishes road-connected Andaman districts from Nicobar's separate islands and maritime-only connections. Official STA minutes describe island-specific commercial permits; the page avoids treating the UT as one continuous road fleet.
+- [x] Candidate page `/gps-tracker/andaman-and-nicobar-islands` created on branch `seo/andaman-nicobar-island-fleet-guide-20261128`, with three district cards, five visible/schema FAQs, AIS-140/VLTD qualification, official links, unique metadata, canonical, WebPage/Service/FAQ/Breadcrumb schema and national UT registry discovery.
+- [x] Candidate branch is Vercel-preview-disabled with a regression assertion. Browser acceptance covers three districts/headquarters, five FAQ parity checks, metadata/canonical, directory discovery and no overflow at 320/390px with JS on/off.
+- [ ] Run exact-head hosted CI, source SEO/lint/build/rendered audit and browser acceptance. Do not merge until all checks pass. Verify Ladakh production deployment READY and exact live page/sitemap separately.
+- [ ] After Andaman & Nicobar, assess Lakshadweep only if official evidence supports substantive fleet intent; then improve Bihar, Odisha, Jharkhand and West Bengal guides. Preserve Chandigarh, Dera Bassi, Mohali, Zirakpur and Kharar.

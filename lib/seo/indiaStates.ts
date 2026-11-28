@@ -10,6 +10,7 @@ export type IndiaStateSeo = {
 };
 
 export const indiaStates: IndiaStateSeo[] = [
+  { slug: "andaman-and-nicobar-islands", name: "Andaman and Nicobar Islands", capital: "Sri Vijaya Puram", cities: ["Sri Vijaya Puram", "Mayabunder", "Car Nicobar", "Diglipur", "Campbell Bay"], sectors: ["island-based passenger transport", "port and inter-island logistics", "tourism and institutional fleets"], region: "South India", unionTerritory: true },
   { slug: "chandigarh", name: "Chandigarh", capital: "Chandigarh", cities: ["Chandigarh", "Manimajra", "Industrial Area"], sectors: ["employee transportation", "sector deliveries", "Tricity commercial fleets"], region: "North India", unionTerritory: true },
   { slug: "dadra-nagar-haveli-daman-diu", name: "Dadra and Nagar Haveli and Daman and Diu", capital: "Daman", cities: ["Daman", "Diu", "Silvassa", "Dadra"], sectors: ["industrial transport", "staff vehicles", "regional distribution"], region: "West India", unionTerritory: true },
   { slug: "andhra-pradesh", name: "Andhra Pradesh", capital: "Amaravati", cities: ["Visakhapatnam", "Vijayawada", "Guntur", "Tirupati", "Nellore"], sectors: ["port logistics", "aquaculture transport", "intercity passenger fleets"], region: "South India", southPriority: true },

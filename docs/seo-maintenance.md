@@ -664,3 +664,13 @@ Resume this ledger and inspect open PRs before choosing a batch. Publishing a gu
 - [x] Browser acceptance covers eight districts, four FAQ pairs, canonical/metadata, directory discovery and responsive no-JS layout at 320/390px; exact branch remains preview-disabled in Vercel and regression guard.
 - [ ] Await exact-head CI, source SEO/lint/build, full rendered audit and hosted browser checks. Do not merge on a partial check; verify exact production SHA and deployment separately after publication.
 - [ ] Next: Andaman and Nicobar Islands; assess Lakshadweep only if official evidence supports substantive fleet intent. Preserve all five northern priority locations and existing canonicals.
+
+
+### 2026-11-28 Andaman & Nicobar island-aware candidate
+
+- [x] Official UT Administration lists three districts: South Andaman, North & Middle Andaman and Nicobar.
+- [x] State Transport Authority minutes distinguish road connectivity across the three Andaman districts from Nicobar's separate islands connected by maritime transport, with island-specific commercial vehicle permits.
+- [x] Official VLT & EAS portal describes the UT's AIS-140 solution and enlistment/activation process. Copy explicitly does not claim NAVII or any particular product is enlisted or approved.
+- [x] One canonical candidate route `/gps-tracker/andaman-and-nicobar-islands`; three district cards, five visible/schema FAQs, official source links, route/ferry handover guidance and device/SIM verification.
+- [x] Registry discovery and Vercel preview-disable regression guard updated; mobile/no-JS browser acceptance added for 320px and 390px.
+- [ ] Exact PR-head CI, source SEO, lint, build, rendered audit and hosted browser checks pending. No production merge until all pass.
