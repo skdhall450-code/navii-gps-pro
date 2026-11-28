@@ -260,6 +260,74 @@ async function verifyPuducherryGuideMobileJourney() {
   }
   console.log('PASS Puducherry guide: four regions, four visible/schema FAQs, metadata/canonical, national-directory discovery and contact links at 320/390px with JavaScript on/off.');
 }
+async function verifyJammuKashmirGuideMobileJourney() {
+  const path = '/gps-tracker/jammu-and-kashmir';
+  const expectedDivisions = [
+    { name: 'Jammu Division', districts: ['Kathua', 'Jammu', 'Samba', 'Udhampur', 'Reasi', 'Rajouri', 'Poonch', 'Doda', 'Ramban', 'Kishtwar'] },
+    { name: 'Kashmir Division', districts: ['Anantnag', 'Kulgam', 'Pulwama', 'Shopian', 'Budgam', 'Srinagar', 'Ganderbal', 'Bandipore', 'Baramulla', 'Kupwara'] },
+  ];
+  for (const javaScriptEnabled of [true, false]) {
+    for (const width of [320, 390]) {
+      const context = await isolatedContext({ javaScriptEnabled, viewport: { width, height: 844 }, isMobile: true, hasTouch: true });
+      try {
+        const page = await context.newPage();
+        const errors = [];
+        page.on('pageerror', error => errors.push(error.message));
+        await page.goto(base + path, { waitUntil: 'networkidle' });
+        await dismissConsent(page);
+        assert.equal(await page.locator('h1').count(), 1);
+        assert.match(await page.locator('h1').textContent(), /GPS Tracker in Jammu and Kashmir/);
+        assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://naviigps.com' + path);
+        assert.equal(await page.locator('meta[name="description"]').getAttribute('content'), await page.locator('meta[property="og:description"]').getAttribute('content'));
+        const divisionSection = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Two administrative divisions, 20 district references', exact: true }) });
+        const cards = divisionSection.locator('article');
+        assert.equal(await cards.count(), 2);
+        const graph = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => scripts.flatMap(script => {
+          const value = JSON.parse(script.textContent);
+          return value['@graph'] || [value];
+        }));
+        assert.ok(graph.some(item => item['@type'] === 'WebPage' && item.url === 'https://naviigps.com' + path));
+        assert.ok(graph.some(item => item['@type'] === 'Service' && item.url === 'https://naviigps.com' + path && item.areaServed?.name === 'Jammu and Kashmir'));
+        const faqSchema = graph.find(item => item['@type'] === 'FAQPage');
+        assert.ok(faqSchema);
+        assert.equal(faqSchema.mainEntity.length, 4);
+        for (const [index, division] of expectedDivisions.entries()) {
+          const card = cards.nth(index);
+          assert.equal(await card.locator('h3').textContent(), division.name);
+          assert.deepEqual(await card.locator('li').allTextContents(), division.districts);
+          assert.equal(await card.locator('li').count(), 10);
+        }
+        const faqSection = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Jammu and Kashmir GPS tracking FAQs', exact: true }) });
+        const details = faqSection.locator('details');
+        assert.equal(await details.count(), 4);
+        for (const [index, item] of faqSchema.mainEntity.entries()) {
+          const disclosure = details.nth(index);
+          assert.equal(await disclosure.locator('summary').textContent(), item.name);
+          assert.equal(await disclosure.locator('p').textContent(), item.acceptedAnswer.text);
+          await disclosure.locator('summary').click();
+          assert.ok(await disclosure.locator('p').isVisible(), 'FAQ answer readable with JavaScript on/off');
+        }
+        assert.equal(await page.getByRole('link', { name: 'Discuss Your Fleet', exact: true }).getAttribute('href'), '/contact');
+        assert.equal(await page.getByRole('link', { name: 'View India Coverage', exact: true }).getAttribute('href'), '/gps-tracker-india');
+        assert.ok(await page.evaluate(limit => document.documentElement.scrollWidth <= limit, width), 'No horizontal overflow');
+        await page.screenshot({ path: `${output}/jammu-kashmir-${width}-js-${javaScriptEnabled}.png` });
+        await page.getByRole('link', { name: 'View India Coverage', exact: true }).click();
+        await page.waitForURL(base + '/gps-tracker-india');
+        const northSection = page.locator('#north-india');
+        const directoryLink = northSection.locator('a[href="' + path + '"]').first();
+        await directoryLink.scrollIntoViewIfNeeded();
+        assert.ok(await directoryLink.isVisible(), 'North India directory links to the canonical guide');
+        await directoryLink.click();
+        await page.waitForURL(base + path);
+        assert.equal(await page.locator('h1').count(), 1);
+        assert.deepEqual(errors, [], 'No Jammu and Kashmir guide runtime errors');
+      } finally {
+        await context.close();
+      }
+    }
+  }
+  console.log('PASS Jammu and Kashmir guide: both divisions, 20 districts, four visible/schema FAQs, metadata/canonical, national-directory discovery and mobile layout at 320/390px with JavaScript on/off.');
+}
 async function isolatedContext(options = {}) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', serviceWorkers: 'block', ...options });
   // Local document/assets only. Never submit forms, call production, or invoke local APIs.
@@ -374,6 +442,7 @@ try {
   await verifyContactProgressiveDisclosure();
   await verifyDelhiGuideMobileJourney();
   await verifyPuducherryGuideMobileJourney();
+  await verifyJammuKashmirGuideMobileJourney();
 
   const motionContext = await isolatedContext({ reducedMotion: 'no-preference' });
   const motionPage = await motionContext.newPage();
