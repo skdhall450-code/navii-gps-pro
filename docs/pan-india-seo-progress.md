@@ -52,7 +52,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 | UT | Status | Distinct research needed before implementation |
 | --- | --- | --- |
 | Puducherry | Published 28 Nov 2026 via PR #146; one canonical four-region hub | Four regions; preserve one UT route and avoid a Pondicherry alias or thin region pages |
-| Jammu and Kashmir | Pending, no route published | Separate operating bases, permitted itineraries and conditional connectivity planning; verify current geography |
+| Jammu and Kashmir | Candidate in branch `seo/jammu-kashmir-ut-guide-20261128`; not published | One two-division hub for 20 verified districts; no district subpages or unsupported route/access claims. Complete hosted CI and production verification before marking published |
 | Ladakh | Pending, no route published | Long-route planning and mobile-update limitations; no road-opening or fitting guarantees |
 | Andaman and Nicobar Islands | Pending, no route published | Island-specific vehicle bases, road/sea handovers and permitted journey scope |
 | Lakshadweep | Pending, no route published | Island-specific relevance and whether a substantive vehicle guide is useful before creating a page |
@@ -71,7 +71,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 
 1. Resume any unfinished national-discovery batch before adding another route. Read its PR evidence and current main first.
 2. Shared buyer-information PR #108 and Delhi locality PR #139 are published (evidence below). Do not merge combined review branch #142 or unrelated panel/shop work without inspecting its scope and exact base.
-3. Continue missing-UT guides one at a time, next Jammu and Kashmir, then Ladakh and Andaman and Nicobar Islands. Research whether Lakshadweep merits a substantive vehicle/fleet guide before creating a route.
+3. Complete the Jammu and Kashmir candidate in branch `seo/jammu-kashmir-ut-guide-20261128` through hosted CI and publication verification; then continue Ladakh and Andaman and Nicobar Islands one at a time. Research whether Lakshadweep merits a substantive vehicle/fleet guide before creating a route.
 4. Improve existing Bihar, Odisha, West Bengal and Jharkhand guides in small locally distinct batches, then fill useful gaps in other state/city hierarchies. Route counts alone are not completion criteria.
 5. Continue Chandigarh, Dera Bassi, Mohali, Zirakpur and Kharar maintenance and existing Punjab/Haryana/Himachal/Delhi locality improvements. Avoid duplicate locality URLs.
 
@@ -112,3 +112,15 @@ For every batch record changed canonical URLs, source dates, tests, merge SHA, e
 - [x] Search/live retrieval tools could not directly fetch the new page, robots.txt or sitemap.xml in this run; the container's DNS resolver also failed for naviigps.com. Therefore this record does not claim a direct page HTTP 200 or Google indexing. Production deployment status and IndexNow's exact-commit/sitemap acknowledgement are verified; direct HTML inspection remains a tool/network limitation, not evidence of an outage.
 - [x] Five northern priority links and existing Punjab, Himachal Pradesh, Haryana and Delhi canonical routes remain preserved. No GSC Wizard, panel/backend, database, service or device changes.
 - [ ] Next: Jammu and Kashmir, then Ladakh and Andaman and Nicobar Islands; assess Lakshadweep for substantive vehicle/fleet intent. Continue existing Bihar/Odisha/West Bengal/Jharkhand improvements after the ordered missing-UT work. Keep international expansion on hold.
+
+
+## 28 November 2026 Jammu and Kashmir two-division guide candidate
+
+- [ ] Candidate branch: `seo/jammu-kashmir-ut-guide-20261128`, based on main `ed31adf853b029712180a7f31d458bcc0ce82f54`. One canonical route candidate: `/gps-tracker/jammu-and-kashmir`. No Jammu/Kashmir spelling alias, district subpages or new locality routes.
+- [ ] Registry entry marks Jammu and Kashmir as a North India Union Territory. The existing state directory and sitemap pipeline derive their links from `lib/seo/indiaStates.ts`; the dedicated route is excluded from the generic state route by the existing directory-based static-param guard.
+- [ ] Content is structured around two administrative divisions and their ten districts each. Jammu Division: Kathua, Jammu, Samba, Udhampur, Reasi, Rajouri, Poonch, Doda, Ramban and Kishtwar. Kashmir Division: Anantnag, Kulgam, Pulwama, Shopian, Budgam, Srinagar, Ganderbal, Bandipore, Baramulla and Kupwara.
+- [ ] Official geography checked 28 November 2026: J&K General Administration Department district directory https://jkgad.nic.in/En/Useful_Links.aspx ; Government district portal https://jammukashmir.s3waas.gov.in/ ; Divisional Commissioner Jammu https://divcomjammu.gov.in/ ; Divisional Commissioner Kashmir https://divcomkashmir.jk.gov.in/ ; J&K CAMPA geographical profile, printed pp. 6–7, https://www.campa.jk.gov.in/home/viewfile/report_pdfJK_Campa3431710156930.pdf . The GAD/district portal and divisional pages were checked against the older CAMPA division-wise listing; current district spellings follow the government portal. The CAMPA report's older context is used only for the division/district grouping, not for current road, climate, service or access claims.
+- [ ] Page candidate includes unique metadata, self-canonical, Open Graph/Twitter, WebPage/Service/FAQ/Breadcrumb JSON-LD, four visible/schema FAQs, district-based operational planning, contact/India-directory navigation and links to existing Punjab, Himachal Pradesh and Chandigarh guides. It does not claim local NAVII offices, fitting availability, continuous network coverage, device capabilities, prices or guarantees.
+- [ ] Added hosted Home browser acceptance at 320/390px with JavaScript on/off: both divisions and all 20 districts, four visible/schema FAQ pairs, metadata/canonical, national North India directory discovery, contact/coverage navigation and no horizontal overflow. Added the new review branch to the existing Vercel preview-disable guard and its regression assertion; all CI checks remain enabled.
+- [ ] Await PR CI, full source SEO/lint/build/147+ regression suite, 2,039+ rendered URL audit, hosted browser checks, merge, exact production deployment verification, live page/sitemap checks and IndexNow acknowledgement. Do not claim Google indexing or rankings from IndexNow acceptance.
+- [ ] International expansion remains on hold. Preserve the five northern priority locations and all existing Punjab, Himachal Pradesh, Haryana and Delhi canonical routes. Next missing UTs after this batch: Ladakh, then Andaman and Nicobar Islands; assess Lakshadweep only for substantive fleet intent.
