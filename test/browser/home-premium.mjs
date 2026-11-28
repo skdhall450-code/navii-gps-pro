@@ -456,7 +456,6 @@ async function verifyAndamanNicobarGuideMobileJourney() {
         await page.screenshot({ path: `${output}/andaman-nicobar-${width}-js-${javaScriptEnabled}.png` });
         await page.getByRole('link', { name: 'View India Coverage', exact: true }).click();
         await page.waitForURL(base + '/gps-tracker-india');
-        const northSection = page.locator('#south-india');
         const directoryLink = page.locator('a[href="' + path + '"]').first();
         await directoryLink.scrollIntoViewIfNeeded();
         assert.ok(await directoryLink.isVisible(), 'India directory links to canonical Andaman and Nicobar guide');
