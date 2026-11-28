@@ -21,7 +21,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 | Chandigarh | [/gps-tracker/chandigarh](https://naviigps.com/gps-tracker/chandigarh) | 0 | 0 | Review substantive state/city gaps; preserve URLs |
 | Chhattisgarh | [/gps-tracker/chhattisgarh](https://naviigps.com/gps-tracker/chhattisgarh) | 99 | 0 | Review substantive state/city gaps; preserve URLs |
 | Dadra and Nagar Haveli and Daman and Diu | [/gps-tracker/dadra-nagar-haveli-daman-diu](https://naviigps.com/gps-tracker/dadra-nagar-haveli-daman-diu) | 0 | 4 | Review substantive state/city gaps; preserve URLs |
-| Delhi | [/gps-tracker/delhi](https://naviigps.com/gps-tracker/delhi) | 74 | 1 | Resume #139 release verification; then preserve existing locality guides |
+| Delhi | [/gps-tracker/delhi](https://naviigps.com/gps-tracker/delhi) | 74 | 1 | Review existing locality guides; preserve canonical routes |
 | Goa | [/gps-tracker/goa](https://naviigps.com/gps-tracker/goa) | 0 | 14 | Review substantive state/city gaps; preserve URLs |
 | Gujarat | [/gps-tracker/gujarat](https://naviigps.com/gps-tracker/gujarat) | 102 | 25 | Review substantive state/city gaps; preserve URLs |
 | Haryana | [/gps-tracker/haryana](https://naviigps.com/gps-tracker/haryana) | 98 | 1 | Review substantive state/city gaps; preserve URLs |
@@ -69,7 +69,7 @@ Eight UT names cross-checked against the Ministry of Home Affairs directory on 2
 ## Ordered continuation
 
 1. Resume any unfinished national-discovery batch before adding another route. Read its PR evidence and current main first.
-2. Shared buyer-information PR #108 is published (evidence below). Complete Delhi locality PR #139 release verification first. Do not merge combined review branch #142 or unrelated panel/shop work without inspecting its scope and exact base.
+2. Shared buyer-information PR #108 and Delhi locality PR #139 are published (evidence below). Do not merge combined review branch #142 or unrelated panel/shop work without inspecting its scope and exact base.
 3. Prepare one substantive missing-UT guide at a time, starting with Puducherry; inspect aliases and existing city coverage again, verify primary sources, and establish a useful local purpose before adding route, metadata, canonical, headings, links, sitemap and accurate schema.
 4. Improve existing Bihar, Odisha, West Bengal and Jharkhand guides in small locally distinct batches, then fill useful gaps in other state/city hierarchies. Route counts alone are not completion criteria.
 5. Continue Chandigarh, Dera Bassi, Mohali, Zirakpur and Kharar maintenance and existing Punjab/Haryana/Himachal/Delhi locality improvements. Avoid duplicate locality URLs.
@@ -82,7 +82,8 @@ For every batch record changed canonical URLs, source dates, tests, merge SHA, e
 - [x] Preserve all current main changes and both panel deployment guards; retain the exact SEO draft's preview-disable entry. Resolve only the two overlapping deployment-map/test conflicts.
 - [x] Contact: all four qualified answers in initial HTML with native disclosure controls. Products: existing specifications rendered as server definition lists and descriptive Product schema, without prices/offers/ratings. School-bus software route: distinct software-evaluation heading and qualified parent-access wording; both established canonicals retained.
 - [x] PR #108 published 24 November: merge `816e77570f2980fbc21e239fab3db4b38c3f6f93`; PR CI 45360016920 and main CI 45360998315 passed all 147 regressions, source SEO/lint/QR/build, 2,037 rendered URLs and browser suites. Exact production commit, Contact initial HTML/native disclosures, seven product specification/schema pairs and both school-bus routes verified. National hub regression passed. IndexNow 45361863485 accepted 2,037 URLs (HTTP 200). Google indexing/ranking unverified.
-- [ ] Next: resume existing Delhi locality PR #139; then Puducherry missing-UT guide and existing East India quality backlog. Do not merge the combined review PR #142 as a substitute.
+- [x] PR #139 is published and verified on 25 November; exact merge `2eb3bd6f97f00cafb5131b67ffd60a8179abc8cf`. See the release evidence below. Do not merge combined review PR #142 as a substitute.
+- [ ] Next: prepare the substantive Puducherry four-region guide, then existing East India quality backlog. Google indexing/ranking remains unverified.
 
 ## 25 November 2026 Janakpuri / Vikaspuri release continuation
 
@@ -92,5 +93,6 @@ For every batch record changed canonical URLs, source dates, tests, merge SHA, e
 - [x] Existing DDA geography corroborated 25 November using official FAQ and play-field search results: https://www.dda.gov.in/faq-1 and https://dda.gov.in/index.php/play-fields . Direct fetches returned gateway/timeout errors; these are source-retrieval limitations, not NAVII outages. Use stable destination context only, no availability/access assertion.
 - [x] Local source SEO, lint and 147 regression tests pass. Added hosted mobile checks for both existing guides at 320/390px with/without JavaScript: readable planning/FAQ content, visible/schema parity, horizontal overflow and sibling/district navigation. Local Chromium download blocked by CDN HTTP 403; hosted browser checks remain required, not waived.
 - [x] Pre-release live check: exact main commit 816e775 confirmed; homepage, India hub, West Delhi parent, both changed guides, all five priority locations, Kangra, Ambala Cantt and Bihar returned HTTP 200 with unique sampled titles/descriptions/H1, self-canonicals, indexability, matching visible/schema FAQs, mobile viewport metadata and sitemap entries. Robots permits public guides; sitemap has 2,037 unique URLs. Both Delhi pages still have five FAQ pairs before release, as expected. Internal parent links and district discovery verified. Mobile interaction is a separate hosted gate below.
-- [ ] Publication gate: full hosted CI on refreshed #139 against current main, merge, exact production SHA, both changed pages, homepage/India hub/rotating location sample, robots and sitemap, then IndexNow evidence. Record final evidence in PR #139 and reconcile this gate on the next source change.
-- [ ] Next: substantive Puducherry missing-UT guide, then existing East India improvements in the ordered backlog. International expansion stays on hold; all state/UT locality coverage remains partial.
+- [x] Published 25 November via PR #139; merge and production commit `2eb3bd6f97f00cafb5131b67ffd60a8179abc8cf`. Janakpuri and Vikaspuri live pages, canonical metadata, six visible/schema FAQs each, parent/sibling navigation, 2,037-URL sitemap, exact deployment SHA and mobile/no-JavaScript hosted browser checks verified. PR CI 45535253385, main CI 45536061902 and IndexNow 45536728011 passed; IndexNow accepted 2,037 URLs (HTTP 200). Google indexing/ranking remains unverified. See PR #139 for complete evidence and source limitations.
+- [x] Reconciled the original Delhi locality release hold; no duplicate city routes or alternate URLs were created.
+- [ ] Next: publish one substantive missing-UT guide, beginning with Puducherry's four geographically separate regions, then existing East India quality improvements. International expansion stays on hold; all state/UT locality coverage remains partial.
