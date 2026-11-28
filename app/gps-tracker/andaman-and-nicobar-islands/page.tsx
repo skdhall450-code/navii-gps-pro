@@ -36,7 +36,7 @@ const faqs = [
   },
   {
     question: "Can a GPS tracker follow vehicles across all the islands?",
-    answer: "A platform can organise compatible devices into fleet groups, but a map cannot make a vehicle travel between islands or guarantee uninterrupted data. Confirm the vehicle's actual island, permitted route, ferry or vessel handover, device power and SIM/network behaviour. A last reported location should not be treated as proof of arrival after a sea transfer.",
+    answer: "A platform can organise compatible devices into fleet groups, but a map cannot make a vehicle travel between islands or guarantee uninterrupted data. Confirm the vehicle&apos;s actual island, permitted route, ferry or vessel handover, device power and SIM/network behaviour. A last reported location should not be treated as proof of arrival after a sea transfer.",
   },
   {
     question: "Is AIS-140 GPS/VLTD required for public service vehicles?",
